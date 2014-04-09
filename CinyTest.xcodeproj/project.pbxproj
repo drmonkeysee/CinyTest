@@ -10,7 +10,6 @@
 		02FCBADD18F4F6E800903E2F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCBADC18F4F6E800903E2F /* XCTest.framework */; };
 		02FCBAE318F4F6E800903E2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02FCBAE118F4F6E800903E2F /* InfoPlist.strings */; };
 		02FCBAE518F4F6E800903E2F /* CinyTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBAE418F4F6E800903E2F /* CinyTestTests.m */; };
-		02FCBAED18F4F80800903E2F /* Ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBAEC18F4F80800903E2F /* Ciny.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,14 +24,12 @@
 
 /* Begin PBXFileReference section */
 		02FCBAC418F4F3FE00903E2F /* libCinyTest.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libCinyTest.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		02FCBAD518F4F65C00903E2F /* Ciny.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ciny.h; sourceTree = "<group>"; };
 		02FCBADA18F4F6E700903E2F /* CinyTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CinyTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		02FCBADC18F4F6E800903E2F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		02FCBAE018F4F6E800903E2F /* CinyTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CinyTestTests-Info.plist"; sourceTree = "<group>"; };
 		02FCBAE218F4F6E800903E2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		02FCBAE418F4F6E800903E2F /* CinyTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CinyTestTests.m; sourceTree = "<group>"; };
 		02FCBAE618F4F6E800903E2F /* CinyTestTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTestTests-Prefix.pch"; sourceTree = "<group>"; };
-		02FCBAEC18F4F80800903E2F /* Ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Ciny.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +73,6 @@
 		02FCBAD318F4F64C00903E2F /* CinyTest */ = {
 			isa = PBXGroup;
 			children = (
-				02FCBAD518F4F65C00903E2F /* Ciny.h */,
-				02FCBAEC18F4F80800903E2F /* Ciny.c */,
 			);
 			path = CinyTest;
 			sourceTree = "<group>";
@@ -205,7 +200,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02FCBAED18F4F80800903E2F /* Ciny.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
