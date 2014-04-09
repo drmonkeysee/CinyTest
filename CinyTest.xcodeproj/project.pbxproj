@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		02FCBAC418F4F3FE00903E2F /* libCinyTest.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libCinyTest.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		02FCBAD518F4F65C00903E2F /* Ciny.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ciny.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +25,7 @@
 		02FCBABB18F4F3FE00903E2F = {
 			isa = PBXGroup;
 			children = (
+				02FCBAD318F4F64C00903E2F /* CinyTest */,
 				02FCBAC518F4F3FE00903E2F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -34,6 +36,14 @@
 				02FCBAC418F4F3FE00903E2F /* libCinyTest.dylib */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		02FCBAD318F4F64C00903E2F /* CinyTest */ = {
+			isa = PBXGroup;
+			children = (
+				02FCBAD518F4F65C00903E2F /* Ciny.h */,
+			);
+			path = CinyTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +218,7 @@
 				02FCBACA18F4F3FE00903E2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
