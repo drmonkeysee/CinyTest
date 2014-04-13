@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Monkey Bits. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-
 @interface CinyTestTests : XCTestCase
 
 @end
