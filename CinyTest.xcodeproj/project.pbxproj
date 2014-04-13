@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02EE6D2B18FA2E0900E5A8D7 /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = 02FCBAF218F4F8D800903E2F /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02FCBADD18F4F6E800903E2F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FCBADC18F4F6E800903E2F /* XCTest.framework */; };
 		02FCBAE318F4F6E800903E2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02FCBAE118F4F6E800903E2F /* InfoPlist.strings */; };
 		02FCBAE518F4F6E800903E2F /* CinyTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBAE418F4F6E800903E2F /* CinyTestTests.m */; };
@@ -116,6 +117,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02EE6D2B18FA2E0900E5A8D7 /* ciny.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
