@@ -7,3 +7,8 @@
 //
 
 #include "ciny.h"
+
+int ctp_runtests(ct_unittest tests[], size_t testcount)
+{
+    return 0;
+}

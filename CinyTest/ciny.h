@@ -9,6 +9,8 @@
 #ifndef CinyTest_ciny_h
 #define CinyTest_ciny_h
 
+#include <stddef.h>
+
 /**
  Type definition for a unit test function.
  @param context Test context created in a suite's setup function.
@@ -37,7 +39,13 @@ typedef struct {
  */
 #define ct_maketest(test_function) ((ct_unittest){ #test_function, test_function })
 
-#include <stdlib.h>
+/**
+ Run a list of unit tests.
+ @param tests The list of tests to run.
+ @return The number of tests that failed.
+ */
+#define ct_runtests(tests) (ctp_runtests(tests, sizeof tests / sizeof tests[0]))
+int ctp_runtests(ct_unittest[], size_t);
 
 void atest(void *);
 
