@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Monkey Bits. All rights reserved.
 //
 
+#include "ciny.h"
+
 @interface CinyTestTests : XCTestCase
 
 @end
@@ -24,9 +26,9 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)test_cinytest_SmokeTest
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    XCTAssertEqual(0, ct_runtests(NULL));
 }
 
 @end
