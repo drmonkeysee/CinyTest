@@ -2,11 +2,10 @@
 //  CinyTestTests.m
 //  CinyTestTests
 //
-//  Created by Brandon Stansbury on 4/8/14.
+//  Created by Brandon Stansbury on 4/12/14.
 //  Copyright (c) 2014 Monkey Bits. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
 #include "ciny.h"
 
 @interface CinyTestTests : XCTestCase
@@ -27,11 +26,9 @@
     [super tearDown];
 }
 
-- (void)test_ctruntests_ReturnsZero
+- (void)test_cinytest_SmokeTest
 {
-    int result = ct_runtests(NULL);
-    
-    XCTAssertEqual(0, result);
+    XCTAssertEqual(0, ct_runtests(NULL));
 }
 
 @end
