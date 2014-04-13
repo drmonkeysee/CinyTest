@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#include "ciny.h"
 
 @interface CinyTestTests : XCTestCase
 
@@ -26,9 +27,11 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)test_ctruntests_ReturnsZero
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    int result = ct_runtests(NULL);
+    
+    XCTAssertEqual(0, result);
 }
 
 @end

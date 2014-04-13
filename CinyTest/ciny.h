@@ -47,17 +47,17 @@ typedef struct {
 #define ct_runtests(tests) (ctp_runtests(tests, sizeof tests / sizeof tests[0]))
 int ctp_runtests(ct_unittest[], size_t);
 
-void atest(void *);
-
-int testblock(void)
-{
-    ct_unittest foo = ct_maketest(atest);
-    foo.test(NULL);
-    ct_unittest butts;
-    butts = ct_maketest(atest);
-    butts.test(NULL);
-    
-    return 0;
-}
+//void atest(void *);
+//
+//int testblock(void)
+//{
+//    ct_unittest foo = ct_maketest(atest);
+//    foo.test(NULL);
+//    ct_unittest butts;
+//    butts = ct_maketest(atest);
+//    butts.test(NULL);
+//    
+//    return 0;
+//}
 
 #endif
