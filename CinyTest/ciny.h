@@ -20,7 +20,7 @@ typedef void (*ct_test_function)(void *);
  @param context Pointer to a test context for initialization or destruction.
  The test context will be passed to all unit tests for a given suite.
  */
-typedef void (*ct_setup_teardown_function)(void **);
+typedef void (*ct_setupteardown_function)(void **);
 
 /**
  A unit test structure used internally by CinyTest.
