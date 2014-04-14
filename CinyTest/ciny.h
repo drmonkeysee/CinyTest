@@ -44,7 +44,8 @@ typedef struct {
  @param tests The list of tests to run.
  @return The number of tests that failed.
  */
-#define ct_runtests(tests) (ctp_runtests(tests, sizeof tests / sizeof tests[0]))
+// TODO: is there a way to avoid using a macro here to remove multiple evaluation of "tests"
+#define ct_runtests(tests) (ctp_runtests(tests, tests ? (sizeof tests / sizeof tests[0]) : 0))
 int ctp_runtests(ct_unittest[], size_t);
 
 //void atest(void *);
