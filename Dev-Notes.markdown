@@ -12,6 +12,7 @@
     - assert not equal within epsilon
 - setup / teardown
 - define suite list
+- suite = list of tests + name + optional setup/teardown
 - stdout/stderr output with color
 - string comparison
 - struct comparison
@@ -20,6 +21,7 @@
 - ignore tests
 
 ## OutputFormat
+
 Started test suite 'File+Function or Given Name' at DateTime.
 Running count tests:
 [✓ (\u2713, green)] - test name success (seconds)
