@@ -23,9 +23,15 @@
 ## OutputFormat
 
 Started test suite 'File+Function or Given Name' at DateTime.
+
 Running count tests:
+
 [✓ (\u2713, green)] - test name success (seconds)
+
 [✗ (\u2717, red)] - test name failure (seconds)
+
 Failure message : File Name : Line Number
+
 Test suite 'File+Function or Given Name' completed at DateTime.
+
 Ran count tests (seconds): x passed, x failed, x ignored.
