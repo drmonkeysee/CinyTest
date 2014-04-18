@@ -8,7 +8,7 @@
 
 #include "ciny.h"
 
-int ctp_runtests(ct_unittest tests[], size_t count)
+int ctp_runtests(ct_testcase tests[], size_t count)
 {
     return 0;
 }

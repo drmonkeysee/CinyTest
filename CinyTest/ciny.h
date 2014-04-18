@@ -25,36 +25,37 @@ typedef void (*ct_test_function)(void *);
 typedef void (*ct_setupteardown_function)(void **);
 
 /**
- A unit test structure used internally by CinyTest.
+ A test case structure.
  */
 typedef struct {
     const char * const name;        /**< The function name of the test. */
     const ct_test_function test;    /**< The test function. */
-} ct_unittest;
+} ct_testcase;
 
 /**
- Create a unit test structure out of a unit test function pointer.
+ Create a test case out of a unit test function pointer.
  @param test_function The unit test function pointer from which to create the unit test.
- @return A unit test structure.
+ @return A test case.
  */
-#define ct_maketest(test_function) ((ct_unittest){ #test_function, test_function })
+#define ct_maketest(test_function) ((ct_testcase){ #test_function, test_function })
 
 /**
  Run a list of unit tests.
+ This macro calculates the test list length automatically. Therefore
+ the tests argument should be an lvalue to prevent multiple evaluation side-effects.
  @param tests The list of tests to run.
  @return The number of tests that failed.
  */
-// TODO: is there a way to avoid using a macro here to remove multiple evaluation of "tests"
 #define ct_runtests(tests) (ctp_runtests(tests, tests ? (sizeof tests / sizeof tests[0]) : 0))
-int ctp_runtests(ct_unittest[], size_t);
+int ctp_runtests(ct_testcase[], size_t);
 
 //void atest(void *);
 //
 //int testblock(void)
 //{
-//    ct_unittest foo = ct_maketest(atest);
+//    ct_testcase foo = ct_maketest(atest);
 //    foo.test(NULL);
-//    ct_unittest butts;
+//    ct_testcase butts;
 //    butts = ct_maketest(atest);
 //    butts.test(NULL);
 //    
