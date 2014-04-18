@@ -8,6 +8,11 @@
 
 #include "ciny.h"
 
+void faketest(void *context)
+{
+    // do nothing
+}
+
 @interface CinyTestTests : XCTestCase
 
 @end
@@ -26,7 +31,17 @@
     [super tearDown];
 }
 
-- (void)test_cinytest_SmokeTest
+- (void)test_ctmaketest_CreatesTestCase
+{
+    ct_test_function expected_function = faketest;
+    
+    ct_testcase testcase = ct_maketest(faketest);
+    
+    XCTAssertEqualObjects(@"faketest", [NSString stringWithUTF8String:testcase.name]);
+    XCTAssertEqual(expected_function, testcase.test);
+}
+
+- (void)test_ctruntests_ReturnsSuccess_IfGivenNull
 {
     XCTAssertEqual(0, ct_runtests(NULL));
 }
