@@ -41,8 +41,8 @@ typedef struct {
 
 /**
  Run a list of unit tests.
- This macro calculates the test list length automatically. Therefore
- the tests argument should be an lvalue to prevent multiple evaluation side-effects.
+ Calculates the test list length automatically, therefore
+ the tests argument should be an lvalue to prevent multiple-evaluation side-effects.
  @param tests The list of tests to run.
  @return The number of tests that failed.
  */
