@@ -35,7 +35,3 @@ Failure message : File Name : Line Number
 Test suite 'File+Function or Given Name' completed at DateTime.
 
 Ran count tests (seconds): x passed, x failed, x ignored.
-
-## TODO
-
-- verify inline assembler for external lib
