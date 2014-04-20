@@ -34,19 +34,19 @@ typedef struct {
 } ct_testcase;
 
 /**
- Create a test case.
+ Make a test case.
  Uses the name of the unit test function as the name of the test case.
- @param test_function The unit test function pointer that makes up the test case.
+ @param test_function The unit test function for the test case.
  @return A test case.
  */
-#define ct_maketest(test_function) (ct_maketest_withname(#test_function, test_function))
+#define ct_maketest(test_function) (ct_maketest_full(#test_function, test_function))
 /**
- Create a test case with the given name.
+ Make a test case with a full set of arguments.
  @param name The name of the test case.
- @param test The unit test function pointer that makes up the test case.
+ @param test The unit test function for the test case.
  @return A test case.
  */
-inline ct_testcase ct_maketest_withname(const char *name, ct_test_function test)
+inline ct_testcase ct_maketest_full(const char *name, ct_test_function test)
 {
     return (ct_testcase){ name, test };
 }
