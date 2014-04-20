@@ -8,12 +8,6 @@
 
 #include "ciny.h"
 
-extern inline ct_testcase ct_maketest_withname(const char *, ct_test_function);
-
-struct ct_testsuite {
-    const char * const name;
-    const ct_testcase * const tests;
-    const size_t testcount;
-    const ct_setupteardown_function setup;
-    const ct_setupteardown_function teardown;
-};
+// call sites for inline functions
+extern inline ct_testcase ct_maketest_full(const char *, ct_test_function);
+extern inline ct_testsuite ct_makesuite_full(const char *, ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
