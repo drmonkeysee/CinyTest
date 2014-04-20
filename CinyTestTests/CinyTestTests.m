@@ -41,11 +41,11 @@ void faketest(void *context)
     XCTAssertEqual(expected_function, testcase.test);
 }
 
-- (void)test_ctmaketestwithname_CreatesTestCaseWithName
+- (void)test_ctmaketestfull_CreatesTestCaseWithName
 {
     ct_test_function expected_function = faketest;
     
-    ct_testcase testcase = ct_maketest_withname("fake name", expected_function);
+    ct_testcase testcase = ct_maketest_full("fake name", expected_function);
     
     XCTAssertEqualObjects(@"fake name", [NSString stringWithUTF8String:testcase.name]);
     XCTAssertEqual(expected_function, testcase.test);
