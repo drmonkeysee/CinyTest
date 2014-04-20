@@ -25,7 +25,8 @@ typedef void (*ct_test_function)(void *);
 typedef void (*ct_setupteardown_function)(void **);
 
 /**
- A test case structure.
+ A test case.
+ A named function that executes a single unit test.
  */
 typedef struct {
     const char * const name;        /**< The function name of the test. */
@@ -33,21 +34,31 @@ typedef struct {
 } ct_testcase;
 
 /**
- Create a test case out of a unit test function pointer.
- @param test_function The unit test function pointer from which to create the unit test.
+ Create a test case.
+ Uses the name of the unit test function as the name of the test case.
+ @param test_function The unit test function pointer that makes up the test case.
  @return A test case.
  */
-#define ct_maketest(test_function) ((ct_testcase){ #test_function, test_function })
+#define ct_maketest(test_function) (ct_maketest_withname(#test_function, test_function))
+/**
+ Create a test case with the given name.
+ @param name The name of the test case.
+ @param test The unit test function pointer that makes up the test case.
+ @return A test case.
+ */
+inline ct_testcase ct_maketest_withname(const char *name, ct_test_function test)
+{
+    return (ct_testcase){ name, test };
+}
 
 /**
- Run a list of unit tests.
- Calculates the test list length automatically, therefore
- the tests argument should be an lvalue to prevent multiple-evaluation side-effects.
- @param tests The list of tests to run.
- @return The number of tests that failed.
+ A test suite.
+ A named collection of test cases with optional setup and teardown functions.
  */
-#define ct_runtests(tests) (ctp_runtests(tests, tests ? (sizeof tests / sizeof tests[0]) : 0))
-int ctp_runtests(ct_testcase[], size_t);
+typedef struct ct_testsuite ct_testsuite;
+
+#define ct_makesuite(test_list) (ct_p_makesuite("blah", test_list, test_list ? (sizeof test_list / sizeof test_list[0]) : 0))
+ct_testsuite *ct_p_makesuite(const char *, ct_testcase[], size_t);
 
 //void atest(void *);
 //
@@ -58,6 +69,13 @@ int ctp_runtests(ct_testcase[], size_t);
 //    ct_testcase butts;
 //    butts = ct_maketest(atest);
 //    butts.test(NULL);
+//    
+//    ct_testcase blob = ct_maketest_full("blah", atest);
+//    ct_testcase bort[] = { ct_maketest(atest), ct_maketest(atest) };
+//    ct_testsuite *blah = ct_p_makesuite("blah", bort, sizeof bort / sizeof bort[0]);
+//    ct_freesuite(blah);
+//    ct_testsuite suite = { .tests = bort };
+//    suite.tests[1] = ct_maketest(atest);
 //    
 //    return 0;
 //}
