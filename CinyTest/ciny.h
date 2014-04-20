@@ -55,10 +55,27 @@ inline ct_testcase ct_maketest_full(const char *name, ct_test_function test)
  A test suite.
  A named collection of test cases with optional setup and teardown functions.
  */
-typedef struct ct_testsuite ct_testsuite;
+typedef struct {
+    const char * const name;                    /**< The name of the test suite. */
+    const ct_testcase * const tests;            /**< The collection of tests to run. */
+    const size_t testcount;                     /**< The number of tests to be run. */
+    const ct_setupteardown_function setup;      /**< The test setup function. Run before each test case. May be NULL. */
+    const ct_setupteardown_function teardown;   /**< The test teardown function. Runs after each test case. May be NULL. */
+} ct_testsuite;
 
-#define ct_makesuite(test_list) (ct_p_makesuite("blah", test_list, test_list ? (sizeof test_list / sizeof test_list[0]) : 0))
-ct_testsuite *ct_p_makesuite(const char *, ct_testcase[], size_t);
+/**
+ Make a test suite with a full set of arguments.
+ @param name The name of the test suite.
+ @param tests The collection of test cases.
+ @param testcount The number of test cases.
+ @param setup The setup function. Runs before each test case. Can be NULL.
+ @param teardown The teardown function. Runs after each test case. Can be NULL.
+ @return A test suite.
+ */
+inline ct_testsuite ct_makesuite_full(const char *name, ct_testcase tests[], size_t testcount, ct_setupteardown_function setup, ct_setupteardown_function teardown)
+{
+    return (ct_testsuite){ name, tests, testcount, setup, teardown };
+}
 
 //void atest(void *);
 //
