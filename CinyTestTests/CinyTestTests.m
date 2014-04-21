@@ -69,9 +69,61 @@ void faketeardown(void **context)
     XCTAssertTrue(testcase.test == NULL, @"Expected NULL function");
 }
 
+- (void)test_ctmakesuite_CreatesTestSuite
+{
+    ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
+    // XCTest doesn't like comparing an array to a pointer so get the address of the array
+    ct_testcase *expected_tests = faketests;
+    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    
+    ct_testsuite testsuite = ct_makesuite(faketests);
+    
+    XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
+    XCTAssertEqual(expected_tests, testsuite.tests);
+    XCTAssertEqual(2, testsuite.count);
+    XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
+    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
+}
+
+- (void)test_ctmakesuitesetup_CreatesTestSuite
+{
+    ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
+    // XCTest doesn't like comparing an array to a pointer so get the address of the array
+    ct_testcase *expected_tests = faketests;
+    ct_setupteardown_function expected_setup = fakesetup;
+    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    
+    ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
+    
+    XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
+    XCTAssertEqual(expected_tests, testsuite.tests);
+    XCTAssertEqual(2, testsuite.count);
+    XCTAssertEqual(expected_setup, testsuite.setup);
+    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
+}
+
+- (void)test_ctmakesuitesetupteardown_CreatesTestSuite
+{
+    ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
+    // XCTest doesn't like comparing an array to a pointer so get the address of the array
+    ct_testcase *expected_tests = faketests;
+    ct_setupteardown_function expected_setup = fakesetup;
+    ct_setupteardown_function expected_teardown = faketeardown;
+    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    
+    ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
+    
+    XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
+    XCTAssertEqual(expected_tests, testsuite.tests);
+    XCTAssertEqual(2, testsuite.count);
+    XCTAssertEqual(expected_setup, testsuite.setup);
+    XCTAssertEqual(expected_teardown, testsuite.teardown);
+}
+
 - (void)test_ctmakesuitefull_CreatesTestSuiteWithArguments
 {
     ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
+    // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
     size_t expected_count = 10;
     ct_setupteardown_function expected_setup = fakesetup;
@@ -90,11 +142,11 @@ void faketeardown(void **context)
 {
     ct_testsuite testsuite = ct_makesuite_full(NULL, NULL, 0, NULL, NULL);
     
-    XCTAssertTrue(testsuite.name == NULL, @"Expected NULL name.");
-    XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests.");
+    XCTAssertTrue(testsuite.name == NULL, @"Expected NULL name");
+    XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
     XCTAssertEqual(0, testsuite.count);
-    XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup.");
-    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown.");
+    XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
+    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
 
 @end
