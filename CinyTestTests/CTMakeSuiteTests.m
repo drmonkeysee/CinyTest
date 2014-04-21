@@ -8,17 +8,12 @@
 
 #include "ciny.h"
 
-void faketest(void *context)
+void makesuite_fakesetup(void **context)
 {
     // do nothing
 }
 
-void fakesetup(void **context)
-{
-    // do nothing
-}
-
-void faketeardown(void **context)
+void makesuite_faketeardown(void **context)
 {
     // do nothing
 }
@@ -46,7 +41,7 @@ void faketeardown(void **context)
     ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
-    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
     
     ct_testsuite testsuite = ct_makesuite(faketests);
     
@@ -59,7 +54,7 @@ void faketeardown(void **context)
 
 - (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
     
     ct_testsuite testsuite = ct_makesuite(NULL);
     
@@ -75,8 +70,8 @@ void faketeardown(void **context)
     ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
-    ct_setupteardown_function expected_setup = fakesetup;
-    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
     
     ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
     
@@ -89,7 +84,7 @@ void faketeardown(void **context)
 
 - (void)test_ctmakesuitesetup_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
     
     ct_testsuite testsuite = ct_makesuite_setup(NULL, NULL);
     
@@ -105,9 +100,9 @@ void faketeardown(void **context)
     ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
-    ct_setupteardown_function expected_setup = fakesetup;
-    ct_setupteardown_function expected_teardown = faketeardown;
-    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    ct_setupteardown_function expected_teardown = makesuite_faketeardown;
+    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
     
     ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
     
@@ -120,7 +115,7 @@ void faketeardown(void **context)
 
 - (void)test_ctmakesuitesetupteardown_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
     
     ct_testsuite testsuite = ct_makesuite_setup_teardown(NULL, NULL, NULL);
     
@@ -137,8 +132,8 @@ void faketeardown(void **context)
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
     size_t expected_count = 10;
-    ct_setupteardown_function expected_setup = fakesetup;
-    ct_setupteardown_function expected_teardown = faketeardown;
+    ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    ct_setupteardown_function expected_teardown = makesuite_faketeardown;
     
     ct_testsuite testsuite = ct_makesuite_full("fake suite", faketests, expected_count, expected_setup, expected_teardown);
     

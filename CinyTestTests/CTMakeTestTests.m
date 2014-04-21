@@ -8,7 +8,7 @@
 
 #include "ciny.h"
 
-void faketest(void *context)
+void maketest_faketest(void *context)
 {
     // do nothing
 }
@@ -33,17 +33,25 @@ void faketest(void *context)
 
 - (void)test_ctmaketest_CreatesTestCase
 {
-    ct_test_function expected_function = faketest;
+    ct_test_function expected_function = maketest_faketest;
     
-    ct_testcase testcase = ct_maketest(faketest);
+    ct_testcase testcase = ct_maketest(maketest_faketest);
     
-    XCTAssertEqualObjects(@"faketest", [NSString stringWithUTF8String:testcase.name]);
+    XCTAssertEqualObjects(@"maketest_faketest", [NSString stringWithUTF8String:testcase.name]);
     XCTAssertEqual(expected_function, testcase.test);
+}
+
+- (void)test_ctmaketest_CreatesTestCase_IfNullArguments
+{
+    ct_testcase testcase = ct_maketest(NULL);
+    
+    XCTAssertEqualObjects(@"NULL", [NSString stringWithUTF8String:testcase.name]);
+    XCTAssertTrue(testcase.test == NULL, @"Expected NULL function");
 }
 
 - (void)test_ctmaketestfull_CreatesTestCaseWithName
 {
-    ct_test_function expected_function = faketest;
+    ct_test_function expected_function = maketest_faketest;
     
     ct_testcase testcase = ct_maketest_full("fake name", expected_function);
     
