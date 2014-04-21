@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Monkey Bits. All rights reserved.
 //
 
+#include <stddef.h>
 #include "ciny.h"
 
 // call sites for inline functions
