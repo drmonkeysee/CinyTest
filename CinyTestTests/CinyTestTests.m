@@ -85,6 +85,19 @@ void faketeardown(void **context)
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
 
+- (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
+{
+    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    
+    ct_testsuite testsuite = ct_makesuite(NULL);
+    
+    XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
+    XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
+    XCTAssertEqual(0, testsuite.count);
+    XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
+    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
+}
+
 - (void)test_ctmakesuitesetup_CreatesTestSuite
 {
     ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
@@ -99,6 +112,19 @@ void faketeardown(void **context)
     XCTAssertEqual(expected_tests, testsuite.tests);
     XCTAssertEqual(2, testsuite.count);
     XCTAssertEqual(expected_setup, testsuite.setup);
+    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
+}
+
+- (void)test_ctmakesuitesetup_CreatesTestSuite_IfNullArguments
+{
+    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    
+    ct_testsuite testsuite = ct_makesuite_setup(NULL, NULL);
+    
+    XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
+    XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
+    XCTAssertEqual(0, testsuite.count);
+    XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
 
@@ -118,6 +144,19 @@ void faketeardown(void **context)
     XCTAssertEqual(2, testsuite.count);
     XCTAssertEqual(expected_setup, testsuite.setup);
     XCTAssertEqual(expected_teardown, testsuite.teardown);
+}
+
+- (void)test_ctmakesuitesetupteardown_CreatesTestSuite_IfNullArguments
+{
+    NSString *expectedName = [NSString stringWithFormat:@"-[CinyTestTests %@]", NSStringFromSelector(_cmd)];
+    
+    ct_testsuite testsuite = ct_makesuite_setup_teardown(NULL, NULL, NULL);
+    
+    XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
+    XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
+    XCTAssertEqual(0, testsuite.count);
+    XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
+    XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
 
 - (void)test_ctmakesuitefull_CreatesTestSuiteWithArguments
