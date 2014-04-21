@@ -41,7 +41,7 @@ void makesuite_faketeardown(void **context)
     ct_testcase faketests[] = { ct_maketest_full("foo", NULL), ct_maketest_full("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
-    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     ct_testsuite testsuite = ct_makesuite(faketests);
     
@@ -54,7 +54,7 @@ void makesuite_faketeardown(void **context)
 
 - (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     ct_testsuite testsuite = ct_makesuite(NULL);
     
@@ -71,7 +71,7 @@ void makesuite_faketeardown(void **context)
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     ct_testcase *expected_tests = faketests;
     ct_setupteardown_function expected_setup = makesuite_fakesetup;
-    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
     
@@ -84,7 +84,7 @@ void makesuite_faketeardown(void **context)
 
 - (void)test_ctmakesuitesetup_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     ct_testsuite testsuite = ct_makesuite_setup(NULL, NULL);
     
@@ -102,7 +102,7 @@ void makesuite_faketeardown(void **context)
     ct_testcase *expected_tests = faketests;
     ct_setupteardown_function expected_setup = makesuite_fakesetup;
     ct_setupteardown_function expected_teardown = makesuite_faketeardown;
-    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
     
@@ -115,7 +115,7 @@ void makesuite_faketeardown(void **context)
 
 - (void)test_ctmakesuitesetupteardown_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [NSString stringWithFormat:@"-[CTMakeSuiteTests %@]", NSStringFromSelector(_cmd)];
+    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     ct_testsuite testsuite = ct_makesuite_setup_teardown(NULL, NULL, NULL);
     
@@ -153,6 +153,11 @@ void makesuite_faketeardown(void **context)
     XCTAssertEqual(0, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
+}
+
+- (NSString *)stringOfExpectedSuiteNameWithSelector:(SEL)selector
+{
+    return [NSString stringWithFormat:@"-[%@ %@]", NSStringFromClass(self.class), NSStringFromSelector(selector)];
 }
 
 @end
