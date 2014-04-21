@@ -64,6 +64,37 @@ typedef struct {
 } ct_testsuite;
 
 /**
+ Make a test suite for the list of tests.
+ Uses the enclosing function as the test suite name.
+ @param test_list The list of tests to run.
+ The size of the test array is calculated inline so test_list should be an lvalue
+ to prevent multiple-evaluation side-effects.
+ @return A test suite.
+ */
+#define ct_makesuite(test_list) (ct_makesuite_setup(test_list, NULL))
+/**
+ Make a test suite with a setup function.
+ Uses the enclosing function as the test suite name.
+ @param test_list The list of tests to run.
+ The size of the test array is calculated inline so test_list should be an lvalue
+ to prevent multiple-evaluation side-effects.
+ @param setup_function The setup function. Runs before each test case.
+ @return A test suite.
+ */
+#define ct_makesuite_setup(test_list, setup_function) (ct_makesuite_setup_teardown(test_list, setup_function, NULL))
+/**
+ Make a test suite with a setup and teardown function.
+ Uses the enclosing function as the test suite name.
+ @param test_list The list of tests to run.
+ The size of the test array is calculated inline so test_list should be an lvalue
+ to prevent multiple-evaluation side-effects.
+ @param setup_function The setup function. Runs before each test case.
+ @param teardown_function The teardown function. Runs after each test case.
+ @return A test suite.
+ */
+#define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
+(ct_makesuite_full(__func__, test_list, (test_list ? (sizeof test_list / sizeof test_list[0]) : 0), setup_function, teardown_function))
+/**
  Make a test suite with a full set of arguments.
  @param name The name of the test suite.
  @param tests The collection of test cases.
