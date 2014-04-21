@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3631904CFE70030E3EC /* CTMakeTestTests.m */; };
+		0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */; };
 		02EE6D5118FA3AA000E5A8D7 /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = 02EE6D4F18FA3AA000E5A8D7 /* ciny.c */; };
 		02EE6D5218FA3AA000E5A8D7 /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EE6D5018FA3AA000E5A8D7 /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02EE6D5A18FA3AC700E5A8D7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D5918FA3AC700E5A8D7 /* XCTest.framework */; };
 		02EE6D6018FA3AC700E5A8D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02EE6D5E18FA3AC700E5A8D7 /* InfoPlist.strings */; };
-		02EE6D6218FA3AC700E5A8D7 /* CinyTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EE6D6118FA3AC700E5A8D7 /* CinyTestTests.m */; };
 		02EE6D6B18FA416D00E5A8D7 /* libCinyTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0237F3631904CFE70030E3EC /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
+		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
 		02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCinyTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		02EE6D4F18FA3AA000E5A8D7 /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
 		02EE6D5018FA3AA000E5A8D7 /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ciny.h; sourceTree = "<group>"; };
@@ -33,7 +36,6 @@
 		02EE6D5918FA3AC700E5A8D7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		02EE6D5D18FA3AC700E5A8D7 /* CinyTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CinyTestTests-Info.plist"; sourceTree = "<group>"; };
 		02EE6D5F18FA3AC700E5A8D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		02EE6D6118FA3AC700E5A8D7 /* CinyTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CinyTestTests.m; sourceTree = "<group>"; };
 		02EE6D6318FA3AC700E5A8D7 /* CinyTestTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTestTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,7 +98,8 @@
 		02EE6D5B18FA3AC700E5A8D7 /* CinyTestTests */ = {
 			isa = PBXGroup;
 			children = (
-				02EE6D6118FA3AC700E5A8D7 /* CinyTestTests.m */,
+				0237F3631904CFE70030E3EC /* CTMakeTestTests.m */,
+				0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */,
 				02EE6D5C18FA3AC700E5A8D7 /* Supporting Files */,
 			);
 			path = CinyTestTests;
@@ -217,7 +220,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02EE6D6218FA3AC700E5A8D7 /* CinyTestTests.m in Sources */,
+				0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */,
+				0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +392,7 @@
 				02EE6D6818FA3AC700E5A8D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
