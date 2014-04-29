@@ -116,24 +116,4 @@ inline struct ct_testsuite ct_makesuite_full(const char *name,
     return (struct ct_testsuite){ name, tests, count, setup, teardown };
 }
 
-//void atest(void *);
-//
-//int testblock(void)
-//{
-//    ct_testcase foo = ct_maketest(atest);
-//    foo.test(NULL);
-//    ct_testcase butts;
-//    butts = ct_maketest(atest);
-//    butts.test(NULL);
-//    
-//    ct_testcase blob = ct_maketest_full("blah", atest);
-//    ct_testcase bort[] = { ct_maketest(atest), ct_maketest(atest) };
-//    ct_testsuite *blah = ct_p_makesuite("blah", bort, sizeof bort / sizeof bort[0]);
-//    ct_freesuite(blah);
-//    ct_testsuite suite = { .tests = bort };
-//    suite.tests[1] = ct_maketest(atest);
-//    
-//    return 0;
-//}
-
 #endif
