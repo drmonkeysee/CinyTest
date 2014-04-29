@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3631904CFE70030E3EC /* CTMakeTestTests.m */; };
 		0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */; };
+		028F5CB4191054DF000BCA3D /* CTRunSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */; };
 		02EE6D5118FA3AA000E5A8D7 /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = 02EE6D4F18FA3AA000E5A8D7 /* ciny.c */; };
 		02EE6D5218FA3AA000E5A8D7 /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EE6D5018FA3AA000E5A8D7 /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02EE6D5A18FA3AC700E5A8D7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D5918FA3AC700E5A8D7 /* XCTest.framework */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		0237F3631904CFE70030E3EC /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
 		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
+		028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunSuiteTests.m; sourceTree = "<group>"; };
 		02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCinyTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		02EE6D4F18FA3AA000E5A8D7 /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
 		02EE6D5018FA3AA000E5A8D7 /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ciny.h; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			children = (
 				0237F3631904CFE70030E3EC /* CTMakeTestTests.m */,
 				0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */,
+				028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */,
 				02EE6D5C18FA3AC700E5A8D7 /* Supporting Files */,
 			);
 			path = CinyTestTests;
@@ -222,6 +225,7 @@
 			files = (
 				0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */,
 				0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */,
+				028F5CB4191054DF000BCA3D /* CTRunSuiteTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
