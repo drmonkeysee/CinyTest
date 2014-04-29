@@ -35,7 +35,7 @@ void maketest_faketest(void *context)
 {
     ct_test_function expected_function = maketest_faketest;
     
-    ct_testcase testcase = ct_maketest(maketest_faketest);
+    struct ct_testcase testcase = ct_maketest(maketest_faketest);
     
     XCTAssertEqualObjects(@"maketest_faketest", [NSString stringWithUTF8String:testcase.name]);
     XCTAssertEqual(expected_function, testcase.test);
@@ -43,7 +43,7 @@ void maketest_faketest(void *context)
 
 - (void)test_ctmaketest_CreatesTestCase_IfNullArguments
 {
-    ct_testcase testcase = ct_maketest(NULL);
+    struct ct_testcase testcase = ct_maketest(NULL);
     
     XCTAssertEqualObjects(@"NULL", [NSString stringWithUTF8String:testcase.name]);
     XCTAssertTrue(testcase.test == NULL, @"Expected NULL function");
@@ -53,7 +53,7 @@ void maketest_faketest(void *context)
 {
     ct_test_function expected_function = maketest_faketest;
     
-    ct_testcase testcase = ct_maketest_full("fake name", expected_function);
+    struct ct_testcase testcase = ct_maketest_full("fake name", expected_function);
     
     XCTAssertEqualObjects(@"fake name", [NSString stringWithUTF8String:testcase.name]);
     XCTAssertEqual(expected_function, testcase.test);
@@ -61,7 +61,7 @@ void maketest_faketest(void *context)
 
 - (void)test_ctmaketestfull_CreatesTestCase_IfNullArguments
 {
-    ct_testcase testcase = ct_maketest_full(NULL, NULL);
+    struct ct_testcase testcase = ct_maketest_full(NULL, NULL);
     
     XCTAssertTrue(testcase.name == NULL, @"Expected NULL name");
     XCTAssertTrue(testcase.test == NULL, @"Expected NULL function");

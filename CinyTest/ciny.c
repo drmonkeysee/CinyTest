@@ -10,5 +10,5 @@
 #include "ciny.h"
 
 // call sites for inline functions
-extern inline ct_testcase ct_maketest_full(const char *, ct_test_function);
-extern inline ct_testsuite ct_makesuite_full(const char *, ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
+extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);

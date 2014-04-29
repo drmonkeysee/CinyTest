@@ -28,10 +28,10 @@ typedef void (*ct_setupteardown_function)(void **);
  A test case.
  A named function that executes a single unit test.
  */
-typedef struct {
+struct ct_testcase {
     const char * const name;        /**< The function name of the test. */
     const ct_test_function test;    /**< The test function. */
-} ct_testcase;
+};
 
 /**
  Make a test case.
@@ -46,22 +46,22 @@ typedef struct {
  @param test The unit test function for the test case.
  @return A test case.
  */
-inline ct_testcase ct_maketest_full(const char *name, ct_test_function test)
+inline struct ct_testcase ct_maketest_full(const char *name, ct_test_function test)
 {
-    return (ct_testcase){ name, test };
+    return (struct ct_testcase){ name, test };
 }
 
 /**
  A test suite.
  A named collection of test cases with optional setup and teardown functions.
  */
-typedef struct {
+struct ct_testsuite {
     const char * const name;                    /**< The name of the test suite. */
-    const ct_testcase * const tests;            /**< The collection of tests to run. */
+    const struct ct_testcase * const tests;     /**< The collection of tests to run. */
     const size_t count;                         /**< The number of tests to be run. */
     const ct_setupteardown_function setup;      /**< The test setup function. Run before each test case. May be NULL. */
     const ct_setupteardown_function teardown;   /**< The test teardown function. Runs after each test case. May be NULL. */
-} ct_testsuite;
+};
 
 /**
  Make a test suite for the list of tests.
@@ -107,9 +107,13 @@ typedef struct {
  @param teardown The teardown function. Runs after each test case. Can be NULL.
  @return A test suite.
  */
-inline ct_testsuite ct_makesuite_full(const char *name, ct_testcase tests[], size_t count, ct_setupteardown_function setup, ct_setupteardown_function teardown)
+inline struct ct_testsuite ct_makesuite_full(const char *name,
+                                             struct ct_testcase tests[],
+                                             size_t count,
+                                             ct_setupteardown_function setup,
+                                             ct_setupteardown_function teardown)
 {
-    return (ct_testsuite){ name, tests, count, setup, teardown };
+    return (struct ct_testsuite){ name, tests, count, setup, teardown };
 }
 
 //void atest(void *);
