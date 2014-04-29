@@ -18,6 +18,11 @@ void makesuite_faketeardown(void **context)
     // do nothing
 }
 
+struct ct_testsuite fakesuite_function(void)
+{
+    return ct_makesuite(NULL);
+}
+
 @interface CTMakeSuiteTests : XCTestCase
 
 @end
@@ -50,6 +55,13 @@ void makesuite_faketeardown(void **context)
     XCTAssertEqual(2, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
+}
+
+- (void)test_ctmakesuite_UsesFunctionName
+{
+    struct ct_testsuite testsuite = fakesuite_function();
+    
+    XCTAssertEqualObjects([NSString stringWithUTF8String:"fakesuite_function"], [NSString stringWithUTF8String:testsuite.name]);
 }
 
 - (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
