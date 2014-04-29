@@ -95,7 +95,7 @@ struct ct_testsuite {
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
             (ct_makesuite_full(__func__, \
                                 test_list, \
-                                (test_list ? (sizeof test_list / sizeof test_list[0]) : 0), \
+                                ((test_list) ? (sizeof (test_list) / sizeof (test_list)[0]) : 0), \
                                 setup_function, \
                                 teardown_function))
 /**
