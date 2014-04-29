@@ -93,7 +93,11 @@ typedef struct {
  @return A test suite.
  */
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
-(ct_makesuite_full(__func__, test_list, (test_list ? (sizeof test_list / sizeof test_list[0]) : 0), setup_function, teardown_function))
+            (ct_makesuite_full(__func__, \
+                                test_list, \
+                                (test_list ? (sizeof test_list / sizeof test_list[0]) : 0), \
+                                setup_function, \
+                                teardown_function))
 /**
  Make a test suite with a full set of arguments.
  @param name The name of the test suite.
