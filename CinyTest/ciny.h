@@ -116,4 +116,11 @@ inline struct ct_testsuite ct_makesuite_full(const char *name,
     return (struct ct_testsuite){ name, tests, count, setup, teardown };
 }
 
+/**
+ Run a unit test suite.
+ @param suite The test suite to run.
+ @return The number of failed tests.
+ */
+size_t ct_runsuite(struct ct_testsuite);
+
 #endif
