@@ -30,7 +30,7 @@
 {
     struct ct_testsuite suite_to_run = ct_makesuite(NULL);
     
-    size_t run_result = ct_runsuite(suite_to_run);
+    size_t run_result = ct_runsuite(&suite_to_run);
     
     XCTAssertEqual(0, run_result);
 }

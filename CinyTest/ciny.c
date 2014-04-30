@@ -42,13 +42,13 @@ static void print_runfooter(const struct ct_testsuite *suite, const time_t * res
     printf("=====- CinyTest End -=====\n");
 }
 
-size_t ct_runsuite(struct ct_testsuite suite)
+size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     time_t start_time = time(NULL);
-    print_runheader(&suite, &start_time);
+    print_runheader(suite, &start_time);
     
     time_t end_time = time(NULL);
-    print_runfooter(&suite, &start_time, &end_time);
+    print_runfooter(suite, &start_time, &end_time);
     
     return 0;
 }
