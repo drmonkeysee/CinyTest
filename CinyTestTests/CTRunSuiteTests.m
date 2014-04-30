@@ -54,4 +54,15 @@ static void passing_test(void *context)
     XCTAssertEqual(expected_invocation_count, passing_test_invocations);
 }
 
+- (void)test_ctrunsuite_IgnoresTests_IfNullTestcase
+{
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(NULL), ct_maketest(passing_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(2, passing_test_invocations);
+}
+
 @end

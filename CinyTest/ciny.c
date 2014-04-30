@@ -49,8 +49,12 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     
     for (size_t i = 0; i < suite->count; ++i) {
         struct ct_testcase current_test = suite->tests[i];
-        current_test.test(NULL);
-        printf("[\u2714] - %s\n", current_test.name);
+        if (current_test.test) {
+            current_test.test(NULL);
+            printf("[\u2714] - '%s' success\n", current_test.name);
+        } else {
+            printf("[?] - ignored test at index %zu (NULL function pointer detected)\n", i);
+        }
     }
     
     time_t end_time = time(NULL);
