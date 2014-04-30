@@ -33,7 +33,7 @@ static void passing_test(void *context)
     [super tearDown];
 }
 
-- (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTests
+- (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
 {
     struct ct_testsuite suite_to_run = ct_makesuite(NULL);
     
