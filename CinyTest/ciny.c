@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include "ciny.h"
 
-#define DATETIME_FORMAT_LENGTH 30
+#define DATE_FORMAT_LENGTH 30
 static const char * const DateFormatString = "%F %T";
-static const char * const InvalidDateFormat = "Unknown DateTime";
+static const char * const InvalidDateFormat = "Unknown Date";
 
 // call sites for inline functions
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
@@ -23,8 +23,8 @@ static void print_suiteheader(const struct ct_testsuite *suite, const time_t *st
 {
     printf("=====- CinyTest Run -=====\n");
     
-    char formatted_datetime[DATETIME_FORMAT_LENGTH];
-    size_t format_length = strftime(formatted_datetime, DATETIME_FORMAT_LENGTH, DateFormatString, localtime(start_time));
+    char formatted_datetime[DATE_FORMAT_LENGTH];
+    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(start_time));
     printf("Starting test suite '%s' at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     printf("Running %zu tests:\n", suite->count);
@@ -32,8 +32,8 @@ static void print_suiteheader(const struct ct_testsuite *suite, const time_t *st
 
 static void print_suitefooter(const struct ct_testsuite *suite, const time_t * restrict start_time, const time_t * restrict end_time)
 {
-    char formatted_datetime[DATETIME_FORMAT_LENGTH];
-    size_t format_length = strftime(formatted_datetime, DATETIME_FORMAT_LENGTH, DateFormatString, localtime(end_time));
+    char formatted_datetime[DATE_FORMAT_LENGTH];
+    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     double elapsed_time = difftime(*start_time, *end_time);
