@@ -13,7 +13,7 @@
 
 #define DATE_FORMAT_LENGTH 30
 static const char * const DateFormatString = "%F %T";
-static const char * const InvalidDateFormat = "Unknown Date";
+static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 
 // call sites for inline functions
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
