@@ -8,15 +8,23 @@
 
 #include "ciny.h"
 
+@interface CTRunSuiteTests : XCTestCase
+
+@property (nonatomic, assign) BOOL expectedNullTestContext;
+
+@end
+
+static void *test_class;
+
 static int passing_test_invocations;
 static void passing_test(void *context)
 {
     ++passing_test_invocations;
+    CTRunSuiteTests *testInstance = (__bridge CTRunSuiteTests *)(test_class);
+    if (context && testInstance.expectedNullTestContext) {
+        testInstance.expectedNullTestContext = NO;
+    }
 }
-
-@interface CTRunSuiteTests : XCTestCase
-
-@end
 
 @implementation CTRunSuiteTests
 
@@ -24,12 +32,15 @@ static void passing_test(void *context)
 {
     [super setUp];
     
+    test_class = (__bridge void *)(self);
+    
     passing_test_invocations = 0;
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    test_class = NULL;
+    
     [super tearDown];
 }
 
@@ -52,6 +63,18 @@ static void passing_test(void *context)
     
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(expected_invocation_count, passing_test_invocations);
+}
+
+- (void)test_ctrunsuite_PassesNullTestContext_IfNoSetupMethod
+{
+    self.expectedNullTestContext = YES;
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.expectedNullTestContext);
 }
 
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcase
