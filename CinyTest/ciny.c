@@ -21,7 +21,7 @@ extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_test
 
 static void print_suiteheader(const struct ct_testsuite *suite, const time_t *start_time)
 {
-    printf("=====- CT RUN -=====\n");
+    printf("=====- CinyTest Run -=====\n");
     
     char formatted_datetime[DATETIME_FORMAT_LENGTH];
     size_t format_length = strftime(formatted_datetime, DATETIME_FORMAT_LENGTH, DateFormatString, localtime(start_time));
@@ -39,7 +39,7 @@ static void print_suitefooter(const struct ct_testsuite *suite, const time_t * r
     double elapsed_time = difftime(*start_time, *end_time);
     printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, 0lu, 0lu, 0lu);
     
-    printf("=====- CT END -=====\n");
+    printf("=====- CinyTest End -=====\n");
 }
 
 size_t ct_runsuite(struct ct_testsuite suite)
