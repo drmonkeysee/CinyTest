@@ -56,13 +56,12 @@ static void passing_test(void *context)
 - (void)test_ctrunsuite_InvokesPassingTests_IfValidTestcases
 {
     struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
-    size_t expected_invocation_count = sizeof cases / sizeof cases[0];
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0, run_result);
-    XCTAssertEqual(expected_invocation_count, passing_test_invocations);
+    XCTAssertEqual(3, passing_test_invocations);
 }
 
 - (void)test_ctrunsuite_PassesNullTestContext_IfNoSetupMethod
