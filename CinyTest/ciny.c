@@ -19,7 +19,7 @@ static const char * const InvalidDateFormat = "Unknown Date";
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 
-static void print_suiteheader(const struct ct_testsuite *suite, const time_t *start_time)
+static void print_runheader(const struct ct_testsuite *suite, const time_t *start_time)
 {
     printf("=====- CinyTest Run -=====\n");
     
@@ -30,7 +30,7 @@ static void print_suiteheader(const struct ct_testsuite *suite, const time_t *st
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_suitefooter(const struct ct_testsuite *suite, const time_t * restrict start_time, const time_t * restrict end_time)
+static void print_runfooter(const struct ct_testsuite *suite, const time_t * restrict start_time, const time_t * restrict end_time)
 {
     char formatted_datetime[DATE_FORMAT_LENGTH];
     size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(end_time));
@@ -45,10 +45,10 @@ static void print_suitefooter(const struct ct_testsuite *suite, const time_t * r
 size_t ct_runsuite(struct ct_testsuite suite)
 {
     time_t start_time = time(NULL);
-    print_suiteheader(&suite, &start_time);
+    print_runheader(&suite, &start_time);
     
     time_t end_time = time(NULL);
-    print_suitefooter(&suite, &start_time, &end_time);
+    print_runfooter(&suite, &start_time, &end_time);
     
     return 0;
 }
