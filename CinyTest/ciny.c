@@ -47,6 +47,12 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     time_t start_time = time(NULL);
     print_runheader(suite, &start_time);
     
+    for (size_t i = 0; i < suite->count; ++i) {
+        struct ct_testcase current_test = suite->tests[i];
+        current_test.test(NULL);
+        printf("[\u2714] - %s\n", current_test.name);
+    }
+    
     time_t end_time = time(NULL);
     print_runfooter(suite, &start_time, &end_time);
     

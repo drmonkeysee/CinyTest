@@ -8,6 +8,12 @@
 
 #import "ciny.h"
 
+static int passing_test_invocations;
+static void passing_test(void *context)
+{
+    ++passing_test_invocations;
+}
+
 @interface CTRunSuiteTests : XCTestCase
 
 @end
@@ -17,7 +23,8 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    passing_test_invocations = 0;
 }
 
 - (void)tearDown
@@ -33,6 +40,18 @@
     size_t run_result = ct_runsuite(&suite_to_run);
     
     XCTAssertEqual(0, run_result);
+}
+
+- (void)test_ctrunsuite_InvokesPassingTests_IfValidTestcases
+{
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
+    size_t expected_invocation_count = sizeof cases / sizeof cases[0];
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(expected_invocation_count, passing_test_invocations);
 }
 
 @end
