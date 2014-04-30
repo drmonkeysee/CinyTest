@@ -48,7 +48,7 @@ static void run_testcase(const struct ct_testcase *test_case, size_t index)
         test_case->test(NULL);
         printf("[\u2714] - '%s' success\n", test_case->name);
     } else {
-        printf("[?] - ignored test at index %zu (NULL function pointer detected)\n", index);
+        printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
     }
 }
 
