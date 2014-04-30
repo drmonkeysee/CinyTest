@@ -8,7 +8,7 @@
 
 #include "ciny.h"
 
-void maketest_faketest(void *context)
+static void maketest_faketest(void *context)
 {
     // do nothing
 }

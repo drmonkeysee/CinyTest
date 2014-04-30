@@ -8,17 +8,17 @@
 
 #include "ciny.h"
 
-void makesuite_fakesetup(void **context)
+static void makesuite_fakesetup(void **context)
 {
     // do nothing
 }
 
-void makesuite_faketeardown(void **context)
+static void makesuite_faketeardown(void **context)
 {
     // do nothing
 }
 
-struct ct_testsuite fakesuite_function(void)
+static struct ct_testsuite fakesuite_function(void)
 {
     return ct_makesuite(NULL);
 }
