@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Monkey Bits. All rights reserved.
 //
 
-#import "ciny.h"
+#include "ciny.h"
 
 static int passing_test_invocations;
 static void passing_test(void *context)
