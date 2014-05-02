@@ -44,8 +44,11 @@ static void passing_test(void *context)
     }
 }
 
+static size_t setup_invocations;
 static void test_setup(void **context)
 {
+    ++setup_invocations;
+    
     fake_context = calloc(1, sizeof *fake_context);
     fake_context->setup_calls = 1;
     *context = fake_context;
@@ -61,14 +64,13 @@ static void test_setup(void **context)
     
     fake_context = NULL;
     passing_test_invocations = 0;
+    setup_invocations = 0;
 }
 
 - (void)tearDown
 {
     test_class = NULL;
-    if (fake_context) {
-        free(fake_context);
-    }
+    free(fake_context);
     
     [super tearDown];
 }
@@ -114,8 +116,10 @@ static void test_setup(void **context)
     size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0, run_result);
+    XCTAssertEqual(3, setup_invocations);
+    XCTAssertFalse(fake_context == NULL);
     XCTAssertEqual(1, fake_context->setup_calls);
-    XCTAssertEqual(3, fake_context->test_calls);
+    XCTAssertEqual(1, fake_context->test_calls);
     XCTAssertEqual(0, fake_context->teardown_calls);
 }
 

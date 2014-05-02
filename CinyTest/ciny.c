@@ -42,10 +42,10 @@ static void print_runfooter(const struct ct_testsuite *suite, const time_t * res
     printf("=====- CinyTest End -=====\n");
 }
 
-static void run_testcase(const struct ct_testcase *test_case, size_t index)
+static void run_testcase(const struct ct_testcase *test_case, size_t index, void *test_context)
 {
     if (test_case->test) {
-        test_case->test(NULL);
+        test_case->test(test_context);
         printf("[\u2714] - '%s' success\n", test_case->name);
     } else {
         printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
@@ -58,7 +58,11 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     print_runheader(suite, &start_time);
     
     for (size_t i = 0; i < suite->count; ++i) {
-        run_testcase(&suite->tests[i], i);
+        void *test_context = NULL;
+        if (suite->setup) {
+            suite->setup(&test_context);
+        }
+        run_testcase(&suite->tests[i], i, test_context);
     }
     
     time_t end_time = time(NULL);
