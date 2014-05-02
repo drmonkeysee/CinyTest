@@ -38,4 +38,3 @@ Ran count tests (seconds): x passed, x failed, x ignored.
 
 ## TODO
 
-- remove Monkey Bits copyright (just made that name up and i hold no actual trademark on that name) (use my name or dr monkeysee?)
