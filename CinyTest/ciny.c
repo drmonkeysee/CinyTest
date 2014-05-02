@@ -57,6 +57,11 @@ static void run_testcase(const struct ct_testcase *test_case, size_t index, void
     }
 }
 
+static void print_assertion_failure(const char *file, int line, const char *failure)
+{
+    printf("%s L.%d : %s\n", file, line, failure);
+}
+
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     time_t start_time = time(NULL);
@@ -77,4 +82,9 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     print_runfooter(suite, &start_time, &end_time);
     
     return 0;
+}
+
+void ct_assertfail_full(const char *file, int line)
+{
+    print_assertion_failure(file, line, "failure asserted");
 }
