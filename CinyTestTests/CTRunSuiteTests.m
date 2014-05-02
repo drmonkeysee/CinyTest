@@ -30,26 +30,26 @@ static struct testcontext *fake_context;
 
 static void passing_test(void *context)
 {
-    CTRunSuiteTests *testInstance = (__bridge CTRunSuiteTests *)(test_class);
-    ++testInstance.passingTestInvocations;
+    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(test_class);
+    ++testObject.passingTestInvocations;
     
     if (context) {
-        if (testInstance.testContextIsNull) {
-            testInstance.testContextIsNull = NO;
+        if (testObject.testContextIsNull) {
+            testObject.testContextIsNull = NO;
         } else {
             ++((struct testcontext *)context)->test_calls;
         }
     } else {
-        if (!testInstance.testContextIsNull) {
-            testInstance.testContextIsNull = YES;
+        if (!testObject.testContextIsNull) {
+            testObject.testContextIsNull = YES;
         }
     }
 }
 
 static void test_setup(void **context)
 {
-    CTRunSuiteTests *testInstance = (__bridge CTRunSuiteTests *)(test_class);
-    ++testInstance.setupInvocations;
+    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(test_class);
+    ++testObject.setupInvocations;
     
     fake_context = calloc(1, sizeof *fake_context);
     fake_context->setup_calls = 1;
@@ -58,18 +58,18 @@ static void test_setup(void **context)
 
 static void test_teardown(void **context)
 {
-    CTRunSuiteTests *testInstance = (__bridge CTRunSuiteTests *)(test_class);
-    ++testInstance.teardownInvocations;
+    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(test_class);
+    ++testObject.teardownInvocations;
     
     if (*context) {
-        if (testInstance.testContextIsNull) {
-            testInstance.testContextIsNull = NO;
+        if (testObject.testContextIsNull) {
+            testObject.testContextIsNull = NO;
         } else {
             ++((struct testcontext *)*context)->teardown_calls;
         }
     } else {
-        if (!testInstance.testContextIsNull) {
-            testInstance.testContextIsNull = YES;
+        if (!testObject.testContextIsNull) {
+            testObject.testContextIsNull = YES;
         }
     }
 }
@@ -81,7 +81,6 @@ static void test_teardown(void **context)
     [super setUp];
     
     test_class = (__bridge void *)(self);
-    
     fake_context = NULL;
 }
 
