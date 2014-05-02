@@ -38,3 +38,4 @@ Ran count tests (seconds): x passed, x failed, x ignored.
 
 ## TODO
 
+- does setup/teardown error count as test failure?
