@@ -16,7 +16,7 @@
 
 static void *test_class;
 
-static int passing_test_invocations;
+static size_t passing_test_invocations;
 static void passing_test(void *context)
 {
     ++passing_test_invocations;

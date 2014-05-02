@@ -29,8 +29,8 @@ typedef void (*ct_setupteardown_function)(void **);
  A named function that executes a single unit test.
  */
 struct ct_testcase {
-    const char * const name;        /**< The function name of the test. */
-    const ct_test_function test;    /**< The test function. */
+    const char *name;       /**< The function name of the test. */
+    ct_test_function test;  /**< The test function. */
 };
 
 /**
@@ -56,11 +56,11 @@ inline struct ct_testcase ct_maketest_full(const char *name, ct_test_function te
  A named collection of test cases with optional setup and teardown functions.
  */
 struct ct_testsuite {
-    const char * const name;                    /**< The name of the test suite. */
-    const struct ct_testcase * const tests;     /**< The collection of tests to run. */
-    const size_t count;                         /**< The number of tests to be run. */
-    const ct_setupteardown_function setup;      /**< The test setup function. Run before each test case. May be NULL. */
-    const ct_setupteardown_function teardown;   /**< The test teardown function. Runs after each test case. May be NULL. */
+    const char *name;                       /**< The name of the test suite. */
+    struct ct_testcase *tests;              /**< The collection of tests to run. */
+    size_t count;                           /**< The number of tests to be run. */
+    ct_setupteardown_function setup;        /**< The test setup function. Run before each test case. May be NULL. */
+    ct_setupteardown_function teardown;     /**< The test teardown function. Runs after each test case. May be NULL. */
 };
 
 /**
