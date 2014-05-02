@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#include <stddef.h>
 #include "ciny.h"
 
 static void makesuite_fakesetup(void **context)

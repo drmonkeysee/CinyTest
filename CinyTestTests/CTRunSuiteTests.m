@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#include <stddef.h>
+#include <stdlib.h>
 #include "ciny.h"
 
 @interface CTRunSuiteTests : XCTestCase
