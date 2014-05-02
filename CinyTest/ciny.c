@@ -19,9 +19,14 @@ static const char * const InvalidDateFormat = "Invalid Date (formatted output ma
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 
+static void print_delimiter(const char *message)
+{
+    printf("====-- CinyTest %s --====\n", message);
+}
+
 static void print_runheader(const struct ct_testsuite *suite, const time_t *start_time)
 {
-    printf("=====- CinyTest Run -=====\n");
+    print_delimiter("Run");
     
     char formatted_datetime[DATE_FORMAT_LENGTH];
     size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(start_time));
@@ -39,7 +44,7 @@ static void print_runfooter(const struct ct_testsuite *suite, const time_t * res
     double elapsed_time = difftime(*start_time, *end_time);
     printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, 0lu, 0lu, 0lu);
     
-    printf("=====- CinyTest End -=====\n");
+    print_delimiter("End");
 }
 
 static void run_testcase(const struct ct_testcase *test_case, size_t index, void *test_context)
