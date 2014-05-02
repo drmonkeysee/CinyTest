@@ -174,7 +174,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Monkey Bits";
+				ORGANIZATIONNAME = "Brandon Stansbury";
 				TargetAttributes = {
 					02EE6D5618FA3AC700E5A8D7 = {
 						TestTargetID = 02EE6D4618FA39A500E5A8D7;
