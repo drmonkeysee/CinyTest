@@ -63,6 +63,9 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
             suite->setup(&test_context);
         }
         run_testcase(&suite->tests[i], i, test_context);
+        if (suite->teardown) {
+            suite->teardown(&test_context);
+        }
     }
     
     time_t end_time = time(NULL);
