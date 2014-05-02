@@ -16,16 +16,39 @@
 
 @end
 
+struct testcontext {
+    size_t setup_calls;
+    size_t test_calls;
+    size_t teardown_calls;
+};
+
 static void *test_class;
+static struct testcontext *fake_context;
 
 static size_t passing_test_invocations;
 static void passing_test(void *context)
 {
     ++passing_test_invocations;
+    
     CTRunSuiteTests *testInstance = (__bridge CTRunSuiteTests *)(test_class);
-    if (context && testInstance.testContextIsNull) {
-        testInstance.testContextIsNull = NO;
+    if (context) {
+        if (testInstance.testContextIsNull) {
+            testInstance.testContextIsNull = NO;
+        } else {
+            ++((struct testcontext *)context)->test_calls;
+        }
+    } else {
+        if (!testInstance.testContextIsNull) {
+            testInstance.testContextIsNull = YES;
+        }
     }
+}
+
+static void test_setup(void **context)
+{
+    fake_context = calloc(1, sizeof *fake_context);
+    fake_context->setup_calls = 1;
+    *context = fake_context;
 }
 
 @implementation CTRunSuiteTests
@@ -36,12 +59,16 @@ static void passing_test(void *context)
     
     test_class = (__bridge void *)(self);
     
+    fake_context = NULL;
     passing_test_invocations = 0;
 }
 
 - (void)tearDown
 {
     test_class = NULL;
+    if (fake_context) {
+        free(fake_context);
+    }
     
     [super tearDown];
 }
@@ -66,9 +93,9 @@ static void passing_test(void *context)
     XCTAssertEqual(3, passing_test_invocations);
 }
 
-- (void)test_ctrunsuite_PassesNullTestContext_IfNoSetupMethod
+- (void)test_ctrunsuite_DoesNotCreateTestContext_IfNoSetupMethod
 {
-    self.testContextIsNull = YES;
+    self.testContextIsNull = NO;
     struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
@@ -76,6 +103,20 @@ static void passing_test(void *context)
     
     XCTAssertEqual(0, run_result);
     XCTAssertTrue(self.testContextIsNull);
+    XCTAssertTrue(fake_context == NULL, "Fake test context unexpectedly set to non-null memory");
+}
+
+- (void)test_ctrunsuite_CreatesTestContext_IfGivenSetupMethod
+{
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
+    struct ct_testsuite suite = ct_makesuite_setup(cases, test_setup);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(1, fake_context->setup_calls);
+    XCTAssertEqual(3, fake_context->test_calls);
+    XCTAssertEqual(0, fake_context->teardown_calls);
 }
 
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcase
