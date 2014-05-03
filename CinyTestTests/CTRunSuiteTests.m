@@ -17,17 +17,14 @@
 @property (nonatomic, assign) NSUInteger failingTestInvocations;
 @property (nonatomic, assign) NSUInteger setupInvocations;
 @property (nonatomic, assign) NSUInteger teardownInvocations;
+@property (nonatomic, assign) NSUInteger testSawContext;
+@property (nonatomic, assign) NSUInteger teardownSawContext;
 
 @end
 
-struct testcontext {
-    size_t setup_calls;
-    size_t test_calls;
-    size_t teardown_calls;
-};
-
 static void *TestClass;
-static struct testcontext *FakeContext;
+static int *FakeContext;
+static const int FakeContextValue = 8;
 
 static void passing_test(void *context)
 {
@@ -37,8 +34,8 @@ static void passing_test(void *context)
     if (context) {
         if (testObject.testContextIsNull) {
             testObject.testContextIsNull = NO;
-        } else {
-            ++((struct testcontext *)context)->test_calls;
+        } else if (*((int *)context) == FakeContextValue) {
+            ++testObject.testSawContext;
         }
     } else {
         if (!testObject.testContextIsNull) {
@@ -55,8 +52,8 @@ static void failing_test(void *context)
     if (context) {
         if (testObject.testContextIsNull) {
             testObject.testContextIsNull = NO;
-        } else {
-            ++((struct testcontext *)context)->test_calls;
+        } else if (*((int *)context) == FakeContextValue) {
+            ++testObject.testSawContext;
         }
     } else {
         if (!testObject.testContextIsNull) {
@@ -72,8 +69,8 @@ static void test_setup(void **context)
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.setupInvocations;
     
-    FakeContext = calloc(1, sizeof *FakeContext);
-    FakeContext->setup_calls = 1;
+    FakeContext = malloc(sizeof *FakeContext);
+    *FakeContext = FakeContextValue;
     *context = FakeContext;
 }
 
@@ -85,8 +82,8 @@ static void test_teardown(void **context)
     if (*context) {
         if (testObject.testContextIsNull) {
             testObject.testContextIsNull = NO;
-        } else {
-            ++((struct testcontext *)*context)->teardown_calls;
+        } else if (*((int *)*context) == FakeContextValue) {
+            ++testObject.teardownSawContext;
         }
     } else {
         if (!testObject.testContextIsNull) {
@@ -144,6 +141,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(0, run_result);
     XCTAssertTrue(self.testContextIsNull);
     XCTAssertTrue(FakeContext == NULL);
+    XCTAssertEqual(0, self.testSawContext);
 }
 
 - (void)test_ctrunsuite_CreatesTestContext_IfGivenSetupMethod
@@ -156,9 +154,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(3, self.setupInvocations);
     XCTAssertEqual(3, self.passingTestInvocations);
-    XCTAssertEqual(1, FakeContext->setup_calls);
-    XCTAssertEqual(1, FakeContext->test_calls);
-    XCTAssertEqual(0, FakeContext->teardown_calls);
+    XCTAssertEqual(3, self.testSawContext);
 }
 
 - (void)test_ctrunsuite_PassesContextToTeardown_IfSetupAndTeardownMethod
@@ -172,9 +168,8 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, self.setupInvocations);
     XCTAssertEqual(3, self.passingTestInvocations);
     XCTAssertEqual(3, self.teardownInvocations);
-    XCTAssertEqual(1, FakeContext->setup_calls);
-    XCTAssertEqual(1, FakeContext->test_calls);
-    XCTAssertEqual(1, FakeContext->teardown_calls);
+    XCTAssertEqual(3, self.testSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_GivesTeardownNullContext_IfTeardownButNoSetup
@@ -191,6 +186,8 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, self.teardownInvocations);
     XCTAssertTrue(self.testContextIsNull);
     XCTAssertTrue(FakeContext == NULL);
+    XCTAssertEqual(0, self.testSawContext);
+    XCTAssertEqual(0, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcase
@@ -215,9 +212,8 @@ static void test_teardown(void **context)
     XCTAssertEqual(2, self.setupInvocations);
     XCTAssertEqual(2, self.passingTestInvocations);
     XCTAssertEqual(2, self.teardownInvocations);
-    XCTAssertEqual(1, FakeContext->setup_calls);
-    XCTAssertEqual(1, FakeContext->test_calls);
-    XCTAssertEqual(1, FakeContext->teardown_calls);
+    XCTAssertEqual(2, self.testSawContext);
+    XCTAssertEqual(2, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_ReturnsFailureCount_IfOneTestFails
@@ -255,6 +251,8 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, run_result);
     XCTAssertTrue(self.testContextIsNull);
     XCTAssertTrue(FakeContext == NULL);
+    XCTAssertEqual(0, self.testSawContext);
+    XCTAssertEqual(0, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_PassesContextToTests_IfOneFailingTest
@@ -269,9 +267,8 @@ static void test_teardown(void **context)
     XCTAssertEqual(1, self.failingTestInvocations);
     XCTAssertEqual(2, self.passingTestInvocations);
     XCTAssertEqual(2, self.teardownInvocations);
-    XCTAssertEqual(1, FakeContext->setup_calls);
-    XCTAssertEqual(1, FakeContext->test_calls);
-    XCTAssertEqual(1, FakeContext->teardown_calls);
+    XCTAssertEqual(3, self.testSawContext);
+    XCTAssertEqual(2, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_PassesContextToTests_IfAllFailingTests
@@ -286,9 +283,8 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, self.failingTestInvocations);
     XCTAssertEqual(0, self.passingTestInvocations);
     XCTAssertEqual(0, self.teardownInvocations);
-    XCTAssertEqual(1, FakeContext->setup_calls);
-    XCTAssertEqual(1, FakeContext->test_calls);
-    XCTAssertEqual(0, FakeContext->teardown_calls);
+    XCTAssertEqual(3, self.testSawContext);
+    XCTAssertEqual(0, self.teardownSawContext);
 }
 
 @end
