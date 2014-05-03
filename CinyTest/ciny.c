@@ -79,22 +79,24 @@ static void print_assertstate(const struct assert_state *assert_state, const str
 
 static void run_testcase(const struct ct_testsuite *test_suite, size_t index)
 {
+    struct ct_testcase *test_case = &test_suite->tests[index];
+    if (!test_case->test) {
+        printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
+        return;
+    }
+    
     void *test_context = NULL;
     if (test_suite->setup) {
         test_suite->setup(&test_context);
     }
     
-    struct ct_testcase *test_case = &test_suite->tests[index];
-    if (test_case->test) {
-        test_case->test(test_context);
-        printf("[\u2714] - '%s' success\n", test_case->name);
-    } else {
-        printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
-    }
+    test_case->test(test_context);
     
     if (test_suite->teardown) {
         test_suite->teardown(&test_context);
     }
+    
+    printf("[\u2714] - '%s' success\n", test_case->name);
 }
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
