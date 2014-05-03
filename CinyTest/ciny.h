@@ -124,6 +124,6 @@ inline struct ct_testsuite ct_makesuite_full(const char *name,
 size_t ct_runsuite(const struct ct_testsuite *);
 
 #define ct_assertfail(...) (ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__))
-void ct_assertfail_full(const char *, int, const char *, ...);
+_Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
 
 #endif

@@ -122,7 +122,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     return failure_count;
 }
 
-void ct_assertfail_full(const char *file, int line, const char *format, ...)
+_Noreturn void ct_assertfail_full(const char *file, int line, const char *format, ...)
 {
     CurrentAssertState.file = file;
     CurrentAssertState.line = line;
