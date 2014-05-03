@@ -131,10 +131,10 @@ _Noreturn void ct_assertfail_full(const char *file, int line, const char *format
     va_list format_args;
     va_start(format_args, format);
     if (vsnprintf(CurrentAssertState.message, ASSERTMESSAGE_LENGTH, format, format_args) >= ASSERTMESSAGE_LENGTH) {
-        static const char * const Ellipsis = "\u2026";
-        size_t ellipsis_length = strlen(Ellipsis);
+        static const char * const ellipsis = "\u2026";
+        size_t ellipsis_length = strlen(ellipsis);
         CurrentAssertState.message[ASSERTMESSAGE_LENGTH - 1 - ellipsis_length] = '\0';
-        strcat(CurrentAssertState.message, Ellipsis);
+        strcat(CurrentAssertState.message, ellipsis);
     }
     va_end(format_args);
     
