@@ -10,7 +10,6 @@
 #define CinyTest_ciny_h
 
 #include <stddef.h>
-#include <stdio.h>
 
 /**
  Type definition for a unit test function.
@@ -124,15 +123,7 @@ inline struct ct_testsuite ct_makesuite_full(const char *name,
  */
 size_t ct_runsuite(const struct ct_testsuite *);
 
-#define ct_format_assert(assert_statement, ...) \
-            do { \
-                assert_statement; \
-                if (printf("" __VA_ARGS__)) { \
-                    printf("\n"); \
-                } \
-            } while (0)
-
-#define ct_assertfail(...) ct_format_assert(ct_assertfail_full(__FILE__, __LINE__), __VA_ARGS__)
-void ct_assertfail_full(const char *file, int line);
+#define ct_assertfail(...) (ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__))
+void ct_assertfail_full(const char *, int, const char *, ...);
 
 #endif
