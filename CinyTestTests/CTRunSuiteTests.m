@@ -261,4 +261,21 @@ static void test_teardown(void **context)
     XCTAssertEqual(1, FakeContext->teardown_calls);
 }
 
+- (void)test_ctrunsuite_PassesContextToTests_IfAllFailingTests
+{
+    struct ct_testcase cases[] = { ct_maketest(failing_test_nomessage), ct_maketest(failing_test_nomessage), ct_maketest(failing_test_nomessage) };
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(3, run_result);
+    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(3, self.failingTestInvocations);
+    XCTAssertEqual(0, self.passingTestInvocations);
+    XCTAssertEqual(0, self.teardownInvocations);
+    XCTAssertEqual(1, FakeContext->setup_calls);
+    XCTAssertEqual(1, FakeContext->test_calls);
+    XCTAssertEqual(0, FakeContext->teardown_calls);
+}
+
 @end
