@@ -9,11 +9,24 @@
 #include <stddef.h>
 #include <time.h>
 #include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+#include <setjmp.h>
 #include "ciny.h"
 
 #define DATE_FORMAT_LENGTH 30
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
+
+#define ASSERTMESSAGE_LENGTH 1000
+struct assert_state {
+    const char *file;
+    int line;
+    const char *failure;
+    char message[ASSERTMESSAGE_LENGTH];
+};
+static struct assert_state CurrentAssertState;
+static jmp_buf AssertBreak;
 
 // call sites for inline functions
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
@@ -47,44 +60,81 @@ static void print_runfooter(const struct ct_testsuite *suite, const time_t * res
     print_delimiter("End");
 }
 
-static void run_testcase(const struct ct_testcase *test_case, size_t index, void *test_context)
+static void reset_assertstate(struct assert_state *assert_state)
 {
+    assert_state->file = NULL;
+    assert_state->line = 0;
+    assert_state->failure = NULL;
+    assert_state->message[0] = '\0';
+}
+
+static void print_assertstate(const struct assert_state *assert_state, const struct ct_testcase *current_test)
+{
+    printf("[\u2718] - '%s' failure\n", current_test->name);
+    printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->failure);
+    if (printf("%s", assert_state->message)) {
+        printf("\n");
+    }
+}
+
+static void run_testcase(const struct ct_testsuite *test_suite, size_t index)
+{
+    void *test_context = NULL;
+    if (test_suite->setup) {
+        test_suite->setup(&test_context);
+    }
+    
+    struct ct_testcase *test_case = &test_suite->tests[index];
     if (test_case->test) {
         test_case->test(test_context);
         printf("[\u2714] - '%s' success\n", test_case->name);
     } else {
         printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
     }
-}
-
-static void print_assertion_failure(const char *file, int line, const char *failure)
-{
-    printf("%s L.%d : %s\n", file, line, failure);
+    
+    if (test_suite->teardown) {
+        test_suite->teardown(&test_context);
+    }
 }
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
+    size_t failure_count = 0;
     time_t start_time = time(NULL);
     print_runheader(suite, &start_time);
     
     for (size_t i = 0; i < suite->count; ++i) {
-        void *test_context = NULL;
-        if (suite->setup) {
-            suite->setup(&test_context);
-        }
-        run_testcase(&suite->tests[i], i, test_context);
-        if (suite->teardown) {
-            suite->teardown(&test_context);
+        reset_assertstate(&CurrentAssertState);
+        
+        if (setjmp(AssertBreak)) {
+            ++failure_count;
+            print_assertstate(&CurrentAssertState, &suite->tests[i]);
+        } else {
+            run_testcase(suite, i);
         }
     }
     
     time_t end_time = time(NULL);
     print_runfooter(suite, &start_time, &end_time);
     
-    return 0;
+    return failure_count;
 }
 
-void ct_assertfail_full(const char *file, int line)
+void ct_assertfail_full(const char *file, int line, const char *format, ...)
 {
-    print_assertion_failure(file, line, "failure asserted");
+    CurrentAssertState.file = file;
+    CurrentAssertState.line = line;
+    CurrentAssertState.failure = "failure asserted";
+    
+    va_list format_args;
+    va_start(format_args, format);
+    if (vsnprintf(CurrentAssertState.message, ASSERTMESSAGE_LENGTH, format, format_args) >= ASSERTMESSAGE_LENGTH) {
+        static const char * const Ellipsis = "\u2026";
+        size_t ellipsis_length = strlen(Ellipsis);
+        CurrentAssertState.message[ASSERTMESSAGE_LENGTH - 1 - ellipsis_length] = '\0';
+        strcat(CurrentAssertState.message, Ellipsis);
+    }
+    va_end(format_args);
+    
+    longjmp(AssertBreak, 1);
 }
