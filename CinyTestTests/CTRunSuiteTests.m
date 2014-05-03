@@ -47,7 +47,7 @@ static void passing_test(void *context)
     }
 }
 
-static void failing_test_nomessage(void *context)
+static void failing_test(void *context)
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.failingTestInvocations;
@@ -222,7 +222,7 @@ static void test_teardown(void **context)
 
 - (void)test_ctrunsuite_ReturnsFailureCount_IfOneTestFails
 {
-    struct ct_testcase cases[] = { ct_maketest(failing_test_nomessage), ct_maketest(passing_test), ct_maketest(passing_test) };
+    struct ct_testcase cases[] = { ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -234,7 +234,7 @@ static void test_teardown(void **context)
 
 - (void)test_ctrunsuite_ReturnsFailureCount_IfAllTestsFail
 {
-    struct ct_testcase cases[] = { ct_maketest(failing_test_nomessage), ct_maketest(failing_test_nomessage), ct_maketest(failing_test_nomessage) };
+    struct ct_testcase cases[] = { ct_maketest(failing_test), ct_maketest(failing_test), ct_maketest(failing_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -244,9 +244,22 @@ static void test_teardown(void **context)
     XCTAssertEqual(0, self.passingTestInvocations);
 }
 
+- (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsFailWithNoSetupOrTeardown
+{
+    self.testContextIsNull = NO;
+    struct ct_testcase cases[] = { ct_maketest(failing_test), ct_maketest(failing_test), ct_maketest(failing_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(3, run_result);
+    XCTAssertTrue(self.testContextIsNull);
+    XCTAssertTrue(FakeContext == NULL);
+}
+
 - (void)test_ctrunsuite_PassesContextToTests_IfOneFailingTest
 {
-    struct ct_testcase cases[] = { ct_maketest(failing_test_nomessage), ct_maketest(passing_test), ct_maketest(passing_test) };
+    struct ct_testcase cases[] = { ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
     struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
     size_t run_result = ct_runsuite(&suite);
@@ -263,7 +276,7 @@ static void test_teardown(void **context)
 
 - (void)test_ctrunsuite_PassesContextToTests_IfAllFailingTests
 {
-    struct ct_testcase cases[] = { ct_maketest(failing_test_nomessage), ct_maketest(failing_test_nomessage), ct_maketest(failing_test_nomessage) };
+    struct ct_testcase cases[] = { ct_maketest(failing_test), ct_maketest(failing_test), ct_maketest(failing_test) };
     struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
     size_t run_result = ct_runsuite(&suite);
