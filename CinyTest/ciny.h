@@ -124,6 +124,20 @@ inline struct ct_testsuite ct_makesuite_full(const char *name,
 size_t ct_runsuite(const struct ct_testsuite *);
 
 /**
+ Mark a test as ignored.
+ To prevent possible side-effects add this assertion as the first line of the test.
+ @param message A printf-style format string with optional arguments to display when the test is ignored.
+ */
+#define ct_ignore(...) (ct_ignore_full("" __VA_ARGS__))
+/**
+ Mark a test as ignored.
+ To prevent possible side-effects add this assertion as the first line of the test.
+ @param format The printf-style format string to display when the test is ignored.
+ @param format_args Format arguments for the format string.
+ */
+_Noreturn void ct_ignore_full(const char *, ...);
+
+/**
  Assert failure unconditionally.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
