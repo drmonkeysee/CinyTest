@@ -28,6 +28,12 @@ struct assert_state {
 static struct assert_state CurrentAssertState;
 static jmp_buf AssertFired;
 
+struct run_ledger {
+    size_t passed;
+    size_t failed;
+    size_t ignored;
+};
+
 // call sites for inline functions
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
@@ -48,14 +54,14 @@ static void print_runheader(const struct ct_testsuite *suite, const time_t *star
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, const time_t * restrict start_time, const time_t * restrict end_time)
+static void print_runfooter(const struct ct_testsuite *suite, const time_t * restrict start_time, const time_t * restrict end_time, const struct run_ledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_LENGTH];
     size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     double elapsed_time = difftime(*start_time, *end_time);
-    printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, 0lu, 0lu, 0lu);
+    printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, ledger->passed, ledger->failed, ledger->ignored);
     
     print_delimiter("End");
 }
@@ -77,10 +83,11 @@ static void print_assertstate(const struct assert_state *assert_state, const str
     }
 }
 
-static void run_testcase(const struct ct_testsuite *test_suite, size_t index)
+static void run_testcase(const struct ct_testsuite *test_suite, size_t index, struct run_ledger *ledger)
 {
     struct ct_testcase *test_case = &test_suite->tests[index];
     if (!test_case->test) {
+        ++ledger->ignored;
         printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
         return;
     }
@@ -96,30 +103,31 @@ static void run_testcase(const struct ct_testsuite *test_suite, size_t index)
         test_suite->teardown(&test_context);
     }
     
+    ++ledger->passed;
     printf("[\u2714] - '%s' success\n", test_case->name);
 }
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
-    size_t failure_count = 0;
     time_t start_time = time(NULL);
     print_runheader(suite, &start_time);
     
+    struct run_ledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
         reset_assertstate(&CurrentAssertState);
         
         if (setjmp(AssertFired)) {
-            ++failure_count;
+            ++ledger.failed;
             print_assertstate(&CurrentAssertState, &suite->tests[i]);
         } else {
-            run_testcase(suite, i);
+            run_testcase(suite, i, &ledger);
         }
     }
     
     time_t end_time = time(NULL);
-    print_runfooter(suite, &start_time, &end_time);
+    print_runfooter(suite, &start_time, &end_time, &ledger);
     
-    return failure_count;
+    return ledger.failed;
 }
 
 _Noreturn void ct_assertfail_full(const char *file, int line, const char *format, ...)
