@@ -15,7 +15,6 @@
 @property (nonatomic, assign) NSUInteger passingTestInvocations;
 @property (nonatomic, assign) NSUInteger failingTestInvocations;
 @property (nonatomic, assign) NSUInteger setupInvocations;
-@property (nonatomic, assign) NSUInteger teardownInvocations;
 @property (nonatomic, assign) NSInteger testSawContext;
 @property (nonatomic, assign) NSInteger teardownSawContext;
 
@@ -25,11 +24,8 @@ static void *TestClass;
 static int *FakeContext;
 static const int FakeContextValue = 8;
 
-static void passing_test(void *context)
+static void record_testcontext_occurrence(void *context, CTRunSuiteTests *testObject)
 {
-    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
-    ++testObject.passingTestInvocations;
-    
     if (context && *((int *)context) == FakeContextValue) {
         ++testObject.testSawContext;
     } else {
@@ -37,16 +33,18 @@ static void passing_test(void *context)
     }
 }
 
+static void passing_test(void *context)
+{
+    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    ++testObject.passingTestInvocations;
+    record_testcontext_occurrence(context, testObject);
+}
+
 static void failing_test(void *context)
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.failingTestInvocations;
-    
-    if (context && *((int *)context) == FakeContextValue) {
-        ++testObject.testSawContext;
-    } else {
-        --testObject.testSawContext;
-    }
+    record_testcontext_occurrence(context, testObject);
     
     ct_assertfail();
 }
@@ -64,7 +62,6 @@ static void test_setup(void **context)
 static void test_teardown(void **context)
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
-    ++testObject.teardownInvocations;
     
     if (*context && *((int *)*context) == FakeContextValue) {
         ++testObject.teardownSawContext;
@@ -145,7 +142,6 @@ static void test_teardown(void **context)
     
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(3, self.setupInvocations);
-    XCTAssertEqual(3, self.teardownInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -159,7 +155,6 @@ static void test_teardown(void **context)
     
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(0, self.setupInvocations);
-    XCTAssertEqual(3, self.teardownInvocations);
     XCTAssertTrue(FakeContext == NULL);
     XCTAssertEqual(-3, self.testSawContext);
     XCTAssertEqual(-3, self.teardownSawContext);
@@ -186,7 +181,6 @@ static void test_teardown(void **context)
     
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(2, self.setupInvocations);
-    XCTAssertEqual(2, self.teardownInvocations);
     XCTAssertEqual(2, self.testSawContext);
     XCTAssertEqual(2, self.teardownSawContext);
 }
@@ -236,7 +230,6 @@ static void test_teardown(void **context)
     
     XCTAssertEqual(1, run_result);
     XCTAssertEqual(3, self.setupInvocations);
-    XCTAssertEqual(2, self.teardownInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(2, self.teardownSawContext);
 }
@@ -250,7 +243,6 @@ static void test_teardown(void **context)
     
     XCTAssertEqual(3, run_result);
     XCTAssertEqual(3, self.setupInvocations);
-    XCTAssertEqual(0, self.teardownInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(0, self.teardownSawContext);
 }
