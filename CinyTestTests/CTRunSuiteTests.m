@@ -14,6 +14,7 @@
 
 @property (nonatomic, assign) NSUInteger passingTestInvocations;
 @property (nonatomic, assign) NSUInteger failingTestInvocations;
+@property (nonatomic, assign) NSUInteger ignoredTestInvocations;
 @property (nonatomic, assign) NSUInteger setupInvocations;
 @property (nonatomic, assign) NSInteger testSawContext;
 @property (nonatomic, assign) NSInteger teardownSawContext;
@@ -47,6 +48,15 @@ static void failing_test(void *context)
     record_testcontext_occurrence(context, testObject);
     
     ct_assertfail();
+}
+
+static void ignored_test(void *context)
+{
+    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    ++testObject.ignoredTestInvocations;
+    record_testcontext_occurrence(context, testObject);
+    
+    ct_ignore();
 }
 
 static void test_setup(void **context)
@@ -107,6 +117,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(3, self.passingTestInvocations);
     XCTAssertEqual(0, self.failingTestInvocations);
+    XCTAssertEqual(0, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfNoSetupMethod
@@ -170,6 +181,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(0, run_result);
     XCTAssertEqual(2, self.passingTestInvocations);
     XCTAssertEqual(0, self.failingTestInvocations);
+    XCTAssertEqual(0, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcaseWithContext
@@ -180,9 +192,9 @@ static void test_teardown(void **context)
     size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0, run_result);
-    XCTAssertEqual(2, self.setupInvocations);
+    XCTAssertEqual(3, self.setupInvocations);
     XCTAssertEqual(2, self.testSawContext);
-    XCTAssertEqual(2, self.teardownSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_ReturnsFailureCount_IfOneTestFails
@@ -195,6 +207,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(1, run_result);
     XCTAssertEqual(2, self.passingTestInvocations);
     XCTAssertEqual(1, self.failingTestInvocations);
+    XCTAssertEqual(0, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_ReturnsFailureCount_IfAllTestsFail
@@ -207,6 +220,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, run_result);
     XCTAssertEqual(0, self.passingTestInvocations);
     XCTAssertEqual(3, self.failingTestInvocations);
+    XCTAssertEqual(0, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsFailWithNoSetupOrTeardown
@@ -231,7 +245,7 @@ static void test_teardown(void **context)
     XCTAssertEqual(1, run_result);
     XCTAssertEqual(3, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
-    XCTAssertEqual(2, self.teardownSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
 }
 
 - (void)test_ctrunsuite_PassesContextToTests_IfAllFailingTests
@@ -244,7 +258,71 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, run_result);
     XCTAssertEqual(3, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
-    XCTAssertEqual(0, self.teardownSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
+}
+
+- (void)test_ctrunsuite_DoesNotIncludeIgnoredTestInFailureCount_IfOneTestIgnored
+{
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(ignored_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(2, self.passingTestInvocations);
+    XCTAssertEqual(0, self.failingTestInvocations);
+    XCTAssertEqual(1, self.ignoredTestInvocations);
+}
+
+- (void)test_ctrunsuite_DoesNotIncludeIgnoredTestsInFailureCount_IfAllTestsIgnored
+{
+    struct ct_testcase cases[] = { ct_maketest(ignored_test), ct_maketest(ignored_test), ct_maketest(ignored_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(0, self.passingTestInvocations);
+    XCTAssertEqual(0, self.failingTestInvocations);
+    XCTAssertEqual(3, self.ignoredTestInvocations);
+}
+
+- (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsIgnoredWithNoSetupOrTeardown
+{
+    struct ct_testcase cases[] = { ct_maketest(ignored_test), ct_maketest(ignored_test), ct_maketest(ignored_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(FakeContext == NULL);
+    XCTAssertEqual(-3, self.testSawContext);
+}
+
+- (void)test_ctrunsuite_PassesContextToTests_IfOneIgnoredTest
+{
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(ignored_test) };
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(3, self.testSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
+}
+
+- (void)test_ctrunsuite_PassesContextToTests_IfAllIgnoredTests
+{
+    struct ct_testcase cases[] = { ct_maketest(ignored_test), ct_maketest(ignored_test), ct_maketest(ignored_test) };
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(3, self.testSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
 }
 
 @end
