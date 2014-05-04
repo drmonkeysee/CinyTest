@@ -77,37 +77,57 @@ static void reset_assertstate(struct assert_state *assert_state)
     assert_state->message[0] = '\0';
 }
 
-static void print_assertstate(const struct assert_state *assert_state, const struct ct_testcase *current_test)
+static void print_assertmessage(const char *message)
 {
-    printf("[\u2718] - '%s' failure\n", current_test->name);
-    printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->description);
-    if (printf("%s", assert_state->message)) {
+    if (printf("%s", message)) {
         printf("\n");
     }
 }
 
-static void run_testcase(const struct ct_testsuite *test_suite, size_t index, struct run_ledger *ledger)
+static void handle_assertfailure(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
 {
-    struct ct_testcase *test_case = &test_suite->tests[index];
-    if (!test_case->test) {
+    ++ledger->failed;
+    printf("[\u2718] - '%s' failure\n", testname);
+    printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->description);
+    print_assertmessage(assert_state->message);
+}
+
+static void handle_assertignore(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
+{
+    ++ledger->ignored;
+    printf("[?] - '%s' ignored\n", testname);
+    print_assertmessage(assert_state->message);
+}
+
+static void handle_assertion(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
+{
+    switch (assert_state->type) {
+        case ASSERT_FAILURE:
+            handle_assertfailure(assert_state, testname, ledger);
+            break;
+            
+        case ASSERT_IGNORE:
+            handle_assertignore(assert_state, testname, ledger);
+            break;
+            
+        default:
+            fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
+            break;
+    }
+}
+
+static void run_testcase(const struct ct_testcase *testcase, size_t index, void *testcontext, struct run_ledger *ledger)
+{
+    if (!testcase->test) {
         ++ledger->ignored;
         printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
         return;
     }
     
-    void *test_context = NULL;
-    if (test_suite->setup) {
-        test_suite->setup(&test_context);
-    }
-    
-    test_case->test(test_context);
-    
-    if (test_suite->teardown) {
-        test_suite->teardown(&test_context);
-    }
+    testcase->test(testcontext);
     
     ++ledger->passed;
-    printf("[\u2714] - '%s' success\n", test_case->name);
+    printf("[\u2714] - '%s' success\n", testcase->name);
 }
 
 #define capture_assertmessage(assert_state, format) \
@@ -137,12 +157,21 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     struct run_ledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
         reset_assertstate(&CurrentAssertState);
+        struct ct_testcase *current_test = &suite->tests[i];
+        
+        void *testcontext = NULL;
+        if (suite->setup) {
+            suite->setup(&testcontext);
+        }
         
         if (setjmp(AssertFired)) {
-            ++ledger.failed;
-            print_assertstate(&CurrentAssertState, &suite->tests[i]);
+            handle_assertion(&CurrentAssertState, current_test->name, &ledger);
         } else {
-            run_testcase(suite, i, &ledger);
+            run_testcase(current_test, i, testcontext, &ledger);
+        }
+        
+        if (suite->teardown) {
+            suite->teardown(&testcontext);
         }
     }
     
