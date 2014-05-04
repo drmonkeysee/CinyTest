@@ -116,7 +116,7 @@ static void handle_assertion(const struct assert_state *assert_state, const char
     }
 }
 
-static void run_testcase(const struct ct_testcase *testcase, size_t index, void *testcontext, struct run_ledger *ledger)
+static void run_testcase(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
 {
     if (!testcase->test) {
         ++ledger->ignored;
@@ -128,6 +128,27 @@ static void run_testcase(const struct ct_testcase *testcase, size_t index, void 
     
     ++ledger->passed;
     printf("[\u2714] - '%s' success\n", testcase->name);
+}
+
+static void run_test(size_t index, const struct ct_testsuite *suite, struct run_ledger *ledger)
+{
+    reset_assertstate(&CurrentAssertState);
+    struct ct_testcase *current_test = &suite->tests[index];
+    
+    void *testcontext = NULL;
+    if (suite->setup) {
+        suite->setup(&testcontext);
+    }
+    
+    if (setjmp(AssertFired)) {
+        handle_assertion(&CurrentAssertState, current_test->name, ledger);
+    } else {
+        run_testcase(current_test, testcontext, index, ledger);
+    }
+    
+    if (suite->teardown) {
+        suite->teardown(&testcontext);
+    }
 }
 
 #define capture_assertmessage(assert_state, format) \
@@ -156,23 +177,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     
     struct run_ledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
-        reset_assertstate(&CurrentAssertState);
-        struct ct_testcase *current_test = &suite->tests[i];
-        
-        void *testcontext = NULL;
-        if (suite->setup) {
-            suite->setup(&testcontext);
-        }
-        
-        if (setjmp(AssertFired)) {
-            handle_assertion(&CurrentAssertState, current_test->name, &ledger);
-        } else {
-            run_testcase(current_test, i, testcontext, &ledger);
-        }
-        
-        if (suite->teardown) {
-            suite->teardown(&testcontext);
-        }
+        run_test(i, suite, &ledger);
     }
     
     time_t end_time = time(NULL);

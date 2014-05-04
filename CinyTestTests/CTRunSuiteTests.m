@@ -100,9 +100,9 @@ static void test_teardown(void **context)
 
 - (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
 {
-    struct ct_testsuite suite_to_run = ct_makesuite(NULL);
+    struct ct_testsuite suite = ct_makesuite(NULL);
     
-    size_t run_result = ct_runsuite(&suite_to_run);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0, run_result);
 }
