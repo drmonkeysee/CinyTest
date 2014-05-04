@@ -26,7 +26,7 @@ struct assert_state {
     char message[ASSERTMESSAGE_LENGTH];
 };
 static struct assert_state CurrentAssertState;
-static jmp_buf AssertBreak;
+static jmp_buf AssertFired;
 
 // call sites for inline functions
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
@@ -108,7 +108,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     for (size_t i = 0; i < suite->count; ++i) {
         reset_assertstate(&CurrentAssertState);
         
-        if (setjmp(AssertBreak)) {
+        if (setjmp(AssertFired)) {
             ++failure_count;
             print_assertstate(&CurrentAssertState, &suite->tests[i]);
         } else {
@@ -138,5 +138,5 @@ _Noreturn void ct_assertfail_full(const char *file, int line, const char *format
     }
     va_end(format_args);
     
-    longjmp(AssertBreak, 1);
+    longjmp(AssertFired, 1);
 }
