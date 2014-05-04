@@ -124,15 +124,15 @@ inline struct ct_testsuite ct_makesuite_full(const char *name,
 size_t ct_runsuite(const struct ct_testsuite *);
 
 /**
- Assert failure with message.
- @param message A formatted message to display when the assertion fires.
+ Assert failure unconditionally.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
 #define ct_assertfail(...) (ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__))
 /**
- Assert failure with failure details and message.
+ Assert failure unconditionally with contextual details and message.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fires.
  @param format_args Format arguments for the format string.
  */
 _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
