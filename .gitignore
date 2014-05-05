@@ -11,3 +11,7 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 DerivedData
+
+# Project-specific
+##################
+Documentation/html/
