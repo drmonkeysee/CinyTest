@@ -30,6 +30,8 @@ struct assert_state {
 static struct assert_state CurrentAssertState;
 static jmp_buf AssertFired;
 
+#define IGNORED_TEST_GLYPH "?"
+
 struct run_ledger {
     size_t passed;
     size_t failed;
@@ -95,7 +97,7 @@ static void handle_assertfailure(const struct assert_state *assert_state, const 
 static void handle_assertignore(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
 {
     ++ledger->ignored;
-    printf("[?] - '%s' ignored\n", testname);
+    printf("[" IGNORED_TEST_GLYPH "] - '%s' ignored\n", testname);
     print_assertmessage(assert_state->message);
 }
 
@@ -120,7 +122,7 @@ static void run_testcase(const struct ct_testcase *testcase, void *testcontext, 
 {
     if (!testcase->test) {
         ++ledger->ignored;
-        printf("[?] - ignored test at index %zu (NULL function pointer found)\n", index);
+        printf("[" IGNORED_TEST_GLYPH "] - ignored test at index %zu (NULL function pointer found)\n", index);
         return;
     }
     
