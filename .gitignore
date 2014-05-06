@@ -1,3 +1,6 @@
+###########
+# Xcode
+###########
 build/
 *.pbxuser
 !default.pbxuser
@@ -12,6 +15,7 @@ xcuserdata
 *.moved-aside
 DerivedData
 
-# Project-specific
-##################
+###########
+# Project
+###########
 Documentation/html/
