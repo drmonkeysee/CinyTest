@@ -184,6 +184,19 @@ static void test_teardown(void **context)
     XCTAssertEqual(0, self.ignoredTestInvocations);
 }
 
+- (void)test_ctrunsuite_ExecutesTest_IfNullTestName
+{
+    struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest_full(NULL, passing_test), ct_maketest(passing_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(3, self.passingTestInvocations);
+    XCTAssertEqual(0, self.failingTestInvocations);
+    XCTAssertEqual(0, self.ignoredTestInvocations);
+}
+
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcaseWithContext
 {
     struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(NULL), ct_maketest(passing_test) };
