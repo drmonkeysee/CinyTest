@@ -47,24 +47,24 @@ static void print_delimiter(const char *message)
     printf("====-- CinyTest %s --====\n", message);
 }
 
-static void print_runheader(const struct ct_testsuite *suite, const time_t *start_time)
+static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
 {
     print_delimiter("Run");
     
     char formatted_datetime[DATE_FORMAT_LENGTH];
-    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(start_time));
+    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(&start_time));
     printf("Starting test suite '%s' at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, const time_t * restrict start_time, const time_t * restrict end_time, const struct run_ledger *ledger)
+static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct run_ledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_LENGTH];
-    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(end_time));
+    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
-    double elapsed_time = difftime(*start_time, *end_time);
+    double elapsed_time = difftime(start_time, end_time);
     printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, ledger->passed, ledger->failed, ledger->ignored);
     
     print_delimiter("End");
@@ -175,7 +175,7 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     time_t start_time = time(NULL);
-    print_runheader(suite, &start_time);
+    print_runheader(suite, start_time);
     
     struct run_ledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
@@ -183,7 +183,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     }
     
     time_t end_time = time(NULL);
-    print_runfooter(suite, &start_time, &end_time, &ledger);
+    print_runfooter(suite, start_time, end_time, &ledger);
     
     return ledger.failed;
 }
