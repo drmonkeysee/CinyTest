@@ -193,4 +193,42 @@ void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ..
  */
 void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, ...);
 
+/**
+ Assert whether an expression is NULL.
+ @param expression The expression to evaluate against the value NULL.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertnull(expression, ...) (ct_assertnull_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+/**
+ Assert whether the expression is NULL, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertnull
+ @param expression The expression to evaluate against the value NULL.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertnull_full(void *, const char *, const char *, int, const char *, ...);
+
+/**
+ Assert whether an expression is not NULL.
+ @param expression The expression to evaluate against the value !NULL.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertnotnull(expression, ...) (ct_assertnotnull_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+/**
+ Assert whether the expression is not NULL, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertnotnull
+ @param expression The expression to evaluate against the value !NULL.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertnotnull_full(void *, const char *, const char *, int, const char *, ...);
+
 #endif
