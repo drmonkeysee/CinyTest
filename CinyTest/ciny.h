@@ -174,4 +174,23 @@ _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
  */
 void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ...);
 
+/**
+ Assert whether an expression is false.
+ @param expression The expression to evaluate against the value false.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertfalse(expression, ...) (ct_assertfalse_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+/**
+ Assert whether the expression is false, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertfalse
+ @param expression The expression to evaluate against the value false.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, ...);
+
 #endif

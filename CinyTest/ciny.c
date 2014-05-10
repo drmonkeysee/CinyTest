@@ -244,3 +244,16 @@ void ct_asserttrue_full(_Bool expression, const char *stringized_expression, con
         longjmp(AssertFired, CurrentAssertState.type);
     }
 }
+
+void ct_assertfalse_full(_Bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+{
+    if (expression) {
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        set_assertdescription(&CurrentAssertState, "(%s) is false failed", stringized_expression);
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}
