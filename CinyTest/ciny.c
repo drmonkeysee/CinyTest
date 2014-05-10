@@ -14,7 +14,7 @@
 #include <setjmp.h>
 #include "ciny.h"
 
-#define DATE_FORMAT_SIZE 32
+#define DATE_FORMAT_SIZE 30
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 
@@ -23,8 +23,8 @@ struct assert_state {
     enum assert_type type;
     const char *file;
     int line;
-    char description[256];
-    char message[1024];
+    char description[200];
+    char message[1000];
 };
 static struct assert_state CurrentAssertState;
 static jmp_buf AssertFired;
