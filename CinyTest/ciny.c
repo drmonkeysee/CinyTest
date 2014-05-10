@@ -18,13 +18,14 @@
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 
+#define ASSERTDESCRIPTION_LENGTH 200
 #define ASSERTMESSAGE_LENGTH 1000
 enum assert_type { ASSERT_UNKNOWN, ASSERT_FAILURE, ASSERT_IGNORE };
 struct assert_state {
     enum assert_type type;
     const char *file;
     int line;
-    const char *description;
+    char description[ASSERTDESCRIPTION_LENGTH];
     char message[ASSERTMESSAGE_LENGTH];
 };
 static struct assert_state CurrentAssertState;
@@ -75,7 +76,7 @@ static void reset_assertstate(struct assert_state *assert_state)
     assert_state->type = ASSERT_UNKNOWN;
     assert_state->file = NULL;
     assert_state->line = 0;
-    assert_state->description = NULL;
+    assert_state->description[0] = '\0';
     assert_state->message[0] = '\0';
 }
 
@@ -153,6 +154,33 @@ static void run_test(size_t index, const struct ct_testsuite *suite, struct run_
     }
 }
 
+static _Bool pretty_truncate(char *str, size_t size)
+{
+    static const char * const ellipsis = "\u2026";
+    size_t ellipsis_length = strlen(ellipsis);
+    ptrdiff_t truncation_index = size - 1 - ellipsis_length;
+    
+    _Bool can_fit_ellipsis = truncation_index >= 0;
+    if (can_fit_ellipsis) {
+        str[truncation_index] = '\0';
+        strcat(str, ellipsis);
+    }
+    
+    return can_fit_ellipsis;
+}
+
+static void set_assertdescription(struct assert_state *assert_state, const char *format, ...)
+{
+    va_list format_args;
+    va_start(format_args, format);
+    int write_count = vsnprintf(assert_state->description, ASSERTDESCRIPTION_LENGTH, format, format_args);
+    va_end(format_args);
+    
+    if (write_count >= ASSERTDESCRIPTION_LENGTH) {
+        pretty_truncate(assert_state->description, ASSERTDESCRIPTION_LENGTH);
+    }
+}
+
 #define capture_assertmessage(assert_state, format) \
             do { \
                 va_list format_args; \
@@ -165,10 +193,7 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
     int write_count = vsnprintf(assert_state->message, ASSERTMESSAGE_LENGTH, format, format_args);
     
     if (write_count >= ASSERTMESSAGE_LENGTH) {
-        static const char * const ellipsis = "\u2026";
-        size_t ellipsis_length = strlen(ellipsis);
-        assert_state->message[ASSERTMESSAGE_LENGTH - 1 - ellipsis_length] = '\0';
-        strcat(assert_state->message, ellipsis);
+        pretty_truncate(assert_state->message, ASSERTMESSAGE_LENGTH);
     }
 }
 
@@ -201,8 +226,19 @@ _Noreturn void ct_assertfail_full(const char *file, int line, const char *format
     CurrentAssertState.type = ASSERT_FAILURE;
     CurrentAssertState.file = file;
     CurrentAssertState.line = line;
-    CurrentAssertState.description = "failure asserted";
+    set_assertdescription(&CurrentAssertState, "%s", "asserted unconditional failure");
     capture_assertmessage(&CurrentAssertState, format);
     
     longjmp(AssertFired, CurrentAssertState.type);
+}
+
+void ct_asserttrue_full(_Bool expression, const char *stringified_expression, const char *file, int line, const char *format, ...)
+{
+    if (!expression) {
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        set_assertdescription(&CurrentAssertState, "%s is true failed", expression);
+        capture_assertmessage(&CurrentAssertState, format);
+    }
 }

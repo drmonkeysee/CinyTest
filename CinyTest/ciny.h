@@ -132,6 +132,8 @@ size_t ct_runsuite(const struct ct_testsuite *);
 /**
  Mark a test as ignored.
  To prevent possible side-effects add this assertion as the first line of the test.
+ Not intended for direct use.
+ @see ct_ignore
  @param format The printf-style format string to display when the test is ignored.
  @param format_args Format arguments for the format string.
  */
@@ -144,11 +146,32 @@ _Noreturn void ct_ignore_full(const char *, ...);
 #define ct_assertfail(...) (ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__))
 /**
  Assert failure unconditionally with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertfail
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
  @param format The printf-style format string to display when the assertion fires.
  @param format_args Format arguments for the format string.
  */
 _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
+
+/**
+ Assert whether an expression is true.
+ @param expression The expression to evaluate against the value true.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_asserttrue(expression, ...) (ct_asserttrue_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+/**
+ Assert whether the expression is true, with contextual details and message.
+ Not intended for direct use.
+ @see ct_asserttrue
+ @param expression The expression to evaluate against the value true.
+ @param stringified_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ...);
 
 #endif
