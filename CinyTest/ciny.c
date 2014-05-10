@@ -14,19 +14,17 @@
 #include <setjmp.h>
 #include "ciny.h"
 
-#define DATE_FORMAT_LENGTH 30
+#define DATE_FORMAT_SIZE 32
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 
-#define ASSERTDESCRIPTION_LENGTH 200
-#define ASSERTMESSAGE_LENGTH 1000
 enum assert_type { ASSERT_UNKNOWN, ASSERT_FAILURE, ASSERT_IGNORE };
 struct assert_state {
     enum assert_type type;
     const char *file;
     int line;
-    char description[ASSERTDESCRIPTION_LENGTH];
-    char message[ASSERTMESSAGE_LENGTH];
+    char description[256];
+    char message[1024];
 };
 static struct assert_state CurrentAssertState;
 static jmp_buf AssertFired;
@@ -52,8 +50,8 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
 {
     print_delimiter("Run");
     
-    char formatted_datetime[DATE_FORMAT_LENGTH];
-    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(&start_time));
+    char formatted_datetime[DATE_FORMAT_SIZE];
+    size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&start_time));
     printf("Starting test suite '%s' at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     printf("Running %zu tests:\n", suite->count);
@@ -61,8 +59,8 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
 
 static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct run_ledger *ledger)
 {
-    char formatted_datetime[DATE_FORMAT_LENGTH];
-    size_t format_length = strftime(formatted_datetime, DATE_FORMAT_LENGTH, DateFormatString, localtime(&end_time));
+    char formatted_datetime[DATE_FORMAT_SIZE];
+    size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     double elapsed_time = difftime(start_time, end_time);
@@ -171,13 +169,14 @@ static _Bool pretty_truncate(char *str, size_t size)
 
 static void set_assertdescription(struct assert_state *assert_state, const char *format, ...)
 {
+    size_t description_size = sizeof assert_state->description;
     va_list format_args;
     va_start(format_args, format);
-    int write_count = vsnprintf(assert_state->description, ASSERTDESCRIPTION_LENGTH, format, format_args);
+    int write_count = vsnprintf(assert_state->description, description_size, format, format_args);
     va_end(format_args);
     
-    if (write_count >= ASSERTDESCRIPTION_LENGTH) {
-        pretty_truncate(assert_state->description, ASSERTDESCRIPTION_LENGTH);
+    if (write_count >= description_size) {
+        pretty_truncate(assert_state->description, description_size);
     }
 }
 
@@ -190,10 +189,11 @@ static void set_assertdescription(struct assert_state *assert_state, const char 
             } while (0)
 static void capture_assertmessage_full(struct assert_state *assert_state, const char *format, va_list format_args)
 {
-    int write_count = vsnprintf(assert_state->message, ASSERTMESSAGE_LENGTH, format, format_args);
+    size_t message_size = sizeof assert_state->message;
+    int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
     
-    if (write_count >= ASSERTMESSAGE_LENGTH) {
-        pretty_truncate(assert_state->message, ASSERTMESSAGE_LENGTH);
+    if (write_count >= message_size) {
+        pretty_truncate(assert_state->message, message_size);
     }
 }
 
