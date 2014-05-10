@@ -232,13 +232,15 @@ _Noreturn void ct_assertfail_full(const char *file, int line, const char *format
     longjmp(AssertFired, CurrentAssertState.type);
 }
 
-void ct_asserttrue_full(_Bool expression, const char *stringified_expression, const char *file, int line, const char *format, ...)
+void ct_asserttrue_full(_Bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (!expression) {
         CurrentAssertState.type = ASSERT_FAILURE;
         CurrentAssertState.file = file;
         CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "%s is true failed", expression);
+        set_assertdescription(&CurrentAssertState, "(%s) is true failed", stringized_expression);
         capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
     }
 }

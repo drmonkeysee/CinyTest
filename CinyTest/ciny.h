@@ -166,7 +166,7 @@ _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
  Not intended for direct use.
  @see ct_asserttrue
  @param expression The expression to evaluate against the value true.
- @param stringified_expression The string representation of the expression.
+ @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
  @param format The printf-style format string to display when the assertion fires.
