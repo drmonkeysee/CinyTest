@@ -231,4 +231,6 @@ void ct_assertnull_full(void *, const char *, const char *, int, const char *, .
  */
 void ct_assertnotnull_full(void *, const char *, const char *, int, const char *, ...);
 
+#define ct_assertequal(a, b, ...) ()
+
 #endif
