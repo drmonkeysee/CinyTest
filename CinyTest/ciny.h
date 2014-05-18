@@ -268,9 +268,9 @@ struct ct_comparable_value {
                                     long double _Complex: CT_ANNOTATE_COMPLEX, \
                                     default: CT_ANNOTATE_INVALID))
 #define check_valuetype(v) \
-                    do { \
-                        _Static_assert(valuetype_annotation((v)), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays."); \
-                    } while (0)
+            do { \
+                _Static_assert(valuetype_annotation((v)), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays."); \
+            } while (0)
 inline struct ct_comparable_value make_integral_valuetype(long long value)
 {
     struct ct_comparable_value vt = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
@@ -292,7 +292,33 @@ inline struct ct_comparable_value make_complex_valuetype(long double _Complex va
     return vt;
 }
 
-#define ct_assertequal(expected, actual, ...) ()
+/**
+ Assert whether two values are equal.
+ Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
+ @see ct_assertequalp for pointer equality.
+ @see ct_assertequalstr for string equality.
+ @param expected The expected value.
+ @param actual The actual value.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertequal(expected, actual, ...) \
+            do { \
+                ct_assertequal_full(XX, #expected, XX, #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+            } while (0)
+/**
+ Assert whether two values are equal, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertequal
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
 
 #define ct_assertequalp(expected, actual, ...) ()
 
