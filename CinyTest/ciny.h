@@ -231,6 +231,71 @@ void ct_assertnull_full(void *, const char *, const char *, int, const char *, .
  */
 void ct_assertnotnull_full(void *, const char *, const char *, int, const char *, ...);
 
-#define ct_assertequal(a, b, ...) ()
+enum ct_valuetype_annotation {
+    CT_ANNOTATE_INVALID,
+    CT_ANNOTATE_INTEGRAL,
+    CT_ANNOTATE_UNSIGNED_INTEGRAL,
+    CT_ANNOTATE_FLOATINGPOINT,
+    CT_ANNOTATE_COMPLEX
+};
+struct ct_comparable_value {
+    union {
+        long long integral_value;
+        unsigned long long uintegral_value;
+        long double floating_value;
+        long double _Complex complex_value;
+    };
+    enum ct_valuetype_annotation type;
+};
+// TODO: how do i annotate char?
+#define valuetype_annotation(v) (_Generic((v), \
+                                    signed char: CT_ANNOTATE_INTEGRAL, \
+                                    short: CT_ANNOTATE_INTEGRAL, \
+                                    int: CT_ANNOTATE_INTEGRAL, \
+                                    long: CT_ANNOTATE_INTEGRAL, \
+                                    long long: CT_ANNOTATE_INTEGRAL, \
+                                    _Bool: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                    unsigned char: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                    unsigned short: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                    unsigned int: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                    unsigned long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                    unsigned long long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                    float: CT_ANNOTATE_FLOATINGPOINT, \
+                                    double: CT_ANNOTATE_FLOATINGPOINT, \
+                                    long double: CT_ANNOTATE_FLOATINGPOINT, \
+                                    float _Complex: CT_ANNOTATE_COMPLEX, \
+                                    double _Complex: CT_ANNOTATE_COMPLEX, \
+                                    long double _Complex: CT_ANNOTATE_COMPLEX, \
+                                    default: CT_ANNOTATE_INVALID))
+#define check_valuetype(v) \
+                    do { \
+                        _Static_assert(valuetype_annotation((v)), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays."); \
+                    } while (0)
+inline struct ct_comparable_value make_integral_valuetype(long long value)
+{
+    struct ct_comparable_value vt = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
+    return vt;
+}
+inline struct ct_comparable_value make_uintegral_valuetype(unsigned long long value)
+{
+    struct ct_comparable_value vt = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
+    return vt;
+}
+inline struct ct_comparable_value make_floating_valuetype(long double value)
+{
+    struct ct_comparable_value vt = { .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
+    return vt;
+}
+inline struct ct_comparable_value make_complex_valuetype(long double _Complex value)
+{
+    struct ct_comparable_value vt = { .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
+    return vt;
+}
+
+#define ct_assertequal(expected, actual, ...) ()
+
+#define ct_assertequalp(expected, actual, ...) ()
+
+#define ct_assertequalstr(expected, actual, ...) ()
 
 #endif
