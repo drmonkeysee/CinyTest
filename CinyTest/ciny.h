@@ -39,7 +39,7 @@ struct ct_testcase {
  @param test_function The unit test function for the test case.
  @return A test case.
  */
-#define ct_maketest(test_function) (ct_maketest_full(#test_function, test_function))
+#define ct_maketest(test_function) ct_maketest_full(#test_function, (test_function))
 /**
  Make a test case with a full set of arguments.
  @param name The name of the test case.
@@ -71,7 +71,7 @@ struct ct_testsuite {
  to prevent multiple-evaluation side-effects.
  @return A test suite.
  */
-#define ct_makesuite(test_list) (ct_makesuite_setup(test_list, NULL))
+#define ct_makesuite(test_list) ct_makesuite_setup(test_list, NULL)
 /**
  Make a test suite with a setup function.
  Uses the enclosing function as the test suite name.
@@ -81,7 +81,7 @@ struct ct_testsuite {
  @param setup_function The setup function. Runs before each test case.
  @return A test suite.
  */
-#define ct_makesuite_setup(test_list, setup_function) (ct_makesuite_setup_teardown(test_list, setup_function, NULL))
+#define ct_makesuite_setup(test_list, setup_function) ct_makesuite_setup_teardown(test_list, setup_function, NULL)
 /**
  Make a test suite with a setup and teardown function.
  Uses the enclosing function as the test suite name.
@@ -93,11 +93,11 @@ struct ct_testsuite {
  @return A test suite.
  */
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
-            (ct_makesuite_full(__func__, \
-                                test_list, \
+            ct_makesuite_full(__func__, \
+                                (test_list), \
                                 ((test_list) ? (sizeof (test_list) / sizeof (test_list)[0]) : 0), \
-                                setup_function, \
-                                teardown_function))
+                                (setup_function), \
+                                (teardown_function))
 /**
  Make a test suite with a full set of arguments.
  @param name The name of the test suite.
@@ -128,7 +128,7 @@ size_t ct_runsuite(const struct ct_testsuite *);
  To prevent possible side-effects add this assertion as the first line of the test.
  @param message A printf-style format string with optional arguments to display when the test is ignored.
  */
-#define ct_ignore(...) (ct_ignore_full("" __VA_ARGS__))
+#define ct_ignore(...) ct_ignore_full("" __VA_ARGS__)
 /**
  Mark a test as ignored.
  To prevent possible side-effects add this assertion as the first line of the test.
@@ -143,7 +143,7 @@ _Noreturn void ct_ignore_full(const char *, ...);
  Assert failure unconditionally.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
-#define ct_assertfail(...) (ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__))
+#define ct_assertfail(...) ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert failure unconditionally with contextual details and message.
  Not intended for direct use.
@@ -160,7 +160,7 @@ _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
  @param expression The expression to evaluate against the value true.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
-#define ct_asserttrue(expression, ...) (ct_asserttrue_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+#define ct_asserttrue(expression, ...) ct_asserttrue_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is true, with contextual details and message.
  Not intended for direct use.
@@ -179,7 +179,7 @@ void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ..
  @param expression The expression to evaluate against the value false.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
-#define ct_assertfalse(expression, ...) (ct_assertfalse_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+#define ct_assertfalse(expression, ...) ct_assertfalse_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is false, with contextual details and message.
  Not intended for direct use.
@@ -198,7 +198,7 @@ void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, .
  @param expression The expression to evaluate against the value NULL.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
-#define ct_assertnull(expression, ...) (ct_assertnull_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+#define ct_assertnull(expression, ...) ct_assertnull_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is NULL, with contextual details and message.
  Not intended for direct use.
@@ -217,7 +217,7 @@ void ct_assertnull_full(void *, const char *, const char *, int, const char *, .
  @param expression The expression to evaluate against the value !NULL.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
-#define ct_assertnotnull(expression, ...) (ct_assertnotnull_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__))
+#define ct_assertnotnull(expression, ...) ct_assertnotnull_full((expression), #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is not NULL, with contextual details and message.
  Not intended for direct use.
@@ -248,7 +248,7 @@ struct ct_comparable_value {
     enum ct_valuetype_annotation type;
 };
 // TODO: how do i annotate char?
-#define valuetype_annotation(v) (_Generic((v), \
+#define valuetype_annotation(v) _Generic((v), \
                                     signed char: CT_ANNOTATE_INTEGRAL, \
                                     short: CT_ANNOTATE_INTEGRAL, \
                                     int: CT_ANNOTATE_INTEGRAL, \
@@ -266,11 +266,8 @@ struct ct_comparable_value {
                                     float _Complex: CT_ANNOTATE_COMPLEX, \
                                     double _Complex: CT_ANNOTATE_COMPLEX, \
                                     long double _Complex: CT_ANNOTATE_COMPLEX, \
-                                    default: CT_ANNOTATE_INVALID))
-#define check_valuetype(v) \
-            do { \
-                _Static_assert(valuetype_annotation((v)), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays."); \
-            } while (0)
+                                    default: CT_ANNOTATE_INVALID)
+#define check_valuetype(v) _Static_assert(valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays.")
 inline struct ct_comparable_value make_integral_valuetype(long long value)
 {
     struct ct_comparable_value vt = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
