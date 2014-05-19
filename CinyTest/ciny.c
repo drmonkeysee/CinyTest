@@ -197,6 +197,16 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
     }
 }
 
+static _Bool compare_valuetypes(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+{
+    return expected->type == actual->type;
+}
+
+static _Bool compare_values(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+{
+    return 0;
+}
+
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     time_t start_time = time(NULL);
@@ -278,6 +288,24 @@ void ct_assertnotnull_full(void *expression, const char *stringized_expression, 
         CurrentAssertState.file = file;
         CurrentAssertState.line = line;
         set_assertdescription(&CurrentAssertState, "(%s) is not NULL failed", stringized_expression);
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}
+
+void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+{
+    if (!compare_valuetypes(&expected, &actual)) {
+        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): (%s) type != (%s) type", stringized_expected, stringized_actual, "floating point", "integral");
+    } else if (!compare_values(&expected, &actual)) {
+        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): (%s) != (%s)", stringized_expected, stringized_actual, "12.0", "12");
+    }
+    
+    if (CurrentAssertState.description[0]) {
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
         capture_assertmessage(&CurrentAssertState, format);
         
         longjmp(AssertFired, CurrentAssertState.type);
