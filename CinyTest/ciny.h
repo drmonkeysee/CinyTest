@@ -248,46 +248,27 @@ struct ct_comparable_value {
     enum ct_valuetype_annotation type;
 };
 // TODO: how do i annotate char?
-#define valuetype_annotation(v) _Generic((v), \
-                                    signed char: CT_ANNOTATE_INTEGRAL, \
-                                    short: CT_ANNOTATE_INTEGRAL, \
-                                    int: CT_ANNOTATE_INTEGRAL, \
-                                    long: CT_ANNOTATE_INTEGRAL, \
-                                    long long: CT_ANNOTATE_INTEGRAL, \
-                                    _Bool: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                    unsigned char: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                    unsigned short: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                    unsigned int: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                    unsigned long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                    unsigned long long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                    float: CT_ANNOTATE_FLOATINGPOINT, \
-                                    double: CT_ANNOTATE_FLOATINGPOINT, \
-                                    long double: CT_ANNOTATE_FLOATINGPOINT, \
-                                    float _Complex: CT_ANNOTATE_COMPLEX, \
-                                    double _Complex: CT_ANNOTATE_COMPLEX, \
-                                    long double _Complex: CT_ANNOTATE_COMPLEX, \
-                                    default: CT_ANNOTATE_INVALID)
-#define check_valuetype(v) _Static_assert(valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays.")
-inline struct ct_comparable_value make_integral_valuetype(long long value)
-{
-    struct ct_comparable_value vt = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
-    return vt;
-}
-inline struct ct_comparable_value make_uintegral_valuetype(unsigned long long value)
-{
-    struct ct_comparable_value vt = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
-    return vt;
-}
-inline struct ct_comparable_value make_floating_valuetype(long double value)
-{
-    struct ct_comparable_value vt = { .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
-    return vt;
-}
-inline struct ct_comparable_value make_complex_valuetype(long double _Complex value)
-{
-    struct ct_comparable_value vt = { .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
-    return vt;
-}
+#define ct_valuetype_annotation(v) _Generic((v), \
+                                        signed char: CT_ANNOTATE_INTEGRAL, \
+                                        short: CT_ANNOTATE_INTEGRAL, \
+                                        int: CT_ANNOTATE_INTEGRAL, \
+                                        long: CT_ANNOTATE_INTEGRAL, \
+                                        long long: CT_ANNOTATE_INTEGRAL, \
+                                        _Bool: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                        unsigned char: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                        unsigned short: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                        unsigned int: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                        unsigned long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                        unsigned long long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
+                                        float: CT_ANNOTATE_FLOATINGPOINT, \
+                                        double: CT_ANNOTATE_FLOATINGPOINT, \
+                                        long double: CT_ANNOTATE_FLOATINGPOINT, \
+                                        float _Complex: CT_ANNOTATE_COMPLEX, \
+                                        double _Complex: CT_ANNOTATE_COMPLEX, \
+                                        long double _Complex: CT_ANNOTATE_COMPLEX, \
+                                        default: CT_ANNOTATE_INVALID)
+#define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom code with ct_asserttrue/ct_assertfalse for structs, unions, and arrays.")
+#define ct_makevalue(v, T) (struct ct_comparable_value){ (v), (T) }
 
 /**
  Assert whether two values are equal.
@@ -298,9 +279,12 @@ inline struct ct_comparable_value make_complex_valuetype(long double _Complex va
  @param actual The actual value.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
+// TODO: may need to fix up line number here
 #define ct_assertequal(expected, actual, ...) \
             do { \
-                ct_assertequal_full(XX, #expected, XX, #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+                ct_checkvalue(expected); \
+                ct_checkvalue(actual); \
+                ct_assertequal_full(ct_makevalue(expected, ct_valuetype_annotation(expected)), #expected, ct_makevalue(actual, ct_valuetype_annotation(actual)), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
             } while (0)
 /**
  Assert whether two values are equal, with contextual details and message.
