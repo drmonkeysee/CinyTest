@@ -12,6 +12,8 @@
 #include <stdarg.h>
 #include <string.h>
 #include <setjmp.h>
+#include <complex.h>
+#include <stdbool.h>
 #include "ciny.h"
 
 #define DATE_FORMAT_SIZE 30
@@ -152,13 +154,13 @@ static void run_test(size_t index, const struct ct_testsuite *suite, struct run_
     }
 }
 
-static _Bool pretty_truncate(char *str, size_t size)
+static bool pretty_truncate(char *str, size_t size)
 {
     static const char * const ellipsis = "\u2026";
     size_t ellipsis_length = strlen(ellipsis);
     ptrdiff_t truncation_index = size - 1 - ellipsis_length;
     
-    _Bool can_fit_ellipsis = truncation_index >= 0;
+    bool can_fit_ellipsis = truncation_index >= 0;
     if (can_fit_ellipsis) {
         str[truncation_index] = '\0';
         strcat(str, ellipsis);
@@ -197,14 +199,41 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
     }
 }
 
-static _Bool compare_valuetypes(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+static bool compare_valuetypes(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
 {
     return expected->type == actual->type;
 }
 
-static _Bool compare_values(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+static const char *valuetype_description(struct ct_comparable_value *value)
 {
-    return 0;
+    switch (value->type) {
+        case CT_ANNOTATE_INTEGRAL:
+            return "integral";
+        case CT_ANNOTATE_UNSIGNED_INTEGRAL:
+            return "unsigned integral";
+        case CT_ANNOTATE_FLOATINGPOINT:
+            return "floating point";
+        case CT_ANNOTATE_COMPLEX:
+            return "complex";
+        default:
+            return "invalid value";
+    }
+}
+
+static bool compare_values(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+{
+    switch (expected->type) {
+        case CT_ANNOTATE_INTEGRAL:
+            return expected->integral_value == actual->integral_value;
+        case CT_ANNOTATE_UNSIGNED_INTEGRAL:
+            return expected->uintegral_value == actual->uintegral_value;
+        case CT_ANNOTATE_FLOATINGPOINT:
+            return expected->floating_value == actual->floating_value;
+        case CT_ANNOTATE_COMPLEX:
+            return creall(expected->complex_value) == creall(actual->complex_value) && cimagl(expected->complex_value) == cimagl(actual->complex_value);
+        default:
+            return false;
+    }
 }
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
@@ -242,7 +271,7 @@ _Noreturn void ct_assertfail_full(const char *file, int line, const char *format
     longjmp(AssertFired, CurrentAssertState.type);
 }
 
-void ct_asserttrue_full(_Bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_asserttrue_full(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (!expression) {
         CurrentAssertState.type = ASSERT_FAILURE;
@@ -255,7 +284,7 @@ void ct_asserttrue_full(_Bool expression, const char *stringized_expression, con
     }
 }
 
-void ct_assertfalse_full(_Bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_assertfalse_full(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (expression) {
         CurrentAssertState.type = ASSERT_FAILURE;
@@ -297,9 +326,9 @@ void ct_assertnotnull_full(void *expression, const char *stringized_expression, 
 void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (!compare_valuetypes(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): (%s) type != (%s) type", stringized_expected, stringized_actual, "floating point", "integral");
+        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, valuetype_description(&expected), valuetype_description(&actual));
     } else if (!compare_values(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): (%s) != (%s)", stringized_expected, stringized_actual, "12.0", "12");
+        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, "12.0", "12");
     }
     
     if (CurrentAssertState.description[0]) {
