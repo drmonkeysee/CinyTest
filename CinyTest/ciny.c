@@ -258,9 +258,9 @@ static void comparablevalue_valuedescription(struct ct_comparable_value *value, 
         case CT_ANNOTATE_COMPLEX:
             i_value = cimagl(value->complex_value);
             if (i_value < 0.0) {
-                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " - i" floating_value_format(DECIMAL_DIG), creall(value->complex_value), fabsl(i_value));
+                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " - " floating_value_format(DECIMAL_DIG) "i", creall(value->complex_value), fabsl(i_value));
             } else {
-                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " + i" floating_value_format(DECIMAL_DIG), creall(value->complex_value), i_value);
+                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " + " floating_value_format(DECIMAL_DIG) "i", creall(value->complex_value), i_value);
             }
             break;
         default:
