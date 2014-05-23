@@ -14,6 +14,8 @@
 #include <setjmp.h>
 #include <complex.h>
 #include <stdbool.h>
+#include <float.h>
+#include <math.h>
 #include "ciny.h"
 
 #define DATE_FORMAT_SIZE 30
@@ -25,7 +27,7 @@ struct assert_state {
     enum assert_type type;
     const char *file;
     int line;
-    char description[200];
+    char description[300];
     char message[1000];
 };
 static struct assert_state CurrentAssertState;
@@ -199,12 +201,12 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
     }
 }
 
-static bool compare_valuetypes(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+static bool comparablevalue_comparetypes(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
 {
     return expected->type == actual->type;
 }
 
-static const char *valuetype_description(struct ct_comparable_value *value)
+static const char *comparablevalue_typedescription(struct ct_comparable_value *value)
 {
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -216,11 +218,11 @@ static const char *valuetype_description(struct ct_comparable_value *value)
         case CT_ANNOTATE_COMPLEX:
             return "complex";
         default:
-            return "invalid value";
+            return "invalid value type";
     }
 }
 
-static bool compare_values(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
 {
     switch (expected->type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -233,6 +235,41 @@ static bool compare_values(struct ct_comparable_value *expected, struct ct_compa
             return creall(expected->complex_value) == creall(actual->complex_value) && cimagl(expected->complex_value) == cimagl(actual->complex_value);
         default:
             return false;
+    }
+}
+
+#define floating_valuetoken_format(t) "%." #t "LG"
+#define floating_value_format(v) floating_valuetoken_format(v)
+static void comparablevalue_valuedescription(struct ct_comparable_value *value, char *buffer, size_t size)
+{
+    int write_count = 0;
+    long double i_value;
+    
+    switch (value->type) {
+        case CT_ANNOTATE_INTEGRAL:
+            write_count = snprintf(buffer, size, "%lld", value->integral_value);
+            break;
+        case CT_ANNOTATE_UNSIGNED_INTEGRAL:
+            write_count = snprintf(buffer, size, "%llu", value->uintegral_value);
+            break;
+        case CT_ANNOTATE_FLOATINGPOINT:
+            write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG), value->floating_value);
+            break;
+        case CT_ANNOTATE_COMPLEX:
+            i_value = cimagl(value->complex_value);
+            if (i_value < 0.0) {
+                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " - i" floating_value_format(DECIMAL_DIG), creall(value->complex_value), fabsl(i_value));
+            } else {
+                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " + i" floating_value_format(DECIMAL_DIG), creall(value->complex_value), i_value);
+            }
+            break;
+        default:
+            write_count = snprintf(buffer, size, "invalid value");
+            break;
+    }
+    
+    if (write_count >= size) {
+        pretty_truncate(buffer, size);
     }
 }
 
@@ -325,10 +362,14 @@ void ct_assertnotnull_full(void *expression, const char *stringized_expression, 
 
 void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
-    if (!compare_valuetypes(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, valuetype_description(&expected), valuetype_description(&actual));
-    } else if (!compare_values(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, "12.0", "12");
+    if (!comparablevalue_comparetypes(&expected, &actual)) {
+        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
+    } else if (!comparablevalue_comparevalues(&expected, &actual)) {
+        char valuestr_expected[100];
+        char valuestr_actual[100];
+        comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
+        comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
+        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
     }
     
     if (CurrentAssertState.description[0]) {
