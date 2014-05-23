@@ -360,13 +360,14 @@ void ct_assertnotnull_full(void *expression, const char *stringized_expression, 
     }
 }
 
+#define VALUESTR_SIZE 100
 void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (!comparablevalue_comparetypes(&expected, &actual)) {
         set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
     } else if (!comparablevalue_comparevalues(&expected, &actual)) {
-        char valuestr_expected[100];
-        char valuestr_actual[100];
+        char valuestr_expected[VALUESTR_SIZE];
+        char valuestr_actual[VALUESTR_SIZE];
         comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
         comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
         set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
