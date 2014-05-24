@@ -242,7 +242,6 @@ static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, 
 static void comparablevalue_valuedescription(struct ct_comparable_value *value, char *buffer, size_t size)
 {
     int write_count = 0;
-    long double i_value;
     
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -254,14 +253,16 @@ static void comparablevalue_valuedescription(struct ct_comparable_value *value, 
         case CT_ANNOTATE_FLOATINGPOINT:
             write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floating_value);
             break;
-        case CT_ANNOTATE_COMPLEX:
-            i_value = cimagl(value->complex_value);
-            if (i_value < 0.0) {
-                write_count = snprintf(buffer, size, "%.*Lg - %.*Lgi", DECIMAL_DIG, creall(value->complex_value), DECIMAL_DIG, fabsl(i_value));
-            } else {
-                write_count = snprintf(buffer, size, "%.*Lg + %.*Lgi", DECIMAL_DIG, creall(value->complex_value), DECIMAL_DIG, i_value);
+        case CT_ANNOTATE_COMPLEX: {
+            long double imagin_value = cimagl(value->complex_value);
+            char sign = '+';
+            if (imagin_value < 0.0) {
+                sign = '-';
+                imagin_value = fabsl(imagin_value);
             }
+            write_count = snprintf(buffer, size, "%.*Lg %c %.*Lgi", DECIMAL_DIG, creall(value->complex_value), sign, DECIMAL_DIG, imagin_value);
             break;
+        }
         default:
             write_count = snprintf(buffer, size, "invalid value");
             break;
