@@ -188,8 +188,8 @@ static void set_assertdescription(struct assert_state *assert_state, const char 
 #define capture_assertmessage(assert_state, format) \
             do { \
                 va_list format_args; \
-                va_start(format_args, (format)); \
-                capture_assertmessage_full((assert_state), (format), format_args); \
+                va_start(format_args, format); \
+                capture_assertmessage_full(assert_state, format, format_args); \
                 va_end(format_args); \
             } while (0)
 static void capture_assertmessage_full(struct assert_state *assert_state, const char *format, va_list format_args)
