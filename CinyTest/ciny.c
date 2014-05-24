@@ -239,8 +239,6 @@ static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, 
     }
 }
 
-#define floating_valuetoken_format(t) "%." #t "LG"
-#define floating_value_format(v) floating_valuetoken_format(v)
 static void comparablevalue_valuedescription(struct ct_comparable_value *value, char *buffer, size_t size)
 {
     int write_count = 0;
@@ -254,14 +252,14 @@ static void comparablevalue_valuedescription(struct ct_comparable_value *value, 
             write_count = snprintf(buffer, size, "%llu", value->uintegral_value);
             break;
         case CT_ANNOTATE_FLOATINGPOINT:
-            write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG), value->floating_value);
+            write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floating_value);
             break;
         case CT_ANNOTATE_COMPLEX:
             i_value = cimagl(value->complex_value);
             if (i_value < 0.0) {
-                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " - " floating_value_format(DECIMAL_DIG) "i", creall(value->complex_value), fabsl(i_value));
+                write_count = snprintf(buffer, size, "%.*Lg - %.*Lgi", DECIMAL_DIG, creall(value->complex_value), DECIMAL_DIG, fabsl(i_value));
             } else {
-                write_count = snprintf(buffer, size, floating_value_format(DECIMAL_DIG) " + " floating_value_format(DECIMAL_DIG) "i", creall(value->complex_value), i_value);
+                write_count = snprintf(buffer, size, "%.*Lg + %.*Lgi", DECIMAL_DIG, creall(value->complex_value), DECIMAL_DIG, i_value);
             }
             break;
         default:
