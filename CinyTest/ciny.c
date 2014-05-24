@@ -223,9 +223,9 @@ static const char *comparablevalue_typedescription(struct ct_comparable_value *v
     }
 }
 
-static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
 {
-    switch (expected->type) {
+    switch (type) {
         case CT_ANNOTATE_INTEGRAL:
             return expected->integral_value == actual->integral_value;
         case CT_ANNOTATE_UNSIGNED_INTEGRAL:
@@ -364,7 +364,7 @@ void ct_assertequal_full(struct ct_comparable_value expected, const char *string
 {
     if (!comparablevalue_comparetypes(&expected, &actual)) {
         set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
-    } else if (!comparablevalue_comparevalues(&expected, &actual)) {
+    } else if (!comparablevalue_comparevalues(&expected, &actual, expected.type)) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
         char valuestr_actual[COMPVALUE_STR_SIZE];
         comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
