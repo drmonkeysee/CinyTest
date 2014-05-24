@@ -22,12 +22,13 @@
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 
+#define COMPVALUE_STR_SIZE 75
 enum assert_type { ASSERT_UNKNOWN, ASSERT_FAILURE, ASSERT_IGNORE };
 struct assert_state {
     enum assert_type type;
     const char *file;
     int line;
-    char description[300];
+    char description[200 + (COMPVALUE_STR_SIZE * 2)];
     char message[1000];
 };
 static struct assert_state CurrentAssertState;
@@ -360,14 +361,13 @@ void ct_assertnotnull_full(void *expression, const char *stringized_expression, 
     }
 }
 
-#define VALUESTR_SIZE 100
 void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (!comparablevalue_comparetypes(&expected, &actual)) {
         set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
     } else if (!comparablevalue_comparevalues(&expected, &actual)) {
-        char valuestr_expected[VALUESTR_SIZE];
-        char valuestr_actual[VALUESTR_SIZE];
+        char valuestr_expected[COMPVALUE_STR_SIZE];
+        char valuestr_actual[COMPVALUE_STR_SIZE];
         comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
         comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
         set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
