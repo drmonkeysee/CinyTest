@@ -268,7 +268,11 @@ struct ct_comparable_value {
                                         long double _Complex: CT_ANNOTATE_COMPLEX, \
                                         default: CT_ANNOTATE_INVALID)
 #define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
-#define ct_makevalue(v, T) (struct ct_comparable_value){ v, T }
+#define ct_makevalue(v, T) ((T) == CT_ANNOTATE_INTEGRAL ? (struct ct_comparable_value){ .integral_value = v, .type = T } \
+                            : (T) == CT_ANNOTATE_UNSIGNED_INTEGRAL ? (struct ct_comparable_value){ .uintegral_value = v, .type = T } \
+                            : (T) == CT_ANNOTATE_FLOATINGPOINT ? (struct ct_comparable_value){ .floating_value = v, .type = T } \
+                            : (T) == CT_ANNOTATE_COMPLEX ? (struct ct_comparable_value){ .complex_value = v, .type = T } \
+                            : (struct ct_comparable_value){ v, CT_ANNOTATE_INVALID })
 
 /**
  Assert whether two values are equal.
