@@ -8,6 +8,7 @@
 
 #include <stddef.h>
 #include <limits.h>
+#include <float.h>
 #include "ciny.h"
 
 typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
@@ -22,7 +23,11 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_USHORT,
     TAT_UINT,
     TAT_ULONG,
-    TAT_ULONG_LONG
+    TAT_ULONG_LONG,
+    
+    TAT_FLOAT,
+    TAT_DOUBLE,
+    TAT_LDOUBLE
 };
 
 @interface CTAssertEqualTests : XCTestCase
@@ -47,6 +52,9 @@ static void *TestClass;
                                         : (T) == TAT_UINT ? ui_values[i] \
                                         : (T) == TAT_ULONG ? ul_values[i] \
                                         : ull_values[i])
+#define get_float_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
+                                    : (T) == TAT_DOUBLE ? d_values[i] \
+                                    : ld_values[i])
 
 static signed char c_values[2];
 static short s_values[2];
@@ -60,6 +68,10 @@ static unsigned short us_values[2];
 static unsigned int ui_values[2];
 static unsigned long ul_values[2];
 static unsigned long long ull_values[2];
+
+static float f_values[2];
+static double d_values[2];
+static long double ld_values[2];
 
 static void equality_test(void *context)
 {
@@ -89,6 +101,11 @@ static void equality_test(void *context)
                 case TAT_ULONG_LONG:
                     ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
                     break;
+                case TAT_FLOAT:
+                case TAT_DOUBLE:
+                case TAT_LDOUBLE:
+                    ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    break;
             }
             break;
         case TAT_BOOL:
@@ -112,6 +129,37 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                     ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_FLOAT:
+                case TAT_DOUBLE:
+                case TAT_LDOUBLE:
+                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    break;
+            }
+            break;
+        case TAT_FLOAT:
+        case TAT_DOUBLE:
+        case TAT_LDOUBLE:
+            switch (testObject.actualType) {
+                case TAT_CHAR:
+                case TAT_SHORT:
+                case TAT_INT:
+                case TAT_LONG:
+                case TAT_LONG_LONG:
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_integral_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_BOOL:
+                case TAT_UCHAR:
+                case TAT_USHORT:
+                case TAT_UINT:
+                case TAT_ULONG:
+                case TAT_ULONG_LONG:
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_FLOAT:
+                case TAT_DOUBLE:
+                case TAT_LDOUBLE:
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
                     break;
             }
             break;
@@ -430,6 +478,182 @@ static void equality_test(void *context)
     ull_values[1] = ULONG_LONG_MAX;
     self.expectedType = TAT_ULONG_LONG;
     self.actualType = TAT_ULONG_LONG;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfSameFloatTypes
+{
+    d_values[0] = 3.7832e21;
+    d_values[1] = 3.7832e21;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfDifferentFloatTypes
+{
+    f_values[0] = 7834.0;
+    ld_values[1] = 7834.0;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValues
+{
+    d_values[0] = -56.873201;
+    d_values[1] = -56.873201;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValuesWithDifferentTypes
+{
+    f_values[0] = -52.0;
+    d_values[1] = -52.0;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfZeroFloatValues
+{
+    d_values[0] = 0.0;
+    d_values[1] = 0.0;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfZeroFloatValuesWithDifferentTypes
+{
+    d_values[0] = 0.0;
+    ld_values[1] = 0.0;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfLargestFloatValue
+{
+    ld_values[0] = LDBL_MAX;
+    ld_values[1] = LDBL_MAX;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfSmallestFloatValue
+{
+    ld_values[0] = LDBL_MIN;
+    ld_values[1] = LDBL_MIN;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValues
+{
+    d_values[0] = 67.34;
+    d_values[1] = -902.435;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValuesAndTypes
+{
+    f_values[0] = 560.093;
+    ld_values[1] = -4574234e10;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxFloatValues
+{
+    ld_values[0] = LDBL_MIN;
+    ld_values[1] = LDBL_MAX;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
