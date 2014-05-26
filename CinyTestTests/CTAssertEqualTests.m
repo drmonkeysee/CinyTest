@@ -242,6 +242,8 @@ static void equality_test(void *context)
     [super tearDown];
 }
 
+#pragma mark - Integral Equality
+
 - (void)test_ctassertequal_ComparesEqual_IfSameIntegralTypes
 {
     i_values[0] = 34503;
@@ -418,6 +420,8 @@ static void equality_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
+#pragma mark - Unsigned Integral Equality
+
 - (void)test_ctassertequal_ComparesEqual_IfSameUnsignedIntegralTypes
 {
     ui_values[0] = 34503;
@@ -545,6 +549,8 @@ static void equality_test(void *context)
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
 }
+
+#pragma mark - Float Equality
 
 - (void)test_ctassertequal_ComparesEqual_IfSameFloatTypes
 {
@@ -721,6 +727,8 @@ static void equality_test(void *context)
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
 }
+
+#pragma mark - Complex Equality
 
 - (void)test_ctassertequal_ComparesEqual_IfSameComplexTypes
 {
