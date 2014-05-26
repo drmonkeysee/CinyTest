@@ -285,7 +285,6 @@ struct ct_comparable_value {
  @param actual The actual value.
  @param message A printf-style format string with optional arguments to display when the assertion fires.
  */
-// TODO: may need to fix up line number here
 #define ct_assertequal(expected, actual, ...) \
             do { \
                 ct_checkvalue(expected); \
