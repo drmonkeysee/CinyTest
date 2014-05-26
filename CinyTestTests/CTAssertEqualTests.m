@@ -970,4 +970,155 @@ static void equality_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
+#pragma mark - Type Inequality
+
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndUIntegralTypes
+{
+    i_values[0] = 20;
+    ui_values[1] = 20;
+    self.expectedType = TAT_INT;
+    self.actualType = TAT_UINT;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatTypes
+{
+    i_values[0] = 20;
+    d_values[1] = 20;
+    self.expectedType = TAT_INT;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndComplexTypes
+{
+    i_values[0] = 20;
+    dc_values[1] = CMPLX(20, 0.0);
+    self.expectedType = TAT_INT;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatTypes
+{
+    ui_values[0] = 20;
+    d_values[1] = 20;
+    self.expectedType = TAT_UINT;
+    self.actualType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndComplexTypes
+{
+    ui_values[0] = 20;
+    dc_values[1] = CMPLX(20, 0.0);
+    self.expectedType = TAT_UINT;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfFloatAndComplexTypes
+{
+    d_values[0] = 20;
+    dc_values[1] = CMPLX(20, 0.0);
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+#pragma mark - Bit Pattern Inequality
+
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndUIntegralIdenticalBitPattern
+{
+    _Static_assert(sizeof(int) == sizeof(unsigned int), "int and uint not equal sizes; this test needs to be adjusted to use different types");
+    i_values[0] = -1046478848;
+    ui_values[1] = 3248488448;
+    self.expectedType = TAT_INT;
+    self.actualType = TAT_UINT;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatIdenticalBitPattern
+{
+    _Static_assert(sizeof(int) == sizeof(float), "int and float not equal sizes; this test needs to be adjusted to use different types");
+    i_values[0] = -1046478848;
+    f_values[1] = -2.0e1;
+    self.expectedType = TAT_INT;
+    self.actualType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatIdenticalBitPattern
+{
+    _Static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
+    ui_values[0] = 3248488448;
+    f_values[1] = -2.0e1;
+    self.expectedType = TAT_UINT;
+    self.actualType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
 @end
