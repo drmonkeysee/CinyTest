@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <limits.h>
 #include <float.h>
+#include <complex.h>
 #include "ciny.h"
 
 typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
@@ -27,7 +28,11 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     
     TAT_FLOAT,
     TAT_DOUBLE,
-    TAT_LDOUBLE
+    TAT_LDOUBLE,
+    
+    TAT_FCOMPLEX,
+    TAT_COMPLEX,
+    TAT_LCOMPLEX
 };
 
 @interface CTAssertEqualTests : XCTestCase
@@ -55,6 +60,9 @@ static void *TestClass;
 #define get_float_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
                                     : (T) == TAT_DOUBLE ? d_values[i] \
                                     : ld_values[i])
+#define get_complex_test_arg(T, i) ((T) == TAT_FCOMPLEX ? fc_values[i] \
+                                    : (T) == TAT_COMPLEX ? dc_values[i] \
+                                    : ldc_values[i])
 
 static signed char c_values[2];
 static short s_values[2];
@@ -72,6 +80,10 @@ static unsigned long long ull_values[2];
 static float f_values[2];
 static double d_values[2];
 static long double ld_values[2];
+
+static float complex fc_values[2];
+static double complex dc_values[2];
+static long double complex ldc_values[2];
 
 static void equality_test(void *context)
 {
@@ -106,6 +118,11 @@ static void equality_test(void *context)
                 case TAT_LDOUBLE:
                     ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
                     break;
+                case TAT_FCOMPLEX:
+                case TAT_COMPLEX:
+                case TAT_LCOMPLEX:
+                    ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    break;
             }
             break;
         case TAT_BOOL:
@@ -135,6 +152,11 @@ static void equality_test(void *context)
                 case TAT_LDOUBLE:
                     ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
                     break;
+                case TAT_FCOMPLEX:
+                case TAT_COMPLEX:
+                case TAT_LCOMPLEX:
+                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    break;
             }
             break;
         case TAT_FLOAT:
@@ -160,6 +182,42 @@ static void equality_test(void *context)
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
                     ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_FCOMPLEX:
+                case TAT_COMPLEX:
+                case TAT_LCOMPLEX:
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    break;
+            }
+            break;
+        case TAT_FCOMPLEX:
+        case TAT_COMPLEX:
+        case TAT_LCOMPLEX:
+            switch (testObject.actualType) {
+                case TAT_CHAR:
+                case TAT_SHORT:
+                case TAT_INT:
+                case TAT_LONG:
+                case TAT_LONG_LONG:
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_integral_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_BOOL:
+                case TAT_UCHAR:
+                case TAT_USHORT:
+                case TAT_UINT:
+                case TAT_ULONG:
+                case TAT_ULONG_LONG:
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_FLOAT:
+                case TAT_DOUBLE:
+                case TAT_LDOUBLE:
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    break;
+                case TAT_FCOMPLEX:
+                case TAT_COMPLEX:
+                case TAT_LCOMPLEX:
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
                     break;
             }
             break;
@@ -654,6 +712,246 @@ static void equality_test(void *context)
     ld_values[1] = LDBL_MAX;
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfSameComplexTypes
+{
+    dc_values[0] = CMPLX(5.762, 3.462);
+    dc_values[1] = CMPLX(5.762, 3.462);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfDifferentComplexTypes
+{
+    fc_values[0] = CMPLXF(82.0, 12.0);
+    ldc_values[1] = CMPLXL(82.0, 12.0);
+    self.expectedType = TAT_FCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValues
+{
+    dc_values[0] = CMPLX(-67.345, -23e10);
+    dc_values[1] = CMPLX(-67.345, -23e10);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValuesWithDifferentTypes
+{
+    fc_values[0] = CMPLXF(-23.0, -6.0);
+    dc_values[1] = CMPLXL(-23.0, -6.0);
+    self.expectedType = TAT_FCOMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfZeroComplexValues
+{
+    dc_values[0] = CMPLX(0.0, 0.0);
+    dc_values[1] = CMPLX(0.0, 0.0);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfZeroComplexValuesWithDifferentTypes
+{
+    dc_values[0] = CMPLX(0.0, 0.0);
+    ldc_values[1] = CMPLXL(0.0, 0.0);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_LCOMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfLargestComplexValue
+{
+    ldc_values[0] = CMPLXL(LDBL_MAX, LDBL_MAX);
+    ldc_values[1] = CMPLXL(LDBL_MAX, LDBL_MAX);
+    self.expectedType = TAT_LCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfSmallestComplexValue
+{
+    ldc_values[0] = CMPLXL(LDBL_MIN, LDBL_MIN);
+    ldc_values[1] = CMPLXL(LDBL_MIN, LDBL_MIN);
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValues
+{
+    dc_values[0] = CMPLX(56.0234, 1.903);
+    dc_values[1] = CMPLX(87.34, 5.09);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValues
+{
+    dc_values[0] = CMPLX(56.0234, 20.5);
+    dc_values[1] = CMPLX(87.34, 20.5);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValues
+{
+    dc_values[0] = CMPLX(76.98, 1.903);
+    dc_values[1] = CMPLX(76.98, 5.09);
+    self.expectedType = TAT_COMPLEX;
+    self.actualType = TAT_COMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValuesAndTypes
+{
+    fc_values[0] = CMPLXF(30.23, 10e5);
+    ldc_values[1] = CMPLXL(-9.7, 0.456);
+    self.expectedType = TAT_FCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValuesAndTypes
+{
+    fc_values[0] = CMPLXF(30.23, 2.5);
+    ldc_values[1] = CMPLXL(-9.7, 2.5);
+    self.expectedType = TAT_FCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValuesAndTypes
+{
+    fc_values[0] = CMPLXF(45.0, 10e5);
+    ldc_values[1] = CMPLXL(45.0, 0.456);
+    self.expectedType = TAT_FCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxComplexValues
+{
+    ldc_values[0] = CMPLXL(LDBL_MIN, LDBL_MIN);
+    ldc_values[1] = CMPLXL(LDBL_MAX, LDBL_MAX);
+    self.expectedType = TAT_LCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
