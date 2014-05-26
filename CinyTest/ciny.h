@@ -247,6 +247,14 @@ struct ct_comparable_value {
     };
     enum ct_valuetype_annotation type;
 };
+
+#define ct_makevalue(v) ct_makevalue_annotated(v, ct_valuetype_annotation(v))
+#define ct_makevalue_annotated(v, T) ((T) == CT_ANNOTATE_INTEGRAL ? (struct ct_comparable_value){ .integral_value = v, .type = T } \
+                                        : (T) == CT_ANNOTATE_UNSIGNED_INTEGRAL ? (struct ct_comparable_value){ .uintegral_value = v, .type = T } \
+                                        : (T) == CT_ANNOTATE_FLOATINGPOINT ? (struct ct_comparable_value){ .floating_value = v, .type = T } \
+                                        : (T) == CT_ANNOTATE_COMPLEX ? (struct ct_comparable_value){ .complex_value = v, .type = T } \
+                                        : (struct ct_comparable_value){ v, CT_ANNOTATE_INVALID })
+#define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 // TODO: how do i annotate char?
 #define ct_valuetype_annotation(v) _Generic(v, \
                                         signed char: CT_ANNOTATE_INTEGRAL, \
@@ -267,12 +275,6 @@ struct ct_comparable_value {
                                         double _Complex: CT_ANNOTATE_COMPLEX, \
                                         long double _Complex: CT_ANNOTATE_COMPLEX, \
                                         default: CT_ANNOTATE_INVALID)
-#define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
-#define ct_makevalue(v, T) ((T) == CT_ANNOTATE_INTEGRAL ? (struct ct_comparable_value){ .integral_value = v, .type = T } \
-                            : (T) == CT_ANNOTATE_UNSIGNED_INTEGRAL ? (struct ct_comparable_value){ .uintegral_value = v, .type = T } \
-                            : (T) == CT_ANNOTATE_FLOATINGPOINT ? (struct ct_comparable_value){ .floating_value = v, .type = T } \
-                            : (T) == CT_ANNOTATE_COMPLEX ? (struct ct_comparable_value){ .complex_value = v, .type = T } \
-                            : (struct ct_comparable_value){ v, CT_ANNOTATE_INVALID })
 
 /**
  Assert whether two values are equal.
@@ -288,7 +290,7 @@ struct ct_comparable_value {
             do { \
                 ct_checkvalue(expected); \
                 ct_checkvalue(actual); \
-                ct_assertequal_full(ct_makevalue(expected, ct_valuetype_annotation(expected)), #expected, ct_makevalue(actual, ct_valuetype_annotation(actual)), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+                ct_assertequal_full(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
             } while (0)
 /**
  Assert whether two values are equal, with contextual details and message.

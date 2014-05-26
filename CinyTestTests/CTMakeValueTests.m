@@ -19,14 +19,14 @@
 
 #define assert_valuetype(v, T, a) \
             do { \
-                struct ct_comparable_value v ## _value = ct_makevalue(v, ct_valuetype_annotation(v)); \
+                struct ct_comparable_value v ## _value = ct_makevalue(v); \
                 XCTAssertEqual(T, v ## _value.type); \
                 XCTAssertEqual(v, a(v ## _value)); \
             } while (false)
 
 #define assert_invalidvaluetype(v) \
             do { \
-                struct ct_comparable_value v ## _value = ct_makevalue(v, ct_valuetype_annotation(v)); \
+                struct ct_comparable_value v ## _value = ct_makevalue(v); \
                 XCTAssertEqual(CT_ANNOTATE_INVALID, v ## _value.type); \
             } while (false)
 
