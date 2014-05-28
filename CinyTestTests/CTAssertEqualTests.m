@@ -226,6 +226,31 @@ static void equality_test(void *context)
     testObject.sawPostAssertCode = YES;
 }
 
+static void equality_test_withmessage(void *context)
+{
+    CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    ct_assertequal(10, 20, "Oh dear, an inequality message!");
+    
+    testObject.sawPostAssertCode = YES;
+}
+
+static void equality_test_withformatmessage(void *context)
+{
+    CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    int e = -9;
+    int i = 5;
+    
+    ct_assertequal(e, i, "Turns out %d is not equal to %d", e, i);
+    
+    testObject.sawPostAssertCode = YES;
+}
+
 @implementation CTAssertEqualTests
 
 - (void)setUp
@@ -1112,6 +1137,32 @@ static void equality_test(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_FLOAT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+#pragma mark - Messages
+
+- (void)test_ctassertequal_FiresAssertion_WithCustomMessage
+{
+    struct ct_testcase tests[] = { ct_maketest(equality_test_withmessage) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_FiresAssertion_WithCustomFormatMessage
+{
+    struct ct_testcase tests[] = { ct_maketest(equality_test_withformatmessage) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
