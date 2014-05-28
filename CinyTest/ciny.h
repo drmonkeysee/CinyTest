@@ -249,11 +249,11 @@ struct ct_comparable_value {
 };
 
 #define ct_makevalue(v) ct_makevalue_annotated(v, ct_valuetype_annotation(v))
-#define ct_makevalue_annotated(v, T) ((T) == CT_ANNOTATE_INTEGRAL ? (struct ct_comparable_value){ .integral_value = v, .type = T } \
-                                        : (T) == CT_ANNOTATE_UNSIGNED_INTEGRAL ? (struct ct_comparable_value){ .uintegral_value = v, .type = T } \
-                                        : (T) == CT_ANNOTATE_FLOATINGPOINT ? (struct ct_comparable_value){ .floating_value = v, .type = T } \
-                                        : (T) == CT_ANNOTATE_COMPLEX ? (struct ct_comparable_value){ .complex_value = v, .type = T } \
-                                        : (struct ct_comparable_value){ v, CT_ANNOTATE_INVALID })
+#define ct_makevalue_annotated(v, T) ((T) == CT_ANNOTATE_INTEGRAL ? ct_makevalue_integral(v) \
+                                        : (T) == CT_ANNOTATE_UNSIGNED_INTEGRAL ? ct_makevalue_uintegral(v) \
+                                        : (T) == CT_ANNOTATE_FLOATINGPOINT ? ct_makevalue_floating(v) \
+                                        : (T) == CT_ANNOTATE_COMPLEX ? ct_makevalue_complex(v) \
+                                        : ct_makevalue_invalid())
 #define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 // TODO: how do i annotate char?
 #define ct_valuetype_annotation(v) _Generic(v, \
@@ -275,6 +275,31 @@ struct ct_comparable_value {
                                         double _Complex: CT_ANNOTATE_COMPLEX, \
                                         long double _Complex: CT_ANNOTATE_COMPLEX, \
                                         default: CT_ANNOTATE_INVALID)
+inline struct ct_comparable_value ct_makevalue_integral(long long value)
+{
+    struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
+    return cv;
+}
+inline struct ct_comparable_value ct_makevalue_uintegral(unsigned long long value)
+{
+    struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
+    return cv;
+}
+inline struct ct_comparable_value ct_makevalue_floating(long double value)
+{
+    struct ct_comparable_value cv = { .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
+    return cv;
+}
+inline struct ct_comparable_value ct_makevalue_complex(long double _Complex value)
+{
+    struct ct_comparable_value cv = { .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
+    return cv;
+}
+inline struct ct_comparable_value ct_makevalue_invalid(void)
+{
+    struct ct_comparable_value cv = { .type = CT_ANNOTATE_INVALID };
+    return cv;
+}
 
 /**
  Assert whether two values are equal.

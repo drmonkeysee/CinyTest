@@ -44,6 +44,11 @@ struct run_ledger {
 // call sites for inline functions
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline struct ct_comparable_value ct_makevalue_integral(long long value);
+extern inline struct ct_comparable_value ct_makevalue_uintegral(unsigned long long value);
+extern inline struct ct_comparable_value ct_makevalue_floating(long double value);
+extern inline struct ct_comparable_value ct_makevalue_complex(long double _Complex value);
+extern inline struct ct_comparable_value ct_makevalue_invalid(void);
 
 static void print_delimiter(const char *message)
 {
