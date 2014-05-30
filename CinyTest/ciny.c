@@ -89,7 +89,7 @@ static void reset_assertstate(struct assert_state *assert_state)
 
 static void print_assertmessage(const char *message)
 {
-    if (printf("%s", message)) {
+    if (printf("%s", message) > 0) {
         printf("\n");
     }
 }
