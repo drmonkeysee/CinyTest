@@ -301,6 +301,30 @@ inline struct ct_comparable_value ct_makevalue_invalid(void)
     return cv;
 }
 
+#define pick_thing(v) _Generic(v, int: "foobar", const int: "blarg", volatile int: "bort", _Atomic int: "food", const volatile int: "spim", const _Atomic int: "boo", volatile _Atomic int: "mood", const volatile _Atomic int: "doom")
+
+void foo(void)
+{
+    int b = 5;
+    const char *s = pick_thing(b);
+    const int c = 10;
+    const char *s2 = pick_thing(c);
+    volatile int d = 10;
+    const char *s3 = pick_thing(d);
+    _Atomic int e = 10;
+    const char *s4 = pick_thing(e);
+    volatile const int f = 10;
+    const char *s5 = pick_thing(f);
+    const volatile int g = 10;
+    const char *s6 = pick_thing(g);
+    const _Atomic int h = 10;
+    const char *s7 = pick_thing(h);
+    volatile _Atomic int i = 10;
+    const char *s8 = pick_thing(i);
+    const volatile _Atomic int j = 10;
+    const char *s9 = pick_thing(j);
+}
+
 /**
  Assert whether two values are equal.
  Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
