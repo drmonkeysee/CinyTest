@@ -250,45 +250,45 @@ struct ct_comparable_value {
 
 #define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
 #define ct_makevalue(v) _Generic(v, \
-                            ct_valuetype_variants(signed char, ct_makevalue_integral), \
-                            ct_valuetype_variants(short, ct_makevalue_integral), \
-                            ct_valuetype_variants(int, ct_makevalue_integral), \
-                            ct_valuetype_variants(long, ct_makevalue_integral), \
-                            ct_valuetype_variants(long long, ct_makevalue_integral), \
-                            ct_valuetype_variants(_Bool, ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned char, ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned short, ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned int, ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned long, ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned long long, ct_makevalue_uintegral), \
-                            ct_valuetype_variants(float, ct_makevalue_floating), \
-                            ct_valuetype_variants(double, ct_makevalue_floating), \
-                            ct_valuetype_variants(long double, ct_makevalue_floating), \
-                            ct_valuetype_variants(float _Complex, ct_makevalue_complex), \
-                            ct_valuetype_variants(double _Complex, ct_makevalue_complex), \
+                            ct_valuetype_variants(signed char,          ct_makevalue_integral), \
+                            ct_valuetype_variants(short,                ct_makevalue_integral), \
+                            ct_valuetype_variants(int,                  ct_makevalue_integral), \
+                            ct_valuetype_variants(long,                 ct_makevalue_integral), \
+                            ct_valuetype_variants(long long,            ct_makevalue_integral), \
+                            ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
+                            ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
+                            ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
+                            ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
+                            ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
+                            ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
+                            ct_valuetype_variants(float,                ct_makevalue_floating), \
+                            ct_valuetype_variants(double,               ct_makevalue_floating), \
+                            ct_valuetype_variants(long double,          ct_makevalue_floating), \
+                            ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
+                            ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
                             ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
-                            default: ct_makevalue_invalid)(0, v)
+                            default:                                    ct_makevalue_invalid)(0, v)
 #define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 // TODO: how do i annotate char?
 #define ct_valuetype_annotation(v) _Generic(v, \
-                                        ct_valuetype_variants(signed char, CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(short, CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(int, CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(long, CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(long long, CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(_Bool, CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned char, CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned short, CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned int, CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned long, CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned long long, CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(float, CT_ANNOTATE_FLOATINGPOINT), \
-                                        ct_valuetype_variants(double, CT_ANNOTATE_FLOATINGPOINT), \
-                                        ct_valuetype_variants(long double, CT_ANNOTATE_FLOATINGPOINT), \
-                                        ct_valuetype_variants(float _Complex, CT_ANNOTATE_COMPLEX), \
-                                        ct_valuetype_variants(double _Complex, CT_ANNOTATE_COMPLEX), \
+                                        ct_valuetype_variants(signed char,          CT_ANNOTATE_INTEGRAL), \
+                                        ct_valuetype_variants(short,                CT_ANNOTATE_INTEGRAL), \
+                                        ct_valuetype_variants(int,                  CT_ANNOTATE_INTEGRAL), \
+                                        ct_valuetype_variants(long,                 CT_ANNOTATE_INTEGRAL), \
+                                        ct_valuetype_variants(long long,            CT_ANNOTATE_INTEGRAL), \
+                                        ct_valuetype_variants(_Bool,                CT_ANNOTATE_UNSIGNED_INTEGRAL), \
+                                        ct_valuetype_variants(unsigned char,        CT_ANNOTATE_UNSIGNED_INTEGRAL), \
+                                        ct_valuetype_variants(unsigned short,       CT_ANNOTATE_UNSIGNED_INTEGRAL), \
+                                        ct_valuetype_variants(unsigned int,         CT_ANNOTATE_UNSIGNED_INTEGRAL), \
+                                        ct_valuetype_variants(unsigned long,        CT_ANNOTATE_UNSIGNED_INTEGRAL), \
+                                        ct_valuetype_variants(unsigned long long,   CT_ANNOTATE_UNSIGNED_INTEGRAL), \
+                                        ct_valuetype_variants(float,                CT_ANNOTATE_FLOATINGPOINT), \
+                                        ct_valuetype_variants(double,               CT_ANNOTATE_FLOATINGPOINT), \
+                                        ct_valuetype_variants(long double,          CT_ANNOTATE_FLOATINGPOINT), \
+                                        ct_valuetype_variants(float _Complex,       CT_ANNOTATE_COMPLEX), \
+                                        ct_valuetype_variants(double _Complex,      CT_ANNOTATE_COMPLEX), \
                                         ct_valuetype_variants(long double _Complex, CT_ANNOTATE_COMPLEX), \
-                                        default: CT_ANNOTATE_INVALID)
+                                        default:                                    CT_ANNOTATE_INVALID)
 inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long long value)
 {
     struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
