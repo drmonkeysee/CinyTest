@@ -19,10 +19,10 @@
 
 #define assert_valuetype(T, v, a, acc) \
             do { \
-                assert_valuetype_variant(T, (v), a, acc); \
-                assert_valuetype_variant(const T, (v), a, acc); \
-                assert_valuetype_variant(volatile T, (v), a, acc); \
-                assert_valuetype_variant(_Atomic T, (v), a, acc); \
+                assert_valuetype_variant(T, v, a, acc); \
+                assert_valuetype_variant(const T, v, a, acc); \
+                assert_valuetype_variant(volatile T, v, a, acc); \
+                assert_valuetype_variant(_Atomic T, v, a, acc); \
             } while (false)
 #define assert_valuetype_variant(T, v, a, acc) \
             do { \
@@ -95,11 +95,11 @@
 
 - (void)test_ctmakevalue_CreatesComplexValues
 {
-    assert_valuetype(float complex, CMPLXF(FLT_MAX, FLT_MAX), CT_ANNOTATE_COMPLEX, get_complex_value);
+    assert_valuetype(float complex, (CMPLXF(FLT_MAX, FLT_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
     
-    assert_valuetype(double complex, CMPLX(DBL_MAX, DBL_MAX), CT_ANNOTATE_COMPLEX, get_complex_value);
+    assert_valuetype(double complex, (CMPLX(DBL_MAX, DBL_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
     
-    assert_valuetype(long double complex, CMPLXL(LDBL_MAX, LDBL_MAX), CT_ANNOTATE_COMPLEX, get_complex_value);
+    assert_valuetype(long double complex, (CMPLXL(LDBL_MAX, LDBL_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
 }
 
 - (void)test_ctmakevalue_CreatesInvalidTypes
