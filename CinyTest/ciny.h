@@ -264,10 +264,10 @@ struct ct_comparable_value {
                             ct_valuetype_variants(float, ct_makevalue_floating), \
                             ct_valuetype_variants(double, ct_makevalue_floating), \
                             ct_valuetype_variants(long double, ct_makevalue_floating), \
-                            ct_valuetype_variants(float _Complex, ct_makevalue_floating), \
-                            ct_valuetype_variants(double _Complex, ct_makevalue_floating), \
+                            ct_valuetype_variants(float _Complex, ct_makevalue_complex), \
+                            ct_valuetype_variants(double _Complex, ct_makevalue_complex), \
                             ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
-                            default: ct_makevalue_invalid)
+                            default: ct_makevalue_invalid)(0, v)
 #define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 // TODO: how do i annotate char?
 #define ct_valuetype_annotation(v) _Generic(v, \
@@ -289,27 +289,27 @@ struct ct_comparable_value {
                                         ct_valuetype_variants(double _Complex, CT_ANNOTATE_COMPLEX), \
                                         ct_valuetype_variants(long double _Complex, CT_ANNOTATE_COMPLEX), \
                                         default: CT_ANNOTATE_INVALID)
-inline struct ct_comparable_value ct_makevalue_integral(long long value)
+inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long long value)
 {
     struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_uintegral(unsigned long long value)
+inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, unsigned long long value)
 {
     struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_floating(long double value)
+inline struct ct_comparable_value ct_makevalue_floating(int placeholder, long double value)
 {
     struct ct_comparable_value cv = { .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_complex(long double _Complex value)
+inline struct ct_comparable_value ct_makevalue_complex(int placeholder, long double _Complex value)
 {
     struct ct_comparable_value cv = { .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_invalid(void)
+inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 {
     struct ct_comparable_value cv = { .type = CT_ANNOTATE_INVALID };
     return cv;
