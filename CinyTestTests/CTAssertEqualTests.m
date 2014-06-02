@@ -251,6 +251,20 @@ static void equality_test_withformatmessage(void *context)
     testObject.sawPostAssertCode = YES;
 }
 
+static void equality_test_withtypevariants(void *context)
+{
+    CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    const int ci = 10;
+    int i = 10;
+    
+    ct_assertequal(ci, i, "const ints and ints are equal");
+    
+    testObject.sawPostAssertCode = YES;
+}
+
 @implementation CTAssertEqualTests
 
 - (void)setUp
@@ -1170,6 +1184,20 @@ static void equality_test_withformatmessage(void *context)
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
+}
+
+#pragma mark - Type variants
+
+- (void)test_ctassertequal_ComparesEqual_WithTypeVariants
+{
+    struct ct_testcase tests[] = { ct_maketest(equality_test_withtypevariants) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
 }
 
 @end
