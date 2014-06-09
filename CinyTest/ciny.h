@@ -10,6 +10,7 @@
 #define CinyTest_ciny_h
 
 #include <stddef.h>
+#include <limits.h>
 
 /**
  Type definition for a unit test function.
@@ -267,13 +268,13 @@ struct ct_comparable_value {
  @param v The value expression for which to select the comparable value creation function.
  @return A function pointer to a typed makevalue function.
  */
-// TODO: how do i annotate char?
 #define ct_makevalue_factory(v) _Generic(v, \
                                     ct_valuetype_variants(signed char,          ct_makevalue_integral), \
                                     ct_valuetype_variants(short,                ct_makevalue_integral), \
                                     ct_valuetype_variants(int,                  ct_makevalue_integral), \
                                     ct_valuetype_variants(long,                 ct_makevalue_integral), \
                                     ct_valuetype_variants(long long,            ct_makevalue_integral), \
+                                    ct_valuetype_variants(char,                 ct_makevalue_char), \
                                     ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
                                     ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
                                     ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
@@ -293,6 +294,15 @@ struct ct_comparable_value {
  @param e The expression to use in the generic selection for all type variants.
  */
 #define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
+
+/**
+ Create a char comparable value structure based on whether char is signed or unsigned.
+ */
+#if CHAR_MIN < 0
+#define ct_makevalue_char ct_makevalue_integral
+#else
+#define ct_makevalue_char ct_makevalue_uintegral
+#endif
 /**
  Create a signed integral comparable value structure.
  @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
