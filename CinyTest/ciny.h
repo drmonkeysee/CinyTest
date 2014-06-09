@@ -10,6 +10,7 @@
 #define CinyTest_ciny_h
 
 #include <stddef.h>
+#include <limits.h>
 
 /**
  Type definition for a unit test function.
@@ -231,99 +232,139 @@ void ct_assertnull_full(void *, const char *, const char *, int, const char *, .
  */
 void ct_assertnotnull_full(void *, const char *, const char *, int, const char *, ...);
 
+/**
+ Value type annotation.
+ An enumeration of possible simple-value types used for equality assertions.
+ */
 enum ct_valuetype_annotation {
-    CT_ANNOTATE_INVALID,
-    CT_ANNOTATE_INTEGRAL,
-    CT_ANNOTATE_UNSIGNED_INTEGRAL,
-    CT_ANNOTATE_FLOATINGPOINT,
-    CT_ANNOTATE_COMPLEX
+    CT_ANNOTATE_INVALID,            /**< Expression did not evaluate to a valid value type. */
+    CT_ANNOTATE_INTEGRAL,           /**< Value is a signed integral type. */
+    CT_ANNOTATE_UNSIGNED_INTEGRAL,  /**< Value is an unsigned integral type. */
+    CT_ANNOTATE_FLOATINGPOINT,      /**< Value is a floating point type. */
+    CT_ANNOTATE_COMPLEX             /**< Value is a complex number type. */
 };
+/**
+ A comparable value.
+ A general-purpose structure for respresenting expressions that can be compared for simple-value equality assertions.
+ */
 struct ct_comparable_value {
     union {
-        long long integral_value;
-        unsigned long long uintegral_value;
-        long double floating_value;
-        long double _Complex complex_value;
+        long long integral_value;           /**< Access the value as a signed integral. */
+        unsigned long long uintegral_value; /**< Access the value as an unsigned integral. */
+        long double floating_value;         /**< Access the value as a floating point. */
+        long double _Complex complex_value; /**< Access the value as a complex number. */
     };
-    enum ct_valuetype_annotation type;
+    enum ct_valuetype_annotation type;      /**< Designates the correct type of the value. If type is CT_ANNOTATE_INVALID then the value is undefined. */
 };
 
-#define ct_makevalue(v) ct_makevalue_annotated(v, ct_valuetype_annotation(v))
-#define ct_makevalue_annotated(v, T) ((T) == CT_ANNOTATE_INTEGRAL ? ct_makevalue_integral(v) \
-                                        : (T) == CT_ANNOTATE_UNSIGNED_INTEGRAL ? ct_makevalue_uintegral(v) \
-                                        : (T) == CT_ANNOTATE_FLOATINGPOINT ? ct_makevalue_floating(v) \
-                                        : (T) == CT_ANNOTATE_COMPLEX ? ct_makevalue_complex(v) \
-                                        : ct_makevalue_invalid())
-#define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
-// TODO: how do i annotate char?
-#define ct_valuetype_annotation(v) _Generic(v, \
-                                        signed char: CT_ANNOTATE_INTEGRAL, \
-                                        short: CT_ANNOTATE_INTEGRAL, \
-                                        int: CT_ANNOTATE_INTEGRAL, \
-                                        long: CT_ANNOTATE_INTEGRAL, \
-                                        long long: CT_ANNOTATE_INTEGRAL, \
-                                        _Bool: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                        unsigned char: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                        unsigned short: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                        unsigned int: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                        unsigned long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                        unsigned long long: CT_ANNOTATE_UNSIGNED_INTEGRAL, \
-                                        float: CT_ANNOTATE_FLOATINGPOINT, \
-                                        double: CT_ANNOTATE_FLOATINGPOINT, \
-                                        long double: CT_ANNOTATE_FLOATINGPOINT, \
-                                        float _Complex: CT_ANNOTATE_COMPLEX, \
-                                        double _Complex: CT_ANNOTATE_COMPLEX, \
-                                        long double _Complex: CT_ANNOTATE_COMPLEX, \
-                                        default: CT_ANNOTATE_INVALID)
-inline struct ct_comparable_value ct_makevalue_integral(long long value)
+/**
+ Convert a value expression into a comparable value type.
+ @param v The value expression to convert.
+ @return A comparable value structure for the given value expression.
+ */
+#define ct_makevalue(v) ct_makevalue_factory(v)(0, v)
+/**
+ Select a makevalue function for converting the given value expression into a comparable value type.
+ @param v The value expression for which to select the comparable value creation function.
+ @return A function pointer to a typed makevalue function.
+ */
+#define ct_makevalue_factory(v) _Generic(v, \
+                                    ct_valuetype_variants(signed char,          ct_makevalue_integral), \
+                                    ct_valuetype_variants(short,                ct_makevalue_integral), \
+                                    ct_valuetype_variants(int,                  ct_makevalue_integral), \
+                                    ct_valuetype_variants(long,                 ct_makevalue_integral), \
+                                    ct_valuetype_variants(long long,            ct_makevalue_integral), \
+                                    ct_valuetype_variants(char,                 ct_makevalue_char), \
+                                    ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(float,                ct_makevalue_floating), \
+                                    ct_valuetype_variants(double,               ct_makevalue_floating), \
+                                    ct_valuetype_variants(long double,          ct_makevalue_floating), \
+                                    ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
+                                    ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
+                                    ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
+                                    default:                                    ct_makevalue_invalid)
+/**
+ Generate all unique value-type variants for a generic selection.
+ @param T The compile-time type for which to generate the variants.
+ @param e The expression to use in the generic selection for all type variants.
+ */
+#define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
+
+/**
+ Create a char comparable value structure based on whether char is signed or unsigned.
+ */
+#if CHAR_MIN < 0
+#define ct_makevalue_char ct_makevalue_integral
+#else
+#define ct_makevalue_char ct_makevalue_uintegral
+#endif
+/**
+ Create a signed integral comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the signed integral value to be converted.
+ @return A comparable value structure for the signed integral value.
+ */
+inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long long value)
 {
     struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_uintegral(unsigned long long value)
+/**
+ Create an unsigned integral comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the unsigned integral value to be converted.
+ @return A comparable value structure for the unsigned integral value.
+ */
+inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, unsigned long long value)
 {
     struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_floating(long double value)
+/**
+ Create a floating point comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the floating point value to be converted.
+ @return A comparable value structure for the floating point value.
+ */
+inline struct ct_comparable_value ct_makevalue_floating(int placeholder, long double value)
 {
     struct ct_comparable_value cv = { .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_complex(long double _Complex value)
+/**
+ Create a complex number comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the complex number value to be converted.
+ @return A comparable value structure for the complex number value.
+ */
+inline struct ct_comparable_value ct_makevalue_complex(int placeholder, long double _Complex value)
 {
     struct ct_comparable_value cv = { .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
     return cv;
 }
-inline struct ct_comparable_value ct_makevalue_invalid(void)
+/**
+ Create a comparable value structure for an expression that cannot be converted into a simple value type.
+ @param placeholder An unused paramater to allow for a variadic paramater. May be any value as it is ignored by the function.
+ @param expression The non-value type expression that cannot be represented as a comparable value structure. Ignored by the function.
+ @return An invalid comparable value structure used for checking a mismatched equality assertion.
+ */
+inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 {
     struct ct_comparable_value cv = { .type = CT_ANNOTATE_INVALID };
     return cv;
 }
 
-#define pick_thing(v) _Generic(v, int: "foobar", const int: "blarg", volatile int: "bort", _Atomic int: "food", const volatile int: "spim", const _Atomic int: "boo", volatile _Atomic int: "mood", const volatile _Atomic int: "doom")
-
-void foo(void)
-{
-    int b = 5;
-    const char *s = pick_thing(b);
-    const int c = 10;
-    const char *s2 = pick_thing(c);
-    volatile int d = 10;
-    const char *s3 = pick_thing(d);
-    _Atomic int e = 10;
-    const char *s4 = pick_thing(e);
-    volatile const int f = 10;
-    const char *s5 = pick_thing(f);
-    const volatile int g = 10;
-    const char *s6 = pick_thing(g);
-    const _Atomic int h = 10;
-    const char *s7 = pick_thing(h);
-    volatile _Atomic int i = 10;
-    const char *s8 = pick_thing(i);
-    const volatile _Atomic int j = 10;
-    const char *s9 = pick_thing(j);
-}
+/**
+ Verify whether the expression can be converted into a valid value type.
+ Failure raises a static assertion listing the offending expression and lists possible remedies.
+ @param v The expression to verify as a simple value type.
+ */
+#define ct_checkvalue(v) _Static_assert(_Generic(&ct_makevalue_factory(v), struct ct_comparable_value (*)(int, ...): 0, default: 1), "(" #v ") is an invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 
 /**
  Assert whether two values are equal.
