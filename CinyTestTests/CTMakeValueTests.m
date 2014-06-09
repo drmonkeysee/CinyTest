@@ -67,6 +67,10 @@
     assert_valuetype(long, LONG_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
     
     assert_valuetype(long long, LONG_LONG_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    
+#if CHAR_MIN < 0
+    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+#endif
 }
 
 - (void)test_ctmakevalue_CreatesUnsignedIntegralValues
@@ -82,6 +86,10 @@
     assert_valuetype(unsigned long, ULONG_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
     
     assert_valuetype(unsigned long long, ULONG_LONG_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    
+#if CHAR_MIN == 0
+    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+#endif
 }
 
 - (void)test_ctmakevalue_CreatesFloatingValues
@@ -104,9 +112,6 @@
 
 - (void)test_ctmakevalue_CreatesInvalidTypes
 {
-    char c = CHAR_MAX;
-    assert_invalidvaluetype(c);
-    
     int i = 40;
     int *ip = &i;
     assert_invalidvaluetype(ip);

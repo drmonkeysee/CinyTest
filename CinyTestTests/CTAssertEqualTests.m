@@ -12,8 +12,16 @@
 #include <complex.h>
 #include "ciny.h"
 
+#if CHAR_MIN < 0
+#define TAT_CHAR TAT_SCHAR
+#define c_values sc_values
+#else
+#define TAT_CHAR TAT_UCHAR
+#define c_values uc_values
+#endif
+
 typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
-    TAT_CHAR,
+    TAT_SCHAR,
     TAT_SHORT,
     TAT_INT,
     TAT_LONG,
@@ -46,7 +54,7 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
 
 static void *TestClass;
 
-#define get_integral_test_arg(T, i) ((T) == TAT_CHAR ? c_values[i] \
+#define get_integral_test_arg(T, i) ((T) == TAT_SCHAR ? sc_values[i] \
                                         : (T) == TAT_SHORT ? s_values[i] \
                                         : (T) == TAT_INT ? i_values[i] \
                                         : (T) == TAT_LONG ? l_values[i] \
@@ -64,7 +72,7 @@ static void *TestClass;
                                     : (T) == TAT_COMPLEX ? dc_values[i] \
                                     : ldc_values[i])
 
-static signed char c_values[2];
+static signed char sc_values[2];
 static short s_values[2];
 static int i_values[2];
 static long l_values[2];
@@ -92,13 +100,13 @@ static void equality_test(void *context)
     testObject.invokedTest = YES;
     
     switch (testObject.expectedType) {
-        case TAT_CHAR:
+        case TAT_SCHAR:
         case TAT_SHORT:
         case TAT_INT:
         case TAT_LONG:
         case TAT_LONG_LONG:
             switch (testObject.actualType) {
-                case TAT_CHAR:
+                case TAT_SCHAR:
                 case TAT_SHORT:
                 case TAT_INT:
                 case TAT_LONG:
@@ -132,7 +140,7 @@ static void equality_test(void *context)
         case TAT_ULONG:
         case TAT_ULONG_LONG:
             switch (testObject.actualType) {
-                case TAT_CHAR:
+                case TAT_SCHAR:
                 case TAT_SHORT:
                 case TAT_INT:
                 case TAT_LONG:
@@ -163,7 +171,7 @@ static void equality_test(void *context)
         case TAT_DOUBLE:
         case TAT_LDOUBLE:
             switch (testObject.actualType) {
-                case TAT_CHAR:
+                case TAT_SCHAR:
                 case TAT_SHORT:
                 case TAT_INT:
                 case TAT_LONG:
@@ -194,7 +202,7 @@ static void equality_test(void *context)
         case TAT_COMPLEX:
         case TAT_LCOMPLEX:
             switch (testObject.actualType) {
-                case TAT_CHAR:
+                case TAT_SCHAR:
                 case TAT_SHORT:
                 case TAT_INT:
                 case TAT_LONG:
@@ -301,9 +309,9 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentIntegralTypes
 {
-    c_values[0] = 42;
+    sc_values[0] = 42;
     ll_values[1] = 42;
-    self.expectedType = TAT_CHAR;
+    self.expectedType = TAT_SCHAR;
     self.actualType = TAT_LONG_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
@@ -365,9 +373,9 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValuesWithDifferentTypes
 {
-    c_values[0] = 0;
+    sc_values[0] = 0;
     s_values[1] = 0;
-    self.expectedType = TAT_CHAR;
+    self.expectedType = TAT_SCHAR;
     self.actualType = TAT_SHORT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
@@ -1198,6 +1206,56 @@ static void equality_test_withtypevariants(void *context)
     XCTAssertEqual(0, run_result);
     XCTAssertTrue(self.invokedTest);
     XCTAssertTrue(self.sawPostAssertCode);
+}
+
+#pragma mark - Char
+
+- (void)test_ctassertequal_ComparesEqual_IfCharTypes
+{
+    c_values[0] = 42;
+    c_values[1] = 42;
+    self.expectedType = TAT_CHAR;
+    self.actualType = TAT_CHAR;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfCharAndIntegralType
+{
+    c_values[0] = 42;
+    i_values[1] = 42;
+    self.expectedType = TAT_CHAR;
+    self.actualType = TAT_INT;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result, "Test unexpectedly failed - possibly compiled with unsigned char option?");
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequal_ComparesNotEqual_IfCharAndUIntegralTypes
+{
+    c_values[0] = 20;
+    ui_values[1] = 20;
+    self.expectedType = TAT_CHAR;
+    self.actualType = TAT_UINT;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result, "Test unexpectedly passed - possibly compiled with unsigned char option?");
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
 }
 
 @end
