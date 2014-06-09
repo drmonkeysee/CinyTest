@@ -260,7 +260,7 @@ static void equality_test_withtypevariants(void *context)
     const int ci = 10;
     int i = 10;
     
-    ct_assertequal(ci, i, "const ints and ints are equal");
+    ct_assertequal(ci, i, "const ints and ints should be equal");
     
     testObject.sawPostAssertCode = YES;
 }
