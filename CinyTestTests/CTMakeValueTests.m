@@ -106,6 +106,19 @@
 {
     char c = CHAR_MAX;
     assert_invalidvaluetype(c);
+    
+    int i = 40;
+    int *ip = &i;
+    assert_invalidvaluetype(ip);
+    
+    struct {
+        int i_v;
+        float f_v;
+    } s = { 10, 5.0 };
+    assert_invalidvaluetype(s);
+    
+    char str[5];
+    assert_invalidvaluetype(str);
 }
 
 @end
