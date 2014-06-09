@@ -249,6 +249,7 @@ struct ct_comparable_value {
 };
 
 #define ct_makevalue(v) ct_makevalue_factory(v)(0, v)
+// TODO: how do i annotate char?
 #define ct_makevalue_factory(v) _Generic(v, \
                                     ct_valuetype_variants(signed char,          ct_makevalue_integral), \
                                     ct_valuetype_variants(short,                ct_makevalue_integral), \
@@ -269,27 +270,6 @@ struct ct_comparable_value {
                                     ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
                                     default:                                    ct_makevalue_invalid)
 #define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
-#define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
-// TODO: how do i annotate char?
-#define ct_valuetype_annotation(v) _Generic(v, \
-                                        ct_valuetype_variants(signed char,          CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(short,                CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(int,                  CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(long,                 CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(long long,            CT_ANNOTATE_INTEGRAL), \
-                                        ct_valuetype_variants(_Bool,                CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned char,        CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned short,       CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned int,         CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned long,        CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(unsigned long long,   CT_ANNOTATE_UNSIGNED_INTEGRAL), \
-                                        ct_valuetype_variants(float,                CT_ANNOTATE_FLOATINGPOINT), \
-                                        ct_valuetype_variants(double,               CT_ANNOTATE_FLOATINGPOINT), \
-                                        ct_valuetype_variants(long double,          CT_ANNOTATE_FLOATINGPOINT), \
-                                        ct_valuetype_variants(float _Complex,       CT_ANNOTATE_COMPLEX), \
-                                        ct_valuetype_variants(double _Complex,      CT_ANNOTATE_COMPLEX), \
-                                        ct_valuetype_variants(long double _Complex, CT_ANNOTATE_COMPLEX), \
-                                        default:                                    CT_ANNOTATE_INVALID)
 inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long long value)
 {
     struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
@@ -315,6 +295,8 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
     struct ct_comparable_value cv = { .type = CT_ANNOTATE_INVALID };
     return cv;
 }
+
+#define ct_checkvalue(v) _Static_assert(ct_makevalue_factory(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 
 /**
  Assert whether two values are equal.
