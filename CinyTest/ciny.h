@@ -231,24 +231,42 @@ void ct_assertnull_full(void *, const char *, const char *, int, const char *, .
  */
 void ct_assertnotnull_full(void *, const char *, const char *, int, const char *, ...);
 
+/**
+ Value type annotation.
+ An enumeration of possible simple-value types used for equality assertions.
+ */
 enum ct_valuetype_annotation {
-    CT_ANNOTATE_INVALID,
-    CT_ANNOTATE_INTEGRAL,
-    CT_ANNOTATE_UNSIGNED_INTEGRAL,
-    CT_ANNOTATE_FLOATINGPOINT,
-    CT_ANNOTATE_COMPLEX
+    CT_ANNOTATE_INVALID,            /**< Expression did not evaluate to a valid value type. */
+    CT_ANNOTATE_INTEGRAL,           /**< Value is a signed integral type. */
+    CT_ANNOTATE_UNSIGNED_INTEGRAL,  /**< Value is an unsigned integral type. */
+    CT_ANNOTATE_FLOATINGPOINT,      /**< Value is a floating point type. */
+    CT_ANNOTATE_COMPLEX             /**< Value is a complex number type. */
 };
+/**
+ A comparable value.
+ A general-purpose structure for respresenting expressions that can be compared for simple-value equality assertions.
+ */
 struct ct_comparable_value {
     union {
-        long long integral_value;
-        unsigned long long uintegral_value;
-        long double floating_value;
-        long double _Complex complex_value;
+        long long integral_value;           /**< Access the value as a signed integral. */
+        unsigned long long uintegral_value; /**< Access the value as an unsigned integral. */
+        long double floating_value;         /**< Access the value as a floating point. */
+        long double _Complex complex_value; /**< Access the value as a complex number. */
     };
-    enum ct_valuetype_annotation type;
+    enum ct_valuetype_annotation type;      /**< Designates the correct type of the value. If type is CT_ANNOTATE_INVALID then the value is undefined. */
 };
 
+/**
+ Convert a value expression into a comparable value type.
+ @param v The value expression to convert.
+ @return A comparable value structure for the given value expression.
+ */
 #define ct_makevalue(v) ct_makevalue_factory(v)(0, v)
+/**
+ Select a makevalue function for converting the given value expression into a comparable value type.
+ @param v The value expression for which to select the comparable value creation function.
+ @return A function pointer to a typed makevalue function.
+ */
 // TODO: how do i annotate char?
 #define ct_makevalue_factory(v) _Generic(v, \
                                     ct_valuetype_variants(signed char,          ct_makevalue_integral), \
@@ -269,27 +287,62 @@ struct ct_comparable_value {
                                     ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
                                     ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
                                     default:                                    ct_makevalue_invalid)
+/**
+ Generate all unique value-type variants for a generic selection.
+ @param T The compile-time type for which to generate the variants.
+ @param e The expression to use in the generic selection for all type variants.
+ */
 #define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
+/**
+ Create a signed integral comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the signed integral value to be converted.
+ @return A comparable value structure for the signed integral value.
+ */
 inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long long value)
 {
     struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
     return cv;
 }
+/**
+ Create an unsigned integral comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the unsigned integral value to be converted.
+ @return A comparable value structure for the unsigned integral value.
+ */
 inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, unsigned long long value)
 {
     struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
     return cv;
 }
+/**
+ Create a floating point comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the floating point value to be converted.
+ @return A comparable value structure for the floating point value.
+ */
 inline struct ct_comparable_value ct_makevalue_floating(int placeholder, long double value)
 {
     struct ct_comparable_value cv = { .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
     return cv;
 }
+/**
+ Create a complex number comparable value structure.
+ @param placeholder An unused paramater to match arity for all makevalue functions. May be any value as it is ignored by the function.
+ @param value The widest possible expression of the complex number value to be converted.
+ @return A comparable value structure for the complex number value.
+ */
 inline struct ct_comparable_value ct_makevalue_complex(int placeholder, long double _Complex value)
 {
     struct ct_comparable_value cv = { .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
     return cv;
 }
+/**
+ Create a comparable value structure for an expression that cannot be converted into a simple value type.
+ @param placeholder An unused paramater to allow for a variadic paramater. May be any value as it is ignored by the function.
+ @param expression The non-value type expression that cannot be represented as a comparable value structure. Ignored by the function.
+ @return An invalid comparable value structure used for checking a mismatched equality assertion.
+ */
 inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 {
     struct ct_comparable_value cv = { .type = CT_ANNOTATE_INVALID };
