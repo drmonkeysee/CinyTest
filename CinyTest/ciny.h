@@ -359,6 +359,11 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
     return cv;
 }
 
+/**
+ Verify whether the expression can be converted into a valid value type.
+ Failure raises a static assertion listing the offending expression and lists possible remedies.
+ @param v The expression to verify as a simple value type.
+ */
 #define ct_checkvalue(v) _Static_assert(_Generic(&ct_makevalue_factory(v), struct ct_comparable_value (*)(int, ...): 0, default: 1), "(" #v ") is an invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 
 /**
