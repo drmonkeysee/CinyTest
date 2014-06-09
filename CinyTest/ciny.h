@@ -296,7 +296,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
     return cv;
 }
 
-#define ct_checkvalue(v) _Static_assert(ct_makevalue_factory(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
+#define ct_checkvalue(v) _Static_assert(_Generic(&ct_makevalue_factory(v), struct ct_comparable_value (*)(int, ...): 0, default: 1), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 
 /**
  Assert whether two values are equal.
