@@ -248,26 +248,27 @@ struct ct_comparable_value {
     enum ct_valuetype_annotation type;
 };
 
+#define ct_makevalue(v) ct_makevalue_factory(v)(0, v)
+#define ct_makevalue_factory(v) _Generic(v, \
+                                    ct_valuetype_variants(signed char,          ct_makevalue_integral), \
+                                    ct_valuetype_variants(short,                ct_makevalue_integral), \
+                                    ct_valuetype_variants(int,                  ct_makevalue_integral), \
+                                    ct_valuetype_variants(long,                 ct_makevalue_integral), \
+                                    ct_valuetype_variants(long long,            ct_makevalue_integral), \
+                                    ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
+                                    ct_valuetype_variants(float,                ct_makevalue_floating), \
+                                    ct_valuetype_variants(double,               ct_makevalue_floating), \
+                                    ct_valuetype_variants(long double,          ct_makevalue_floating), \
+                                    ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
+                                    ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
+                                    ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
+                                    default:                                    ct_makevalue_invalid)
 #define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
-#define ct_makevalue(v) _Generic(v, \
-                            ct_valuetype_variants(signed char,          ct_makevalue_integral), \
-                            ct_valuetype_variants(short,                ct_makevalue_integral), \
-                            ct_valuetype_variants(int,                  ct_makevalue_integral), \
-                            ct_valuetype_variants(long,                 ct_makevalue_integral), \
-                            ct_valuetype_variants(long long,            ct_makevalue_integral), \
-                            ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
-                            ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
-                            ct_valuetype_variants(float,                ct_makevalue_floating), \
-                            ct_valuetype_variants(double,               ct_makevalue_floating), \
-                            ct_valuetype_variants(long double,          ct_makevalue_floating), \
-                            ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
-                            ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
-                            ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
-                            default:                                    ct_makevalue_invalid)(0, v)
 #define ct_checkvalue(v) _Static_assert(ct_valuetype_annotation(v), "invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 // TODO: how do i annotate char?
 #define ct_valuetype_annotation(v) _Generic(v, \
