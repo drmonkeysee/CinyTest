@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3631904CFE70030E3EC /* CTMakeTestTests.m */; };
 		0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */; };
+		0244607E194801F100D31360 /* CTAssertNotEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0244607D194801F100D31360 /* CTAssertNotEqualTests.m */; };
 		025EF552193157C8002EA558 /* CTAssertEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 025EF551193157C8002EA558 /* CTAssertEqualTests.m */; };
 		025EF55419315EF3002EA558 /* CTMakeValueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 025EF55319315EF3002EA558 /* CTMakeValueTests.m */; };
 		028F5CB4191054DF000BCA3D /* CTRunSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		0237F3631904CFE70030E3EC /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
 		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
+		0244607D194801F100D31360 /* CTAssertNotEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualTests.m; sourceTree = "<group>"; };
 		025EF551193157C8002EA558 /* CTAssertEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualTests.m; sourceTree = "<group>"; };
 		025EF55319315EF3002EA558 /* CTMakeValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeValueTests.m; sourceTree = "<group>"; };
 		028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunSuiteTests.m; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				02C70E44191EDD89007B2C6A /* CTAssertNotNullTests.m */,
 				025EF55319315EF3002EA558 /* CTMakeValueTests.m */,
 				025EF551193157C8002EA558 /* CTAssertEqualTests.m */,
+				0244607D194801F100D31360 /* CTAssertNotEqualTests.m */,
 				02EE6D5C18FA3AC700E5A8D7 /* Supporting Files */,
 			);
 			path = CinyTestTests;
@@ -258,6 +261,7 @@
 				02C7962A191DEE5C00CA82FE /* CTAssertTrueTests.m in Sources */,
 				02C1D49A1917295500744654 /* CTIgnoreTests.m in Sources */,
 				025EF55419315EF3002EA558 /* CTMakeValueTests.m in Sources */,
+				0244607E194801F100D31360 /* CTAssertNotEqualTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
