@@ -367,13 +367,33 @@ void ct_assertnotnull_full(void *expression, const char *stringized_expression, 
 void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (!comparablevalue_comparetypes(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
+        set_assertdescription(&CurrentAssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
     } else if (!comparablevalue_comparevalues(&expected, &actual, expected.type)) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
         char valuestr_actual[COMPVALUE_STR_SIZE];
         comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
         comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
         set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
+    }
+    
+    if (CurrentAssertState.description[0]) {
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}
+
+void ct_assertnotequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+{
+    if (!comparablevalue_comparetypes(&expected, &actual)) {
+        set_assertdescription(&CurrentAssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
+    } else if (comparablevalue_comparevalues(&expected, &actual, expected.type)) {
+        char valuestr_actual[COMPVALUE_STR_SIZE];
+        comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
+        set_assertdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_actual);
     }
     
     if (CurrentAssertState.description[0]) {

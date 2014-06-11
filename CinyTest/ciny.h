@@ -396,6 +396,36 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  */
 void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
 
+/**
+ Assert whether two values are not equal.
+ Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
+ @see ct_assertequalp for pointer equality.
+ @see ct_assertequalstr for string equality.
+ @param expected The expected value.
+ @param actual The actual value.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertnotequal(expected, actual, ...) \
+            do { \
+                ct_checkvalue(expected); \
+                ct_checkvalue(actual); \
+                ct_assertnotequal_full(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+            } while (0)
+/**
+ Assert whether two values are not equal, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertnotequal
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
+
 #define ct_assertequalp(expected, actual, ...) ()
 
 #define ct_assertequalstr(expected, actual, ...) ()
