@@ -364,7 +364,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  Failure raises a static assertion listing the offending expression and lists possible remedies.
  @param v The expression to verify as a simple value type.
  */
-#define ct_checkvalue(v) _Static_assert(_Generic(&ct_makevalue_factory(v), struct ct_comparable_value (*)(int, ...): 0, default: 1), "(" #v ") is an invalid value type; use ct_assertequalp for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
+#define ct_checkvalue(v) _Static_assert(_Generic(&ct_makevalue_factory(v), struct ct_comparable_value (*)(int, ...): 0, default: 1), "(" #v ") is an invalid value type; use ct_assertsame for pointer types, ct_assertequalstr for string types, or custom comparisons with ct_asserttrue for structs, unions, and arrays.")
 
 /**
  Assert whether two values are equal.
@@ -386,9 +386,9 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  Not intended for direct use.
  @see ct_assertequal
  @param expected The expected value.
- @param stringized_expected The string representation of the expected value.
+ @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
- @param stringized_actual The string representation of the actual value.
+ @param stringized_actual The string representation of the actual value expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
  @param format The printf-style format string to display when the assertion fires.
@@ -416,9 +416,9 @@ void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_com
  Not intended for direct use.
  @see ct_assertnotequal
  @param expected The expected value.
- @param stringized_expected The string representation of the expected value.
+ @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
- @param stringized_actual The string representation of the actual value.
+ @param stringized_actual The string representation of the actual value expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
  @param format The printf-style format string to display when the assertion fires.
@@ -426,7 +426,27 @@ void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_com
  */
 void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
 
-#define ct_assertequalp(expected, actual, ...) ()
+/**
+ Assert whether two pointers refer to the same object.
+ @param expected The expected pointer.
+ @param actual The actual pointer.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertsame(expected, actual, ...) ct_assertsame_full(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
+/**
+ Assert whether two pointers refer to the same object, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertsame
+ @param expected The expected pointer.
+ @param stringized_expected The string representation of the expected pointer expression.
+ @param actual The actual pointer.
+ @param stringized_actual The string representation of the actual pointer expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertsame_full(void *, const char *, void *, const char *, const char *, int, const char *, ...);
 
 #define ct_assertequalstr(expected, actual, ...) ()
 

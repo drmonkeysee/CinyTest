@@ -405,3 +405,16 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
         longjmp(AssertFired, CurrentAssertState.type);
     }
 }
+
+void ct_assertsame_full(void *expected, const char *stringized_expected, void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+{
+    if (expected != actual) {
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        set_assertdescription(&CurrentAssertState, "(%s) is not the same as (%s): expected (%p), actual (%p)", stringized_expected, stringized_actual, expected, actual);
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}
