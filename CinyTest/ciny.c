@@ -216,7 +216,7 @@ static const char *comparablevalue_typedescription(struct ct_comparable_value *v
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
             return "integral";
-        case CT_ANNOTATE_UNSIGNED_INTEGRAL:
+        case CT_ANNOTATE_UNSIGNEDINTEGRAL:
             return "unsigned integral";
         case CT_ANNOTATE_FLOATINGPOINT:
             return "floating point";
@@ -232,7 +232,7 @@ static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, 
     switch (type) {
         case CT_ANNOTATE_INTEGRAL:
             return expected->integral_value == actual->integral_value;
-        case CT_ANNOTATE_UNSIGNED_INTEGRAL:
+        case CT_ANNOTATE_UNSIGNEDINTEGRAL:
             return expected->uintegral_value == actual->uintegral_value;
         case CT_ANNOTATE_FLOATINGPOINT:
             return expected->floating_value == actual->floating_value;
@@ -251,7 +251,7 @@ static void comparablevalue_valuedescription(struct ct_comparable_value *value, 
         case CT_ANNOTATE_INTEGRAL:
             write_count = snprintf(buffer, size, "%lld", value->integral_value);
             break;
-        case CT_ANNOTATE_UNSIGNED_INTEGRAL:
+        case CT_ANNOTATE_UNSIGNEDINTEGRAL:
             write_count = snprintf(buffer, size, "%llu", value->uintegral_value);
             break;
         case CT_ANNOTATE_FLOATINGPOINT:

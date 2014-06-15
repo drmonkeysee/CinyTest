@@ -239,7 +239,7 @@ void ct_assertnotnull_full(void *, const char *, const char *, int, const char *
 enum ct_valuetype_annotation {
     CT_ANNOTATE_INVALID,            /**< Expression did not evaluate to a valid value type. */
     CT_ANNOTATE_INTEGRAL,           /**< Value is a signed integral type. */
-    CT_ANNOTATE_UNSIGNED_INTEGRAL,  /**< Value is an unsigned integral type. */
+    CT_ANNOTATE_UNSIGNEDINTEGRAL,   /**< Value is an unsigned integral type. */
     CT_ANNOTATE_FLOATINGPOINT,      /**< Value is a floating point type. */
     CT_ANNOTATE_COMPLEX             /**< Value is a complex number type. */
 };
@@ -322,7 +322,7 @@ inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long lo
  */
 inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, unsigned long long value)
 {
-    struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNED_INTEGRAL };
+    struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNEDINTEGRAL };
     return cv;
 }
 /**

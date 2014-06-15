@@ -75,20 +75,20 @@
 
 - (void)test_ctmakevalue_CreatesUnsignedIntegralValues
 {
-    assert_valuetype(bool, true, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(bool, true, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
     
-    assert_valuetype(unsigned char, UCHAR_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned char, UCHAR_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
     
-    assert_valuetype(unsigned short, USHRT_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned short, USHRT_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
     
-    assert_valuetype(unsigned int, UINT_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned int, UINT_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
     
-    assert_valuetype(unsigned long, ULONG_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned long, ULONG_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
     
-    assert_valuetype(unsigned long long, ULONG_LONG_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned long long, ULONG_LONG_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
     
 #if CHAR_MIN == 0
-    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_UNSIGNED_INTEGRAL, get_uintegral_value);
+    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
 #endif
 }
 
