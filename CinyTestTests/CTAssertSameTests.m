@@ -75,7 +75,7 @@ static void identity_test_withformattedmessage(void *context)
     [super tearDown];
 }
 
-- (void)test_ComparesSame_IfNullInputs
+- (void)test_ctassertsame_ComparesSame_IfNullInputs
 {
     self.expectedPointer = NULL;
     self.actualPointer = NULL;
@@ -89,7 +89,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesNotSame_IfExpectedIsNull
+- (void)test_ctassertsame_ComparesNotSame_IfExpectedIsNull
 {
     int testValue = 10;
     self.expectedPointer = NULL;
@@ -104,7 +104,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesNotSame_IfActualIsNull
+- (void)test_ctassertsame_ComparesNotSame_IfActualIsNull
 {
     int testValue = 10;
     self.expectedPointer = &testValue;
@@ -119,7 +119,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesSame_IfBothPointToSameObject
+- (void)test_ctassertsame_ComparesSame_IfBothPointToSameObject
 {
     int testValue = 10;
     self.expectedPointer = &testValue;
@@ -134,7 +134,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesNotSame_IfPointingAtDifferentObjects
+- (void)test_ctassertsame_ComparesNotSame_IfPointingAtDifferentObjects
 {
     int expectedTestValue = 10;
     int actualTestValue = 10;
@@ -150,7 +150,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesNotSame_IfPointingAtDifferentPartsOfSameObject
+- (void)test_ctassertsame_ComparesNotSame_IfPointingAtDifferentPartsOfSameObject
 {
     int values[] = { 2, 4, 5 };
     self.expectedPointer = values;
@@ -165,7 +165,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesSame_IfExpectedIsAliasedVersionOfActual
+- (void)test_ctassertsame_ComparesSame_IfExpectedIsAliasedVersionOfActual
 {
     int testValue = 10;
     int *aliasedPointer = &testValue;
@@ -181,7 +181,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ComparesSame_IfActualIsAliasedVersionOfExpected
+- (void)test_ctassertsame_ComparesSame_IfActualIsAliasedVersionOfExpected
 {
     int testValue = 10;
     int *aliasedPointer = &testValue;
@@ -197,7 +197,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_FiresAssertion_WithMessage
+- (void)test_ctassertsame_FiresAssertion_WithMessage
 {
     struct ct_testcase tests[] = { ct_maketest(identity_test_withmessage) };
     struct ct_testsuite suite = ct_makesuite(tests);
@@ -209,7 +209,7 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_FiresAssertion_WithFormattedMessage
+- (void)test_ctassertsame_FiresAssertion_WithFormattedMessage
 {
     struct ct_testcase tests[] = { ct_maketest(identity_test_withformattedmessage) };
     struct ct_testsuite suite = ct_makesuite(tests);
