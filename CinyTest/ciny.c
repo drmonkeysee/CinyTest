@@ -418,3 +418,16 @@ void ct_assertsame_full(const void *expected, const char *stringized_expected, c
         longjmp(AssertFired, CurrentAssertState.type);
     }
 }
+
+void ct_assertnotsame_full(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+{
+    if (expected == actual) {
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        set_assertdescription(&CurrentAssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, actual);
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}

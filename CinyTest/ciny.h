@@ -448,6 +448,28 @@ void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_
  */
 void ct_assertsame_full(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
 
+/**
+ Assert whether two pointers refer to different objects.
+ @param expected The expected pointer.
+ @param actual The actual pointer.
+ @param message A printf-style format string with optional arguments to display when the assertion fires.
+ */
+#define ct_assertnotsame(expected, actual, ...) ct_assertnotsame_full(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
+/**
+ Assert whether two pointers refer to different objects, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertsame
+ @param expected The expected pointer.
+ @param stringized_expected The string representation of the expected pointer expression.
+ @param actual The actual pointer.
+ @param stringized_actual The string representation of the actual pointer expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fires.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertnotsame_full(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
+
 #define ct_assertequalstr(expected, actual, ...) ()
 
 #endif
