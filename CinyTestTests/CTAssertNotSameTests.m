@@ -58,6 +58,36 @@ static void identity_test_withformattedmessage(void *context)
     testObject.sawPostAssertCode = YES;
 }
 
+static void identity_test_pointerstopointers(void *context)
+{
+    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    int value = 10;
+    int *pvalue = &value;
+    int **ppvalue = &pvalue;
+    
+    ct_assertnotsame(&pvalue, ppvalue);
+    
+    testObject.sawPostAssertCode = YES;
+}
+
+static void identity_test_pointer_andpointertopointer(void *context)
+{
+    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    int value = 10;
+    int *pvalue = &value;
+    int **ppvalue = &pvalue;
+    
+    ct_assertnotsame(pvalue, ppvalue);
+    
+    testObject.sawPostAssertCode = YES;
+}
+
 @implementation CTAssertNotSameTests
 
 - (void)setUp
@@ -194,6 +224,30 @@ static void identity_test_withformattedmessage(void *context)
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertsame_ComparesSame_IfPointersToPointers
+{
+    struct ct_testcase tests[] = { ct_maketest(identity_test_pointerstopointers) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertsame_ComparesNotSame_IfPointerAndPointerToPointer
+{
+    struct ct_testcase tests[] = { ct_maketest(identity_test_pointer_andpointertopointer) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
 }
 
 - (void)test_ctassertnotsame_FiresAssertion_WithMessage
