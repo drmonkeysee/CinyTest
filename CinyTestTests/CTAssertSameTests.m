@@ -31,6 +31,34 @@ static void identity_test(void *context)
     testObject.sawPostAssertCode = YES;
 }
 
+static void identity_test_withmessage(void *context)
+{
+    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    int i = 20;
+    double d = 4.5;
+    
+    ct_assertsame(&i, &d, "these pointers are not equal!");
+    
+    testObject.sawPostAssertCode = YES;
+}
+
+static void identity_test_withformattedmessage(void *context)
+{
+    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    const char *s = "foobar";
+    char c = 'A';
+    
+    ct_assertsame(s, &c, "\"%s\" is something other than '%c'", s, c);
+    
+    testObject.sawPostAssertCode = YES;
+}
+
 @implementation CTAssertSameTests
 
 - (void)setUp
@@ -167,6 +195,30 @@ static void identity_test(void *context)
     XCTAssertEqual(0, run_result);
     XCTAssertTrue(self.invokedTest);
     XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_FiresAssertion_WithMessage
+{
+    struct ct_testcase tests[] = { ct_maketest(identity_test_withmessage) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_FiresAssertion_WithFormattedMessage
+{
+    struct ct_testcase tests[] = { ct_maketest(identity_test_withformattedmessage) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
 }
 
 @end

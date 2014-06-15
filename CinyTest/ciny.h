@@ -446,7 +446,7 @@ void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_
  @param format The printf-style format string to display when the assertion fires.
  @param format_args Format arguments for the format string.
  */
-void ct_assertsame_full(void *, const char *, void *, const char *, const char *, int, const char *, ...);
+void ct_assertsame_full(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
 
 #define ct_assertequalstr(expected, actual, ...) ()
 

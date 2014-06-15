@@ -406,7 +406,7 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
     }
 }
 
-void ct_assertsame_full(void *expected, const char *stringized_expected, void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+void ct_assertsame_full(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (expected != actual) {
         CurrentAssertState.type = ASSERT_FAILURE;
