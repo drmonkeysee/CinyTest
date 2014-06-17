@@ -211,7 +211,7 @@ void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, .
  @param format The printf-style format string to display when the assertion fires.
  @param format_args Format arguments for the format string.
  */
-void ct_assertnull_full(void *, const char *, const char *, int, const char *, ...);
+void ct_assertnull_full(const void *, const char *, const char *, int, const char *, ...);
 
 /**
  Assert whether an expression is not NULL.
@@ -230,7 +230,7 @@ void ct_assertnull_full(void *, const char *, const char *, int, const char *, .
  @param format The printf-style format string to display when the assertion fires.
  @param format_args Format arguments for the format string.
  */
-void ct_assertnotnull_full(void *, const char *, const char *, int, const char *, ...);
+void ct_assertnotnull_full(const void *, const char *, const char *, int, const char *, ...);
 
 /**
  Value type annotation.

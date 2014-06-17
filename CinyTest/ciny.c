@@ -206,12 +206,12 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
     }
 }
 
-static bool comparablevalue_comparetypes(struct ct_comparable_value *expected, struct ct_comparable_value *actual)
+static bool comparablevalue_comparetypes(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual)
 {
     return expected->type == actual->type;
 }
 
-static const char *comparablevalue_typedescription(struct ct_comparable_value *value)
+static const char *comparablevalue_typedescription(const struct ct_comparable_value *value)
 {
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -227,7 +227,7 @@ static const char *comparablevalue_typedescription(struct ct_comparable_value *v
     }
 }
 
-static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
+static bool comparablevalue_comparevalues(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
 {
     switch (type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -243,7 +243,7 @@ static bool comparablevalue_comparevalues(struct ct_comparable_value *expected, 
     }
 }
 
-static void comparablevalue_valuedescription(struct ct_comparable_value *value, char *buffer, size_t size)
+static void comparablevalue_valuedescription(const struct ct_comparable_value *value, char *buffer, size_t size)
 {
     int write_count = 0;
     
@@ -338,7 +338,7 @@ void ct_assertfalse_full(bool expression, const char *stringized_expression, con
     }
 }
 
-void ct_assertnull_full(void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_assertnull_full(const void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (expression) {
         CurrentAssertState.type = ASSERT_FAILURE;
@@ -351,7 +351,7 @@ void ct_assertnull_full(void *expression, const char *stringized_expression, con
     }
 }
 
-void ct_assertnotnull_full(void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_assertnotnull_full(const void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (!expression) {
         CurrentAssertState.type = ASSERT_FAILURE;
