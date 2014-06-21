@@ -142,7 +142,7 @@ _Noreturn void ct_ignore_full(const char *, ...);
 
 /**
  Assert failure unconditionally.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertfail(...) ct_assertfail_full(__FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -151,7 +151,7 @@ _Noreturn void ct_ignore_full(const char *, ...);
  @see ct_assertfail
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
@@ -159,7 +159,7 @@ _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
 /**
  Assert whether an expression is true.
  @param expression The expression to evaluate against the value true.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_asserttrue(expression, ...) ct_asserttrue_full(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -170,7 +170,7 @@ _Noreturn void ct_assertfail_full(const char *, int, const char *, ...);
  @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ...);
@@ -178,7 +178,7 @@ void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ..
 /**
  Assert whether an expression is false.
  @param expression The expression to evaluate against the value false.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertfalse(expression, ...) ct_assertfalse_full(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -189,7 +189,7 @@ void ct_asserttrue_full(_Bool, const char *, const char *, int, const char *, ..
  @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, ...);
@@ -197,7 +197,7 @@ void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, .
 /**
  Assert whether an expression is NULL.
  @param expression The expression to evaluate against the value NULL.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnull(expression, ...) ct_assertnull_full(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -208,7 +208,7 @@ void ct_assertfalse_full(_Bool, const char *, const char *, int, const char *, .
  @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertnull_full(const void *, const char *, const char *, int, const char *, ...);
@@ -216,7 +216,7 @@ void ct_assertnull_full(const void *, const char *, const char *, int, const cha
 /**
  Assert whether an expression is not NULL.
  @param expression The expression to evaluate against the value !NULL.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotnull(expression, ...) ct_assertnotnull_full(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -227,7 +227,7 @@ void ct_assertnull_full(const void *, const char *, const char *, int, const cha
  @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertnotnull_full(const void *, const char *, const char *, int, const char *, ...);
@@ -373,7 +373,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  @see ct_assertequalstr for string equality.
  @param expected The expected value.
  @param actual The actual value.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertequal(expected, actual, ...) \
             do { \
@@ -391,7 +391,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  @param stringized_actual The string representation of the actual value expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
@@ -403,7 +403,7 @@ void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_com
  @see ct_assertequalstr for string equality.
  @param expected The expected value.
  @param actual The actual value.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotequal(expected, actual, ...) \
             do { \
@@ -421,7 +421,7 @@ void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_com
  @param stringized_actual The string representation of the actual value expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
@@ -430,7 +430,7 @@ void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_
  Assert whether two pointers refer to the same object.
  @param expected The expected pointer.
  @param actual The actual pointer.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertsame(expected, actual, ...) ct_assertsame_full(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -443,7 +443,7 @@ void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_
  @param stringized_actual The string representation of the actual pointer expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertsame_full(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
@@ -452,7 +452,7 @@ void ct_assertsame_full(const void *, const char *, const void *, const char *, 
  Assert whether two pointers refer to different objects.
  @param expected The expected pointer.
  @param actual The actual pointer.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotsame(expected, actual, ...) ct_assertnotsame_full(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -465,7 +465,7 @@ void ct_assertsame_full(const void *, const char *, const void *, const char *, 
  @param stringized_actual The string representation of the actual pointer expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertnotsame_full(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
@@ -475,7 +475,7 @@ void ct_assertnotsame_full(const void *, const char *, const void *, const char 
  The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
  @param expected The expected string. Must be a string literal expression.
  @param actual The actual string.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertequalstr(expected, actual, ...) ct_assertequalstrn("" expected, actual, sizeof (expected), __VA_ARGS__)
 /**
