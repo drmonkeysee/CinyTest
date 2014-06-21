@@ -483,10 +483,10 @@ void ct_assertnotsame_full(const void *, const char *, const void *, const char 
  Compares up to length characters for equality.
  @param expected The expected string.
  @param actual The actual string.
- @param length The maximum number of characters to compare for equality.
- @param message A printf-style format string with optional arguments to display when the assertion fires.
+ @param n The maximum number of characters to compare for equality.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
-#define ct_assertequalstrn(expected, actual, length, ...) ct_assertequalstrn_full(expected, #expected, actual, #actual, length, __FILE__, __LINE__, "" __VA_ARGS__);
+#define ct_assertequalstrn(expected, actual, length, ...) ct_assertequalstrn_full(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are equal, with contextual details and message.
  Not intended for direct use.
@@ -496,10 +496,10 @@ void ct_assertnotsame_full(const void *, const char *, const void *, const char 
  @param stringized_expected The string representation of the expected string expression.
  @param actual The actual string.
  @param stringized_actual The string representation of the actual string expression.
- @param length The maximum number of characters to compare for equality.
+ @param n The maximum number of characters to compare for equality.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fires.
+ @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
 void ct_assertequalstrn_full(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
