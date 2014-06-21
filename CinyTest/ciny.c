@@ -434,7 +434,8 @@ void ct_assertnotsame_full(const void *expected, const char *stringized_expected
 
 void ct_assertequalstrn_full(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char *file, int line, const char *format, ...)
 {
-    if (strncmp(expected, actual, n) != 0) {
+    if ((expected && !actual) || (!expected && actual)
+        || (expected && actual && (strncmp(expected, actual, n) != 0))) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
         char valuestr_actual[COMPVALUE_STR_SIZE];
         if (snprintf(valuestr_expected, COMPVALUE_STR_SIZE, "%s", expected) >= COMPVALUE_STR_SIZE) {
