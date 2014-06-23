@@ -477,7 +477,7 @@ void ct_assertnotsame_full(const void *, const char *, const void *, const char 
  @param actual The actual string.
  @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
-#define ct_assertequalstr(expected, actual, ...) ct_assertequalstrn("" expected, actual, sizeof (expected), __VA_ARGS__)
+#define ct_assertequalstr(expected, actual, ...) ct_assertequalstrn_full("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are equal.
  Compares up to length characters for equality.
