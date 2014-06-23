@@ -282,6 +282,23 @@ static void test_equality_string_withformatmessage(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
+- (void)test_ctassertequalstrn_ComparesEqual_WithVeryLongString
+{
+    NSString *longString = [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"LongString"];
+    self.expectedString = (char *)[longString UTF8String];
+    NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
+    self.actualString = (char *)[copiedString UTF8String];
+    self.compareCount = longString.length + 1;
+    struct ct_testcase tests[] = { ct_maketest(test_equality_stringn) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfMixedCase
 {
     self.expectedString = "foobar";
@@ -467,6 +484,42 @@ static void test_equality_string_withformatmessage(void *context)
     self.expectedString = "’"; // 0xE2 0x80 0x99 (\u2019)
     self.actualString = "â€™"; // 0xE2 0x80 0x99 in ISO-8859-1
     self.compareCount = sizeof "’";
+    struct ct_testcase tests[] = { ct_maketest(test_equality_stringn) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtStart
+{
+    NSString *longString = [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"LongString"];
+    self.expectedString = (char *)[longString UTF8String];
+    NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
+    self.actualString = (char *)[copiedString UTF8String];
+    ++self.actualString[0];
+    self.compareCount = longString.length + 1;
+    struct ct_testcase tests[] = { ct_maketest(test_equality_stringn) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtEnd
+{
+    NSString *longString = [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"LongString"];
+    self.expectedString = (char *)[longString UTF8String];
+    NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
+    self.actualString = (char *)[copiedString UTF8String];
+    ++self.actualString[longString.length];
+    self.compareCount = longString.length + 1;
     struct ct_testcase tests[] = { ct_maketest(test_equality_stringn) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
