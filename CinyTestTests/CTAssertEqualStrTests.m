@@ -623,7 +623,7 @@ static void test_equality_string_withformatmessage(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertequalstrOneChar_ComparesEqual_IfNonEqualSingleChar
+- (void)test_ctassertequalstrOneChar_ComparesNotEqual_IfNonEqualSingleChar
 {
     self.actualString = "d";
     struct ct_testcase tests[] = { ct_maketest(test_equality_string_expectedonechar) };
