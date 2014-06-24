@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0200E1F319553708009BA407 /* CTAssertEqualStrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */; };
+		020A83A219592C7200A5CD81 /* CTAssertNotEqualStrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 020A83A119592C7200A5CD81 /* CTAssertNotEqualStrTests.m */; };
 		0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3631904CFE70030E3EC /* CTMakeTestTests.m */; };
 		0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */; };
 		0244607E194801F100D31360 /* CTAssertNotEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0244607D194801F100D31360 /* CTAssertNotEqualTests.m */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualStrTests.m; sourceTree = "<group>"; };
+		020A83A119592C7200A5CD81 /* CTAssertNotEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualStrTests.m; sourceTree = "<group>"; };
 		0237F3631904CFE70030E3EC /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
 		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
 		0244607D194801F100D31360 /* CTAssertNotEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualTests.m; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				02701E52194D34E5003AE057 /* CTAssertSameTests.m */,
 				02701E54194D43AC003AE057 /* CTAssertNotSameTests.m */,
 				0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */,
+				020A83A119592C7200A5CD81 /* CTAssertNotEqualStrTests.m */,
 				02EE6D5C18FA3AC700E5A8D7 /* Supporting Files */,
 			);
 			path = CinyTestTests;
@@ -262,6 +265,7 @@
 				02701E55194D43AC003AE057 /* CTAssertNotSameTests.m in Sources */,
 				02C70E45191EDD89007B2C6A /* CTAssertNotNullTests.m in Sources */,
 				0200E1F319553708009BA407 /* CTAssertEqualStrTests.m in Sources */,
+				020A83A219592C7200A5CD81 /* CTAssertNotEqualStrTests.m in Sources */,
 				02C7962D191DF83800CA82FE /* CTAssertFalseTests.m in Sources */,
 				02701E53194D34E5003AE057 /* CTAssertSameTests.m in Sources */,
 				0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */,
