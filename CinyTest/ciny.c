@@ -391,9 +391,9 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
     if (!comparablevalue_comparetypes(&expected, &actual)) {
         set_assertdescription(&CurrentAssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
     } else if (comparablevalue_comparevalues(&expected, &actual, expected.type)) {
-        char valuestr_actual[COMPVALUE_STR_SIZE];
-        comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
-        set_assertdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_actual);
+        char valuestr_expected[COMPVALUE_STR_SIZE];
+        comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
+        set_assertdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
     }
     
     if (CurrentAssertState.description[0]) {
@@ -425,7 +425,7 @@ void ct_assertnotsame_full(const void *expected, const char *stringized_expected
         CurrentAssertState.type = ASSERT_FAILURE;
         CurrentAssertState.file = file;
         CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, actual);
+        set_assertdescription(&CurrentAssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, expected);
         capture_assertmessage(&CurrentAssertState, format);
         
         longjmp(AssertFired, CurrentAssertState.type);
