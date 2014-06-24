@@ -504,4 +504,38 @@ void ct_assertnotsame_full(const void *, const char *, const void *, const char 
  */
 void ct_assertequalstrn_full(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
 
+/**
+ Assert whether two strings are not equal.
+ The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
+ @param expected The expected string. Must be a string literal expression.
+ @param actual The actual string.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertnotequalstr(expected, actual, ...) ct_assertnotequalstrn_full("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
+/**
+ Assert whether two strings are not equal.
+ Compares up to length characters for inequality.
+ @param expected The expected string.
+ @param actual The actual string.
+ @param n The maximum number of characters to compare for inequality. Must not be greater than the size of expected.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertnotequalstrn(expected, actual, n, ...) ct_assertnotequalstrn_full(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
+/**
+ Assert whether two strings are not equal, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertequalstr
+ @see ct_assertequalstrn
+ @param expected The expected string.
+ @param stringized_expected The string representation of the expected string expression.
+ @param actual The actual string.
+ @param stringized_actual The string representation of the actual string expression.
+ @param n The maximum number of characters to compare for inequality. Must not be greater than the size of expected.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertnotequalstrn_full(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
+
 #endif
