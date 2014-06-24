@@ -454,3 +454,21 @@ void ct_assertequalstrn_full(const char *expected, const char *stringized_expect
         longjmp(AssertFired, CurrentAssertState.type);
     }
 }
+
+void ct_assertnotequalstrn_full(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char *file, int line, const char *format, ...)
+{
+    if ((!expected && !actual) || (expected && actual && (strncmp(expected, actual, n) == 0))) {
+        char valuestr_expected[COMPVALUE_STR_SIZE];
+        if (snprintf(valuestr_expected, COMPVALUE_STR_SIZE, "%s", expected) >= COMPVALUE_STR_SIZE) {
+            pretty_truncate(valuestr_expected, COMPVALUE_STR_SIZE);
+        }
+        set_assertdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
+        
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}
