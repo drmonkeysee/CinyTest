@@ -427,6 +427,56 @@ void ct_assertequal_full(struct ct_comparable_value, const char *, struct ct_com
 void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
 
 /**
+ Assert whether two values are equal within plus or minus a degree of error.
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value expression.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value expression.
+ @param epsilon The range of inaccuracy within which expected and actual may be considered equal.
+ */
+#define ct_assertaboutequal(expected, actual, epsilon, ...) ct_assertaboutequal_full(expected, #expected, actual, #actual, epsilon, __FILE__, __LINE__, "" __VA_ARGS__)
+/**
+ Assert whether two values are equal within plus or minus a degree of error, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertaboutequal
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value expression.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value expression.
+ @param epsilon The range of inaccuracy within which expected and actual may be considered equal.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertaboutequal_full(long double, const char *, long double, const char *, long double, const char *, int, const char *, ...);
+
+/**
+ Assert whether two values are not equal within plus or minus a degree of error.
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value expression.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value expression.
+ @param epsilon The range of inaccuracy within which expected and actual may be considered not equal.
+ */
+#define ct_assertnotaboutequal(expected, actual, epsilon, ...) ct_assertnotaboutequal_full(expected, #expected, actual, #actual, epsilon, __FILE__, __LINE__, "" __VA_ARGS__)
+/**
+ Assert whether two values are not equal within plus or minus a degree of error, with contextual details and message.
+ Not intended for direct use.
+ @see ct_assertnotaboutequal
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value expression.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value expression.
+ @param epsilon The range of inaccuracy within which expected and actual may be considered not equal.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_assertnotaboutequal_full(long double, const char *, long double, const char *, long double, const char *, int, const char *, ...);
+
+/**
  Assert whether two pointers refer to the same object.
  @param expected The expected pointer.
  @param actual The actual pointer.
