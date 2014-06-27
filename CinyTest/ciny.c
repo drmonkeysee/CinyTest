@@ -406,6 +406,28 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
     }
 }
 
+void ct_assertaboutequal_full(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char *file, int line, const char *format, ...)
+{
+    if (expected == actual) {
+        struct ct_comparable_value expected_value = ct_makevalue(expected);
+        struct ct_comparable_value actual_value = ct_makevalue(actual);
+        struct ct_comparable_value precision_value = ct_makevalue(precision);
+        char expected_valuestr[COMPVALUE_STR_SIZE];
+        char actual_valuestr[COMPVALUE_STR_SIZE];
+        char precision_valuestr[COMPVALUE_STR_SIZE];
+        comparablevalue_valuedescription(&expected_value, expected_valuestr, sizeof expected_valuestr);
+        comparablevalue_valuedescription(&actual_value, actual_valuestr, sizeof actual_valuestr);
+        comparablevalue_valuedescription(&precision_value, precision_valuestr, sizeof precision_valuestr);
+        set_assertdescription(&CurrentAssertState, "(%s) differs from (%s) by greater than \u00b1 (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, precision_valuestr, expected_valuestr, actual_valuestr);
+        CurrentAssertState.type = ASSERT_FAILURE;
+        CurrentAssertState.file = file;
+        CurrentAssertState.line = line;
+        capture_assertmessage(&CurrentAssertState, format);
+        
+        longjmp(AssertFired, CurrentAssertState.type);
+    }
+}
+
 void ct_assertsame_full(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (expected != actual) {
