@@ -432,9 +432,9 @@ void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_
  @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
  @param stringized_actual The string representation of the actual value expression.
- @param epsilon The range of inaccuracy within which expected and actual may be considered equal.
+ @param precision The range of precision within which expected and actual may be considered equal.
  */
-#define ct_assertaboutequal(expected, actual, epsilon, ...) ct_assertaboutequal_full(expected, #expected, actual, #actual, epsilon, __FILE__, __LINE__, "" __VA_ARGS__)
+#define ct_assertaboutequal(expected, actual, precision, ...) ct_assertaboutequal_full(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two values are equal within plus or minus a degree of error, with contextual details and message.
  Not intended for direct use.
@@ -443,7 +443,7 @@ void ct_assertnotequal_full(struct ct_comparable_value, const char *, struct ct_
  @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
  @param stringized_actual The string representation of the actual value expression.
- @param epsilon The range of inaccuracy within which expected and actual may be considered equal.
+ @param precision The range of precision within which expected and actual may be considered equal.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
  @param format The printf-style format string to display when the assertion fails.
@@ -457,9 +457,9 @@ void ct_assertaboutequal_full(long double, const char *, long double, const char
  @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
  @param stringized_actual The string representation of the actual value expression.
- @param epsilon The range of inaccuracy within which expected and actual may be considered not equal.
+ @param precision The range of precision within which expected and actual may be considered not equal.
  */
-#define ct_assertnotaboutequal(expected, actual, epsilon, ...) ct_assertnotaboutequal_full(expected, #expected, actual, #actual, epsilon, __FILE__, __LINE__, "" __VA_ARGS__)
+#define ct_assertnotaboutequal(expected, actual, precision, ...) ct_assertnotaboutequal_full(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two values are not equal within plus or minus a degree of error, with contextual details and message.
  Not intended for direct use.
@@ -468,7 +468,7 @@ void ct_assertaboutequal_full(long double, const char *, long double, const char
  @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
  @param stringized_actual The string representation of the actual value expression.
- @param epsilon The range of inaccuracy within which expected and actual may be considered not equal.
+ @param precision The range of precision within which expected and actual may be considered not equal.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
  @param format The printf-style format string to display when the assertion fails.
