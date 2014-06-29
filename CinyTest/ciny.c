@@ -408,7 +408,7 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
 
 void ct_assertaboutequal_full(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char *file, int line, const char *format, ...)
 {
-    if (expected == actual) {
+    if (expected != actual) {
         struct ct_comparable_value expected_value = ct_makevalue(expected);
         struct ct_comparable_value actual_value = ct_makevalue(actual);
         struct ct_comparable_value precision_value = ct_makevalue(precision);
