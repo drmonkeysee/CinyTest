@@ -39,5 +39,9 @@ Ran count tests (seconds): x passed, x failed, x ignored.
 ## TODO
 
 - does setup/teardown error count as test failure?
-- add assertequal documentation
-- support char
+- aboutequal tests
+    - minvalue, near minvalue, precision inclusion
+    - maxvalue, near maxvalue, precision inclusion
+    - should floats, doubles, long doubles be treated as different types?
+        - currently float/double near the maxes may succeed at comparison even though they would actually under/overflow
+    - what are the rules for comparing over/underflow
