@@ -315,7 +315,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesEqual_IfDifferentIntegralTypes
 {
     sc_values[ARG_EXPECTED] = 42;
-    ll_values[ARG_ACTUAL] = 42;
+    ll_values[ARG_ACTUAL] = 42ll;
     self.expectedType = TAT_SCHAR;
     self.actualType = TAT_LONG_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -347,7 +347,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValuesWithDifferentTypes
 {
     s_values[ARG_EXPECTED] = -5673;
-    l_values[ARG_ACTUAL] = -5673;
+    l_values[ARG_ACTUAL] = -5673l;
     self.expectedType = TAT_SHORT;
     self.actualType = TAT_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -443,7 +443,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValuesAndTypes
 {
     s_values[ARG_EXPECTED] = 560;
-    l_values[ARG_ACTUAL] = -4574234;
+    l_values[ARG_ACTUAL] = -4574234l;
     self.expectedType = TAT_SHORT;
     self.actualType = TAT_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -476,8 +476,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfSameUnsignedIntegralTypes
 {
-    ui_values[ARG_EXPECTED] = 34503;
-    ui_values[ARG_ACTUAL] = 34503;
+    ui_values[ARG_EXPECTED] = 34503u;
+    ui_values[ARG_ACTUAL] = 34503u;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -492,8 +492,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentUnsignedIntegralTypes
 {
-    b_values[ARG_EXPECTED] = 1;
-    ull_values[ARG_ACTUAL] = 1;
+    b_values[ARG_EXPECTED] = 1u;
+    ull_values[ARG_ACTUAL] = 1ull;
     self.expectedType = TAT_BOOL;
     self.actualType = TAT_ULONG_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -508,8 +508,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValues
 {
-    ui_values[ARG_EXPECTED] = 0;
-    ui_values[ARG_ACTUAL] = 0;
+    ui_values[ARG_EXPECTED] = 0u;
+    ui_values[ARG_ACTUAL] = 0u;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -524,8 +524,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValuesWithDifferentTypes
 {
-    uc_values[ARG_EXPECTED] = 0;
-    ul_values[ARG_ACTUAL] = 0;
+    uc_values[ARG_EXPECTED] = 0u;
+    ul_values[ARG_ACTUAL] = 0ul;
     self.expectedType = TAT_UCHAR;
     self.actualType = TAT_ULONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -556,8 +556,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValues
 {
-    ui_values[ARG_EXPECTED] = 560;
-    ui_values[ARG_ACTUAL] = 123467;
+    ui_values[ARG_EXPECTED] = 560u;
+    ui_values[ARG_ACTUAL] = 123467u;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -572,8 +572,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValuesAndTypes
 {
-    us_values[ARG_EXPECTED] = 560;
-    ui_values[ARG_ACTUAL] = 688334;
+    us_values[ARG_EXPECTED] = 560u;
+    ui_values[ARG_ACTUAL] = 688334u;
     self.expectedType = TAT_USHORT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -588,7 +588,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegralValues
 {
-    ull_values[ARG_EXPECTED] = 0;
+    ull_values[ARG_EXPECTED] = 0ull;
     ull_values[ARG_ACTUAL] = ULONG_LONG_MAX;
     self.expectedType = TAT_ULONG_LONG;
     self.actualType = TAT_ULONG_LONG;
@@ -622,8 +622,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentFloatTypes
 {
-    f_values[ARG_EXPECTED] = 7834.0;
-    ld_values[ARG_ACTUAL] = 7834.0;
+    f_values[ARG_EXPECTED] = 7834.0f;
+    ld_values[ARG_ACTUAL] = 7834.0l;
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -654,7 +654,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValuesWithDifferentTypes
 {
-    f_values[ARG_EXPECTED] = -52.0;
+    f_values[ARG_EXPECTED] = -52.0f;
     d_values[ARG_ACTUAL] = -52.0;
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_DOUBLE;
@@ -687,7 +687,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesEqual_IfZeroFloatValuesWithDifferentTypes
 {
     d_values[ARG_EXPECTED] = 0.0;
-    ld_values[ARG_ACTUAL] = 0.0;
+    ld_values[ARG_ACTUAL] = 0.0l;
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -750,8 +750,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValuesAndTypes
 {
-    f_values[ARG_EXPECTED] = 560.093;
-    ld_values[ARG_ACTUAL] = -4574234e10;
+    f_values[ARG_EXPECTED] = 560.093f;
+    ld_values[ARG_ACTUAL] = -4574234e10l;
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -800,8 +800,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentComplexTypes
 {
-    fc_values[ARG_EXPECTED] = CMPLXF(82.0, 12.0);
-    ldc_values[ARG_ACTUAL] = CMPLXL(82.0, 12.0);
+    fc_values[ARG_EXPECTED] = CMPLXF(82.0f, 12.0f);
+    ldc_values[ARG_ACTUAL] = CMPLXL(82.0l, 12.0l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -832,7 +832,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValuesWithDifferentTypes
 {
-    fc_values[ARG_EXPECTED] = CMPLXF(-23.0, -6.0);
+    fc_values[ARG_EXPECTED] = CMPLXF(-23.0f, -6.0f);
     dc_values[ARG_ACTUAL] = CMPLXL(-23.0, -6.0);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_COMPLEX;
@@ -865,7 +865,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesEqual_IfZeroComplexValuesWithDifferentTypes
 {
     dc_values[ARG_EXPECTED] = CMPLX(0.0, 0.0);
-    ldc_values[ARG_ACTUAL] = CMPLXL(0.0, 0.0);
+    ldc_values[ARG_ACTUAL] = CMPLXL(0.0l, 0.0l);
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -960,8 +960,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValuesAndTypes
 {
-    fc_values[ARG_EXPECTED] = CMPLXF(30.23, 10e5);
-    ldc_values[ARG_ACTUAL] = CMPLXL(-9.7, 0.456);
+    fc_values[ARG_EXPECTED] = CMPLXF(30.23f, 10e5f);
+    ldc_values[ARG_ACTUAL] = CMPLXL(-9.7l, 0.456l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -976,8 +976,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValuesAndTypes
 {
-    fc_values[ARG_EXPECTED] = CMPLXF(30.23, 2.5);
-    ldc_values[ARG_ACTUAL] = CMPLXL(-9.7, 2.5);
+    fc_values[ARG_EXPECTED] = CMPLXF(30.23f, 2.5f);
+    ldc_values[ARG_ACTUAL] = CMPLXL(-9.7l, 2.5l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -992,8 +992,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValuesAndTypes
 {
-    fc_values[ARG_EXPECTED] = CMPLXF(45.0, 10e5);
-    ldc_values[ARG_ACTUAL] = CMPLXL(45.0, 0.456);
+    fc_values[ARG_EXPECTED] = CMPLXF(45.0f, 10e5f);
+    ldc_values[ARG_ACTUAL] = CMPLXL(45.0l, 0.456l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1027,7 +1027,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndUIntegralTypes
 {
     i_values[ARG_EXPECTED] = 20;
-    ui_values[ARG_ACTUAL] = 20;
+    ui_values[ARG_ACTUAL] = 20u;
     self.expectedType = TAT_INT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1074,7 +1074,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatTypes
 {
-    ui_values[ARG_EXPECTED] = 20;
+    ui_values[ARG_EXPECTED] = 20u;
     d_values[ARG_ACTUAL] = 20;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_DOUBLE;
@@ -1090,7 +1090,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndComplexTypes
 {
-    ui_values[ARG_EXPECTED] = 20;
+    ui_values[ARG_EXPECTED] = 20u;
     dc_values[ARG_ACTUAL] = CMPLX(20, 0.0);
     self.expectedType = TAT_UINT;
     self.actualType = TAT_COMPLEX;
@@ -1126,7 +1126,7 @@ static void equality_test_withtypevariants(void *context)
 {
     _Static_assert(sizeof(int) == sizeof(unsigned int), "int and uint not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
-    ui_values[ARG_ACTUAL] = 3248488448;
+    ui_values[ARG_ACTUAL] = 3248488448u;
     self.expectedType = TAT_INT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1143,7 +1143,7 @@ static void equality_test_withtypevariants(void *context)
 {
     _Static_assert(sizeof(int) == sizeof(float), "int and float not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
-    f_values[ARG_ACTUAL] = -2.0e1;
+    f_values[ARG_ACTUAL] = -2.0e1f;
     self.expectedType = TAT_INT;
     self.actualType = TAT_FLOAT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1159,8 +1159,8 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatIdenticalBitPattern
 {
     _Static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
-    ui_values[ARG_EXPECTED] = 3248488448;
-    f_values[ARG_ACTUAL] = -2.0e1;
+    ui_values[ARG_EXPECTED] = 3248488448u;
+    f_values[ARG_ACTUAL] = -2.0e1f;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_FLOAT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1250,7 +1250,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesNotEqual_IfCharAndUIntegralTypes
 {
     c_values[ARG_EXPECTED] = 20;
-    ui_values[ARG_ACTUAL] = 20;
+    ui_values[ARG_ACTUAL] = 20u;
     self.expectedType = TAT_CHAR;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
