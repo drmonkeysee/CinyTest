@@ -43,6 +43,11 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_LCOMPLEX
 };
 
+enum argument {
+    ARG_EXPECTED,
+    ARG_ACTUAL
+};
+
 @interface CTAssertEqualTests : XCTestCase
 
 @property (nonatomic, assign) BOOL invokedTest;
@@ -111,7 +116,7 @@ static void equality_test(void *context)
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_integral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -119,17 +124,17 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
             }
             break;
@@ -145,7 +150,7 @@ static void equality_test(void *context)
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_integral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -153,17 +158,17 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
             }
             break;
@@ -176,7 +181,7 @@ static void equality_test(void *context)
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_integral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -184,17 +189,17 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
             }
             break;
@@ -207,7 +212,7 @@ static void equality_test(void *context)
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_integral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -215,17 +220,17 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_uintegral_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_float_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, 0), get_complex_test_arg(testObject.actualType, 1));
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
             }
             break;
