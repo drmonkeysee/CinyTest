@@ -33,8 +33,8 @@ enum argument {
 static void *TestClass;
 
 #define get_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
-                                    : (T) == TAT_DOUBLE ? d_values[i] \
-                                    : ld_values[i])
+                            : (T) == TAT_DOUBLE ? d_values[i] \
+                            : ld_values[i])
 
 static float f_values[3];
 static double d_values[3];
