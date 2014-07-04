@@ -289,9 +289,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMinFloat
 {
+    int exponent = ilogbf(FLT_MIN);
     f_values[ARG_EXPECTED] = FLT_MIN;
-    f_values[ARG_ACTUAL] = FLT_MIN + 0.05f;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_ACTUAL] = FLT_MIN + ldexpf(0.05f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -307,9 +308,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMinFloat
 {
-    f_values[ARG_EXPECTED] = FLT_MIN + 0.05f;
+    int exponent = ilogbf(FLT_MIN);
+    f_values[ARG_EXPECTED] = FLT_MIN + ldexpf(0.05f, exponent);
     f_values[ARG_ACTUAL] = FLT_MIN;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -325,9 +327,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMaxFloat
 {
+    int exponent = ilogbf(FLT_MAX);
+    exponent -= exponent / 10;
     f_values[ARG_EXPECTED] = FLT_MAX;
-    f_values[ARG_ACTUAL] = FLT_MAX - 0.05f;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_ACTUAL] = FLT_MAX - ldexpf(0.05f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -343,9 +347,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMaxFloat
 {
-    f_values[ARG_EXPECTED] = FLT_MAX - 0.05f;
+    int exponent = ilogbf(FLT_MAX);
+    exponent -= exponent / 10;
+    f_values[ARG_EXPECTED] = FLT_MAX - ldexpf(0.05f, exponent);
     f_values[ARG_ACTUAL] = FLT_MAX;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -361,9 +367,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMinDouble
 {
+    int exponent = ilogb(DBL_MIN);
     d_values[ARG_EXPECTED] = DBL_MIN;
-    d_values[ARG_ACTUAL] = DBL_MIN + 0.05;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_ACTUAL] = DBL_MIN + ldexp(0.05, exponent);
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -379,9 +386,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMinDouble
 {
-    d_values[ARG_EXPECTED] = DBL_MIN + 0.05;
+    int exponent = ilogb(DBL_MIN);
+    d_values[ARG_EXPECTED] = DBL_MIN + ldexp(0.05, exponent);
     d_values[ARG_ACTUAL] = DBL_MIN;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -397,9 +405,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMaxDouble
 {
+    int exponent = ilogb(DBL_MAX);
+    exponent -= exponent / 20;
     d_values[ARG_EXPECTED] = DBL_MAX;
-    d_values[ARG_ACTUAL] = DBL_MAX - 0.05;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_ACTUAL] = DBL_MAX - ldexp(0.05, exponent);
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -415,9 +425,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMaxDouble
 {
-    d_values[ARG_EXPECTED] = DBL_MAX - 0.05;
+    int exponent = ilogb(DBL_MAX);
+    exponent -= exponent / 20;
+    d_values[ARG_EXPECTED] = DBL_MAX - ldexp(0.05, exponent);
     d_values[ARG_ACTUAL] = DBL_MAX;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -433,9 +445,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMinLongDouble
 {
+    int exponent = ilogbl(LDBL_MIN);
     ld_values[ARG_EXPECTED] = LDBL_MIN;
-    ld_values[ARG_ACTUAL] = LDBL_MIN + 0.05l;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_ACTUAL] = LDBL_MIN + ldexpl(0.05l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -451,9 +464,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMinLongDouble
 {
-    ld_values[ARG_EXPECTED] = LDBL_MIN + 0.05l;
+    int exponent = ilogbl(LDBL_MIN);
+    ld_values[ARG_EXPECTED] = LDBL_MIN + ldexpl(0.05l, exponent);
     ld_values[ARG_ACTUAL] = LDBL_MIN;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -469,9 +483,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMaxLongDouble
 {
+    int exponent = ilogbl(LDBL_MAX);
+    exponent -= exponent / 400;
     ld_values[ARG_EXPECTED] = LDBL_MAX;
-    ld_values[ARG_ACTUAL] = LDBL_MAX - 0.05l;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_ACTUAL] = LDBL_MAX - ldexpl(0.05l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -487,9 +503,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMaxLongDouble
 {
-    ld_values[ARG_EXPECTED] = LDBL_MAX - 0.05l;
+    int exponent = ilogbl(LDBL_MAX);
+    exponent -= exponent / 400;
+    ld_values[ARG_EXPECTED] = LDBL_MAX - ldexpl(0.05l, exponent);
     ld_values[ARG_ACTUAL] = LDBL_MAX;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -505,9 +523,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinFloat
 {
+    int exponent = ilogbf(-FLT_MIN);
     f_values[ARG_EXPECTED] = -FLT_MIN;
-    f_values[ARG_ACTUAL] = -FLT_MIN + 0.05f;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_ACTUAL] = -FLT_MIN - ldexpf(0.05f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -523,9 +542,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinFloat
 {
-    f_values[ARG_EXPECTED] = -FLT_MIN + 0.05f;
+    int exponent = ilogbf(-FLT_MIN);
+    f_values[ARG_EXPECTED] = -FLT_MIN - ldexpf(0.05f, exponent);
     f_values[ARG_ACTUAL] = -FLT_MIN;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -541,9 +561,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxFloat
 {
+    int exponent = ilogbf(-FLT_MAX);
+    exponent -= exponent / 10;
     f_values[ARG_EXPECTED] = -FLT_MAX;
-    f_values[ARG_ACTUAL] = -FLT_MAX + 0.05f;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_ACTUAL] = -FLT_MAX + ldexpf(0.05f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -559,9 +581,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxFloat
 {
-    f_values[ARG_EXPECTED] = -FLT_MAX + 0.05f;
+    int exponent = ilogbf(-FLT_MAX);
+    exponent -= exponent / 10;
+    f_values[ARG_EXPECTED] = -FLT_MAX + ldexpf(0.05f, exponent);
     f_values[ARG_ACTUAL] = -FLT_MAX;
-    f_values[ARG_PRECISION] = 0.1f;
+    f_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -577,9 +601,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinDouble
 {
+    int exponent = ilogb(-DBL_MIN);
     d_values[ARG_EXPECTED] = -DBL_MIN;
-    d_values[ARG_ACTUAL] = -DBL_MIN + 0.05;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_ACTUAL] = -DBL_MIN + ldexp(0.05, exponent);
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -595,9 +620,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinDouble
 {
-    d_values[ARG_EXPECTED] = -DBL_MIN + 0.05;
+    int exponent = ilogb(-DBL_MIN);
+    d_values[ARG_EXPECTED] = -DBL_MIN + ldexp(0.05, exponent);
     d_values[ARG_ACTUAL] = -DBL_MIN;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -613,9 +639,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxDouble
 {
+    int exponent = ilogb(-DBL_MAX);
+    exponent -= exponent / 20;
     d_values[ARG_EXPECTED] = -DBL_MAX;
-    d_values[ARG_ACTUAL] = -DBL_MAX + 0.05;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_ACTUAL] = -DBL_MAX + ldexp(0.05, exponent);
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -631,9 +659,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxDouble
 {
-    d_values[ARG_EXPECTED] = -DBL_MAX + 0.05;
+    int exponent = ilogb(-DBL_MAX);
+    exponent -= exponent / 20;
+    d_values[ARG_EXPECTED] = -DBL_MAX + ldexp(0.05, exponent);
     d_values[ARG_ACTUAL] = -DBL_MAX;
-    d_values[ARG_PRECISION] = 0.1;
+    d_values[ARG_PRECISION] = ldexp(0.1, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -649,9 +679,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinLongDouble
 {
+    int exponent = ilogbl(-LDBL_MIN);
     ld_values[ARG_EXPECTED] = -LDBL_MIN;
-    ld_values[ARG_ACTUAL] = -LDBL_MIN + 0.05l;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_ACTUAL] = -LDBL_MIN + ldexpl(0.05l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -667,9 +698,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinLongDouble
 {
-    ld_values[ARG_EXPECTED] = -LDBL_MIN + 0.05l;
+    int exponent = ilogbl(-LDBL_MIN);
+    ld_values[ARG_EXPECTED] = -LDBL_MIN + ldexpl(0.05l, exponent);
     ld_values[ARG_ACTUAL] = -LDBL_MIN;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -685,9 +717,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxLongDouble
 {
+    int exponent = ilogbl(-LDBL_MAX);
+    exponent -= exponent / 400;
     ld_values[ARG_EXPECTED] = -LDBL_MAX;
-    ld_values[ARG_ACTUAL] = -LDBL_MAX + 0.05l;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_ACTUAL] = -LDBL_MAX + ldexpl(0.05l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -703,9 +737,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxLongDouble
 {
-    ld_values[ARG_EXPECTED] = -LDBL_MAX + 0.05l;
+    int exponent = ilogbl(-LDBL_MAX);
+    exponent -= exponent / 400;
+    ld_values[ARG_EXPECTED] = -LDBL_MAX + ldexpl(0.05l, exponent);
     ld_values[ARG_ACTUAL] = -LDBL_MAX;
-    ld_values[ARG_PRECISION] = 0.1l;
+    ld_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -885,9 +921,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMinFloat
 {
+    int exponent = ilogbf(FLT_MIN);
     f_values[ARG_EXPECTED] = FLT_MIN;
-    f_values[ARG_ACTUAL] = FLT_MIN + 5.7f;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_ACTUAL] = FLT_MIN + ldexpf(5.7f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -903,9 +940,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMinFloat
 {
-    f_values[ARG_EXPECTED] = FLT_MIN + 5.7f;
+    int exponent = ilogbf(FLT_MIN);
+    f_values[ARG_EXPECTED] = FLT_MIN + ldexpf(5.7f, exponent);
     f_values[ARG_ACTUAL] = FLT_MIN;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -921,9 +959,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMaxFloat
 {
+    int exponent = ilogbf(FLT_MAX);
+    exponent -= exponent / 10;
     f_values[ARG_EXPECTED] = FLT_MAX;
-    f_values[ARG_ACTUAL] = FLT_MAX - 5.7f;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_ACTUAL] = FLT_MAX - ldexpf(5.7f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -939,9 +979,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMaxFloat
 {
-    f_values[ARG_EXPECTED] = FLT_MAX - 5.7f;
+    int exponent = ilogbf(FLT_MAX);
+    exponent -= exponent / 10;
+    f_values[ARG_EXPECTED] = FLT_MAX - ldexpf(5.7f, exponent);
     f_values[ARG_ACTUAL] = FLT_MAX;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -957,9 +999,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMinDouble
 {
+    int exponent = ilogb(DBL_MIN);
     d_values[ARG_EXPECTED] = DBL_MIN;
-    d_values[ARG_ACTUAL] = DBL_MIN + 5.7;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_ACTUAL] = DBL_MIN + ldexp(5.7, exponent);
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -975,9 +1018,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMinDouble
 {
-    d_values[ARG_EXPECTED] = DBL_MIN + 5.7;
+    int exponent = ilogb(DBL_MIN);
+    d_values[ARG_EXPECTED] = DBL_MIN + ldexp(5.7, exponent);
     d_values[ARG_ACTUAL] = DBL_MIN;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -993,9 +1037,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMaxDouble
 {
+    int exponent = ilogb(DBL_MAX);
+    exponent -= exponent / 20;
     d_values[ARG_EXPECTED] = DBL_MAX;
-    d_values[ARG_ACTUAL] = DBL_MAX - 5.7;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_ACTUAL] = DBL_MAX - ldexp(5.7, exponent);
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -1011,9 +1057,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMaxDouble
 {
-    d_values[ARG_EXPECTED] = DBL_MAX - 5.7;
+    int exponent = ilogb(DBL_MAX);
+    exponent -= exponent / 20;
+    d_values[ARG_EXPECTED] = DBL_MAX - ldexp(5.7, exponent);
     d_values[ARG_ACTUAL] = DBL_MAX;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -1029,9 +1077,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMinLongDouble
 {
+    int exponent = ilogbl(LDBL_MIN);
     ld_values[ARG_EXPECTED] = LDBL_MIN;
-    ld_values[ARG_ACTUAL] = LDBL_MIN + 5.7l;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_ACTUAL] = LDBL_MIN + ldexpl(5.7l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1047,9 +1096,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMinLongDouble
 {
-    ld_values[ARG_EXPECTED] = LDBL_MIN + 5.7l;
+    int exponent = ilogbl(LDBL_MIN);
+    ld_values[ARG_EXPECTED] = LDBL_MIN + ldexpl(5.7l, exponent);
     ld_values[ARG_ACTUAL] = LDBL_MIN;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1065,9 +1115,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMaxLongDouble
 {
+    int exponent = ilogbl(LDBL_MAX);
+    exponent -= exponent / 400;
     ld_values[ARG_EXPECTED] = LDBL_MAX;
-    ld_values[ARG_ACTUAL] = LDBL_MAX - 5.7l;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_ACTUAL] = LDBL_MAX - ldexpl(5.7l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1083,9 +1135,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMaxLongDouble
 {
-    ld_values[ARG_EXPECTED] = LDBL_MAX - 5.7l;
+    int exponent = ilogbl(LDBL_MAX);
+    exponent -= exponent / 400;
+    ld_values[ARG_EXPECTED] = LDBL_MAX - ldexpl(5.7l, exponent);
     ld_values[ARG_ACTUAL] = LDBL_MAX;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1173,9 +1227,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
 {
+    int exponent = ilogbf(-FLT_MIN);
     f_values[ARG_EXPECTED] = -FLT_MIN;
-    f_values[ARG_ACTUAL] = -FLT_MIN + 5.7f;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_ACTUAL] = -FLT_MIN - ldexpf(5.7f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -1191,9 +1246,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinFloat
 {
-    f_values[ARG_EXPECTED] = -FLT_MIN + 5.7f;
+    int exponent = ilogbf(-FLT_MIN);
+    f_values[ARG_EXPECTED] = -FLT_MIN - ldexpf(5.7f, exponent);
     f_values[ARG_ACTUAL] = -FLT_MIN;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -1209,9 +1265,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxFloat
 {
+    int exponent = ilogbf(-FLT_MAX);
+    exponent -= exponent / 10;
     f_values[ARG_EXPECTED] = -FLT_MAX;
-    f_values[ARG_ACTUAL] = -FLT_MAX + 5.7f;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_ACTUAL] = -FLT_MAX + ldexpf(5.7f, exponent);
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -1227,9 +1285,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxFloat
 {
-    f_values[ARG_EXPECTED] = -FLT_MAX + 5.7f;
+    int exponent = ilogbf(-FLT_MAX);
+    exponent -= exponent / 10;
+    f_values[ARG_EXPECTED] = -FLT_MAX + ldexpf(5.7f, exponent);
     f_values[ARG_ACTUAL] = -FLT_MAX;
-    f_values[ARG_PRECISION] = 1.4f;
+    f_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
@@ -1245,9 +1305,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinDouble
 {
+    int exponent = ilogb(-DBL_MIN);
     d_values[ARG_EXPECTED] = -DBL_MIN;
-    d_values[ARG_ACTUAL] = -DBL_MIN + 5.7;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_ACTUAL] = -DBL_MIN + ldexp(5.7, exponent);
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -1263,9 +1324,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinDouble
 {
-    d_values[ARG_EXPECTED] = -DBL_MIN + 5.7;
+    int exponent = ilogb(-DBL_MIN);
+    d_values[ARG_EXPECTED] = -DBL_MIN + ldexp(5.7, exponent);
     d_values[ARG_ACTUAL] = -DBL_MIN;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -1281,9 +1343,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxDouble
 {
+    int exponent = ilogb(-DBL_MAX);
+    exponent -= exponent / 20;
     d_values[ARG_EXPECTED] = -DBL_MAX;
-    d_values[ARG_ACTUAL] = -DBL_MAX + 5.7;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_ACTUAL] = -DBL_MAX + ldexp(5.7, exponent);
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -1299,9 +1363,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxDouble
 {
-    d_values[ARG_EXPECTED] = -DBL_MAX + 5.7;
+    int exponent = ilogb(-DBL_MAX);
+    exponent -= exponent / 20;
+    d_values[ARG_EXPECTED] = -DBL_MAX + ldexp(5.7, exponent);
     d_values[ARG_ACTUAL] = -DBL_MAX;
-    d_values[ARG_PRECISION] = 1.4;
+    d_values[ARG_PRECISION] = ldexp(1.4, exponent);
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
@@ -1317,9 +1383,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinLongDouble
 {
+    int exponent = ilogbl(-LDBL_MIN);
     ld_values[ARG_EXPECTED] = -LDBL_MIN;
-    ld_values[ARG_ACTUAL] = -LDBL_MIN + 5.7l;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_ACTUAL] = -LDBL_MIN + ldexpl(5.7l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1335,9 +1402,10 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinLongDouble
 {
-    ld_values[ARG_EXPECTED] = -LDBL_MIN + 5.7l;
+    int exponent = ilogbl(-LDBL_MIN);
+    ld_values[ARG_EXPECTED] = -LDBL_MIN + ldexpl(5.7l, exponent);
     ld_values[ARG_ACTUAL] = -LDBL_MIN;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1353,9 +1421,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxLongDouble
 {
+    int exponent = ilogbl(-LDBL_MAX);
+    exponent -= exponent / 400;
     ld_values[ARG_EXPECTED] = -LDBL_MAX;
-    ld_values[ARG_ACTUAL] = -LDBL_MAX + 5.7l;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_ACTUAL] = -LDBL_MAX + ldexpl(5.7l, exponent);
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
@@ -1371,9 +1441,11 @@ static void about_equality_test(void *context)
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxLongDouble
 {
-    ld_values[ARG_EXPECTED] = -LDBL_MAX + 5.7l;
+    int exponent = ilogbl(-LDBL_MAX);
+    exponent -= exponent / 400;
+    ld_values[ARG_EXPECTED] = -LDBL_MAX + ldexpl(5.7l, exponent);
     ld_values[ARG_ACTUAL] = -LDBL_MAX;
-    ld_values[ARG_PRECISION] = 1.4l;
+    ld_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
