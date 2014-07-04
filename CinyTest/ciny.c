@@ -408,7 +408,8 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
 
 void ct_assertaboutequal_full(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char *file, int line, const char *format, ...)
 {
-    if (expected != actual) {
+    long double diff = fabsl(expected) < fabsl(actual) ? actual - expected : expected - actual;
+    if (fabsl(diff) > fabsl(precision)) {
         set_assertdescription(&CurrentAssertState, "(%s) differs from (%s) by greater than \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         CurrentAssertState.type = ASSERT_FAILURE;
         CurrentAssertState.file = file;
