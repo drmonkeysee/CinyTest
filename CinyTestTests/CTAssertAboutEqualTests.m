@@ -503,6 +503,222 @@ static void about_equality_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
+- (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MIN;
+    f_values[ARG_ACTUAL] = -FLT_MIN + 0.05f;
+    f_values[ARG_PRECISION] = 0.1f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MIN + 0.05f;
+    f_values[ARG_ACTUAL] = -FLT_MIN;
+    f_values[ARG_PRECISION] = 0.1f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MAX;
+    f_values[ARG_ACTUAL] = -FLT_MAX + 0.05f;
+    f_values[ARG_PRECISION] = 0.1f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MAX + 0.05f;
+    f_values[ARG_ACTUAL] = -FLT_MAX;
+    f_values[ARG_PRECISION] = 0.1f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MIN;
+    d_values[ARG_ACTUAL] = -DBL_MIN + 0.05;
+    d_values[ARG_PRECISION] = 0.1;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MIN + 0.05;
+    d_values[ARG_ACTUAL] = -DBL_MIN;
+    d_values[ARG_PRECISION] = 0.1;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MAX;
+    d_values[ARG_ACTUAL] = -DBL_MAX + 0.05;
+    d_values[ARG_PRECISION] = 0.1;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MAX + 0.05;
+    d_values[ARG_ACTUAL] = -DBL_MAX;
+    d_values[ARG_PRECISION] = 0.1;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MIN;
+    ld_values[ARG_ACTUAL] = -LDBL_MIN + 0.05l;
+    ld_values[ARG_PRECISION] = 0.1l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MIN + 0.05l;
+    ld_values[ARG_ACTUAL] = -LDBL_MIN;
+    ld_values[ARG_PRECISION] = 0.1l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MAX;
+    ld_values[ARG_ACTUAL] = -LDBL_MAX + 0.05l;
+    ld_values[ARG_PRECISION] = 0.1l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MAX + 0.05l;
+    ld_values[ARG_ACTUAL] = -LDBL_MAX;
+    ld_values[ARG_PRECISION] = 0.1l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
 #pragma - Not Equal
 
 - (void)test_ctaboutequal_ComparesNotEqual_IfDifferentWidthsAndZeroPrecision
@@ -873,6 +1089,366 @@ static void about_equality_test(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedInfinity
+{
+    d_values[ARG_EXPECTED] = INFINITY;
+    d_values[ARG_ACTUAL] = DBL_MAX;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualInfinity
+{
+    d_values[ARG_EXPECTED] = DBL_MAX;
+    d_values[ARG_ACTUAL] = INFINITY;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNaN
+{
+    d_values[ARG_EXPECTED] = NAN;
+    d_values[ARG_ACTUAL] = 45.2;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNaN
+{
+    d_values[ARG_EXPECTED] = 27.9;
+    d_values[ARG_ACTUAL] = NAN;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MIN;
+    f_values[ARG_ACTUAL] = -FLT_MIN + 5.7f;
+    f_values[ARG_PRECISION] = 1.4f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MIN + 5.7f;
+    f_values[ARG_ACTUAL] = -FLT_MIN;
+    f_values[ARG_PRECISION] = 1.4f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MAX;
+    f_values[ARG_ACTUAL] = -FLT_MAX + 5.7f;
+    f_values[ARG_PRECISION] = 1.4f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxFloat
+{
+    f_values[ARG_EXPECTED] = -FLT_MAX + 5.7f;
+    f_values[ARG_ACTUAL] = -FLT_MAX;
+    f_values[ARG_PRECISION] = 1.4f;
+    self.expectedType = TAT_FLOAT;
+    self.actualType = TAT_FLOAT;
+    self.precisionType = TAT_FLOAT;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MIN;
+    d_values[ARG_ACTUAL] = -DBL_MIN + 5.7;
+    d_values[ARG_PRECISION] = 1.4;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MIN + 5.7;
+    d_values[ARG_ACTUAL] = -DBL_MIN;
+    d_values[ARG_PRECISION] = 1.4;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MAX;
+    d_values[ARG_ACTUAL] = -DBL_MAX + 5.7;
+    d_values[ARG_PRECISION] = 1.4;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxDouble
+{
+    d_values[ARG_EXPECTED] = -DBL_MAX + 5.7;
+    d_values[ARG_ACTUAL] = -DBL_MAX;
+    d_values[ARG_PRECISION] = 1.4;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MIN;
+    ld_values[ARG_ACTUAL] = -LDBL_MIN + 5.7l;
+    ld_values[ARG_PRECISION] = 1.4l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MIN + 5.7l;
+    ld_values[ARG_ACTUAL] = -LDBL_MIN;
+    ld_values[ARG_PRECISION] = 1.4l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MAX;
+    ld_values[ARG_ACTUAL] = -LDBL_MAX + 5.7l;
+    ld_values[ARG_PRECISION] = 1.4l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxLongDouble
+{
+    ld_values[ARG_EXPECTED] = -LDBL_MAX + 5.7l;
+    ld_values[ARG_ACTUAL] = -LDBL_MAX;
+    ld_values[ARG_PRECISION] = 1.4l;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithNegativeExpectedInfinity
+{
+    d_values[ARG_EXPECTED] = -INFINITY;
+    d_values[ARG_ACTUAL] = -DBL_MAX;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithNegativeActualInfinity
+{
+    d_values[ARG_EXPECTED] = -DBL_MAX;
+    d_values[ARG_ACTUAL] = -INFINITY;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithNegativeExpectedNaN
+{
+    d_values[ARG_EXPECTED] = -NAN;
+    d_values[ARG_ACTUAL] = -45.2;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithNegativeActualNaN
+{
+    d_values[ARG_EXPECTED] = -27.9;
+    d_values[ARG_ACTUAL] = -NAN;
+    d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
     struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
