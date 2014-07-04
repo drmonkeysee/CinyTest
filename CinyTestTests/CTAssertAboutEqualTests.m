@@ -755,6 +755,24 @@ static void about_equality_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
+- (void)test_ctaboutequal_ComparesEqual_WithInfinitePrecision
+{
+    d_values[ARG_EXPECTED] = DBL_MIN;
+    d_values[ARG_ACTUAL] = DBL_MAX;
+    d_values[ARG_PRECISION] = INFINITY;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
 #pragma - Not Equal
 
 - (void)test_ctaboutequal_ComparesNotEqual_IfDifferentWidthsAndZeroPrecision
@@ -1225,6 +1243,24 @@ static void about_equality_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
+- (void)test_ctaboutequal_ComparesNotEqual_WithPrecisionNaN
+{
+    d_values[ARG_EXPECTED] = 27.9;
+    d_values[ARG_ACTUAL] = 27.9;
+    d_values[ARG_PRECISION] = NAN;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
 {
     int exponent = ilogbf(-FLT_MIN);
@@ -1518,6 +1554,24 @@ static void about_equality_test(void *context)
     d_values[ARG_EXPECTED] = -27.9;
     d_values[ARG_ACTUAL] = -NAN;
     d_values[ARG_PRECISION] = DBL_MAX;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_ComparesNotEqual_WithNegativePrecisionNaN
+{
+    d_values[ARG_EXPECTED] = -27.9;
+    d_values[ARG_ACTUAL] = -27.9;
+    d_values[ARG_PRECISION] = -NAN;
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
