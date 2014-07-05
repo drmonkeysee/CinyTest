@@ -1171,6 +1171,26 @@ static void about_equality_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
+- (void)test_ctaboutequal_ComparesNotEqual_WithOverflow
+{
+    int exponent = ilogbl(LDBL_MAX);
+    exponent -= exponent / 400;
+    ld_values[ARG_EXPECTED] = LDBL_MAX;
+    ld_values[ARG_ACTUAL] = ldexpl(-5.7l, exponent);
+    ld_values[ARG_PRECISION] = LDBL_MAX;
+    self.expectedType = TAT_LDOUBLE;
+    self.actualType = TAT_LDOUBLE;
+    self.precisionType = TAT_LDOUBLE;
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedInfinity
 {
     d_values[ARG_EXPECTED] = INFINITY;
