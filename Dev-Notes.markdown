@@ -20,28 +20,6 @@
 - create stub and mock functions?
 - ignore tests
 
-## OutputFormat
-
-Started test suite 'File+Function or Given Name' at DateTime.
-
-Running count tests:
-
-[✓ (\u2713, green)] - test name success (seconds)
-
-[✗ (\u2717, red)] - test name failure (seconds)
-
-Failure message : File Name : Line Number
-
-Test suite 'File+Function or Given Name' completed at DateTime.
-
-Ran count tests (seconds): x passed, x failed, x ignored.
-
 ## TODO
 
 - does setup/teardown error count as test failure?
-- aboutequal tests
-    - minvalue, near minvalue, precision inclusion
-    - maxvalue, near maxvalue, precision inclusion
-    - should floats, doubles, long doubles be treated as different types?
-        - currently float/double near the maxes may succeed at comparison even though they would actually under/overflow
-    - what are the rules for comparing over/underflow
