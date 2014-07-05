@@ -82,20 +82,7 @@ static void literal_false_test(void *context)
     [super tearDown];
 }
 
-- (void)test_ctassertfalse_DoesNotFire_IfVariableIsFalse
-{
-    self.testVariable = false;
-    struct ct_testcase cases[] = { ct_maketest(variable_test) };
-    struct ct_testsuite suite = ct_makesuite(cases);
-    
-    size_t run_result = ct_runsuite(&suite);
-    
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
-}
-
-- (void)test_ctassertfalse_DoesFire_IfVariableIsTrue
+- (void)test_ctassertfalse_ComparesTrue_IfVariableIsTrue
 {
     self.testVariable = true;
     struct ct_testcase cases[] = { ct_maketest(variable_test) };
@@ -108,11 +95,10 @@ static void literal_false_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertfalse_DoesNotFire_IfExpressionIsFalse
+- (void)test_ctassertfalse_ComparesFalse_IfVariableIsFalse
 {
-    self.gtExpressionLhs = 5;
-    self.gtExpressionRhs = 10;
-    struct ct_testcase cases[] = { ct_maketest(expression_test) };
+    self.testVariable = false;
+    struct ct_testcase cases[] = { ct_maketest(variable_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -122,7 +108,7 @@ static void literal_false_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertfalse_DoesFire_IfExpressionIsTrue
+- (void)test_ctassertfalse_ComparesTrue_IfExpressionIsTrue
 {
     self.gtExpressionLhs = 10;
     self.gtExpressionRhs = 5;
@@ -136,9 +122,11 @@ static void literal_false_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertfalse_DoesNotFire_IfLiteralIsFalse
+- (void)test_ctassertfalse_ComparesFalse_IfExpressionIsFalse
 {
-    struct ct_testcase cases[] = { ct_maketest(literal_false_test) };
+    self.gtExpressionLhs = 5;
+    self.gtExpressionRhs = 10;
+    struct ct_testcase cases[] = { ct_maketest(expression_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -148,7 +136,7 @@ static void literal_false_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertfalse_DoesFire_IfLiteralIsTrue
+- (void)test_ctassertfalse_ComparesTrue_IfLiteralIsTrue
 {
     struct ct_testcase cases[] = { ct_maketest(literal_true_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
@@ -158,6 +146,18 @@ static void literal_false_test(void *context)
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertfalse_ComparesFalse_IfLiteralIsFalse
+{
+    struct ct_testcase cases[] = { ct_maketest(literal_false_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
 }
 
 @end
