@@ -18,6 +18,7 @@
 		02701E53194D34E5003AE057 /* CTAssertSameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02701E52194D34E5003AE057 /* CTAssertSameTests.m */; };
 		02701E55194D43AC003AE057 /* CTAssertNotSameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02701E54194D43AC003AE057 /* CTAssertNotSameTests.m */; };
 		028F5CB4191054DF000BCA3D /* CTRunSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */; };
+		02B3DAF7196797C300174A88 /* CTAssertNotAboutEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */; };
 		02C1D4981917245800744654 /* CTAssertFailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C1D4971917245800744654 /* CTAssertFailTests.m */; };
 		02C1D49A1917295500744654 /* CTIgnoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C1D4991917295500744654 /* CTIgnoreTests.m */; };
 		02C70E43191EDA52007B2C6A /* CTAssertNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C70E42191EDA52007B2C6A /* CTAssertNullTests.m */; };
@@ -53,6 +54,7 @@
 		02701E52194D34E5003AE057 /* CTAssertSameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertSameTests.m; sourceTree = "<group>"; };
 		02701E54194D43AC003AE057 /* CTAssertNotSameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotSameTests.m; sourceTree = "<group>"; };
 		028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunSuiteTests.m; sourceTree = "<group>"; };
+		02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotAboutEqualTests.m; sourceTree = "<group>"; };
 		02C1D4971917245800744654 /* CTAssertFailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFailTests.m; sourceTree = "<group>"; };
 		02C1D4991917295500744654 /* CTIgnoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTIgnoreTests.m; sourceTree = "<group>"; };
 		02C70E42191EDA52007B2C6A /* CTAssertNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNullTests.m; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */,
 				020A83A119592C7200A5CD81 /* CTAssertNotEqualStrTests.m */,
 				023D7EFF195FA41100AA7A9C /* CTAssertAboutEqualTests.m */,
+				02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */,
 				02EE6D5C18FA3AC700E5A8D7 /* Supporting Files */,
 			);
 			path = CinyTestTests;
@@ -282,6 +285,7 @@
 				02C1D49A1917295500744654 /* CTIgnoreTests.m in Sources */,
 				025EF55419315EF3002EA558 /* CTMakeValueTests.m in Sources */,
 				0244607E194801F100D31360 /* CTAssertNotEqualTests.m in Sources */,
+				02B3DAF7196797C300174A88 /* CTAssertNotAboutEqualTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
