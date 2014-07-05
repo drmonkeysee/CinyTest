@@ -53,6 +53,28 @@ static void about_equality_test(void *context)
     testObject.sawPostAssertCode = YES;
 }
 
+static void about_equality_test_withmessage(void *context)
+{
+    CTAssertAboutEqualTests *testObject = (__bridge CTAssertAboutEqualTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    ct_assertaboutequal(10.5, 10.2, 0.1, "Close but not close enough");
+    
+    testObject.sawPostAssertCode = YES;
+}
+
+static void about_equality_test_withformatmessage(void *context)
+{
+    CTAssertAboutEqualTests *testObject = (__bridge CTAssertAboutEqualTests *)(TestClass);
+    
+    testObject.invokedTest = YES;
+    
+    ct_assertaboutequal(10.5, 10.2, 0.1, "%f is not enough like %f", 10.5, 10.2);
+    
+    testObject.sawPostAssertCode = YES;
+}
+
 @implementation CTAssertAboutEqualTests
 
 - (void)setUp
@@ -1596,6 +1618,32 @@ static void about_equality_test(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+#pragma mark - Messages
+
+- (void)test_ctaboutequal_FiresAssertion_WithMessage
+{
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test_withmessage) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(1, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctaboutequal_FiresAssertion_WithFormatMessage
+{
+    struct ct_testcase tests[] = { ct_maketest(about_equality_test_withformatmessage) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
