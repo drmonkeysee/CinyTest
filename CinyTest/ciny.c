@@ -115,11 +115,9 @@ static void handle_assertion(const struct assert_state *assert_state, const char
         case ASSERT_FAILURE:
             handle_assertfailure(assert_state, testname, ledger);
             break;
-            
         case ASSERT_IGNORE:
             handle_assertignore(assert_state, testname, ledger);
             break;
-            
         default:
             fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
             break;
