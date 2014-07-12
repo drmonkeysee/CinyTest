@@ -9,7 +9,7 @@
 #import "CTAssertionTestBase.h"
 #include <stdbool.h>
 
-void *generate_pointer(bool real_pointer);
+void *generate_pointer(bool);
 
 @interface CTNullAssertionTestBase : CTAssertionTestBase
 
