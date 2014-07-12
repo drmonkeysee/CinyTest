@@ -6,17 +6,13 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTAssertionTestBase.h"
 #include <stddef.h>
 #include "ciny.h"
 
-@interface CTAssertFailTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawUnreachableCode;
+@interface CTAssertFailTests : CTAssertionTestBase
 
 @end
-
-static void *TestClass;
 
 static void fail_test_nomessage(void *context)
 {
@@ -26,7 +22,7 @@ static void fail_test_nomessage(void *context)
     
     ct_assertfail();
     
-    testObject.sawUnreachableCode = YES;
+    testObject.sawPostAssertCode = YES;
 }
 
 static void fail_test_message(void *context)
@@ -37,7 +33,7 @@ static void fail_test_message(void *context)
     
     ct_assertfail("a test message");
     
-    testObject.sawUnreachableCode = YES;
+    testObject.sawPostAssertCode = YES;
 }
 
 static void fail_test_formatmessage(void *context)
@@ -48,24 +44,10 @@ static void fail_test_formatmessage(void *context)
     
     ct_assertfail("a test message with %d format arguments: %f, %s", 3, 1.5, "foo");
     
-    testObject.sawUnreachableCode = YES;
+    testObject.sawPostAssertCode = YES;
 }
 
 @implementation CTAssertFailTests
-
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenNoMessage
 {
@@ -76,7 +58,7 @@ static void fail_test_formatmessage(void *context)
     
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawUnreachableCode);
+    XCTAssertFalse(self.sawPostAssertCode);
 }
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenMessage
@@ -88,7 +70,7 @@ static void fail_test_formatmessage(void *context)
     
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawUnreachableCode);
+    XCTAssertFalse(self.sawPostAssertCode);
 }
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenFormattedMessage
@@ -100,7 +82,7 @@ static void fail_test_formatmessage(void *context)
     
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawUnreachableCode);
+    XCTAssertFalse(self.sawPostAssertCode);
 }
 
 @end
