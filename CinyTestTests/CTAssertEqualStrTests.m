@@ -6,20 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
+#import "CTStringAssertionTestBase.h"
 #include "ciny.h"
 
-@interface CTAssertEqualStrTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) char *expectedString;
-@property (nonatomic, assign) char *actualString;
-@property (nonatomic, assign) size_t compareCount;
+@interface CTAssertEqualStrTests : CTStringAssertionTestBase
 
 @end
-
-static void *TestClass;
 
 static void test_equality_stringn(void *context)
 {
@@ -115,20 +107,6 @@ static void test_equality_string_withformatmessage(void *context)
 }
 
 @implementation CTAssertEqualStrTests
-
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
 
 #pragma mark - ctassertequalstrn
 
