@@ -6,16 +6,11 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#import "CTAssertionTestBase.h"
+#import "CTBoolAssertionTestBase.h"
 #include <stddef.h>
-#include <stdbool.h>
 #include "ciny.h"
 
-@interface CTAssertTrueTests : CTAssertionTestBase
-
-@property (nonatomic, assign) bool testVariable;
-@property (nonatomic, assign) NSInteger gtExpressionLhs;
-@property (nonatomic, assign) NSInteger gtExpressionRhs;
+@interface CTAssertTrueTests : CTBoolAssertionTestBase
 
 @end
 
