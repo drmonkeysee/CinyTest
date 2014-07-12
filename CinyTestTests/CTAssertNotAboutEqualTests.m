@@ -669,9 +669,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     d_values[ARG_EXPECTED] = DBL_MIN;
     d_values[ARG_ACTUAL] = DBL_MAX;
     d_values[ARG_PRECISION] = INFINITY;
-    self.expectedType = TAT_LDOUBLE;
-    self.actualType = TAT_LDOUBLE;
-    self.precisionType = TAT_LDOUBLE;
+    self.expectedType = TAT_DOUBLE;
+    self.actualType = TAT_DOUBLE;
+    self.precisionType = TAT_DOUBLE;
     struct ct_testcase tests[] = { ct_maketest(notabout_equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
@@ -703,7 +703,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     d_values[ARG_EXPECTED] = 5.2;
     d_values[ARG_ACTUAL] = 5.9;
     d_values[ARG_PRECISION] = 0.3;
-    self.expectedType = TAT_FLOAT;
+    self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     struct ct_testcase tests[] = { ct_maketest(notabout_equality_test) };
@@ -719,7 +719,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     d_values[ARG_EXPECTED] = 5.4;
     d_values[ARG_ACTUAL] = 5.5001;
     d_values[ARG_PRECISION] = 0.1;
-    self.expectedType = TAT_FLOAT;
+    self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     struct ct_testcase tests[] = { ct_maketest(notabout_equality_test) };

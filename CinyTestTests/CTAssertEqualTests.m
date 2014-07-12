@@ -727,8 +727,8 @@ static void equality_test_withtypevariants(void *context)
 {
     ldc_values[ARG_EXPECTED] = CMPLXL(LDBL_MIN, LDBL_MIN);
     ldc_values[ARG_ACTUAL] = CMPLXL(LDBL_MIN, LDBL_MIN);
-    self.expectedType = TAT_LDOUBLE;
-    self.actualType = TAT_LDOUBLE;
+    self.expectedType = TAT_LCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
