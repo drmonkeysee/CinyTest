@@ -21,6 +21,7 @@
 		028DD21E1970EBF500B485F7 /* CTBoolAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 028DD21D1970EBF500B485F7 /* CTBoolAssertionTestBase.m */; };
 		028DD2211970ED0A00B485F7 /* CTNullAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 028DD2201970ED0A00B485F7 /* CTNullAssertionTestBase.m */; };
 		028DD2241970EE6C00B485F7 /* CTEqualAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 028DD2231970EE6C00B485F7 /* CTEqualAssertionTestBase.m */; };
+		028DD2271970F19300B485F7 /* CTSameAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 028DD2261970F19300B485F7 /* CTSameAssertionTestBase.m */; };
 		028F5CB4191054DF000BCA3D /* CTRunSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */; };
 		02B3DAF7196797C300174A88 /* CTAssertNotAboutEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */; };
 		02C1D4981917245800744654 /* CTAssertFailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C1D4971917245800744654 /* CTAssertFailTests.m */; };
@@ -65,6 +66,8 @@
 		028DD2201970ED0A00B485F7 /* CTNullAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTNullAssertionTestBase.m; sourceTree = "<group>"; };
 		028DD2221970EE6C00B485F7 /* CTEqualAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTEqualAssertionTestBase.h; sourceTree = "<group>"; };
 		028DD2231970EE6C00B485F7 /* CTEqualAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTEqualAssertionTestBase.m; sourceTree = "<group>"; };
+		028DD2251970F19300B485F7 /* CTSameAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSameAssertionTestBase.h; sourceTree = "<group>"; };
+		028DD2261970F19300B485F7 /* CTSameAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSameAssertionTestBase.m; sourceTree = "<group>"; };
 		028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunSuiteTests.m; sourceTree = "<group>"; };
 		02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotAboutEqualTests.m; sourceTree = "<group>"; };
 		02C1D4971917245800744654 /* CTAssertFailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFailTests.m; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 				028DD2231970EE6C00B485F7 /* CTEqualAssertionTestBase.m */,
 				025EF551193157C8002EA558 /* CTAssertEqualTests.m */,
 				0244607D194801F100D31360 /* CTAssertNotEqualTests.m */,
+				028DD2251970F19300B485F7 /* CTSameAssertionTestBase.h */,
+				028DD2261970F19300B485F7 /* CTSameAssertionTestBase.m */,
 				02701E52194D34E5003AE057 /* CTAssertSameTests.m */,
 				02701E54194D43AC003AE057 /* CTAssertNotSameTests.m */,
 				0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */,
@@ -299,6 +304,7 @@
 				0237F3661904D0BB0030E3EC /* CTMakeSuiteTests.m in Sources */,
 				0237F3641904CFE70030E3EC /* CTMakeTestTests.m in Sources */,
 				02C1D4981917245800744654 /* CTAssertFailTests.m in Sources */,
+				028DD2271970F19300B485F7 /* CTSameAssertionTestBase.m in Sources */,
 				025EF552193157C8002EA558 /* CTAssertEqualTests.m in Sources */,
 				028DD2211970ED0A00B485F7 /* CTNullAssertionTestBase.m in Sources */,
 				028DD2241970EE6C00B485F7 /* CTEqualAssertionTestBase.m in Sources */,
