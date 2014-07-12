@@ -617,8 +617,8 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesEqual_IfDifferentFloatTypes
 {
-    f_values[0] = 7834.0;
-    ld_values[1] = 7834.0;
+    f_values[0] = 7834.0f;
+    ld_values[1] = 7834.0l;
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -649,7 +649,7 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeFloatValuesWithDifferentTypes
 {
-    f_values[0] = -52.0;
+    f_values[0] = -52.0f;
     d_values[1] = -52.0;
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_DOUBLE;
@@ -682,7 +682,7 @@ static void inequality_test_withtypevariants(void *context)
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroFloatValuesWithDifferentTypes
 {
     d_values[0] = 0.0;
-    ld_values[1] = 0.0;
+    ld_values[1] = 0.0l;
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -745,8 +745,8 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentFloatValuesAndTypes
 {
-    f_values[0] = 560.093;
-    ld_values[1] = -4574234e10;
+    f_values[0] = 560.093f;
+    ld_values[1] = -4574234e10l;
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -795,8 +795,8 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesEqual_IfDifferentComplexTypes
 {
-    fc_values[0] = CMPLXF(82.0, 12.0);
-    ldc_values[1] = CMPLXL(82.0, 12.0);
+    fc_values[0] = CMPLXF(82.0f, 12.0f);
+    ldc_values[1] = CMPLXL(82.0l, 12.0l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -827,7 +827,7 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeComplexValuesWithDifferentTypes
 {
-    fc_values[0] = CMPLXF(-23.0, -6.0);
+    fc_values[0] = CMPLXF(-23.0f, -6.0f);
     dc_values[1] = CMPLXL(-23.0, -6.0);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_COMPLEX;
@@ -860,7 +860,7 @@ static void inequality_test_withtypevariants(void *context)
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroComplexValuesWithDifferentTypes
 {
     dc_values[0] = CMPLX(0.0, 0.0);
-    ldc_values[1] = CMPLXL(0.0, 0.0);
+    ldc_values[1] = CMPLXL(0.0l, 0.0l);
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -955,8 +955,8 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexValuesAndTypes
 {
-    fc_values[0] = CMPLXF(30.23, 10e5);
-    ldc_values[1] = CMPLXL(-9.7, 0.456);
+    fc_values[0] = CMPLXF(30.23f, 10e5f);
+    ldc_values[1] = CMPLXL(-9.7l, 0.456l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -971,8 +971,8 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexRealValuesAndTypes
 {
-    fc_values[0] = CMPLXF(30.23, 2.5);
-    ldc_values[1] = CMPLXL(-9.7, 2.5);
+    fc_values[0] = CMPLXF(30.23f, 2.5f);
+    ldc_values[1] = CMPLXL(-9.7l, 2.5l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -987,8 +987,8 @@ static void inequality_test_withtypevariants(void *context)
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexImaginaryValuesAndTypes
 {
-    fc_values[0] = CMPLXF(45.0, 10e5);
-    ldc_values[1] = CMPLXL(45.0, 0.456);
+    fc_values[0] = CMPLXF(45.0f, 10e5f);
+    ldc_values[1] = CMPLXL(45.0l, 0.456l);
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -1138,7 +1138,7 @@ static void inequality_test_withtypevariants(void *context)
 {
     _Static_assert(sizeof(int) == sizeof(float), "int and float not equal sizes; this test needs to be adjusted to use different types");
     i_values[0] = -1046478848;
-    f_values[1] = -2.0e1;
+    f_values[1] = -2.0e1f;
     self.expectedType = TAT_INT;
     self.actualType = TAT_FLOAT;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
@@ -1155,7 +1155,7 @@ static void inequality_test_withtypevariants(void *context)
 {
     _Static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
     ui_values[0] = 3248488448;
-    f_values[1] = -2.0e1;
+    f_values[1] = -2.0e1f;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_FLOAT;
     struct ct_testcase tests[] = { ct_maketest(inequality_test) };
