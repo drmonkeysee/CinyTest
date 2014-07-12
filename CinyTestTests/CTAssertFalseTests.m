@@ -6,21 +6,18 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTAssertionTestBase.h"
 #include <stddef.h>
 #include <stdbool.h>
 #include "ciny.h"
 
-@interface CTAssertFalseTests : XCTestCase
+@interface CTAssertFalseTests : CTAssertionTestBase
 
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
 @property (nonatomic, assign) bool testVariable;
 @property (nonatomic, assign) NSInteger gtExpressionLhs;
 @property (nonatomic, assign) NSInteger gtExpressionRhs;
 
 @end
-
-static void *TestClass;
 
 static void variable_test(void *context)
 {
@@ -67,20 +64,6 @@ static void literal_false_test(void *context)
 }
 
 @implementation CTAssertFalseTests
-
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
 
 - (void)test_ctassertfalse_ComparesTrue_IfVariableIsTrue
 {
