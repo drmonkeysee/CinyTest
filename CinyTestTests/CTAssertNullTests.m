@@ -87,7 +87,7 @@ static void literal_notnull_test(void *context)
     [super tearDown];
 }
 
-- (void)test_ctassertnull_DoesNotFire_IfVariableIsNull
+- (void)test_ctassertnull_ComparesNull_IfVariableIsNull
 {
     self.testVariable = NULL;
     struct ct_testcase cases[] = { ct_maketest(variable_test) };
@@ -100,7 +100,7 @@ static void literal_notnull_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnull_DoesFire_IfVariableIsNotNull
+- (void)test_ctassertnull_ComparesNotNull_IfVariableIsNotNull
 {
     self.testVariable = TestClass;
     struct ct_testcase cases[] = { ct_maketest(variable_test) };
@@ -113,7 +113,7 @@ static void literal_notnull_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnull_DoesNotFire_IfExpressionReturnsNull
+- (void)test_ctassertnull_ComparesNull_IfExpressionReturnsNull
 {
     self.useRealPointer = false;
     struct ct_testcase cases[] = { ct_maketest(expression_test) };
@@ -126,7 +126,7 @@ static void literal_notnull_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnull_DoesFire_IfExpressionReturnsNotNull
+- (void)test_ctassertnull_ComparesNotNull_IfExpressionReturnsNotNull
 {
     self.useRealPointer = true;
     struct ct_testcase cases[] = { ct_maketest(expression_test) };
@@ -139,7 +139,7 @@ static void literal_notnull_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnull_DoesNotFire_IfLiteralIsNull
+- (void)test_ctassertnull_ComparesNull_IfLiteralIsNull
 {
     struct ct_testcase cases[] = { ct_maketest(literal_null_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
@@ -151,7 +151,7 @@ static void literal_notnull_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnull_DoesFire_IfLiteralIsNotNull
+- (void)test_ctassertnull_ComparesNotNull_IfLiteralIsNotNull
 {
     struct ct_testcase cases[] = { ct_maketest(literal_notnull_test) };
     struct ct_testsuite suite = ct_makesuite(cases);

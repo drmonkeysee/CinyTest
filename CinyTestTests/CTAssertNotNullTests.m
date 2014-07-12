@@ -87,20 +87,7 @@ static void literal_notnull_test(void *context)
     [super tearDown];
 }
 
-- (void)test_ctassertnotnull_DoesNotFire_IfVariableIsNotNull
-{
-    self.testVariable = TestClass;
-    struct ct_testcase cases[] = { ct_maketest(variable_test) };
-    struct ct_testsuite suite = ct_makesuite(cases);
-    
-    size_t run_result = ct_runsuite(&suite);
-    
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
-}
-
-- (void)test_ctassertnotnull_DoesFire_IfVariableIsNull
+- (void)test_ctassertnotnull_ComparesNull_IfVariableIsNull
 {
     self.testVariable = NULL;
     struct ct_testcase cases[] = { ct_maketest(variable_test) };
@@ -113,10 +100,10 @@ static void literal_notnull_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnotnull_DoesNotFire_IfExpressionReturnsNotNull
+- (void)test_ctassertnotnull_ComparesNotNull_IfVariableIsNotNull
 {
-    self.useRealPointer = true;
-    struct ct_testcase cases[] = { ct_maketest(expression_test) };
+    self.testVariable = TestClass;
+    struct ct_testcase cases[] = { ct_maketest(variable_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -126,7 +113,7 @@ static void literal_notnull_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnotnull_DoesFire_IfExpressionReturnsNull
+- (void)test_ctassertnotnull_ComparesNull_IfExpressionReturnsNull
 {
     self.useRealPointer = false;
     struct ct_testcase cases[] = { ct_maketest(expression_test) };
@@ -139,9 +126,10 @@ static void literal_notnull_test(void *context)
     XCTAssertFalse(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnotnull_DoesNotFire_IfLiteralIsNotNull
+- (void)test_ctassertnotnull_ComparesNotNull_IfExpressionReturnsNotNull
 {
-    struct ct_testcase cases[] = { ct_maketest(literal_notnull_test) };
+    self.useRealPointer = true;
+    struct ct_testcase cases[] = { ct_maketest(expression_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -151,7 +139,7 @@ static void literal_notnull_test(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertnotnull_DoesFire_IfLiteralIsNull
+- (void)test_ctassertnotnull_ComparesNull_IfLiteralIsNull
 {
     struct ct_testcase cases[] = { ct_maketest(literal_null_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
@@ -161,6 +149,18 @@ static void literal_notnull_test(void *context)
     XCTAssertEqual(1, run_result);
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
+}
+
+- (void)test_ctassertnotnull_ComparesNotNull_IfLiteralIsNotNull
+{
+    struct ct_testcase cases[] = { ct_maketest(literal_notnull_test) };
+    struct ct_testsuite suite = ct_makesuite(cases);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0, run_result);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
 }
 
 @end
