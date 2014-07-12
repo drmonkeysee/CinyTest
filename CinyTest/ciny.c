@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
