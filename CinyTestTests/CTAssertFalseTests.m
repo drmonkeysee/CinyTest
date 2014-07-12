@@ -6,21 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
-#include <stdbool.h>
+#import "CTBoolAssertionTestBase.h"
 #include "ciny.h"
 
-@interface CTAssertFalseTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) bool testVariable;
-@property (nonatomic, assign) NSInteger gtExpressionLhs;
-@property (nonatomic, assign) NSInteger gtExpressionRhs;
+@interface CTAssertFalseTests : CTBoolAssertionTestBase
 
 @end
-
-static void *TestClass;
 
 static void variable_test(void *context)
 {
@@ -68,20 +59,6 @@ static void literal_false_test(void *context)
 
 @implementation CTAssertFalseTests
 
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
-
 - (void)test_ctassertfalse_ComparesTrue_IfVariableIsTrue
 {
     self.testVariable = true;
@@ -90,9 +67,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesFalse_IfVariableIsFalse
@@ -103,9 +78,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesTrue_IfExpressionIsTrue
@@ -117,9 +90,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesFalse_IfExpressionIsFalse
@@ -131,9 +102,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesTrue_IfLiteralIsTrue
@@ -143,9 +112,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesFalse_IfLiteralIsFalse
@@ -155,9 +122,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 @end

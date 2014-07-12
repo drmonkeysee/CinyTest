@@ -6,20 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
+#import "CTStringAssertionTestBase.h"
 #include "ciny.h"
 
-@interface CTAssertEqualStrTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) char *expectedString;
-@property (nonatomic, assign) char *actualString;
-@property (nonatomic, assign) size_t compareCount;
+@interface CTAssertEqualStrTests : CTStringAssertionTestBase
 
 @end
-
-static void *TestClass;
 
 static void test_equality_stringn(void *context)
 {
@@ -116,20 +108,6 @@ static void test_equality_string_withformatmessage(void *context)
 
 @implementation CTAssertEqualStrTests
 
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
-
 #pragma mark - ctassertequalstrn
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreNull
@@ -142,9 +120,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreNullEvenWithInvalidSize
@@ -157,9 +133,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreEmpty
@@ -172,9 +146,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreSingleCharStrings
@@ -187,9 +159,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreEqualStrings
@@ -202,9 +172,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfSizeRefersToEqualSubstrings
@@ -217,9 +185,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfUnicodeStrings
@@ -232,9 +198,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfEmoji
@@ -247,9 +211,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfUnicodeCharIsComparedToUTF16EscapeSequence
@@ -262,9 +224,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfUnicodeCharIsComparedToUTF32EscapeSequence
@@ -277,9 +237,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesEqual_WithVeryLongString
@@ -294,9 +252,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfMixedCase
@@ -309,9 +265,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsShorterThanExpected
@@ -324,9 +278,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsLongerThanExpected
@@ -339,9 +291,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfExpectedIsNull
@@ -354,9 +304,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfExpectedIsNullWithInvalidSize
@@ -369,9 +317,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfExpectedIsEmpty
@@ -384,9 +330,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsNull
@@ -399,9 +343,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsNullWithInvalidSize
@@ -414,9 +356,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsEmpty
@@ -429,9 +369,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfDifferentStrings
@@ -444,9 +382,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfDifferentUnicodeStrings
@@ -459,9 +395,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfDifferentEmoji
@@ -474,9 +408,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfUnicodeCharIsComparedToComparableISOSequence
@@ -489,9 +421,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtStart
@@ -507,9 +437,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtEnd
@@ -525,9 +453,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - ctassertequalstr
@@ -540,9 +466,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrEmpty_ComparesEqual_IfEmpty
@@ -553,9 +477,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrEmpty_ComparesNotEqual_IfSingleChar
@@ -566,9 +488,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrEmpty_ComparesNotEqual_IfNonEmptyString
@@ -579,9 +499,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrOneChar_ComparesNotEqual_IfNull
@@ -592,9 +510,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrOneChar_ComparesNotEqual_IfEmpty
@@ -605,9 +521,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrOneChar_ComparesEqual_IfSingleChar
@@ -618,9 +532,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrOneChar_ComparesNotEqual_IfNonEqualSingleChar
@@ -631,9 +543,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrOneChar_ComparesNotEqual_IfNonEmptyString
@@ -644,9 +554,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrFullStr_ComparesNotEqual_IfNull
@@ -657,9 +565,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrFullStr_ComparesNotEqual_IfEmpty
@@ -670,9 +576,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrFullStr_ComparesNotEqual_IfSingleChar
@@ -683,9 +587,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrFullStr_ComparesEqual_IfSameString
@@ -696,9 +598,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrFullStr_ComparesNotEqual_IfSuperstring
@@ -709,9 +609,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Messages
@@ -723,9 +621,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstrn_FailsAssertion_WithFormattedMessage
@@ -735,9 +631,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstr_FailsAssertion_WithMessage
@@ -747,9 +641,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequalstr_FailsAssertion_WithFormattedMessage
@@ -759,9 +651,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 @end

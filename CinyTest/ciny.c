@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -23,7 +22,11 @@ static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 
 #define COMPVALUE_STR_SIZE 75
-enum assert_type { ASSERT_UNKNOWN, ASSERT_FAILURE, ASSERT_IGNORE };
+enum assert_type {
+    ASSERT_UNKNOWN,
+    ASSERT_FAILURE,
+    ASSERT_IGNORE
+};
 struct assert_state {
     enum assert_type type;
     const char *file;

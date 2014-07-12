@@ -6,25 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
-#include <stdbool.h>
+#import "CTNullAssertionTestBase.h"
 #include "ciny.h"
 
-@interface CTAssertNotNullTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) void *testVariable;
-@property (nonatomic, assign) bool useRealPointer;
+@interface CTAssertNotNullTests : CTNullAssertionTestBase
 
 @end
-
-static void *TestClass;
-
-static void *generate_pointer(bool real_pointer)
-{
-    return real_pointer ? TestClass : NULL;
-}
 
 static void variable_test(void *context)
 {
@@ -72,21 +59,6 @@ static void literal_notnull_test(void *context)
 
 @implementation CTAssertNotNullTests
 
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    self.testVariable = NULL;
-    
-    [super tearDown];
-}
-
 - (void)test_ctassertnotnull_ComparesNull_IfVariableIsNull
 {
     self.testVariable = NULL;
@@ -95,9 +67,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotnull_ComparesNotNull_IfVariableIsNotNull
@@ -108,9 +78,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotnull_ComparesNull_IfExpressionReturnsNull
@@ -121,9 +89,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotnull_ComparesNotNull_IfExpressionReturnsNotNull
@@ -134,9 +100,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotnull_ComparesNull_IfLiteralIsNull
@@ -146,9 +110,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotnull_ComparesNotNull_IfLiteralIsNotNull
@@ -158,9 +120,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 @end

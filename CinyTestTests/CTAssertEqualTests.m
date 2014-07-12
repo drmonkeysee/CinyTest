@@ -6,97 +6,14 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
-#include <limits.h>
+#import "CTEqualAssertionTestBase.h"
 #include <float.h>
 #include <complex.h>
 #include "ciny.h"
 
-#if CHAR_MIN < 0
-#define TAT_CHAR TAT_SCHAR
-#define c_values sc_values
-#else
-#define TAT_CHAR TAT_UCHAR
-#define c_values uc_values
-#endif
-
-typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
-    TAT_SCHAR,
-    TAT_SHORT,
-    TAT_INT,
-    TAT_LONG,
-    TAT_LONG_LONG,
-    
-    TAT_BOOL,
-    TAT_UCHAR,
-    TAT_USHORT,
-    TAT_UINT,
-    TAT_ULONG,
-    TAT_ULONG_LONG,
-    
-    TAT_FLOAT,
-    TAT_DOUBLE,
-    TAT_LDOUBLE,
-    
-    TAT_FCOMPLEX,
-    TAT_COMPLEX,
-    TAT_LCOMPLEX
-};
-
-enum argument {
-    ARG_EXPECTED,
-    ARG_ACTUAL
-};
-
-@interface CTAssertEqualTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) TEST_ARG_TYPE expectedType;
-@property (nonatomic, assign) TEST_ARG_TYPE actualType;
+@interface CTAssertEqualTests : CTEqualAssertionTestBase
 
 @end
-
-static void *TestClass;
-
-#define get_integral_test_arg(T, i) ((T) == TAT_SCHAR ? sc_values[i] \
-                                        : (T) == TAT_SHORT ? s_values[i] \
-                                        : (T) == TAT_INT ? i_values[i] \
-                                        : (T) == TAT_LONG ? l_values[i] \
-                                        : ll_values[i])
-#define get_uintegral_test_arg(T, i) ((T) == TAT_BOOL ? b_values[i] \
-                                        : (T) == TAT_UCHAR ? uc_values[i] \
-                                        : (T) == TAT_USHORT ? us_values[i] \
-                                        : (T) == TAT_UINT ? ui_values[i] \
-                                        : (T) == TAT_ULONG ? ul_values[i] \
-                                        : ull_values[i])
-#define get_float_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
-                                    : (T) == TAT_DOUBLE ? d_values[i] \
-                                    : ld_values[i])
-#define get_complex_test_arg(T, i) ((T) == TAT_FCOMPLEX ? fc_values[i] \
-                                    : (T) == TAT_COMPLEX ? dc_values[i] \
-                                    : ldc_values[i])
-
-static signed char sc_values[2];
-static short s_values[2];
-static int i_values[2];
-static long l_values[2];
-static long long ll_values[2];
-
-static _Bool b_values[2];
-static unsigned char uc_values[2];
-static unsigned short us_values[2];
-static unsigned int ui_values[2];
-static unsigned long ul_values[2];
-static unsigned long long ull_values[2];
-
-static float f_values[2];
-static double d_values[2];
-static long double ld_values[2];
-
-static float complex fc_values[2];
-static double complex dc_values[2];
-static long double complex ldc_values[2];
 
 static void equality_test(void *context)
 {
@@ -280,20 +197,6 @@ static void equality_test_withtypevariants(void *context)
 
 @implementation CTAssertEqualTests
 
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
-
 #pragma mark - Integral Equality
 
 - (void)test_ctassertequal_ComparesEqual_IfSameIntegralTypes
@@ -307,15 +210,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentIntegralTypes
 {
     sc_values[ARG_EXPECTED] = 42;
-    ll_values[ARG_ACTUAL] = 42ll;
+    ll_values[ARG_ACTUAL] = 42;
     self.expectedType = TAT_SCHAR;
     self.actualType = TAT_LONG_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -323,9 +224,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValues
@@ -339,15 +238,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValuesWithDifferentTypes
 {
     s_values[ARG_EXPECTED] = -5673;
-    l_values[ARG_ACTUAL] = -5673l;
+    l_values[ARG_ACTUAL] = -5673;
     self.expectedType = TAT_SHORT;
     self.actualType = TAT_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -355,9 +252,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValues
@@ -371,9 +266,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValuesWithDifferentTypes
@@ -387,9 +280,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestIntegralValue
@@ -403,9 +294,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestIntegralValue
@@ -419,9 +308,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValues
@@ -435,15 +322,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValuesAndTypes
 {
     s_values[ARG_EXPECTED] = 560;
-    l_values[ARG_ACTUAL] = -4574234l;
+    l_values[ARG_ACTUAL] = -4574234;
     self.expectedType = TAT_SHORT;
     self.actualType = TAT_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -451,9 +336,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxIntegralValues
@@ -467,17 +350,15 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Unsigned Integral Equality
 
 - (void)test_ctassertequal_ComparesEqual_IfSameUnsignedIntegralTypes
 {
-    ui_values[ARG_EXPECTED] = 34503u;
-    ui_values[ARG_ACTUAL] = 34503u;
+    ui_values[ARG_EXPECTED] = 34503;
+    ui_values[ARG_ACTUAL] = 34503;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -485,15 +366,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentUnsignedIntegralTypes
 {
-    b_values[ARG_EXPECTED] = 1u;
-    ull_values[ARG_ACTUAL] = 1ull;
+    b_values[ARG_EXPECTED] = 1;
+    ull_values[ARG_ACTUAL] = 1;
     self.expectedType = TAT_BOOL;
     self.actualType = TAT_ULONG_LONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -501,15 +380,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValues
 {
-    ui_values[ARG_EXPECTED] = 0u;
-    ui_values[ARG_ACTUAL] = 0u;
+    ui_values[ARG_EXPECTED] = 0;
+    ui_values[ARG_ACTUAL] = 0;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -517,15 +394,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValuesWithDifferentTypes
 {
-    uc_values[ARG_EXPECTED] = 0u;
-    ul_values[ARG_ACTUAL] = 0ul;
+    uc_values[ARG_EXPECTED] = 0;
+    ul_values[ARG_ACTUAL] = 0;
     self.expectedType = TAT_UCHAR;
     self.actualType = TAT_ULONG;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -533,9 +408,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestUnsignedIntegralValue
@@ -549,15 +422,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValues
 {
-    ui_values[ARG_EXPECTED] = 560u;
-    ui_values[ARG_ACTUAL] = 123467u;
+    ui_values[ARG_EXPECTED] = 560;
+    ui_values[ARG_ACTUAL] = 123467;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -565,15 +436,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValuesAndTypes
 {
-    us_values[ARG_EXPECTED] = 560u;
-    ui_values[ARG_ACTUAL] = 688334u;
+    us_values[ARG_EXPECTED] = 560;
+    ui_values[ARG_ACTUAL] = 688334;
     self.expectedType = TAT_USHORT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -581,14 +450,12 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegralValues
 {
-    ull_values[ARG_EXPECTED] = 0ull;
+    ull_values[ARG_EXPECTED] = 0;
     ull_values[ARG_ACTUAL] = ULONG_LONG_MAX;
     self.expectedType = TAT_ULONG_LONG;
     self.actualType = TAT_ULONG_LONG;
@@ -597,9 +464,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Float Equality
@@ -615,9 +480,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentFloatTypes
@@ -631,9 +494,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValues
@@ -647,9 +508,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValuesWithDifferentTypes
@@ -663,9 +522,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroFloatValues
@@ -679,9 +536,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroFloatValuesWithDifferentTypes
@@ -695,9 +550,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestFloatValue
@@ -711,9 +564,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestFloatValue
@@ -727,9 +578,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValues
@@ -743,9 +592,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValuesAndTypes
@@ -759,9 +606,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxFloatValues
@@ -775,9 +620,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Complex Equality
@@ -793,9 +636,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentComplexTypes
@@ -809,9 +650,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValues
@@ -825,9 +664,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValuesWithDifferentTypes
@@ -841,9 +678,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroComplexValues
@@ -857,9 +692,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroComplexValuesWithDifferentTypes
@@ -873,9 +706,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestComplexValue
@@ -889,25 +720,21 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestComplexValue
 {
     ldc_values[ARG_EXPECTED] = CMPLXL(LDBL_MIN, LDBL_MIN);
     ldc_values[ARG_ACTUAL] = CMPLXL(LDBL_MIN, LDBL_MIN);
-    self.expectedType = TAT_LDOUBLE;
-    self.actualType = TAT_LDOUBLE;
+    self.expectedType = TAT_LCOMPLEX;
+    self.actualType = TAT_LCOMPLEX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValues
@@ -921,9 +748,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValues
@@ -937,9 +762,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValues
@@ -953,9 +776,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValuesAndTypes
@@ -969,9 +790,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValuesAndTypes
@@ -985,9 +804,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValuesAndTypes
@@ -1001,9 +818,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxComplexValues
@@ -1017,9 +832,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Type Inequality
@@ -1027,7 +840,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndUIntegralTypes
 {
     i_values[ARG_EXPECTED] = 20;
-    ui_values[ARG_ACTUAL] = 20u;
+    ui_values[ARG_ACTUAL] = 20;
     self.expectedType = TAT_INT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1035,9 +848,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatTypes
@@ -1051,9 +862,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndComplexTypes
@@ -1067,14 +876,12 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatTypes
 {
-    ui_values[ARG_EXPECTED] = 20u;
+    ui_values[ARG_EXPECTED] = 20;
     d_values[ARG_ACTUAL] = 20;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_DOUBLE;
@@ -1083,14 +890,12 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndComplexTypes
 {
-    ui_values[ARG_EXPECTED] = 20u;
+    ui_values[ARG_EXPECTED] = 20;
     dc_values[ARG_ACTUAL] = CMPLX(20, 0.0);
     self.expectedType = TAT_UINT;
     self.actualType = TAT_COMPLEX;
@@ -1099,9 +904,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfFloatAndComplexTypes
@@ -1115,9 +918,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Bit Pattern Inequality
@@ -1126,7 +927,7 @@ static void equality_test_withtypevariants(void *context)
 {
     _Static_assert(sizeof(int) == sizeof(unsigned int), "int and uint not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
-    ui_values[ARG_ACTUAL] = 3248488448u;
+    ui_values[ARG_ACTUAL] = 3248488448;
     self.expectedType = TAT_INT;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -1134,9 +935,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatIdenticalBitPattern
@@ -1151,15 +950,13 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatIdenticalBitPattern
 {
     _Static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
-    ui_values[ARG_EXPECTED] = 3248488448u;
+    ui_values[ARG_EXPECTED] = 3248488448;
     f_values[ARG_ACTUAL] = -2.0e1f;
     self.expectedType = TAT_UINT;
     self.actualType = TAT_FLOAT;
@@ -1168,9 +965,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Messages
@@ -1182,9 +977,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_FiresAssertion_WithCustomFormatMessage
@@ -1194,9 +987,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Type variants
@@ -1208,9 +999,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 #pragma mark - Char
@@ -1226,9 +1015,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfCharAndIntegralType
@@ -1250,7 +1037,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesNotEqual_IfCharAndUIntegralTypes
 {
     c_values[ARG_EXPECTED] = 20;
-    ui_values[ARG_ACTUAL] = 20u;
+    ui_values[ARG_ACTUAL] = 20;
     self.expectedType = TAT_CHAR;
     self.actualType = TAT_UINT;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };

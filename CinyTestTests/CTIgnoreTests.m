@@ -6,17 +6,20 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
+#import "CTAssertionTestBase.h"
 #include "ciny.h"
 
-@interface CTIgnoreTests : XCTestCase
+#undef failed_assertion_expected
+#define failed_assertion_expected(test_result) \
+            do { \
+                XCTAssertEqual(0, test_result); \
+                XCTAssertTrue(self.invokedTest); \
+                XCTAssertFalse(self.sawPostAssertCode); \
+            } while (0);
 
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawUnreachableCode;
+@interface CTIgnoreTests : CTAssertionTestBase
 
 @end
-
-static void *TestClass;
 
 static void ignore_test_nomessage(void *context)
 {
@@ -26,7 +29,7 @@ static void ignore_test_nomessage(void *context)
     
     ct_ignore();
     
-    testObject.sawUnreachableCode = YES;
+    testObject.sawPostAssertCode = YES;
 }
 
 static void ignore_test_message(void *context)
@@ -37,7 +40,7 @@ static void ignore_test_message(void *context)
     
     ct_ignore("a test message");
     
-    testObject.sawUnreachableCode = YES;
+    testObject.sawPostAssertCode = YES;
 }
 
 static void ignore_test_formatmessage(void *context)
@@ -48,24 +51,10 @@ static void ignore_test_formatmessage(void *context)
     
     ct_ignore("a test message with %d format arguments: %f, %s", 3, 1.5, "foo");
     
-    testObject.sawUnreachableCode = YES;
+    testObject.sawPostAssertCode = YES;
 }
 
 @implementation CTIgnoreTests
-
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
 
 - (void)test_ctignore_TerminatesTest_IfGivenNoMessage
 {
@@ -74,9 +63,7 @@ static void ignore_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawUnreachableCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctignore_TerminatesTest_IfGivenMessage
@@ -86,9 +73,7 @@ static void ignore_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawUnreachableCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctignore_TerminatesTest_IfGivenFormattedMessage
@@ -98,9 +83,7 @@ static void ignore_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawUnreachableCode);
+    failed_assertion_expected(run_result);
 }
 
 @end

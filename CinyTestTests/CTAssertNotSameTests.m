@@ -6,19 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
+#import "CTSameAssertionTestBase.h"
 #include "ciny.h"
 
-@interface CTAssertNotSameTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) void *expectedPointer;
-@property (nonatomic, assign) void *actualPointer;
+@interface CTAssertNotSameTests : CTSameAssertionTestBase
 
 @end
-
-static void *TestClass;
 
 static void identity_test(void *context)
 {
@@ -90,20 +83,6 @@ static void identity_test_pointer_andpointertopointer(void *context)
 
 @implementation CTAssertNotSameTests
 
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
-
 - (void)test_ctassertnotsame_ComparesSame_IfNullInputs
 {
     self.expectedPointer = NULL;
@@ -113,9 +92,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfExpectedIsNull
@@ -128,9 +105,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfActualIsNull
@@ -143,9 +118,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesSame_IfBothPointToSameObject
@@ -158,9 +131,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfPointingAtDifferentObjects
@@ -174,9 +145,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfPointingAtDifferentPartsOfSameObject
@@ -189,9 +158,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesSame_IfExpectedIsAliasedVersionOfActual
@@ -205,9 +172,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesSame_IfActualIsAliasedVersionOfExpected
@@ -221,9 +186,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesSame_IfPointersToPointers
@@ -233,9 +196,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesNotSame_IfPointerAndPointerToPointer
@@ -245,9 +206,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_FiresAssertion_WithMessage
@@ -257,9 +216,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_FiresAssertion_WithFormattedMessage
@@ -269,9 +226,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    failed_assertion_expected(run_result);
 }
 
 @end
