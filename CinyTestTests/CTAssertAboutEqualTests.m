@@ -6,41 +6,14 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTAboutEqualAssertionTestBase.h"
 #include <float.h>
 #include <math.h>
 #include "ciny.h"
 
-typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
-    TAT_FLOAT,
-    TAT_DOUBLE,
-    TAT_LDOUBLE
-};
-
-enum argument {
-    ARG_EXPECTED,
-    ARG_ACTUAL,
-    ARG_PRECISION
-};
-
-@interface CTAssertAboutEqualTests : XCTestCase
-
-@property (nonatomic, assign) BOOL invokedTest;
-@property (nonatomic, assign) BOOL sawPostAssertCode;
-@property (nonatomic, assign) TEST_ARG_TYPE expectedType;
-@property (nonatomic, assign) TEST_ARG_TYPE actualType;
-@property (nonatomic, assign) TEST_ARG_TYPE precisionType;
+@interface CTAssertAboutEqualTests : CTAboutEqualAssertionTestBase
 
 @end
-
-static void *TestClass;
-
-#define get_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
-                            : (T) == TAT_DOUBLE ? d_values[i] \
-                            : ld_values[i])
-
-static float f_values[3];
-static double d_values[3];
-static long double ld_values[3];
 
 static void about_equality_test(void *context)
 {
@@ -76,20 +49,6 @@ static void about_equality_test_withformatmessage(void *context)
 }
 
 @implementation CTAssertAboutEqualTests
-
-- (void)setUp
-{
-    [super setUp];
-    
-    TestClass = (__bridge void *)(self);
-}
-
-- (void)tearDown
-{
-    TestClass = NULL;
-    
-    [super tearDown];
-}
 
 #pragma - Equal
 
