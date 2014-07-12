@@ -15,4 +15,7 @@ extern void *TestClass;
 @property (nonatomic, assign) BOOL invokedTest;
 @property (nonatomic, assign) BOOL sawPostAssertCode;
 
+- (void)expectAssertionSuccessForResult:(size_t)testResult;
+- (void)expectAssertionFailureForResult:(size_t)testResult;
+
 @end

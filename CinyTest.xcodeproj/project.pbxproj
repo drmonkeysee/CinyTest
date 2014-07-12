@@ -54,7 +54,7 @@
 		020A83A119592C7200A5CD81 /* CTAssertNotEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualStrTests.m; sourceTree = "<group>"; };
 		0237F3631904CFE70030E3EC /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
 		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
-		023D7EFF195FA41100AA7A9C /* CTAssertAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertAboutEqualTests.m; sourceTree = "<group>"; };
+		023D7EFF195FA41100AA7A9C /* CTAssertAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CTAssertAboutEqualTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0244607D194801F100D31360 /* CTAssertNotEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualTests.m; sourceTree = "<group>"; };
 		025EF551193157C8002EA558 /* CTAssertEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualTests.m; sourceTree = "<group>"; };
 		025EF55319315EF3002EA558 /* CTMakeValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeValueTests.m; sourceTree = "<group>"; };

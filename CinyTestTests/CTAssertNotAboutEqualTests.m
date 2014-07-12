@@ -65,9 +65,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_IfWithinPrecision
@@ -83,9 +81,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_IfExactlyOnPrecision
@@ -101,9 +97,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_IfNegativePrecision
@@ -119,9 +113,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_IfPrecisionIsGreaterThanValues
@@ -137,9 +129,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_IfDifferentWidthsAndBigEnoughPrecision
@@ -155,9 +145,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_ForFloats
@@ -173,9 +161,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_ForLongDoubles
@@ -191,9 +177,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithNegativeValues
@@ -209,9 +193,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_AroundZero
@@ -227,9 +209,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedZero
@@ -245,9 +225,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualZero
@@ -263,9 +241,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinFloat
@@ -282,9 +258,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinFloat
@@ -301,9 +275,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMaxFloat
@@ -321,9 +293,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMaxFloat
@@ -341,9 +311,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinDouble
@@ -360,9 +328,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinDouble
@@ -379,9 +345,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMaxDouble
@@ -399,9 +363,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMaxDouble
@@ -419,9 +381,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinLongDouble
@@ -438,9 +398,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinLongDouble
@@ -457,9 +415,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMaxLongDouble
@@ -477,9 +433,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMaxLongDouble
@@ -497,9 +451,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinFloat
@@ -516,9 +468,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinFloat
@@ -535,9 +485,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMaxFloat
@@ -555,9 +503,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMaxFloat
@@ -575,9 +521,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinDouble
@@ -594,9 +538,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinDouble
@@ -613,9 +555,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMaxDouble
@@ -633,9 +573,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMaxDouble
@@ -653,9 +591,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinLongDouble
@@ -672,9 +608,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinLongDouble
@@ -691,9 +625,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMaxLongDouble
@@ -711,9 +643,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMaxLongDouble
@@ -731,9 +661,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithInfinitePrecision
@@ -749,9 +677,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma - Not Equal
@@ -769,9 +695,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_IfOutsideOfPrecision
@@ -787,9 +711,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_IfJustBeyondPrecision
@@ -805,9 +727,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_ForFloats
@@ -823,9 +743,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_ForLongDoubles
@@ -841,9 +759,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithNegativeValues
@@ -859,9 +775,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_AroundZero
@@ -877,9 +791,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedZero
@@ -895,9 +807,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualZero
@@ -913,9 +823,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinFloat
@@ -932,9 +840,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinFloat
@@ -951,9 +857,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMaxFloat
@@ -971,9 +875,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMaxFloat
@@ -991,9 +893,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinDouble
@@ -1010,9 +910,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinDouble
@@ -1029,9 +927,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMaxDouble
@@ -1049,9 +945,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMaxDouble
@@ -1069,9 +963,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinLongDouble
@@ -1088,9 +980,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinLongDouble
@@ -1107,9 +997,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMaxLongDouble
@@ -1127,9 +1015,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMaxLongDouble
@@ -1147,9 +1033,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithOverflow
@@ -1167,9 +1051,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedInfinity
@@ -1185,9 +1067,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualInfinity
@@ -1203,9 +1083,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNaN
@@ -1221,9 +1099,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNaN
@@ -1239,9 +1115,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithPrecisionNaN
@@ -1257,9 +1131,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
@@ -1276,9 +1148,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinFloat
@@ -1295,9 +1165,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMaxFloat
@@ -1315,9 +1183,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMaxFloat
@@ -1335,9 +1201,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinDouble
@@ -1354,9 +1218,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinDouble
@@ -1373,9 +1235,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMaxDouble
@@ -1393,9 +1253,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMaxDouble
@@ -1413,9 +1271,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinLongDouble
@@ -1432,9 +1288,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinLongDouble
@@ -1451,9 +1305,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMaxLongDouble
@@ -1471,9 +1323,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMaxLongDouble
@@ -1491,9 +1341,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithNegativeExpectedInfinity
@@ -1509,9 +1357,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithNegativeActualInfinity
@@ -1527,9 +1373,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithNegativeExpectedNaN
@@ -1545,9 +1389,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithNegativeActualNaN
@@ -1563,9 +1405,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithNegativePrecisionNaN
@@ -1581,9 +1421,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 #pragma mark - Messages
@@ -1595,9 +1433,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctnotaboutequal_FiresAssertion_WithFormatMessage
@@ -1607,9 +1443,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 @end

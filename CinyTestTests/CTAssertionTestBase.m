@@ -26,4 +26,18 @@ void *TestClass;
     [super tearDown];
 }
 
+- (void)expectAssertionSuccessForResult:(size_t)testResult
+{
+    XCTAssertEqual(0, testResult);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertTrue(self.sawPostAssertCode);
+}
+
+- (void)expectAssertionFailureForResult:(size_t)testResult
+{
+    XCTAssertEqual(1, testResult);
+    XCTAssertTrue(self.invokedTest);
+    XCTAssertFalse(self.sawPostAssertCode);
+}
+
 @end

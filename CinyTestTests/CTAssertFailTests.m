@@ -55,9 +55,7 @@ static void fail_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenMessage
@@ -67,9 +65,7 @@ static void fail_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenFormattedMessage
@@ -79,9 +75,7 @@ static void fail_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 @end

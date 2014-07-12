@@ -67,9 +67,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertnotnull_ComparesNotNull_IfVariableIsNotNull
@@ -80,9 +78,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertnotnull_ComparesNull_IfExpressionReturnsNull
@@ -93,9 +89,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertnotnull_ComparesNotNull_IfExpressionReturnsNotNull
@@ -106,9 +100,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertnotnull_ComparesNull_IfLiteralIsNull
@@ -118,9 +110,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertnotnull_ComparesNotNull_IfLiteralIsNotNull
@@ -130,9 +120,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 @end

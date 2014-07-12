@@ -210,9 +210,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentIntegralTypes
@@ -226,9 +224,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValues
@@ -242,9 +238,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValuesWithDifferentTypes
@@ -258,9 +252,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValues
@@ -274,9 +266,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValuesWithDifferentTypes
@@ -290,9 +280,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestIntegralValue
@@ -306,9 +294,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestIntegralValue
@@ -322,9 +308,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValues
@@ -338,9 +322,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValuesAndTypes
@@ -354,9 +336,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxIntegralValues
@@ -370,9 +350,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Unsigned Integral Equality
@@ -388,9 +366,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentUnsignedIntegralTypes
@@ -404,9 +380,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValues
@@ -420,9 +394,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValuesWithDifferentTypes
@@ -436,9 +408,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestUnsignedIntegralValue
@@ -452,9 +422,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValues
@@ -468,9 +436,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValuesAndTypes
@@ -484,9 +450,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegralValues
@@ -500,9 +464,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Float Equality
@@ -518,9 +480,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentFloatTypes
@@ -534,9 +494,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValues
@@ -550,9 +508,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeFloatValuesWithDifferentTypes
@@ -566,9 +522,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroFloatValues
@@ -582,9 +536,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroFloatValuesWithDifferentTypes
@@ -598,9 +550,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestFloatValue
@@ -614,9 +564,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestFloatValue
@@ -630,9 +578,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValues
@@ -646,9 +592,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentFloatValuesAndTypes
@@ -662,9 +606,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxFloatValues
@@ -678,9 +620,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Complex Equality
@@ -696,9 +636,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfDifferentComplexTypes
@@ -712,9 +650,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValues
@@ -728,9 +664,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfNegativeComplexValuesWithDifferentTypes
@@ -744,9 +678,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroComplexValues
@@ -760,9 +692,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfZeroComplexValuesWithDifferentTypes
@@ -776,9 +706,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestComplexValue
@@ -792,9 +720,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestComplexValue
@@ -808,9 +734,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValues
@@ -824,9 +748,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValues
@@ -840,9 +762,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValues
@@ -856,9 +776,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexValuesAndTypes
@@ -872,9 +790,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexRealValuesAndTypes
@@ -888,9 +804,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentComplexImaginaryValuesAndTypes
@@ -904,9 +818,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxComplexValues
@@ -920,9 +832,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Type Inequality
@@ -938,9 +848,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatTypes
@@ -954,9 +862,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndComplexTypes
@@ -970,9 +876,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatTypes
@@ -986,9 +890,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndComplexTypes
@@ -1002,9 +904,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfFloatAndComplexTypes
@@ -1018,9 +918,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Bit Pattern Inequality
@@ -1037,9 +935,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatIdenticalBitPattern
@@ -1054,9 +950,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatIdenticalBitPattern
@@ -1071,9 +965,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Messages
@@ -1085,9 +977,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 - (void)test_ctassertequal_FiresAssertion_WithCustomFormatMessage
@@ -1097,9 +987,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
+    [self expectAssertionFailureForResult:run_result];
 }
 
 #pragma mark - Type variants
@@ -1111,9 +999,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 #pragma mark - Char
@@ -1129,9 +1015,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertTrue(self.sawPostAssertCode);
+    [self expectAssertionSuccessForResult:run_result];
 }
 
 - (void)test_ctassertequal_ComparesEqual_IfCharAndIntegralType
