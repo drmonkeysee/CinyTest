@@ -8,6 +8,22 @@
 
 #import "CTAssertionTestBase.h"
 
+void *TestClass;
+
 @implementation CTAssertionTestBase
+
+- (void)setUp
+{
+    [super setUp];
+    
+    TestClass = (__bridge void *)(self);
+}
+
+- (void)tearDown
+{
+    TestClass = NULL;
+    
+    [super tearDown];
+}
 
 @end

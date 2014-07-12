@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+extern void *TestClass;
+
 @interface CTAssertionTestBase : XCTestCase
 
 @property (nonatomic, assign) BOOL invokedTest;
