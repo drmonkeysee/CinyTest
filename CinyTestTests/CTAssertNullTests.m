@@ -67,7 +67,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnull_ComparesNotNull_IfVariableIsNotNull
@@ -78,7 +78,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnull_ComparesNull_IfExpressionReturnsNull
@@ -89,7 +89,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnull_ComparesNotNull_IfExpressionReturnsNotNull
@@ -100,7 +100,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnull_ComparesNull_IfLiteralIsNull
@@ -110,7 +110,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnull_ComparesNotNull_IfLiteralIsNotNull
@@ -120,7 +120,7 @@ static void literal_notnull_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 @end

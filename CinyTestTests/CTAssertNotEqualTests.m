@@ -210,7 +210,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfDifferentIntegralTypes
@@ -224,7 +224,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeIntegralValues
@@ -238,7 +238,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeIntegralValuesWithDifferentTypes
@@ -252,7 +252,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroIntegralValues
@@ -266,7 +266,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroIntegralValuesWithDifferentTypes
@@ -280,7 +280,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfLargestIntegralValue
@@ -294,7 +294,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfSmallestIntegralValue
@@ -308,7 +308,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentIntegralValues
@@ -322,7 +322,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentIntegralValuesAndTypes
@@ -336,7 +336,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_ForMinAndMaxIntegralValues
@@ -350,7 +350,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 #pragma mark - Unsigned Integral Equality
@@ -366,7 +366,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfDifferentUnsignedIntegralTypes
@@ -380,7 +380,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroUnsignedIntegralValues
@@ -394,7 +394,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroUnsignedIntegralValuesWithDifferentTypes
@@ -408,7 +408,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfLargestUnsignedIntegralValue
@@ -422,7 +422,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentUnsignedIntegralValues
@@ -436,7 +436,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentUnsignedIntegralValuesAndTypes
@@ -450,7 +450,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegralValues
@@ -464,7 +464,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 #pragma mark - Float Equality
@@ -480,7 +480,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfDifferentFloatTypes
@@ -494,7 +494,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeFloatValues
@@ -508,7 +508,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeFloatValuesWithDifferentTypes
@@ -522,7 +522,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroFloatValues
@@ -536,7 +536,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroFloatValuesWithDifferentTypes
@@ -550,7 +550,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfLargestFloatValue
@@ -564,7 +564,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfSmallestFloatValue
@@ -578,7 +578,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentFloatValues
@@ -592,7 +592,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentFloatValuesAndTypes
@@ -606,7 +606,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_ForMinAndMaxFloatValues
@@ -620,7 +620,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 #pragma mark - Complex Equality
@@ -636,7 +636,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfDifferentComplexTypes
@@ -650,7 +650,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeComplexValues
@@ -664,7 +664,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfNegativeComplexValuesWithDifferentTypes
@@ -678,7 +678,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroComplexValues
@@ -692,7 +692,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfZeroComplexValuesWithDifferentTypes
@@ -706,7 +706,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfLargestComplexValue
@@ -720,7 +720,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesEqual_IfSmallestComplexValue
@@ -734,7 +734,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexValues
@@ -748,7 +748,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexRealValues
@@ -762,7 +762,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexImaginaryValues
@@ -776,7 +776,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexValuesAndTypes
@@ -790,7 +790,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexRealValuesAndTypes
@@ -804,7 +804,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfDifferentComplexImaginaryValuesAndTypes
@@ -818,7 +818,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_ForMinAndMaxComplexValues
@@ -832,7 +832,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 #pragma mark - Type Mismatch
@@ -848,7 +848,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfIntegralAndFloatTypes
@@ -862,7 +862,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfIntegralAndComplexTypes
@@ -876,7 +876,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfUIntegralAndFloatTypes
@@ -890,7 +890,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfUIntegralAndComplexTypes
@@ -904,7 +904,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfFloatAndComplexTypes
@@ -918,7 +918,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Bit Pattern with Type Mismatch
@@ -935,7 +935,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfIntegralAndFloatIdenticalBitPattern
@@ -950,7 +950,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FailsAssertion_IfUIntegralAndFloatIdenticalBitPattern
@@ -965,7 +965,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Messages
@@ -977,7 +977,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_FiresAssertion_WithCustomFormatMessage
@@ -987,7 +987,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Type variants
@@ -999,7 +999,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 #pragma mark - Char
@@ -1015,7 +1015,7 @@ static void inequality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotequal_ComparesNotEqual_IfCharAndIntegralType

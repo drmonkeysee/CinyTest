@@ -55,7 +55,7 @@ static void fail_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenMessage
@@ -65,7 +65,7 @@ static void fail_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenFormattedMessage
@@ -75,7 +75,7 @@ static void fail_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 @end

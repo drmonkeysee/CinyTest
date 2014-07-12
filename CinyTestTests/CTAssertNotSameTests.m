@@ -92,7 +92,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfExpectedIsNull
@@ -105,7 +105,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfActualIsNull
@@ -118,7 +118,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesSame_IfBothPointToSameObject
@@ -131,7 +131,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfPointingAtDifferentObjects
@@ -145,7 +145,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfPointingAtDifferentPartsOfSameObject
@@ -158,7 +158,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesSame_IfExpectedIsAliasedVersionOfActual
@@ -172,7 +172,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_ComparesSame_IfActualIsAliasedVersionOfExpected
@@ -186,7 +186,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesSame_IfPointersToPointers
@@ -196,7 +196,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesNotSame_IfPointerAndPointerToPointer
@@ -206,7 +206,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_FiresAssertion_WithMessage
@@ -216,7 +216,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertnotsame_FiresAssertion_WithFormattedMessage
@@ -226,7 +226,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 @end

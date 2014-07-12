@@ -8,14 +8,28 @@
 
 #include <stddef.h>
 
+// these are macros instead of objc methods so the
+// XCTest exceptions are still raised at the unit test call site,
+// otherwise all test failures are reported as coming from CTAssertionTestBase
+#define successful_assertion_expected(test_result) \
+            do { \
+                XCTAssertEqual(0, test_result); \
+                XCTAssertTrue(self.invokedTest); \
+                XCTAssertTrue(self.sawPostAssertCode); \
+            } while (0);
+
+#define failed_assertion_expected(test_result) \
+            do { \
+                XCTAssertEqual(1, test_result); \
+                XCTAssertTrue(self.invokedTest); \
+                XCTAssertFalse(self.sawPostAssertCode); \
+            } while (0);
+
 extern void *TestClass;
 
 @interface CTAssertionTestBase : XCTestCase
 
 @property (nonatomic, assign) BOOL invokedTest;
 @property (nonatomic, assign) BOOL sawPostAssertCode;
-
-- (void)expectAssertionSuccessForResult:(size_t)testResult;
-- (void)expectAssertionFailureForResult:(size_t)testResult;
 
 @end

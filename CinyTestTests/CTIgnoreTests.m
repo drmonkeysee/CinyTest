@@ -9,6 +9,14 @@
 #import "CTAssertionTestBase.h"
 #include "ciny.h"
 
+#undef failed_assertion_expected
+#define failed_assertion_expected(test_result) \
+            do { \
+                XCTAssertEqual(0, test_result); \
+                XCTAssertTrue(self.invokedTest); \
+                XCTAssertFalse(self.sawPostAssertCode); \
+            } while (0);
+
 @interface CTIgnoreTests : CTAssertionTestBase
 
 @end
@@ -48,13 +56,6 @@ static void ignore_test_formatmessage(void *context)
 
 @implementation CTIgnoreTests
 
-- (void)expectAssertionFailureForResult:(size_t)testResult
-{
-    XCTAssertEqual(0, testResult);
-    XCTAssertTrue(self.invokedTest);
-    XCTAssertFalse(self.sawPostAssertCode);
-}
-
 - (void)test_ctignore_TerminatesTest_IfGivenNoMessage
 {
     struct ct_testcase cases[] = { ct_maketest(ignore_test_nomessage) };
@@ -62,7 +63,7 @@ static void ignore_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctignore_TerminatesTest_IfGivenMessage
@@ -72,7 +73,7 @@ static void ignore_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctignore_TerminatesTest_IfGivenFormattedMessage
@@ -82,7 +83,7 @@ static void ignore_test_formatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 @end

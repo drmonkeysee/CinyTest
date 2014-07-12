@@ -65,7 +65,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_IfWithinPrecision
@@ -81,7 +81,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_IfExactlyOnPrecision
@@ -97,7 +97,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_IfNegativePrecision
@@ -113,7 +113,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_IfPrecisionIsGreaterThanValues
@@ -129,7 +129,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_IfDifferentWidthsAndBigEnoughPrecision
@@ -145,7 +145,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_ForFloats
@@ -161,7 +161,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_ForLongDoubles
@@ -177,7 +177,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithNegativeValues
@@ -193,7 +193,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_AroundZero
@@ -209,7 +209,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedZero
@@ -225,7 +225,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualZero
@@ -241,7 +241,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMinFloat
@@ -258,7 +258,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMinFloat
@@ -275,7 +275,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMaxFloat
@@ -293,7 +293,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMaxFloat
@@ -311,7 +311,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMinDouble
@@ -328,7 +328,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMinDouble
@@ -345,7 +345,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMaxDouble
@@ -363,7 +363,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMaxDouble
@@ -381,7 +381,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMinLongDouble
@@ -398,7 +398,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMinLongDouble
@@ -415,7 +415,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedMaxLongDouble
@@ -433,7 +433,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualMaxLongDouble
@@ -451,7 +451,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinFloat
@@ -468,7 +468,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinFloat
@@ -485,7 +485,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxFloat
@@ -503,7 +503,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxFloat
@@ -521,7 +521,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinDouble
@@ -538,7 +538,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinDouble
@@ -555,7 +555,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxDouble
@@ -573,7 +573,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxDouble
@@ -591,7 +591,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMinLongDouble
@@ -608,7 +608,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMinLongDouble
@@ -625,7 +625,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithExpectedNegativeMaxLongDouble
@@ -643,7 +643,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithActualNegativeMaxLongDouble
@@ -661,7 +661,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesEqual_WithInfinitePrecision
@@ -677,7 +677,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 #pragma - Not Equal
@@ -695,7 +695,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_IfOutsideOfPrecision
@@ -711,7 +711,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_IfJustBeyondPrecision
@@ -727,7 +727,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_ForFloats
@@ -743,7 +743,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_ForLongDoubles
@@ -759,7 +759,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithNegativeValues
@@ -775,7 +775,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_AroundZero
@@ -791,7 +791,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedZero
@@ -807,7 +807,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualZero
@@ -823,7 +823,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMinFloat
@@ -840,7 +840,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMinFloat
@@ -857,7 +857,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMaxFloat
@@ -875,7 +875,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMaxFloat
@@ -893,7 +893,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMinDouble
@@ -910,7 +910,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMinDouble
@@ -927,7 +927,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMaxDouble
@@ -945,7 +945,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMaxDouble
@@ -963,7 +963,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMinLongDouble
@@ -980,7 +980,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMinLongDouble
@@ -997,7 +997,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedMaxLongDouble
@@ -1015,7 +1015,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualMaxLongDouble
@@ -1033,7 +1033,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithOverflow
@@ -1051,7 +1051,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedInfinity
@@ -1067,7 +1067,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualInfinity
@@ -1083,7 +1083,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNaN
@@ -1099,7 +1099,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNaN
@@ -1115,7 +1115,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithPrecisionNaN
@@ -1131,7 +1131,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
@@ -1148,7 +1148,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinFloat
@@ -1165,7 +1165,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxFloat
@@ -1183,7 +1183,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxFloat
@@ -1201,7 +1201,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinDouble
@@ -1218,7 +1218,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinDouble
@@ -1235,7 +1235,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxDouble
@@ -1253,7 +1253,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxDouble
@@ -1271,7 +1271,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMinLongDouble
@@ -1288,7 +1288,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMinLongDouble
@@ -1305,7 +1305,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithExpectedNegativeMaxLongDouble
@@ -1323,7 +1323,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithActualNegativeMaxLongDouble
@@ -1341,7 +1341,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithNegativeExpectedInfinity
@@ -1357,7 +1357,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithNegativeActualInfinity
@@ -1373,7 +1373,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithNegativeExpectedNaN
@@ -1389,7 +1389,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithNegativeActualNaN
@@ -1405,7 +1405,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_ComparesNotEqual_WithNegativePrecisionNaN
@@ -1421,7 +1421,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 #pragma mark - Messages
@@ -1433,7 +1433,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctaboutequal_FiresAssertion_WithFormatMessage
@@ -1443,7 +1443,7 @@ static void about_equality_test_withformatmessage(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 @end

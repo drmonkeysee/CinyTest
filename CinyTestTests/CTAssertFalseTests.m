@@ -67,7 +67,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesFalse_IfVariableIsFalse
@@ -78,7 +78,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesTrue_IfExpressionIsTrue
@@ -90,7 +90,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesFalse_IfExpressionIsFalse
@@ -102,7 +102,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesTrue_IfLiteralIsTrue
@@ -112,7 +112,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionFailureForResult:run_result];
+    failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertfalse_ComparesFalse_IfLiteralIsFalse
@@ -122,7 +122,7 @@ static void literal_false_test(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    [self expectAssertionSuccessForResult:run_result];
+    successful_assertion_expected(run_result);
 }
 
 @end
