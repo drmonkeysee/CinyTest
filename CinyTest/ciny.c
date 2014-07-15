@@ -92,15 +92,6 @@ static void print_runfooter(const struct ct_testsuite *suite, time_t start_time,
     print_delimiter("End");
 }
 
-static void reset_assertstate(struct assert_state *assert_state)
-{
-    assert_state->type = ASSERT_UNKNOWN;
-    assert_state->file = NULL;
-    assert_state->line = 0;
-    assert_state->description[0] = '\0';
-    assert_state->message[0] = '\0';
-}
-
 static void print_assertmessage(const char *message)
 {
     if (printf("%s", message) > 0) {
@@ -126,6 +117,15 @@ static bool pretty_truncate(char *str, size_t size)
 /////
 // Assert State
 /////
+
+static void reset_assertstate(struct assert_state *assert_state)
+{
+    assert_state->type = ASSERT_UNKNOWN;
+    assert_state->file = NULL;
+    assert_state->line = 0;
+    assert_state->description[0] = '\0';
+    assert_state->message[0] = '\0';
+}
 
 static void handle_assertfailure(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
 {
