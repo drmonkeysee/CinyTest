@@ -42,7 +42,7 @@ static struct assertstate CurrentAssertState;
 static jmp_buf AssertFired;
 static const char IgnoredTestGlyph = '?';
 
-struct run_ledger {
+struct runledger {
     size_t passed;
     size_t failed;
     size_t ignored;
@@ -80,7 +80,7 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct run_ledger *ledger)
+static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct runledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_SIZE];
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
@@ -92,7 +92,7 @@ static void print_runfooter(const struct ct_testsuite *suite, time_t start_time,
     print_delimiter("End");
 }
 
-static void print_assertmessage(const char *message)
+static void print_linemessage(const char *message)
 {
     if (printf("%s", message) > 0) {
         printf("\n");
@@ -127,22 +127,22 @@ static void assertstate_reset(struct assertstate *assert_state)
     assert_state->message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const struct assertstate *assert_state, const char *testname, struct run_ledger *ledger)
+static void assertstate_handlefailure(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
 {
     ++ledger->failed;
     printf("[\u2718] - '%s' failure\n", testname);
     printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->description);
-    print_assertmessage(assert_state->message);
+    print_linemessage(assert_state->message);
 }
 
-static void assertstate_handleignore(const struct assertstate *assert_state, const char *testname, struct run_ledger *ledger)
+static void assertstate_handleignore(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
 {
     ++ledger->ignored;
     printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
-    print_assertmessage(assert_state->message);
+    print_linemessage(assert_state->message);
 }
 
-static void assertstate_handle(const struct assertstate *assert_state, const char *testname, struct run_ledger *ledger)
+static void assertstate_handle(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
 {
     switch (assert_state->type) {
         case ASSERT_FAILURE:
@@ -266,7 +266,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
+static void testcase_run(const struct ct_testcase *testcase, void *testcontext, size_t index, struct runledger *ledger)
 {
     if (!testcase->test) {
         ++ledger->ignored;
@@ -280,7 +280,7 @@ static void testcase_run(const struct ct_testcase *testcase, void *testcontext, 
     printf("[\u2714] - '%s' success\n", testcase->name);
 }
 
-static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct run_ledger *ledger)
+static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct runledger *ledger)
 {
     assertstate_reset(&CurrentAssertState);
     struct ct_testcase *current_test = &suite->tests[index];
@@ -310,7 +310,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     time_t start_time = time(NULL);
     print_runheader(suite, start_time);
     
-    struct run_ledger ledger = { 0, 0, 0 };
+    struct runledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
         testsuite_run(suite, i, &ledger);
     }
