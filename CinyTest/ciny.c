@@ -17,6 +17,10 @@
 #include <math.h>
 #include "ciny.h"
 
+/////
+// Type and Data Definitions
+/////
+
 #define DATE_FORMAT_SIZE 30
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
@@ -44,7 +48,10 @@ struct run_ledger {
     size_t ignored;
 };
 
-// call sites for inline functions
+/////
+// Inline Function Call Sites
+/////
+
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline struct ct_comparable_value ct_makevalue_integral(int, long long);
@@ -52,6 +59,10 @@ extern inline struct ct_comparable_value ct_makevalue_uintegral(int, unsigned lo
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
 extern inline struct ct_comparable_value ct_makevalue_complex(int, long double _Complex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
+
+/////
+// Printing and Text Manipulation
+/////
 
 static void print_delimiter(const char *message)
 {
@@ -97,6 +108,25 @@ static void print_assertmessage(const char *message)
     }
 }
 
+static bool pretty_truncate(char *str, size_t size)
+{
+    static const char * const ellipsis = "\u2026";
+    size_t ellipsis_length = strlen(ellipsis);
+    ptrdiff_t truncation_index = size - 1 - ellipsis_length;
+    
+    bool can_fit_ellipsis = truncation_index >= 0;
+    if (can_fit_ellipsis) {
+        str[truncation_index] = '\0';
+        strcat(str, ellipsis);
+    }
+    
+    return can_fit_ellipsis;
+}
+
+/////
+// Assert State
+/////
+
 static void handle_assertfailure(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
 {
     ++ledger->failed;
@@ -125,56 +155,6 @@ static void handle_assertion(const struct assert_state *assert_state, const char
             fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
             break;
     }
-}
-
-static void run_testcase(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
-{
-    if (!testcase->test) {
-        ++ledger->ignored;
-        printf("[%c] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
-        return;
-    }
-    
-    testcase->test(testcontext);
-    
-    ++ledger->passed;
-    printf("[\u2714] - '%s' success\n", testcase->name);
-}
-
-static void run_test(size_t index, const struct ct_testsuite *suite, struct run_ledger *ledger)
-{
-    reset_assertstate(&CurrentAssertState);
-    struct ct_testcase *current_test = &suite->tests[index];
-    
-    void *testcontext = NULL;
-    if (suite->setup) {
-        suite->setup(&testcontext);
-    }
-    
-    if (setjmp(AssertFired)) {
-        handle_assertion(&CurrentAssertState, current_test->name, ledger);
-    } else {
-        run_testcase(current_test, testcontext, index, ledger);
-    }
-    
-    if (suite->teardown) {
-        suite->teardown(&testcontext);
-    }
-}
-
-static bool pretty_truncate(char *str, size_t size)
-{
-    static const char * const ellipsis = "\u2026";
-    size_t ellipsis_length = strlen(ellipsis);
-    ptrdiff_t truncation_index = size - 1 - ellipsis_length;
-    
-    bool can_fit_ellipsis = truncation_index >= 0;
-    if (can_fit_ellipsis) {
-        str[truncation_index] = '\0';
-        strcat(str, ellipsis);
-    }
-    
-    return can_fit_ellipsis;
 }
 
 static void set_assertdescription(struct assert_state *assert_state, const char *format, ...)
@@ -206,6 +186,10 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
         pretty_truncate(assert_state->message, message_size);
     }
 }
+
+/////
+// Comparable Value
+/////
 
 static bool comparablevalue_comparetypes(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual)
 {
@@ -277,6 +261,49 @@ static void comparablevalue_valuedescription(const struct ct_comparable_value *v
         pretty_truncate(buffer, size);
     }
 }
+
+/////
+// Test Suite and Test Case
+/////
+
+static void run_testcase(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
+{
+    if (!testcase->test) {
+        ++ledger->ignored;
+        printf("[%c] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
+        return;
+    }
+    
+    testcase->test(testcontext);
+    
+    ++ledger->passed;
+    printf("[\u2714] - '%s' success\n", testcase->name);
+}
+
+static void run_test(size_t index, const struct ct_testsuite *suite, struct run_ledger *ledger)
+{
+    reset_assertstate(&CurrentAssertState);
+    struct ct_testcase *current_test = &suite->tests[index];
+    
+    void *testcontext = NULL;
+    if (suite->setup) {
+        suite->setup(&testcontext);
+    }
+    
+    if (setjmp(AssertFired)) {
+        handle_assertion(&CurrentAssertState, current_test->name, ledger);
+    } else {
+        run_testcase(current_test, testcontext, index, ledger);
+    }
+    
+    if (suite->teardown) {
+        suite->teardown(&testcontext);
+    }
+}
+
+/////
+// Public Functions
+/////
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
