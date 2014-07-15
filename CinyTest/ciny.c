@@ -31,14 +31,14 @@ enum assert_type {
     ASSERT_FAILURE,
     ASSERT_IGNORE
 };
-struct assert_state {
+struct assertstate {
     enum assert_type type;
     const char *file;
     int line;
     char description[200 + (COMPVALUE_STR_SIZE * 2)];
     char message[1000];
 };
-static struct assert_state CurrentAssertState;
+static struct assertstate CurrentAssertState;
 static jmp_buf AssertFired;
 static const char IgnoredTestGlyph = '?';
 
@@ -118,7 +118,7 @@ static bool pretty_truncate(char *str, size_t size)
 // Assert State
 /////
 
-static void reset_assertstate(struct assert_state *assert_state)
+static void reset_assertstate(struct assertstate *assert_state)
 {
     assert_state->type = ASSERT_UNKNOWN;
     assert_state->file = NULL;
@@ -127,7 +127,7 @@ static void reset_assertstate(struct assert_state *assert_state)
     assert_state->message[0] = '\0';
 }
 
-static void handle_assertfailure(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
+static void handle_assertfailure(const struct assertstate *assert_state, const char *testname, struct run_ledger *ledger)
 {
     ++ledger->failed;
     printf("[\u2718] - '%s' failure\n", testname);
@@ -135,14 +135,14 @@ static void handle_assertfailure(const struct assert_state *assert_state, const 
     print_assertmessage(assert_state->message);
 }
 
-static void handle_assertignore(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
+static void handle_assertignore(const struct assertstate *assert_state, const char *testname, struct run_ledger *ledger)
 {
     ++ledger->ignored;
     printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
     print_assertmessage(assert_state->message);
 }
 
-static void handle_assertion(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
+static void handle_assertion(const struct assertstate *assert_state, const char *testname, struct run_ledger *ledger)
 {
     switch (assert_state->type) {
         case ASSERT_FAILURE:
@@ -157,7 +157,7 @@ static void handle_assertion(const struct assert_state *assert_state, const char
     }
 }
 
-static void set_assertdescription(struct assert_state *assert_state, const char *format, ...)
+static void set_assertdescription(struct assertstate *assert_state, const char *format, ...)
 {
     size_t description_size = sizeof assert_state->description;
     va_list format_args;
@@ -177,7 +177,7 @@ static void set_assertdescription(struct assert_state *assert_state, const char 
                 capture_assertmessage_full(assert_state, format, format_args); \
                 va_end(format_args); \
             } while (false)
-static void capture_assertmessage_full(struct assert_state *assert_state, const char *format, va_list format_args)
+static void capture_assertmessage_full(struct assertstate *assert_state, const char *format, va_list format_args)
 {
     size_t message_size = sizeof assert_state->message;
     int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
