@@ -266,7 +266,7 @@ static void comparablevalue_valuedescription(const struct ct_comparable_value *v
 // Test Suite and Test Case
 /////
 
-static void run_testcase(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
+static void testcase_run(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
 {
     if (!testcase->test) {
         ++ledger->ignored;
@@ -280,7 +280,7 @@ static void run_testcase(const struct ct_testcase *testcase, void *testcontext, 
     printf("[\u2714] - '%s' success\n", testcase->name);
 }
 
-static void run_test(size_t index, const struct ct_testsuite *suite, struct run_ledger *ledger)
+static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct run_ledger *ledger)
 {
     reset_assertstate(&CurrentAssertState);
     struct ct_testcase *current_test = &suite->tests[index];
@@ -293,7 +293,7 @@ static void run_test(size_t index, const struct ct_testsuite *suite, struct run_
     if (setjmp(AssertFired)) {
         handle_assertion(&CurrentAssertState, current_test->name, ledger);
     } else {
-        run_testcase(current_test, testcontext, index, ledger);
+        testcase_run(current_test, testcontext, index, ledger);
     }
     
     if (suite->teardown) {
@@ -312,7 +312,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     
     struct run_ledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
-        run_test(i, suite, &ledger);
+        testsuite_run(suite, i, &ledger);
     }
     
     time_t end_time = time(NULL);
