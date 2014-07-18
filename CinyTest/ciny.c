@@ -24,6 +24,7 @@
 #define DATE_FORMAT_SIZE 30
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
+static const char IgnoredTestGlyph = '?';
 
 #define COMPVALUE_STR_SIZE 75
 enum assert_type {
@@ -39,8 +40,7 @@ struct assertstate {
     char message[1000];
 };
 static struct assertstate CurrentAssertState;
-static jmp_buf AssertFired;
-static const char IgnoredTestGlyph = '?';
+static jmp_buf AssertSignal;
 
 struct runledger {
     size_t passed;
@@ -332,20 +332,20 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
 
 _Noreturn void ct_ignore_full(const char *format, ...)
 {
-    assertstate_raise_signal(CurrentAssertState, ASSERT_IGNORE, AssertFired, NULL, 0, format);
+    assertstate_raise_signal(CurrentAssertState, ASSERT_IGNORE, AssertSignal, NULL, 0, format);
 }
 
 _Noreturn void ct_assertfail_full(const char *file, int line, const char *format, ...)
 {
     assertstate_setdescription(&CurrentAssertState, "%s", "asserted unconditional failure");
-    assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+    assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
 }
 
 void ct_asserttrue_full(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (!expression) {
         assertstate_setdescription(&CurrentAssertState, "(%s) is true failed", stringized_expression);
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -353,7 +353,7 @@ void ct_assertfalse_full(bool expression, const char *stringized_expression, con
 {
     if (expression) {
         assertstate_setdescription(&CurrentAssertState, "(%s) is false failed", stringized_expression);
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -361,7 +361,7 @@ void ct_assertnull_full(const void *expression, const char *stringized_expressio
 {
     if (expression) {
         assertstate_setdescription(&CurrentAssertState, "(%s) is NULL failed: (%p)", stringized_expression, expression);
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -369,7 +369,7 @@ void ct_assertnotnull_full(const void *expression, const char *stringized_expres
 {
     if (!expression) {
         assertstate_setdescription(&CurrentAssertState, "(%s) is not NULL failed", stringized_expression);
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -389,7 +389,7 @@ void ct_assertequal_full(struct ct_comparable_value expected, const char *string
     }
     
     if (failed_assert) {
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -407,7 +407,7 @@ void ct_assertnotequal_full(struct ct_comparable_value expected, const char *str
     }
     
     if (failed_assert) {
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -417,7 +417,7 @@ void ct_assertaboutequal_full(long double expected, const char *stringized_expec
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
         assertstate_setdescription(&CurrentAssertState, "(%s) differs from (%s) by greater than \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -427,7 +427,7 @@ void ct_assertnotaboutequal_full(long double expected, const char *stringized_ex
     if (islessequal(diff, fabsl(precision))) {
         assertstate_setdescription(&CurrentAssertState, "(%s) differs from (%s) by less than or equal to \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -435,7 +435,7 @@ void ct_assertsame_full(const void *expected, const char *stringized_expected, c
 {
     if (expected != actual) {
         assertstate_setdescription(&CurrentAssertState, "(%s) is not the same as (%s): expected (%p), actual (%p)", stringized_expected, stringized_actual, expected, actual);
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -443,7 +443,7 @@ void ct_assertnotsame_full(const void *expected, const char *stringized_expected
 {
     if (expected == actual) {
         assertstate_setdescription(&CurrentAssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, expected);
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -461,7 +461,7 @@ void ct_assertequalstrn_full(const char *expected, const char *stringized_expect
         }
         assertstate_setdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
         
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -474,6 +474,6 @@ void ct_assertnotequalstrn_full(const char *expected, const char *stringized_exp
         }
         assertstate_setdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
         
-        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertFired, file, line, format);
+        assertstate_raise_signal(CurrentAssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
