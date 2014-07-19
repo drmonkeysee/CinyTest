@@ -453,11 +453,11 @@ void ct_assertequalstrn_full(const char *expected, const char *stringized_expect
         || (expected && actual && (strncmp(expected, actual, n) != 0))) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
         char valuestr_actual[COMPVALUE_STR_SIZE];
-        if (snprintf(valuestr_expected, COMPVALUE_STR_SIZE, "%s", expected) >= COMPVALUE_STR_SIZE) {
-            pretty_truncate(valuestr_expected, COMPVALUE_STR_SIZE);
+        if (snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
+            pretty_truncate(valuestr_expected, sizeof valuestr_expected);
         }
-        if (snprintf(valuestr_actual, COMPVALUE_STR_SIZE, "%s", actual) >= COMPVALUE_STR_SIZE) {
-            pretty_truncate(valuestr_actual, COMPVALUE_STR_SIZE);
+        if (snprintf(valuestr_actual, sizeof valuestr_actual, "%s", actual) >= sizeof valuestr_actual) {
+            pretty_truncate(valuestr_actual, sizeof valuestr_actual);
         }
         assertstate_setdescription(&AssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
         
@@ -469,8 +469,8 @@ void ct_assertnotequalstrn_full(const char *expected, const char *stringized_exp
 {
     if ((!expected && !actual) || (expected && actual && (strncmp(expected, actual, n) == 0))) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
-        if (snprintf(valuestr_expected, COMPVALUE_STR_SIZE, "%s", expected) >= COMPVALUE_STR_SIZE) {
-            pretty_truncate(valuestr_expected, COMPVALUE_STR_SIZE);
+        if (snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
+            pretty_truncate(valuestr_expected, sizeof valuestr_expected);
         }
         assertstate_setdescription(&AssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
         
