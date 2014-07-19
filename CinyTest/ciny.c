@@ -17,9 +17,14 @@
 #include <math.h>
 #include "ciny.h"
 
+/////
+// Type and Data Definitions
+/////
+
 #define DATE_FORMAT_SIZE 30
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
+static const char IgnoredTestGlyph = '?';
 
 #define COMPVALUE_STR_SIZE 75
 enum assert_type {
@@ -27,24 +32,26 @@ enum assert_type {
     ASSERT_FAILURE,
     ASSERT_IGNORE
 };
-struct assert_state {
+struct assertstate {
     enum assert_type type;
     const char *file;
     int line;
     char description[200 + (COMPVALUE_STR_SIZE * 2)];
     char message[1000];
 };
-static struct assert_state CurrentAssertState;
-static jmp_buf AssertFired;
-static const char IgnoredTestGlyph = '?';
+static struct assertstate AssertState;
+static jmp_buf AssertSignal;
 
-struct run_ledger {
+struct runledger {
     size_t passed;
     size_t failed;
     size_t ignored;
 };
 
-// call sites for inline functions
+/////
+// Inline Function Call Sites
+/////
+
 extern inline struct ct_testcase ct_maketest_full(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_full(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline struct ct_comparable_value ct_makevalue_integral(int, long long);
@@ -52,6 +59,10 @@ extern inline struct ct_comparable_value ct_makevalue_uintegral(int, unsigned lo
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
 extern inline struct ct_comparable_value ct_makevalue_complex(int, long double _Complex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
+
+/////
+// Printing and Text Manipulation
+/////
 
 static void print_delimiter(const char *message)
 {
@@ -69,7 +80,7 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct run_ledger *ledger)
+static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct runledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_SIZE];
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
@@ -81,84 +92,10 @@ static void print_runfooter(const struct ct_testsuite *suite, time_t start_time,
     print_delimiter("End");
 }
 
-static void reset_assertstate(struct assert_state *assert_state)
-{
-    assert_state->type = ASSERT_UNKNOWN;
-    assert_state->file = NULL;
-    assert_state->line = 0;
-    assert_state->description[0] = '\0';
-    assert_state->message[0] = '\0';
-}
-
-static void print_assertmessage(const char *message)
+static void print_linemessage(const char *message)
 {
     if (printf("%s", message) > 0) {
         printf("\n");
-    }
-}
-
-static void handle_assertfailure(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
-{
-    ++ledger->failed;
-    printf("[\u2718] - '%s' failure\n", testname);
-    printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->description);
-    print_assertmessage(assert_state->message);
-}
-
-static void handle_assertignore(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
-{
-    ++ledger->ignored;
-    printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
-    print_assertmessage(assert_state->message);
-}
-
-static void handle_assertion(const struct assert_state *assert_state, const char *testname, struct run_ledger *ledger)
-{
-    switch (assert_state->type) {
-        case ASSERT_FAILURE:
-            handle_assertfailure(assert_state, testname, ledger);
-            break;
-        case ASSERT_IGNORE:
-            handle_assertignore(assert_state, testname, ledger);
-            break;
-        default:
-            fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
-            break;
-    }
-}
-
-static void run_testcase(const struct ct_testcase *testcase, void *testcontext, size_t index, struct run_ledger *ledger)
-{
-    if (!testcase->test) {
-        ++ledger->ignored;
-        printf("[%c] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
-        return;
-    }
-    
-    testcase->test(testcontext);
-    
-    ++ledger->passed;
-    printf("[\u2714] - '%s' success\n", testcase->name);
-}
-
-static void run_test(size_t index, const struct ct_testsuite *suite, struct run_ledger *ledger)
-{
-    reset_assertstate(&CurrentAssertState);
-    struct ct_testcase *current_test = &suite->tests[index];
-    
-    void *testcontext = NULL;
-    if (suite->setup) {
-        suite->setup(&testcontext);
-    }
-    
-    if (setjmp(AssertFired)) {
-        handle_assertion(&CurrentAssertState, current_test->name, ledger);
-    } else {
-        run_testcase(current_test, testcontext, index, ledger);
-    }
-    
-    if (suite->teardown) {
-        suite->teardown(&testcontext);
     }
 }
 
@@ -177,7 +114,50 @@ static bool pretty_truncate(char *str, size_t size)
     return can_fit_ellipsis;
 }
 
-static void set_assertdescription(struct assert_state *assert_state, const char *format, ...)
+/////
+// Assert State
+/////
+
+static void assertstate_reset(struct assertstate *assert_state)
+{
+    assert_state->type = ASSERT_UNKNOWN;
+    assert_state->file = NULL;
+    assert_state->line = 0;
+    assert_state->description[0] = '\0';
+    assert_state->message[0] = '\0';
+}
+
+static void assertstate_handlefailure(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+{
+    ++ledger->failed;
+    printf("[\u2718] - '%s' failure\n", testname);
+    printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->description);
+    print_linemessage(assert_state->message);
+}
+
+static void assertstate_handleignore(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+{
+    ++ledger->ignored;
+    printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
+    print_linemessage(assert_state->message);
+}
+
+static void assertstate_handle(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+{
+    switch (assert_state->type) {
+        case ASSERT_FAILURE:
+            assertstate_handlefailure(assert_state, testname, ledger);
+            break;
+        case ASSERT_IGNORE:
+            assertstate_handleignore(assert_state, testname, ledger);
+            break;
+        default:
+            fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
+            break;
+    }
+}
+
+static void assertstate_setdescription(struct assertstate *assert_state, const char *format, ...)
 {
     size_t description_size = sizeof assert_state->description;
     va_list format_args;
@@ -190,14 +170,14 @@ static void set_assertdescription(struct assert_state *assert_state, const char 
     }
 }
 
-#define capture_assertmessage(assert_state, format) \
+#define assertstate_setmessage(assert_state, format) \
             do { \
                 va_list format_args; \
                 va_start(format_args, format); \
-                capture_assertmessage_full(assert_state, format, format_args); \
+                assertstate_setvmessage(&assert_state, format, format_args); \
                 va_end(format_args); \
             } while (false)
-static void capture_assertmessage_full(struct assert_state *assert_state, const char *format, va_list format_args)
+static void assertstate_setvmessage(struct assertstate *assert_state, const char *format, va_list format_args)
 {
     size_t message_size = sizeof assert_state->message;
     int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
@@ -207,12 +187,25 @@ static void capture_assertmessage_full(struct assert_state *assert_state, const 
     }
 }
 
-static bool comparablevalue_comparetypes(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual)
+#define assertstate_raise_signal(assert_state, assert_type, signal, test_file, test_line, format) \
+            do { \
+                assert_state.type = assert_type; \
+                assert_state.file = test_file; \
+                assert_state.line = test_line; \
+                assertstate_setmessage(assert_state, format); \
+                longjmp(signal, assert_state.type); \
+            } while(false)
+
+/////
+// Comparable Value
+/////
+
+static bool comparable_value_equaltypes(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual)
 {
     return expected->type == actual->type;
 }
 
-static const char *comparablevalue_typedescription(const struct ct_comparable_value *value)
+static const char *comparable_value_typedescription(const struct ct_comparable_value *value)
 {
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -228,7 +221,7 @@ static const char *comparablevalue_typedescription(const struct ct_comparable_va
     }
 }
 
-static bool comparablevalue_comparevalues(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
+static bool comparable_value_equalvalues(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
 {
     switch (type) {
         case CT_ANNOTATE_INTEGRAL:
@@ -244,7 +237,7 @@ static bool comparablevalue_comparevalues(const struct ct_comparable_value *expe
     }
 }
 
-static void comparablevalue_valuedescription(const struct ct_comparable_value *value, char *buffer, size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value *value, char *buffer, size_t size)
 {
     int write_count = 0;
     
@@ -278,14 +271,57 @@ static void comparablevalue_valuedescription(const struct ct_comparable_value *v
     }
 }
 
+/////
+// Test Suite and Test Case
+/////
+
+static void testcase_run(const struct ct_testcase *testcase, void *testcontext, size_t index, struct runledger *ledger)
+{
+    if (!testcase->test) {
+        ++ledger->ignored;
+        printf("[%c] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
+        return;
+    }
+    
+    testcase->test(testcontext);
+    
+    ++ledger->passed;
+    printf("[\u2714] - '%s' success\n", testcase->name);
+}
+
+static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct runledger *ledger, struct assertstate *assert_state, jmp_buf assert_signal)
+{
+    assertstate_reset(assert_state);
+    struct ct_testcase *current_test = &suite->tests[index];
+    
+    void *testcontext = NULL;
+    if (suite->setup) {
+        suite->setup(&testcontext);
+    }
+    
+    if (setjmp(assert_signal)) {
+        assertstate_handle(assert_state, current_test->name, ledger);
+    } else {
+        testcase_run(current_test, testcontext, index, ledger);
+    }
+    
+    if (suite->teardown) {
+        suite->teardown(&testcontext);
+    }
+}
+
+/////
+// Public Functions
+/////
+
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     time_t start_time = time(NULL);
     print_runheader(suite, start_time);
     
-    struct run_ledger ledger = { 0, 0, 0 };
+    struct runledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
-        run_test(i, suite, &ledger);
+        testsuite_run(suite, i, &ledger, &AssertState, AssertSignal);
     }
     
     time_t end_time = time(NULL);
@@ -296,114 +332,82 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
 
 _Noreturn void ct_ignore_full(const char *format, ...)
 {
-    CurrentAssertState.type = ASSERT_IGNORE;
-    capture_assertmessage(&CurrentAssertState, format);
-    
-    longjmp(AssertFired, CurrentAssertState.type);
+    assertstate_raise_signal(AssertState, ASSERT_IGNORE, AssertSignal, NULL, 0, format);
 }
 
 _Noreturn void ct_assertfail_full(const char *file, int line, const char *format, ...)
 {
-    CurrentAssertState.type = ASSERT_FAILURE;
-    CurrentAssertState.file = file;
-    CurrentAssertState.line = line;
-    set_assertdescription(&CurrentAssertState, "%s", "asserted unconditional failure");
-    capture_assertmessage(&CurrentAssertState, format);
-    
-    longjmp(AssertFired, CurrentAssertState.type);
+    assertstate_setdescription(&AssertState, "%s", "asserted unconditional failure");
+    assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
 }
 
 void ct_asserttrue_full(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (!expression) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is true failed", stringized_expression);
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_setdescription(&AssertState, "(%s) is true failed", stringized_expression);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertfalse_full(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (expression) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is false failed", stringized_expression);
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_setdescription(&AssertState, "(%s) is false failed", stringized_expression);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertnull_full(const void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (expression) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is NULL failed: (%p)", stringized_expression, expression);
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_setdescription(&AssertState, "(%s) is NULL failed: (%p)", stringized_expression, expression);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertnotnull_full(const void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
 {
     if (!expression) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is not NULL failed", stringized_expression);
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_setdescription(&AssertState, "(%s) is not NULL failed", stringized_expression);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
-    if (!comparablevalue_comparetypes(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
-    } else if (!comparablevalue_comparevalues(&expected, &actual, expected.type)) {
+    bool failed_assert = false;
+    if (!comparable_value_equaltypes(&expected, &actual)) {
+        assertstate_setdescription(&AssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparable_value_typedescription(&expected), comparable_value_typedescription(&actual));
+        failed_assert = true;
+    } else if (!comparable_value_equalvalues(&expected, &actual, expected.type)) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
         char valuestr_actual[COMPVALUE_STR_SIZE];
-        comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
-        comparablevalue_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
+        comparable_value_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
+        comparable_value_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
+        assertstate_setdescription(&AssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
+        failed_assert = true;
     }
     
-    if (CurrentAssertState.description[0]) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+    if (failed_assert) {
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertnotequal_full(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
-    if (!comparablevalue_comparetypes(&expected, &actual)) {
-        set_assertdescription(&CurrentAssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparablevalue_typedescription(&expected), comparablevalue_typedescription(&actual));
-    } else if (comparablevalue_comparevalues(&expected, &actual, expected.type)) {
+    bool failed_assert = false;
+    if (!comparable_value_equaltypes(&expected, &actual)) {
+        assertstate_setdescription(&AssertState, "(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparable_value_typedescription(&expected), comparable_value_typedescription(&actual));
+        failed_assert = true;
+    } else if (comparable_value_equalvalues(&expected, &actual, expected.type)) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
-        comparablevalue_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
-        set_assertdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
+        comparable_value_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
+        assertstate_setdescription(&AssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
+        failed_assert = true;
     }
     
-    if (CurrentAssertState.description[0]) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+    if (failed_assert) {
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -411,13 +415,9 @@ void ct_assertaboutequal_full(long double expected, const char *stringized_expec
 {
     long double diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
-        set_assertdescription(&CurrentAssertState, "(%s) differs from (%s) by greater than \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        capture_assertmessage(&CurrentAssertState, format);
+        assertstate_setdescription(&AssertState, "(%s) differs from (%s) by greater than \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -425,39 +425,25 @@ void ct_assertnotaboutequal_full(long double expected, const char *stringized_ex
 {
     long double diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
-        set_assertdescription(&CurrentAssertState, "(%s) differs from (%s) by less than or equal to \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        capture_assertmessage(&CurrentAssertState, format);
+        assertstate_setdescription(&AssertState, "(%s) differs from (%s) by less than or equal to \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertsame_full(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (expected != actual) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is not the same as (%s): expected (%p), actual (%p)", stringized_expected, stringized_actual, expected, actual);
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_setdescription(&AssertState, "(%s) is not the same as (%s): expected (%p), actual (%p)", stringized_expected, stringized_actual, expected, actual);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
 void ct_assertnotsame_full(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
 {
     if (expected == actual) {
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        set_assertdescription(&CurrentAssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, expected);
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_setdescription(&AssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, expected);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -473,14 +459,9 @@ void ct_assertequalstrn_full(const char *expected, const char *stringized_expect
         if (snprintf(valuestr_actual, COMPVALUE_STR_SIZE, "%s", actual) >= COMPVALUE_STR_SIZE) {
             pretty_truncate(valuestr_actual, COMPVALUE_STR_SIZE);
         }
-        set_assertdescription(&CurrentAssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
+        assertstate_setdescription(&AssertState, "(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
         
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
 
@@ -491,13 +472,8 @@ void ct_assertnotequalstrn_full(const char *expected, const char *stringized_exp
         if (snprintf(valuestr_expected, COMPVALUE_STR_SIZE, "%s", expected) >= COMPVALUE_STR_SIZE) {
             pretty_truncate(valuestr_expected, COMPVALUE_STR_SIZE);
         }
-        set_assertdescription(&CurrentAssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
+        assertstate_setdescription(&AssertState, "(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
         
-        CurrentAssertState.type = ASSERT_FAILURE;
-        CurrentAssertState.file = file;
-        CurrentAssertState.line = line;
-        capture_assertmessage(&CurrentAssertState, format);
-        
-        longjmp(AssertFired, CurrentAssertState.type);
+        assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
     }
 }
