@@ -289,7 +289,7 @@ static void testcase_run(const struct ct_testcase *testcase, void *testcontext, 
     printf("[\u2714] - '%s' success\n", testcase->name);
 }
 
-static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct runledger *ledger, struct assertstate *assert_state, jmp_buf *assert_signal)
+static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct runledger *ledger, struct assertstate *assert_state, jmp_buf assert_signal)
 {
     assertstate_reset(assert_state);
     struct ct_testcase *current_test = &suite->tests[index];
@@ -299,7 +299,7 @@ static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct
         suite->setup(&testcontext);
     }
     
-    if (setjmp(*assert_signal)) {
+    if (setjmp(assert_signal)) {
         assertstate_handle(assert_state, current_test->name, ledger);
     } else {
         testcase_run(current_test, testcontext, index, ledger);
@@ -321,7 +321,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     
     struct runledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
-        testsuite_run(suite, i, &ledger, &AssertState, &AssertSignal);
+        testsuite_run(suite, i, &ledger, &AssertState, AssertSignal);
     }
     
     time_t end_time = time(NULL);
