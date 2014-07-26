@@ -42,7 +42,7 @@ struct ct_testcase {
  */
 #define ct_maketest(test_function) ct_maketest_named(#test_function, test_function)
 /**
- Make a test case with a full set of arguments.
+ Make a test case with a name.
  @param name The name of the test case.
  @param test The unit test function for the test case.
  @return A test case.
@@ -100,7 +100,7 @@ struct ct_testsuite {
                                 setup_function, \
                                 teardown_function)
 /**
- Make a test suite with a full set of arguments.
+ Make a test suite with a setup function, teardown function, and a name.
  @param name The name of the test suite.
  @param tests The collection of test cases.
  @param count The number of test cases.
@@ -133,7 +133,7 @@ size_t ct_runsuite(const struct ct_testsuite *);
 /**
  Mark a test as ignored.
  To prevent possible side-effects add this assertion as the first line of the test.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_ignore
  @param format The printf-style format string to display when the test is ignored.
  @param format_args Format arguments for the format string.
@@ -147,7 +147,7 @@ _Noreturn void ct_internal_ignore(const char *, ...);
 #define ct_assertfail(...) ct_internal_assertfail(__FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert failure unconditionally with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertfail
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
@@ -164,7 +164,7 @@ _Noreturn void ct_internal_assertfail(const char *, int, const char *, ...);
 #define ct_asserttrue(expression, ...) ct_internal_asserttrue(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is true, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_asserttrue
  @param expression The expression to evaluate against the value true.
  @param stringized_expression The string representation of the expression.
@@ -183,7 +183,7 @@ void ct_internal_asserttrue(_Bool, const char *, const char *, int, const char *
 #define ct_assertfalse(expression, ...) ct_internal_assertfalse(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is false, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertfalse
  @param expression The expression to evaluate against the value false.
  @param stringized_expression The string representation of the expression.
@@ -202,7 +202,7 @@ void ct_internal_assertfalse(_Bool, const char *, const char *, int, const char 
 #define ct_assertnull(expression, ...) ct_internal_assertnull(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is NULL, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertnull
  @param expression The expression to evaluate against the value NULL.
  @param stringized_expression The string representation of the expression.
@@ -221,7 +221,7 @@ void ct_internal_assertnull(const void *, const char *, const char *, int, const
 #define ct_assertnotnull(expression, ...) ct_internal_assertnotnull(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether the expression is not NULL, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertnotnull
  @param expression The expression to evaluate against the value !NULL.
  @param stringized_expression The string representation of the expression.
@@ -383,7 +383,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
             } while (0)
 /**
  Assert whether two values are equal, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertequal
  @param expected The expected value.
  @param stringized_expected The string representation of the expected value expression.
@@ -413,7 +413,7 @@ void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct
             } while (0)
 /**
  Assert whether two values are not equal, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertnotequal
  @param expected The expected value.
  @param stringized_expected The string representation of the expected value expression.
@@ -437,7 +437,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct
 #define ct_assertaboutequal(expected, actual, precision, ...) ct_internal_assertaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two values are equal within plus or minus a degree of error, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertaboutequal
  @param expected The expected value.
  @param stringized_expected The string representation of the expected value expression.
@@ -462,7 +462,7 @@ void ct_internal_assertaboutequal(long double, const char *, long double, const 
 #define ct_assertnotaboutequal(expected, actual, precision, ...) ct_internal_assertnotaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two values are not equal within plus or minus a degree of error, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertnotaboutequal
  @param expected The expected value.
  @param stringized_expected The string representation of the expected value expression.
@@ -485,7 +485,7 @@ void ct_internal_assertnotaboutequal(long double, const char *, long double, con
 #define ct_assertsame(expected, actual, ...) ct_internal_assertsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two pointers refer to the same object, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertsame
  @param expected The expected pointer.
  @param stringized_expected The string representation of the expected pointer expression.
@@ -507,7 +507,7 @@ void ct_internal_assertsame(const void *, const char *, const void *, const char
 #define ct_assertnotsame(expected, actual, ...) ct_internal_assertnotsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two pointers refer to different objects, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertsame
  @param expected The expected pointer.
  @param stringized_expected The string representation of the expected pointer expression.
@@ -539,7 +539,7 @@ void ct_internal_assertnotsame(const void *, const char *, const void *, const c
 #define ct_assertequalstrn(expected, actual, n, ...) ct_internal_assertequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are equal, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertequalstr
  @see ct_assertequalstrn
  @param expected The expected string.
@@ -573,7 +573,7 @@ void ct_internal_assertequalstrn(const char *, const char *, const char *, const
 #define ct_assertnotequalstrn(expected, actual, n, ...) ct_internal_assertnotequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are not equal, with contextual details and message.
- Not intended for direct use.
+ Intended for internal use only.
  @see ct_assertequalstr
  @see ct_assertequalstrn
  @param expected The expected string.
