@@ -18,6 +18,11 @@
  */
 
 /**
+ @defgroup public Public types and functions
+ @{
+ */
+
+/**
  Type definition for a unit test function.
  @param context Test context created in a suite's setup function.
  */
@@ -267,6 +272,10 @@ size_t ct_runsuite(const struct ct_testsuite *);
  @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotequalstrn(expected, actual, n, ...) ct_internal_assertnotequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
+
+/**
+ @}
+ */
 
 /**
  @defgroup internal Internal types and functions
