@@ -13,6 +13,11 @@
 #include <limits.h>
 
 /**
+ @file
+ Header file for CinyTest type and function definitions
+ */
+
+/**
  Type definition for a unit test function.
  @param context Test context created in a suite's setup function.
  */
@@ -130,31 +135,12 @@ size_t ct_runsuite(const struct ct_testsuite *);
  @param message A printf-style format string with optional arguments to display when the test is ignored.
  */
 #define ct_ignore(...) ct_internal_ignore("" __VA_ARGS__)
-/**
- Mark a test as ignored.
- To prevent possible side-effects add this assertion as the first line of the test.
- Intended for internal use only.
- @see ct_ignore
- @param format The printf-style format string to display when the test is ignored.
- @param format_args Format arguments for the format string.
- */
-_Noreturn void ct_internal_ignore(const char *, ...);
 
 /**
  Assert failure unconditionally.
  @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertfail(...) ct_internal_assertfail(__FILE__, __LINE__, "" __VA_ARGS__)
-/**
- Assert failure unconditionally with contextual details and message.
- Intended for internal use only.
- @see ct_assertfail
- @param file The name of the file in which the assert fired.
- @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fails.
- @param format_args Format arguments for the format string.
- */
-_Noreturn void ct_internal_assertfail(const char *, int, const char *, ...);
 
 /**
  Assert whether an expression is true.
@@ -163,36 +149,11 @@ _Noreturn void ct_internal_assertfail(const char *, int, const char *, ...);
  */
 #define ct_asserttrue(expression, ...) ct_internal_asserttrue(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
- Assert whether the expression is true, with contextual details and message.
- Intended for internal use only.
- @see ct_asserttrue
- @param expression The expression to evaluate against the value true.
- @param stringized_expression The string representation of the expression.
- @param file The name of the file in which the assert fired.
- @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fails.
- @param format_args Format arguments for the format string.
- */
-void ct_internal_asserttrue(_Bool, const char *, const char *, int, const char *, ...);
-
-/**
  Assert whether an expression is false.
  @param expression The expression to evaluate against the value false.
  @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertfalse(expression, ...) ct_internal_assertfalse(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
-/**
- Assert whether the expression is false, with contextual details and message.
- Intended for internal use only.
- @see ct_assertfalse
- @param expression The expression to evaluate against the value false.
- @param stringized_expression The string representation of the expression.
- @param file The name of the file in which the assert fired.
- @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fails.
- @param format_args Format arguments for the format string.
- */
-void ct_internal_assertfalse(_Bool, const char *, const char *, int, const char *, ...);
 
 /**
  Assert whether an expression is NULL.
@@ -201,37 +162,116 @@ void ct_internal_assertfalse(_Bool, const char *, const char *, int, const char 
  */
 #define ct_assertnull(expression, ...) ct_internal_assertnull(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
- Assert whether the expression is NULL, with contextual details and message.
- Intended for internal use only.
- @see ct_assertnull
- @param expression The expression to evaluate against the value NULL.
- @param stringized_expression The string representation of the expression.
- @param file The name of the file in which the assert fired.
- @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fails.
- @param format_args Format arguments for the format string.
- */
-void ct_internal_assertnull(const void *, const char *, const char *, int, const char *, ...);
-
-/**
  Assert whether an expression is not NULL.
  @param expression The expression to evaluate against the value !NULL.
  @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotnull(expression, ...) ct_internal_assertnotnull(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
-/**
- Assert whether the expression is not NULL, with contextual details and message.
- Intended for internal use only.
- @see ct_assertnotnull
- @param expression The expression to evaluate against the value !NULL.
- @param stringized_expression The string representation of the expression.
- @param file The name of the file in which the assert fired.
- @param line The line number on which the assert fired.
- @param format The printf-style format string to display when the assertion fails.
- @param format_args Format arguments for the format string.
- */
-void ct_internal_assertnotnull(const void *, const char *, const char *, int, const char *, ...);
 
+/**
+ Assert whether two values are equal.
+ Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
+ @see ct_assertequalp for pointer equality.
+ @see ct_assertequalstr for string equality.
+ @param expected The expected value.
+ @param actual The actual value.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertequal(expected, actual, ...) \
+            do { \
+                ct_checkvalue(expected); \
+                ct_checkvalue(actual); \
+                ct_internal_assertequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+            } while (0)
+/**
+ Assert whether two values are not equal.
+ Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
+ @see ct_assertequalp for pointer equality.
+ @see ct_assertequalstr for string equality.
+ @param expected The expected value.
+ @param actual The actual value.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertnotequal(expected, actual, ...) \
+            do { \
+                ct_checkvalue(expected); \
+                ct_checkvalue(actual); \
+                ct_internal_assertnotequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+            } while (0)
+
+/**
+ Assert whether two values are equal within plus or minus a degree of error.
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value expression.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value expression.
+ @param precision The range of precision within which expected and actual may be considered equal.
+ */
+#define ct_assertaboutequal(expected, actual, precision, ...) ct_internal_assertaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
+/**
+ Assert whether two values are not equal within plus or minus a degree of error.
+ @param expected The expected value.
+ @param stringized_expected The string representation of the expected value expression.
+ @param actual The actual value.
+ @param stringized_actual The string representation of the actual value expression.
+ @param precision The range of precision within which expected and actual may be considered not equal.
+ */
+#define ct_assertnotaboutequal(expected, actual, precision, ...) ct_internal_assertnotaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
+
+/**
+ Assert whether two pointers refer to the same object.
+ @param expected The expected pointer.
+ @param actual The actual pointer.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertsame(expected, actual, ...) ct_internal_assertsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
+/**
+ Assert whether two pointers refer to different objects.
+ @param expected The expected pointer.
+ @param actual The actual pointer.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertnotsame(expected, actual, ...) ct_internal_assertnotsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
+
+/**
+ Assert whether two strings are equal.
+ The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
+ @param expected The expected string. Must be a string literal expression.
+ @param actual The actual string.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertequalstr(expected, actual, ...) ct_internal_assertequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
+/**
+ Assert whether two strings are equal.
+ Compares up to length characters for equality.
+ @param expected The expected string.
+ @param actual The actual string.
+ @param n The maximum number of characters to compare for equality. Must not be greater than the size of expected.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertequalstrn(expected, actual, n, ...) ct_internal_assertequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
+/**
+ Assert whether two strings are not equal.
+ The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
+ @param expected The expected string. Must be a string literal expression.
+ @param actual The actual string.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertnotequalstr(expected, actual, ...) ct_internal_assertnotequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
+/**
+ Assert whether two strings are not equal.
+ Compares up to length characters for inequality.
+ @param expected The expected string.
+ @param actual The actual string.
+ @param n The maximum number of characters to compare for inequality. Must not be greater than the size of expected.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
+ */
+#define ct_assertnotequalstrn(expected, actual, n, ...) ct_internal_assertnotequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
+
+/**
+ @defgroup internal Internal types and functions
+ @{
+ */
 /**
  Value type annotation.
  An enumeration of possible simple-value types used for equality assertions.
@@ -367,20 +407,78 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 #define ct_checkvalue(v) _Static_assert(_Generic(&ct_makevalue_factory(v), struct ct_comparable_value (*)(int, ...): 0, default: 1), "(" #v ") is an invalid value type; use ct_assert[not]same for pointer types, ct_assert[not]equalstr for string types, or custom comparisons with ct_asserttrue/false for structs, unions, and arrays.")
 
 /**
- Assert whether two values are equal.
- Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
- @see ct_assertequalp for pointer equality.
- @see ct_assertequalstr for string equality.
- @param expected The expected value.
- @param actual The actual value.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ Mark a test as ignored.
+ To prevent possible side-effects add this assertion as the first line of the test.
+ Intended for internal use only.
+ @see ct_ignore
+ @param format The printf-style format string to display when the test is ignored.
+ @param format_args Format arguments for the format string.
  */
-#define ct_assertequal(expected, actual, ...) \
-            do { \
-                ct_checkvalue(expected); \
-                ct_checkvalue(actual); \
-                ct_internal_assertequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
-            } while (0)
+_Noreturn void ct_internal_ignore(const char *, ...);
+
+/**
+ Assert failure unconditionally with contextual details and message.
+ Intended for internal use only.
+ @see ct_assertfail
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+_Noreturn void ct_internal_assertfail(const char *, int, const char *, ...);
+
+/**
+ Assert whether the expression is true, with contextual details and message.
+ Intended for internal use only.
+ @see ct_asserttrue
+ @param expression The expression to evaluate against the value true.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_internal_asserttrue(_Bool, const char *, const char *, int, const char *, ...);
+
+/**
+ Assert whether the expression is false, with contextual details and message.
+ Intended for internal use only.
+ @see ct_assertfalse
+ @param expression The expression to evaluate against the value false.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_internal_assertfalse(_Bool, const char *, const char *, int, const char *, ...);
+
+/**
+ Assert whether the expression is NULL, with contextual details and message.
+ Intended for internal use only.
+ @see ct_assertnull
+ @param expression The expression to evaluate against the value NULL.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_internal_assertnull(const void *, const char *, const char *, int, const char *, ...);
+
+/**
+ Assert whether the expression is not NULL, with contextual details and message.
+ Intended for internal use only.
+ @see ct_assertnotnull
+ @param expression The expression to evaluate against the value !NULL.
+ @param stringized_expression The string representation of the expression.
+ @param file The name of the file in which the assert fired.
+ @param line The line number on which the assert fired.
+ @param format The printf-style format string to display when the assertion fails.
+ @param format_args Format arguments for the format string.
+ */
+void ct_internal_assertnotnull(const void *, const char *, const char *, int, const char *, ...);
+
 /**
  Assert whether two values are equal, with contextual details and message.
  Intended for internal use only.
@@ -397,21 +495,6 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
 
 /**
- Assert whether two values are not equal.
- Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
- @see ct_assertequalp for pointer equality.
- @see ct_assertequalstr for string equality.
- @param expected The expected value.
- @param actual The actual value.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertnotequal(expected, actual, ...) \
-            do { \
-                ct_checkvalue(expected); \
-                ct_checkvalue(actual); \
-                ct_internal_assertnotequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
-            } while (0)
-/**
  Assert whether two values are not equal, with contextual details and message.
  Intended for internal use only.
  @see ct_assertnotequal
@@ -426,15 +509,6 @@ void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct
  */
 void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
 
-/**
- Assert whether two values are equal within plus or minus a degree of error.
- @param expected The expected value.
- @param stringized_expected The string representation of the expected value expression.
- @param actual The actual value.
- @param stringized_actual The string representation of the actual value expression.
- @param precision The range of precision within which expected and actual may be considered equal.
- */
-#define ct_assertaboutequal(expected, actual, precision, ...) ct_internal_assertaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two values are equal within plus or minus a degree of error, with contextual details and message.
  Intended for internal use only.
@@ -452,15 +526,6 @@ void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct
 void ct_internal_assertaboutequal(long double, const char *, long double, const char *, long double, const char *, int, const char *, ...);
 
 /**
- Assert whether two values are not equal within plus or minus a degree of error.
- @param expected The expected value.
- @param stringized_expected The string representation of the expected value expression.
- @param actual The actual value.
- @param stringized_actual The string representation of the actual value expression.
- @param precision The range of precision within which expected and actual may be considered not equal.
- */
-#define ct_assertnotaboutequal(expected, actual, precision, ...) ct_internal_assertnotaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
-/**
  Assert whether two values are not equal within plus or minus a degree of error, with contextual details and message.
  Intended for internal use only.
  @see ct_assertnotaboutequal
@@ -477,13 +542,6 @@ void ct_internal_assertaboutequal(long double, const char *, long double, const 
 void ct_internal_assertnotaboutequal(long double, const char *, long double, const char *, long double, const char *, int, const char *, ...);
 
 /**
- Assert whether two pointers refer to the same object.
- @param expected The expected pointer.
- @param actual The actual pointer.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertsame(expected, actual, ...) ct_internal_assertsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
-/**
  Assert whether two pointers refer to the same object, with contextual details and message.
  Intended for internal use only.
  @see ct_assertsame
@@ -499,13 +557,6 @@ void ct_internal_assertnotaboutequal(long double, const char *, long double, con
 void ct_internal_assertsame(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
 
 /**
- Assert whether two pointers refer to different objects.
- @param expected The expected pointer.
- @param actual The actual pointer.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertnotsame(expected, actual, ...) ct_internal_assertnotsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
-/**
  Assert whether two pointers refer to different objects, with contextual details and message.
  Intended for internal use only.
  @see ct_assertsame
@@ -520,23 +571,6 @@ void ct_internal_assertsame(const void *, const char *, const void *, const char
  */
 void ct_internal_assertnotsame(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
 
-/**
- Assert whether two strings are equal.
- The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
- @param expected The expected string. Must be a string literal expression.
- @param actual The actual string.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertequalstr(expected, actual, ...) ct_internal_assertequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
-/**
- Assert whether two strings are equal.
- Compares up to length characters for equality.
- @param expected The expected string.
- @param actual The actual string.
- @param n The maximum number of characters to compare for equality. Must not be greater than the size of expected.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertequalstrn(expected, actual, n, ...) ct_internal_assertequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are equal, with contextual details and message.
  Intended for internal use only.
@@ -555,23 +589,6 @@ void ct_internal_assertnotsame(const void *, const char *, const void *, const c
 void ct_internal_assertequalstrn(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
 
 /**
- Assert whether two strings are not equal.
- The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
- @param expected The expected string. Must be a string literal expression.
- @param actual The actual string.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertnotequalstr(expected, actual, ...) ct_internal_assertnotequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
-/**
- Assert whether two strings are not equal.
- Compares up to length characters for inequality.
- @param expected The expected string.
- @param actual The actual string.
- @param n The maximum number of characters to compare for inequality. Must not be greater than the size of expected.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
- */
-#define ct_assertnotequalstrn(expected, actual, n, ...) ct_internal_assertnotequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
-/**
  Assert whether two strings are not equal, with contextual details and message.
  Intended for internal use only.
  @see ct_assertequalstr
@@ -587,5 +604,9 @@ void ct_internal_assertequalstrn(const char *, const char *, const char *, const
  @param format_args Format arguments for the format string.
  */
 void ct_internal_assertnotequalstrn(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
+
+/**
+ @}
+ */
 
 #endif
