@@ -106,11 +106,11 @@ struct ct_testsuite {
  @return A test suite.
  */
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
-            ct_makesuite_setup_teardown_named(__func__, \
-                                test_list, \
-                                ((test_list) ? (sizeof (test_list) / sizeof (test_list)[0]) : 0), \
-                                setup_function, \
-                                teardown_function)
+ct_makesuite_setup_teardown_named(__func__, \
+                                    test_list, \
+                                    ((test_list) ? (sizeof (test_list) / sizeof (test_list)[0]) : 0), \
+                                    setup_function, \
+                                    teardown_function)
 /**
  Make a test suite with a setup function, teardown function, and a name.
  @param name The name of the test suite.
@@ -185,11 +185,11 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertequal(expected, actual, ...) \
-            do { \
-                ct_checkvalue(expected); \
-                ct_checkvalue(actual); \
-                ct_internal_assertequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
-            } while (0)
+do { \
+    ct_checkvalue(expected); \
+    ct_checkvalue(actual); \
+    ct_internal_assertequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+} while (0)
 /**
  Assert whether two values are not equal.
  Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
@@ -200,11 +200,11 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotequal(expected, actual, ...) \
-            do { \
-                ct_checkvalue(expected); \
-                ct_checkvalue(actual); \
-                ct_internal_assertnotequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
-            } while (0)
+do { \
+    ct_checkvalue(expected); \
+    ct_checkvalue(actual); \
+    ct_internal_assertnotequal(ct_makevalue(expected), #expected, ct_makevalue(actual), #actual, __FILE__, __LINE__, "" __VA_ARGS__); \
+} while (0)
 
 /**
  Assert whether two values are equal within plus or minus a degree of error.
@@ -323,26 +323,27 @@ struct ct_comparable_value {
  @param v The value expression for which to select the comparable value creation function.
  @return A function pointer to a typed makevalue function.
  */
-#define ct_makevalue_factory(v) _Generic(v, \
-                                    ct_valuetype_variants(signed char,          ct_makevalue_integral), \
-                                    ct_valuetype_variants(short,                ct_makevalue_integral), \
-                                    ct_valuetype_variants(int,                  ct_makevalue_integral), \
-                                    ct_valuetype_variants(long,                 ct_makevalue_integral), \
-                                    ct_valuetype_variants(long long,            ct_makevalue_integral), \
-                                    ct_valuetype_variants(char,                 ct_makevalue_char), \
-                                    ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
-                                    ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
-                                    ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
-                                    ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
-                                    ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
-                                    ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
-                                    ct_valuetype_variants(float,                ct_makevalue_floating), \
-                                    ct_valuetype_variants(double,               ct_makevalue_floating), \
-                                    ct_valuetype_variants(long double,          ct_makevalue_floating), \
-                                    ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
-                                    ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
-                                    ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
-                                    default:                                    ct_makevalue_invalid)
+#define ct_makevalue_factory(v) \
+_Generic(v, \
+            ct_valuetype_variants(signed char,          ct_makevalue_integral), \
+            ct_valuetype_variants(short,                ct_makevalue_integral), \
+            ct_valuetype_variants(int,                  ct_makevalue_integral), \
+            ct_valuetype_variants(long,                 ct_makevalue_integral), \
+            ct_valuetype_variants(long long,            ct_makevalue_integral), \
+            ct_valuetype_variants(char,                 ct_makevalue_char), \
+            ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
+            ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
+            ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
+            ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
+            ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
+            ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
+            ct_valuetype_variants(float,                ct_makevalue_floating), \
+            ct_valuetype_variants(double,               ct_makevalue_floating), \
+            ct_valuetype_variants(long double,          ct_makevalue_floating), \
+            ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
+            ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
+            ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
+            default:                                    ct_makevalue_invalid)
 /**
  Generate all unique value-type variants for a generic selection.
  @param T The compile-time type for which to generate the variants.
