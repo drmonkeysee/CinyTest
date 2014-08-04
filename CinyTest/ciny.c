@@ -171,12 +171,12 @@ static void assertstate_setdescription(struct assertstate *assert_state, const c
 }
 
 #define assertstate_setmessage(assert_state, format) \
-            do { \
-                va_list format_args; \
-                va_start(format_args, format); \
-                assertstate_setvmessage(&assert_state, format, format_args); \
-                va_end(format_args); \
-            } while (false)
+do { \
+    va_list format_args; \
+    va_start(format_args, format); \
+    assertstate_setvmessage(&assert_state, format, format_args); \
+    va_end(format_args); \
+} while (false)
 static void assertstate_setvmessage(struct assertstate *assert_state, const char *format, va_list format_args)
 {
     size_t message_size = sizeof assert_state->message;
@@ -188,13 +188,13 @@ static void assertstate_setvmessage(struct assertstate *assert_state, const char
 }
 
 #define assertstate_raise_signal(assert_state, assert_type, signal, test_file, test_line, format) \
-            do { \
-                assert_state.type = assert_type; \
-                assert_state.file = test_file; \
-                assert_state.line = test_line; \
-                assertstate_setmessage(assert_state, format); \
-                longjmp(signal, assert_state.type); \
-            } while(false)
+do { \
+    assert_state.type = assert_type; \
+    assert_state.file = test_file; \
+    assert_state.line = test_line; \
+    assertstate_setmessage(assert_state, format); \
+    longjmp(signal, assert_state.type); \
+} while(false)
 
 /////
 // Comparable Value
