@@ -14,11 +14,13 @@
 
 /**
  @file
- Header file for CinyTest type and function definitions
+ CinyTest type and function definitions.
  */
 
 /**
  @defgroup public Public types and functions
+ The public API for CinyTest.
+ Guaranteed to be stable within a major version.
  @{
  */
 
@@ -78,7 +80,7 @@ struct ct_testsuite {
  Make a test suite for the list of tests.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list should be an lvalue
+ The size of the test array is calculated inline so test_list should be an array lvalue
  to prevent multiple-evaluation side-effects.
  @return A test suite.
  */
@@ -87,7 +89,7 @@ struct ct_testsuite {
  Make a test suite with a setup function.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list should be an lvalue
+ The size of the test array is calculated inline so test_list should be an array lvalue
  to prevent multiple-evaluation side-effects.
  @param setup_function The setup function. Runs before each test case.
  @return A test suite.
@@ -97,7 +99,7 @@ struct ct_testsuite {
  Make a test suite with a setup and teardown function.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list should be an lvalue
+ The size of the test array is calculated inline so test_list should be an array lvalue
  to prevent multiple-evaluation side-effects.
  @param setup_function The setup function. Runs before each test case.
  @param teardown_function The teardown function. Runs after each test case.
@@ -137,39 +139,39 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
 /**
  Mark a test as ignored.
  To prevent possible side-effects add this assertion as the first line of the test.
- @param message A printf-style format string with optional arguments to display when the test is ignored.
+ @param message A printf-style format string literal with optional arguments to display when the test is ignored.
  */
 #define ct_ignore(...) ct_internal_ignore("" __VA_ARGS__)
 
 /**
  Assert failure unconditionally.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertfail(...) ct_internal_assertfail(__FILE__, __LINE__, "" __VA_ARGS__)
 
 /**
  Assert whether an expression is true.
  @param expression The expression to evaluate against the value true.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_asserttrue(expression, ...) ct_internal_asserttrue(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether an expression is false.
  @param expression The expression to evaluate against the value false.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertfalse(expression, ...) ct_internal_assertfalse(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 
 /**
  Assert whether an expression is NULL.
  @param expression The expression to evaluate against the value NULL.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnull(expression, ...) ct_internal_assertnull(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether an expression is not NULL.
  @param expression The expression to evaluate against the value !NULL.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotnull(expression, ...) ct_internal_assertnotnull(expression, #expression, __FILE__, __LINE__, "" __VA_ARGS__)
 
@@ -180,7 +182,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @see ct_assertequalstr for string equality.
  @param expected The expected value.
  @param actual The actual value.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertequal(expected, actual, ...) \
             do { \
@@ -195,7 +197,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @see ct_assertequalstr for string equality.
  @param expected The expected value.
  @param actual The actual value.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotequal(expected, actual, ...) \
             do { \
@@ -209,7 +211,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @param expected The expected value.
  @param actual The actual value.
  @param precision The range of precision within which expected and actual may be considered equal.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertaboutequal(expected, actual, precision, ...) ct_internal_assertaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
@@ -217,7 +219,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @param expected The expected value.
  @param actual The actual value.
  @param precision The range of precision within which expected and actual may be considered not equal.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotaboutequal(expected, actual, precision, ...) ct_internal_assertnotaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 
@@ -225,14 +227,14 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  Assert whether two pointers refer to the same object.
  @param expected The expected pointer.
  @param actual The actual pointer.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertsame(expected, actual, ...) ct_internal_assertsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two pointers refer to different objects.
  @param expected The expected pointer.
  @param actual The actual pointer.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotsame(expected, actual, ...) ct_internal_assertnotsame(expected, #expected, actual, #actual, __FILE__, __LINE__, "" __VA_ARGS__)
 
@@ -241,7 +243,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
  @param expected The expected string. Must be a string literal expression.
  @param actual The actual string.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertequalstr(expected, actual, ...) ct_internal_assertequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
 /**
@@ -250,7 +252,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @param expected The expected string.
  @param actual The actual string.
  @param n The maximum number of characters to compare for equality. Must not be greater than the size of expected.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertequalstrn(expected, actual, n, ...) ct_internal_assertequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
 /**
@@ -258,7 +260,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  The first argument is a string literal to prevent inadvertent buffer overrun during equality comparison.
  @param expected The expected string. Must be a string literal expression.
  @param actual The actual string.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotequalstr(expected, actual, ...) ct_internal_assertnotequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
 /**
@@ -267,7 +269,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
  @param expected The expected string.
  @param actual The actual string.
  @param n The maximum number of characters to compare for inequality. Must not be greater than the size of expected.
- @param message A printf-style format string with optional arguments to display when the assertion fails.
+ @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotequalstrn(expected, actual, n, ...) ct_internal_assertnotequalstrn(expected, #expected, actual, #actual, n, __FILE__, __LINE__, "" __VA_ARGS__);
 
@@ -277,6 +279,12 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
 
 /**
  @defgroup internal Internal types and functions
+ Implementation details of CinyTest.
+ These functions provide a greater degree of control over how assertion comparisons are
+ defined and displayed. They are not intended for direct use over the public API and are free
+ to change in the future within a major version. Regardless full documentation is provided
+ since they must be in the public header and as long as all parameter constraints are observed
+ these functions are safe to use.
  @{
  */
 /**
