@@ -132,7 +132,7 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
  @param suite The test suite to run.
  @return The number of failed tests.
  */
-size_t ct_runsuite(const struct ct_testsuite *);
+size_t ct_runsuite(const struct ct_testsuite *suite);
 
 /**
  Mark a test as ignored.
