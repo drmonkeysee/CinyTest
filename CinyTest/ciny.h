@@ -207,19 +207,17 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
 /**
  Assert whether two values are equal within plus or minus a degree of error.
  @param expected The expected value.
- @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
- @param stringized_actual The string representation of the actual value expression.
  @param precision The range of precision within which expected and actual may be considered equal.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertaboutequal(expected, actual, precision, ...) ct_internal_assertaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
  Assert whether two values are not equal within plus or minus a degree of error.
  @param expected The expected value.
- @param stringized_expected The string representation of the expected value expression.
  @param actual The actual value.
- @param stringized_actual The string representation of the actual value expression.
  @param precision The range of precision within which expected and actual may be considered not equal.
+ @param message A printf-style format string with optional arguments to display when the assertion fails.
  */
 #define ct_assertnotaboutequal(expected, actual, precision, ...) ct_internal_assertnotaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 
