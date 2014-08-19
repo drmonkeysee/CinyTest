@@ -16,6 +16,13 @@ CinyTest is a simple unit-test library for C. CinyTest provides a lightweight se
 
 Add make file
 
+## Project Structure
+
+CinyTest is made up of a single header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. It was developed in Xcode and is made up of two projects:
+
+- **CinyTest** - main project consisting of CinyTest code and [XCTest] classes that test CinyTest. builds CinyTest and runs the CinyTest unit tests.
+- **CinyTest-Sample** - sample project illustrating the use of CinyTest to unit test a simple binary tree module.
+
 ## Example
 
 A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace included in this repository.
@@ -135,7 +142,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-For reference here is the Rectangle module definition listing I used to run the example code and verify its correctness.
+For reference here is the Rectangle module definition listing used to run the example code and verify its correctness.
 
 ### Rectangle.c
 ```c
@@ -165,13 +172,6 @@ int rectangle_tostring(struct rectangle rect, char *output, size_t size)
     return num_chars;
 }
 ```
-
-## Project Structure
-
-CinyTest is made up of a single header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. It was developed in Xcode and is made up of two projects:
-
-- **CinyTest** - main project consisting of CinyTest code and [XCTest] classes that test CinyTest. builds CinyTest and runs the CinyTest unit tests.
-- **CinyTest-Sample** - sample project illustrating the use of CinyTest to unit test a simple binary tree module.
 
 ## Why CinyTest?
 
