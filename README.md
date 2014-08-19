@@ -6,6 +6,7 @@ CinyTest is a simple unit-test library for C. CinyTest provides a lightweight se
 
 - unit test and suite creation
 - unit suite execution and output
+- detailed test run output to stdout
 - test assertions including:
     - value equality, including approximate equality for floating point
     - pointer equality and NULL testing
@@ -211,7 +212,13 @@ CinyTest also assumes the presence of the following optional C11 features:
 - ShinyTest
 - ???
 
-## Next Features
+## Dev Wishlist
+
+List of features I would like to eventually add to CinyTest:
+
+- ability to route output to channels other than stdout
+- stub function support
+- mock function support
 
 [XCTest]: https://developer.apple.com/library/ios/documentation/ToolsLanguages/Conceptual/Xcode_Overview/UnitTestYourApp/UnitTestYourApp.html
 [clang]: http://clang.llvm.org
