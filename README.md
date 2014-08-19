@@ -5,7 +5,7 @@ CinyTest is a simple unit-test library for C. CinyTest provides a lightweight se
 ## Features
 
 - unit test and suite creation
-- unit suite execution and output
+- unit suite execution, including setup and teardown support
 - detailed test run output to stdout
 - test assertions including:
     - value equality, including approximate equality for floating point
