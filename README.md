@@ -20,7 +20,7 @@ Add make file
 
 A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace included in this repository.
 
-**Rectangle.h**
+### Rectangle.h
 ```c
 #ifndef Rectangle_h
 #define Rectangle_h
@@ -49,7 +49,7 @@ int rectangle_tostring(struct rectangle rect, char *output, size_t size);
 #endif
 ```
 
-**RectangleTests.c**
+### RectangleTests.c
 ```c
 #include <stdlib.h>
 #include <ciny.h>
@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
 
 For reference here is the Rectangle module definition listing I used to run the example code and verify its correctness.
 
-**Rectangle.c**
+### Rectangle.c
 ```c
 #include <stdio.h>
 #include <math.h>
