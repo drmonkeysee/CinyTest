@@ -64,22 +64,6 @@ int rectangle_tostring(struct rectangle rect, char *output, size_t size);
 #include "Rectangle.h"
 
 /////
-// Setup and Teardown functions to set buffer for tostring tests
-/////
-
-static const size_t buffer_size = 50;
-
-static void rect_tests_setup(void **context)
-{
-    *context = malloc(buffer_size);
-}
-
-static void rect_tests_teardown(void **context)
-{
-    free(*context);
-}
-
-/////
 // Unit Tests for Rectangle module
 /////
 
@@ -115,11 +99,11 @@ static void rectanglehypotenuse_calculateshypotenuse(void *context)
 static void rectangletostring_buildsrectanglestring(void *context)
 {
     struct rectangle rect = make_rectangle(6, 8);
-    char *output = (char *)context;
+    char output[50];
     
-    int characters_written = rectangle_tostring(rect, output, buffer_size);
+    int characters_written = rectangle_tostring(rect, output, sizeof(output));
     
-    ct_asserttrue(characters_written < buffer_size, "Test buffer too small for rectangle_tostring");
+    ct_asserttrue(characters_written < sizeof(output), "Test buffer too small for rectangle_tostring");
     ct_assertequalstr("Rectangle { w: 6, h: 8 }", output);
 }
 
@@ -135,7 +119,7 @@ int main(int argc, char *argv[])
         ct_maketest(rectanglehypotenuse_calculateshypotenuse),
         ct_maketest(rectangletostring_buildsrectanglestring)
     };
-    struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, rect_tests_setup, rect_tests_teardown);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
     size_t results = ct_runsuite(&suite);
     
