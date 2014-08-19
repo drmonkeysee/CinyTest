@@ -132,8 +132,6 @@ int main(int argc, char *argv[])
     
     size_t results = ct_runsuite(&suite);
     
-    printf("uh oh, %zu tests failed!", results);
-    
     return results != 0;
 }
 ```
