@@ -21,19 +21,32 @@ Add make file
 A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest.
 
 Rectangle module declarations
+
 **Rectangle.h**
+
 ```c
 #ifndef Rectangle_h
 #define Rectangle_h
+
+/////
+// Rectangle struct definition
+/////
 
 struct rectangle {
     int width;
     int height;
 };
 
+/////
+// Rectangle module operations
+/////
+
 struct rectangle make_rectangle(int width, int height);
+
 int rectangle_area(struct rectangle rect);
-double rectangle_hypoteneuse(struct rectangle rect);
+
+double rectangle_hypotenuse(struct rectangle rect);
+
 int rectangle_tostring(struct rectangle rect, char *output, size_t size);
 
 #endif
@@ -90,9 +103,9 @@ static void rectanglehypotenuse_calculateshypotenuse(void *context)
 {
     struct rectangle rect = make_rectangle(3, 7);
     
-    double h = rectangle_hypoteneuse(rect);
+    double hypo = rectangle_hypotenuse(rect);
     
-    ct_assertaboutequal(7.62, h, 0.01);
+    ct_assertaboutequal(7.62, hypo, 0.01);
 }
 
 static void rectangletostring_buildsrectanglestring(void *context)
