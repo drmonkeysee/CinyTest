@@ -20,8 +20,6 @@ Add make file
 
 A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest.
 
-Rectangle module declarations
-
 **Rectangle.h**
 
 ```c
@@ -52,7 +50,6 @@ int rectangle_tostring(struct rectangle rect, char *output, size_t size);
 #endif
 ```
 
-Rectangle unit tests driver program
 **RectangleTests.c**
 ```c
 #include <stdlib.h>
