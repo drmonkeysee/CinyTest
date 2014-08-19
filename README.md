@@ -21,7 +21,6 @@ Add make file
 A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace included in this repository.
 
 **Rectangle.h**
-
 ```c
 #ifndef Rectangle_h
 #define Rectangle_h
@@ -133,6 +132,37 @@ int main(int argc, char *argv[])
     size_t results = ct_runsuite(&suite);
     
     return results != 0;
+}
+```
+
+For reference here is the Rectangle module definition listing I used to run the example code and verify its correctness.
+
+**Rectangle.c**
+```c
+#include <stdio.h>
+#include <math.h>
+#include "Rectangle.h"
+
+struct rectangle make_rectangle(int width, int height)
+{
+    return (struct rectangle){ width, height };
+}
+
+int rectangle_area(struct rectangle rect)
+{
+    return rect.width * rect.height;
+}
+
+double rectangle_hypotenuse(struct rectangle rect)
+{
+    return sqrt(pow(rect.width, 2) + pow(rect.height, 2));
+}
+
+int rectangle_tostring(struct rectangle rect, char *output, size_t size)
+{
+    static const char * const template = "Rectangle { w: %d, h: %d }";
+    int num_chars = snprintf(output, size, template, rect.width, rect.height);
+    return num_chars;
 }
 ```
 
