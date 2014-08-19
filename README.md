@@ -18,7 +18,7 @@ Add make file
 
 ## Example
 
-A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest.
+A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace included in this repository.
 
 **Rectangle.h**
 
