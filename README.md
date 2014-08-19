@@ -18,6 +18,116 @@ Add make file
 
 ## Example
 
+A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest.
+
+Rectangle module declarations
+**Rectangle.h**
+```c
+#ifndef Rectangle_h
+#define Rectangle_h
+
+struct rectangle {
+    int width;
+    int height;
+};
+
+struct rectangle make_rectangle(int width, int height);
+int rectangle_area(struct rectangle rect);
+double rectangle_hypoteneuse(struct rectangle rect);
+int rectangle_tostring(struct rectangle rect, char *output, size_t size);
+
+#endif
+```
+
+Rectangle unit tests driver program
+**RectangleTests.c**
+```c
+#include <stdlib.h>
+#include <ciny.h>
+#include "Rectangle.h"
+
+/////
+// Setup and Teardown functions to set buffer for tostring tests
+/////
+
+static const size_t buffer_size = 50;
+
+static void rect_tests_setup(void **context)
+{
+    *context = malloc(buffer_size);
+}
+
+static void rect_tests_teardown(void **context)
+{
+    free(*context);
+}
+
+/////
+// Unit Tests for Rectangle module
+/////
+
+static void makerectangle_createsrectangle(void *context)
+{
+    int expected_width = 8;
+    int expected_height = 5;
+    
+    struct rectangle rect = make_rectangle(expected_width, expected_height);
+    
+    ct_assertequal(expected_width, rect.width);
+    ct_assertequal(expected_height, rect.height);
+}
+
+static void rectanglearea_calculatesarea(void *context)
+{
+    struct rectangle rect = make_rectangle(8, 5);
+    
+    int area = rectangle_area(rect);
+    
+    ct_assertequal(40, area);
+}
+
+static void rectanglehypotenuse_calculateshypotenuse(void *context)
+{
+    struct rectangle rect = make_rectangle(3, 7);
+    
+    double h = rectangle_hypoteneuse(rect);
+    
+    ct_assertaboutequal(7.62, h, 0.01);
+}
+
+static void rectangletostring_buildsrectanglestring(void *context)
+{
+    struct rectangle rect = make_rectangle(6, 8);
+    char *output = (char *)context;
+    
+    int characters_written = rectangle_tostring(rect, output, buffer_size);
+    
+    ct_asserttrue(characters_written < buffer_size, "Test buffer too small for rectangle_tostring");
+    ct_assertequalstr("Rectangle { w: 6, h: 8 }", output);
+}
+
+/////
+// Main driver function; return non-zero if any tests failed.
+/////
+
+int main(int argc, char *argv[])
+{
+    struct ct_testcase tests[] = {
+        ct_maketest(makerectangle_createsrectangle),
+        ct_maketest(rectanglearea_calculatesarea),
+        ct_maketest(rectanglehypotenuse_calculateshypotenuse),
+        ct_maketest(rectangletostring_buildsrectanglestring)
+    };
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, rect_tests_setup, rect_tests_teardown);
+    
+    size_t results = ct_runsuite(&suite);
+    
+    printf("uh oh, %zu tests failed!", results);
+    
+    return results != 0;
+}
+```
+
 ## Project Structure
 
 CinyTest is made up of a single header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. It was developed in Xcode and is made up of two projects:
