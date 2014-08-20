@@ -19,14 +19,15 @@ Add make file
 
 ## Project Structure
 
-CinyTest is made up of a single header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. It was developed in Xcode and is made up of two projects:
+CinyTest is made up of a single header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. CinyTest was developed in Xcode and it uses the project structure for that IDE, though a simple make file is available. The notable parts of the repository are:
 
 - **CinyTest** - main project consisting of CinyTest code and [XCTest] classes that test CinyTest. builds CinyTest and runs the CinyTest unit tests.
 - **CinyTest-Sample** - sample project illustrating the use of CinyTest to unit test a simple binary tree module.
+- **Documentation** - a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under GitHub Releases.
 
 ## Example
 
-A simple example testing a rectangle module that shows how to create and call unit test suites and use some of the test assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace included in this repository.
+A simple example testing a rectangle module that shows how to create unit test suites and check assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the workspace included in this repository. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
 
 ### Rectangle.h
 ```c
@@ -126,7 +127,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-Running this program on the command line will output (assuming all tests pass):
+Running this program on the command line (assuming all tests pass) will output:
 
     ====-- CinyTest Run --====
     Starting test suite 'main' at 2014-08-19 18:25:26
@@ -197,7 +198,7 @@ CinyTest relies on the following C11 features:
 
 CinyTest also assumes the presence of the following optional C11 features:
 
-- `_Complex` type and its associated mathematical functions (does not assume \_Imaginary type)
+- `_Complex` type and its associated mathematical functions (does not assume `_Imaginary` type)
 - `_Atomic` types
 
 ### How do I pronounce CinyTest?
@@ -221,3 +222,4 @@ List of features I would like to eventually add to CinyTest:
 [gcc]: https://gcc.gnu.org
 [cl.exe]: http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx
 [cmocka]: http://cmocka.org
+[Doxygen]: http://www.doxygen.org
