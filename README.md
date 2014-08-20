@@ -23,7 +23,7 @@ CinyTest is made up of a single header file and source file: **ciny.h** and **ci
 
 - **CinyTest** - main project consisting of CinyTest code and [XCTest] classes that test CinyTest. builds CinyTest and runs the CinyTest unit tests.
 - **CinyTest-Sample** - sample project illustrating the use of CinyTest to unit test a simple binary tree module.
-- **Documentation** - a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under [GitHub Releases](releases).
+- **Documentation** - a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under the releases tab in GitHub.
 
 ## Example
 
