@@ -34,7 +34,7 @@ A simple example testing a rectangle module that shows how to create and call un
 #define Rectangle_h
 
 /////
-// Rectangle struct definition
+// Rectangle definition
 /////
 
 struct rectangle {
@@ -59,7 +59,6 @@ int rectangle_tostring(struct rectangle rect, char *output, size_t size);
 
 ### RectangleTests.c
 ```c
-#include <stdlib.h>
 #include <ciny.h>
 #include "Rectangle.h"
 
@@ -108,7 +107,7 @@ static void rectangletostring_buildsrectanglestring(void *context)
 }
 
 /////
-// Main driver function; return non-zero if any tests failed.
+// Main driver function; returns non-zero if any tests failed.
 /////
 
 int main(int argc, char *argv[])
@@ -126,6 +125,19 @@ int main(int argc, char *argv[])
     return results != 0;
 }
 ```
+
+Running this program on the command line will output (assuming all tests pass):
+
+    ====-- CinyTest Run --====
+    Starting test suite 'main' at 2014-08-19 18:25:26
+    Running 4 tests:
+    [✔] - 'makerectangle_createsrectangle' success
+    [✔] - 'rectanglearea_calculatesarea' success
+    [✔] - 'rectanglehypotenuse_calculateshypotenuse' success
+    [✔] - 'rectangletostring_buildsrectanglestring' success
+    Test suite 'main' completed at 2014-08-19 18:25:26
+    Ran 4 tests (0.000 seconds): 4 passed, 0 failed, 0 ignored.
+    ====-- CinyTest End --====
 
 For reference here is the Rectangle module definition listing used to run the example code and verify its correctness.
 
