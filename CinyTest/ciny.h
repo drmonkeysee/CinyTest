@@ -281,9 +281,9 @@ do { \
  @defgroup internal Internal types and functions
  Implementation details of CinyTest.
  These functions provide a greater degree of control over how assertion comparisons are
- defined and displayed. They are not intended for direct use over the public API and are free
- to change in the future within a major version. Regardless full documentation is provided
- since they must be in the public header and as long as all parameter constraints are observed
+ defined and displayed. They are not intended for direct use over the public API and are may
+ change in the future without revving the major version. Regardless, full documentation is provided
+ since they are defined in the public header and as long as all parameter constraints are observed
  these functions are safe to use.
  @{
  */
