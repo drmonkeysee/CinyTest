@@ -1,6 +1,6 @@
 # CinyTest
 
-CinyTest is a simple unit-test library for C. CinyTest provides a lightweight set of tools to write and run suites of unit tests.
+CinyTest is a simple unit test library for C providing a lightweight API to define and run unit test suites.
 
 ## Features
 
@@ -19,15 +19,15 @@ Add make file
 
 ## Project Structure
 
-CinyTest is made up of a single header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. CinyTest was developed in Xcode and it uses the project structure for that IDE, though a simple make file is available. The notable parts of the repository are:
+CinyTest is made up of a header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. CinyTest was developed in Xcode and uses the project structure for that IDE, though a simple [make] file is available. The notable parts of the repository are:
 
-- **CinyTest** - main project consisting of CinyTest code and [XCTest] classes that test CinyTest. builds CinyTest and runs the CinyTest unit tests.
-- **CinyTest-Sample** - sample project illustrating the use of CinyTest to unit test a simple binary tree module.
+- **CinyTest** - main project consisting of CinyTest code and [XCTest] unit tests. builds the library and runs the tests.
+- **CinyTest-Sample** - sample project illustrating the use of CinyTest to test a simple binary tree module.
 - **Documentation** - a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under the releases tab in GitHub.
 
 ## Example
 
-A simple example testing a rectangle module that shows how to create unit test suites and check assertions in CinyTest. For a more extensive example see the **CinyTest-Sample** project in the workspace included in this repository. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
+This example shows how to test a simple rectangle module. For a more extensive example see the **CinyTest-Sample** project in the workspace included in this repository. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
 
 ### Rectangle.h
 ```c
@@ -140,7 +140,7 @@ Running this program on the command line (assuming all tests pass) will output:
     Ran 4 tests (0.000 seconds): 4 passed, 0 failed, 0 ignored.
     ====-- CinyTest End --====
 
-For reference here is the Rectangle module definition listing used to run the example code and verify its correctness.
+For reference here is the Rectangle module definition used to run the example code and verify its correctness.
 
 ### Rectangle.c
 ```c
@@ -173,15 +173,15 @@ int rectangle_tostring(struct rectangle rect, char *output, size_t size)
 
 ## Why CinyTest?
 
-The idea for CinyTest arose out of an exploration of the existing landscape of C unit testing frameworks. I was looking for a test library that specifically targeted C instead of C++ and did not require standalone executables or linker tricks in order to define or run tests. I wanted a library that could be used within an IDE for red-green-refactor test-driven development.
+The idea for CinyTest arose out of an exploration of the current landscape of C unit testing frameworks. I was looking for a test library that specifically targeted C instead of C++ and did not require standalone executables or linker tricks. I wanted a library that could be used within an IDE for red-green-refactor test-driven development.
 
-Many C test frameworks did not fit the bill; some required Make files as part of the execution cycle, others needed per-suite linker flags or multiple `main` function definitions. Some frameworks I found could be run in an IDE but were either heavier than I wanted or had what I felt were awkward or dated APIs. I decided to try writing my own.
+Many C test frameworks did not fit the bill; some required make files as part of the execution cycle, others needed per-suite linker flags or multiple `main` function definitions. Some frameworks I found could be run in an IDE but were either heavier than I wanted or had what I felt were awkward or dated APIs. I decided to write my own and CinyTest is the result.
 
 [cmocka]'s design provided initial inspiration for CinyTest. While the design goals of the two libraries are different, [cmocka]'s API was a guide for the generality and brevity I wanted to achieve with CinyTest.
 
-As can be seen in the sample project included in this repo, CinyTest is easy to use as a test framework for C code. While CinyTest does not integrate *directly* into an IDE test framework (due to lack of tool support) it is trivial to include bare-bones driver code to hook into any test framework of choice while still maintaining all the actual test code in native C.
+CinyTest provides a straightforward and terse public API for writing unit tests in C. While CinyTest does not integrate *directly* into an IDE test framework (due to lack of tool support) it is trivial to include bare-bones driver code to hook into any test framework of choice while still maintaining all the actual test code in native C.
 
-In the sample code included in the CinyTest workspace, CinyTest is bootstrapped into [XCTest] using a very simple Objective-C test class. A similar approach would work for any other programming environment that can interoperate with C. In addition CinyTest could be run as a native C executable by defining and calling any test suites within a `main` function, for anyone desiring the more authentic command-line programming environment of old-school C. This approach is shown in the Example section of this document.
+In the sample code included in the CinyTest workspace, CinyTest is bootstrapped into [XCTest] using a very simple Objective-C test class. A similar approach would work for any other programming environment that can interoperate with C. In addition CinyTest could be run as a native C executable by defining and calling any test suites within a `main` function, which could then be built and run using whatever tool fits your needs. This approach is shown in the Example section of this document.
 
 ### Constraints and Assumptions
 
@@ -200,6 +200,11 @@ CinyTest also assumes the presence of the following optional C11 features:
 
 - `_Complex` type and its associated mathematical functions (does not assume `_Imaginary` type)
 - `_Atomic` types
+
+CinyTest's header includes (and is dependent upon) the following standard library headers:
+
+- `stddef.h`
+- `limits.h`
 
 ### How do I pronounce CinyTest?
 
@@ -223,3 +228,4 @@ List of features I would like to eventually add to CinyTest:
 [cl.exe]: http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx
 [cmocka]: http://cmocka.org
 [Doxygen]: http://www.doxygen.org
+[make]: http://www.gnu.org/software/make/
