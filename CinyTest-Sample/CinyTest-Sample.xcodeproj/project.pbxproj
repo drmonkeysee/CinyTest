@@ -8,7 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		0232FA3B19AAED0500AABF6A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA3A19AAED0500AABF6A /* main.c */; };
+		0232FA4A19AAEDE000AABF6A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0232FA4919AAEDE000AABF6A /* XCTest.framework */; };
+		0232FA5019AAEDE000AABF6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0232FA5419AAEDE000AABF6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0232FA2F19AAED0500AABF6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0232FA3619AAED0500AABF6A;
+			remoteInfo = "CinyTest-Sample";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0232FA3519AAED0500AABF6A /* CopyFiles */ = {
@@ -25,6 +37,11 @@
 /* Begin PBXFileReference section */
 		0232FA3719AAED0500AABF6A /* CinyTest-Sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CinyTest-Sample"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0232FA3A19AAED0500AABF6A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		0232FA4719AAEDDF00AABF6A /* CinyTest-SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CinyTest-SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0232FA4919AAEDE000AABF6A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		0232FA4D19AAEDE000AABF6A /* CinyTest-SampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CinyTest-SampleTests-Info.plist"; sourceTree = "<group>"; };
+		0232FA4F19AAEDE000AABF6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0232FA5319AAEDE000AABF6A /* CinyTest-SampleTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTest-SampleTests-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +52,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0232FA4419AAEDDF00AABF6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0232FA4A19AAEDE000AABF6A /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -42,6 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				0232FA3919AAED0500AABF6A /* CinyTest-Sample */,
+				0232FA4B19AAEDE000AABF6A /* CinyTest-SampleTests */,
+				0232FA4819AAEDE000AABF6A /* Frameworks */,
 				0232FA3819AAED0500AABF6A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				0232FA3719AAED0500AABF6A /* CinyTest-Sample */,
+				0232FA4719AAEDDF00AABF6A /* CinyTest-SampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +88,32 @@
 				0232FA3A19AAED0500AABF6A /* main.c */,
 			);
 			path = "CinyTest-Sample";
+			sourceTree = "<group>";
+		};
+		0232FA4819AAEDE000AABF6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0232FA4919AAEDE000AABF6A /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0232FA4B19AAEDE000AABF6A /* CinyTest-SampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				0232FA4C19AAEDE000AABF6A /* Supporting Files */,
+			);
+			path = "CinyTest-SampleTests";
+			sourceTree = "<group>";
+		};
+		0232FA4C19AAEDE000AABF6A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0232FA4D19AAEDE000AABF6A /* CinyTest-SampleTests-Info.plist */,
+				0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */,
+				0232FA5319AAEDE000AABF6A /* CinyTest-SampleTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,6 +136,24 @@
 			productReference = 0232FA3719AAED0500AABF6A /* CinyTest-Sample */;
 			productType = "com.apple.product-type.tool";
 		};
+		0232FA4619AAEDDF00AABF6A /* CinyTest-SampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0232FA5619AAEDE000AABF6A /* Build configuration list for PBXNativeTarget "CinyTest-SampleTests" */;
+			buildPhases = (
+				0232FA4319AAEDDF00AABF6A /* Sources */,
+				0232FA4419AAEDDF00AABF6A /* Frameworks */,
+				0232FA4519AAEDDF00AABF6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0232FA5519AAEDE000AABF6A /* PBXTargetDependency */,
+			);
+			name = "CinyTest-SampleTests";
+			productName = "CinyTest-SampleTests";
+			productReference = 0232FA4719AAEDDF00AABF6A /* CinyTest-SampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -90,6 +162,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Brandon Stansbury";
+				TargetAttributes = {
+					0232FA4619AAEDDF00AABF6A = {
+						TestTargetID = 0232FA3619AAED0500AABF6A;
+					};
+				};
 			};
 			buildConfigurationList = 0232FA3219AAED0500AABF6A /* Build configuration list for PBXProject "CinyTest-Sample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -104,9 +181,21 @@
 			projectRoot = "";
 			targets = (
 				0232FA3619AAED0500AABF6A /* CinyTest-Sample */,
+				0232FA4619AAEDDF00AABF6A /* CinyTest-SampleTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0232FA4519AAEDDF00AABF6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0232FA5019AAEDE000AABF6A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0232FA3319AAED0500AABF6A /* Sources */ = {
@@ -117,7 +206,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0232FA4319AAEDDF00AABF6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0232FA5519AAEDE000AABF6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0232FA3619AAED0500AABF6A /* CinyTest-Sample */;
+			targetProxy = 0232FA5419AAEDE000AABF6A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0232FA4F19AAEDE000AABF6A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0232FA3E19AAED0500AABF6A /* Debug */ = {
@@ -204,6 +319,36 @@
 			};
 			name = Release;
 		};
+		0232FA5719AAEDE000AABF6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CinyTest-SampleTests/CinyTest-SampleTests-Prefix.pch";
+				INFOPLIST_FILE = "CinyTest-SampleTests/CinyTest-SampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		0232FA5819AAEDE000AABF6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CinyTest-SampleTests/CinyTest-SampleTests-Prefix.pch";
+				INFOPLIST_FILE = "CinyTest-SampleTests/CinyTest-SampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -221,6 +366,14 @@
 			buildConfigurations = (
 				0232FA4119AAED0500AABF6A /* Debug */,
 				0232FA4219AAED0500AABF6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		0232FA5619AAEDE000AABF6A /* Build configuration list for PBXNativeTarget "CinyTest-SampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0232FA5719AAEDE000AABF6A /* Debug */,
+				0232FA5819AAEDE000AABF6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
