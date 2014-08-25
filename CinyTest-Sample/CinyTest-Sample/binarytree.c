@@ -118,13 +118,13 @@ binarytree *bt_create(void)
     return BT_EMPTY;
 }
 
-binarytree *bt_createwithvalues(size_t count, ...)
+binarytree *bt_createwithvalues(size_t n, ...)
 {
     binarytree *new_tree = bt_create();
     
     va_list args;
-    va_start(args, count);
-    for (size_t i = 0; i < count; ++i) {
+    va_start(args, n);
+    for (size_t i = 0; i < n; ++i) {
         bt_insert(&new_tree, va_arg(args, int));
     }
     va_end(args);
