@@ -1,6 +1,6 @@
 # CinyTest
 
-CinyTest is a simple unit test library for C providing a lightweight API to define and run unit test suites.
+CinyTest is a simple, lightweight library providing an API to define and run unit tests in C.
 
 ## Features
 
@@ -19,7 +19,7 @@ Add make file
 
 ## Project Structure
 
-CinyTest is made up of a header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. CinyTest was developed in Xcode and uses the project structure for that IDE, though a simple [make] file is available. The notable parts of the repository are:
+CinyTest consists of a header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. CinyTest was developed in Xcode and uses the project structure for that IDE, though a simple [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in [XCTest]. The notable parts of the repository are:
 
 - **CinyTest** - main project consisting of CinyTest code and [XCTest] unit tests. builds the library and runs the tests.
 - **CinyTest-Sample** - sample project illustrating the use of CinyTest to test a simple binary tree module.
@@ -207,6 +207,8 @@ CinyTest's header includes (and is dependent upon) the following standard librar
 - `limits.h`
 
 ### How do I pronounce CinyTest?
+
+I don't know. The name is a visual pun on "C" and "Tiny". Some possibilities:
 
 - TinyTest
 - ChinyTest
