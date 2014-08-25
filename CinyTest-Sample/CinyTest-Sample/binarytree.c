@@ -76,7 +76,9 @@ static void print_tree(binarytree *tree, int indent, char label)
 {
     if (!tree) return;
     
-    for (int indent_count = indent; indent_count > 0; --indent_count) printf("\t");
+    for (int indent_count = indent; indent_count > 0; --indent_count) {
+        printf("\t");
+    }
     printf("%c%d\n", label, tree->value);
     print_tree(tree->left, indent + 1, 'L');
     print_tree(tree->right, indent + 1, 'R');
@@ -179,7 +181,7 @@ bool bt_contains(binarytree *tree, int value)
     if (tree->value == value) return true;
     
     binarytree **child_ref = find_childref(tree, value);
-    return *child_ref;
+    return *child_ref != BT_EMPTY;
 }
 
 void bt_rebalance(binarytree **tree_ref)

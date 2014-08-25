@@ -11,6 +11,10 @@
 
 #include <stddef.h>
 
+/////
+// A simple binary search tree for storing integers.
+/////
+
 typedef struct bt_node binarytree;
 
 binarytree *bt_create(void);
