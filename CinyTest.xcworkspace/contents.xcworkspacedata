@@ -4,4 +4,7 @@
    <FileRef
       location = "group:CinyTest/CinyTest.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:CinyTest-Sample/CinyTest-Sample.xcodeproj">
+   </FileRef>
 </Workspace>
