@@ -20,7 +20,7 @@ struct bt_node {
     binarytree *right;
 };
 
-static binarytree *create_node(int value)
+static binarytree *make_node(int value)
 {
     binarytree *new_node = malloc(sizeof *new_node);
     new_node->value = value;
@@ -29,13 +29,13 @@ static binarytree *create_node(int value)
     return new_node;
 }
 
-static binarytree **find_child_ref(binarytree *parent, int value)
+static binarytree **find_childref(binarytree *parent, int value)
 {
     binarytree **child_ref = parent->value > value ? &parent->left : &parent->right;
     if (!(*child_ref) || (*child_ref)->value == value) {
         return child_ref;
     }
-    return find_child_ref(*child_ref, value);
+    return find_childref(*child_ref, value);
 }
 
 static binarytree *minimum_child(binarytree *tree)
@@ -49,7 +49,7 @@ static binarytree *minimum_child(binarytree *tree)
 
 static void remove_node(binarytree *tree, int value)
 {
-    binarytree **node_ref = find_child_ref(tree, value);
+    binarytree **node_ref = find_childref(tree, value);
     binarytree *node = *node_ref;
     
     if (!node) return;
@@ -109,12 +109,16 @@ static binarytree *rebalance_node(binarytree *node_list[], ptrdiff_t start_index
     return node;
 }
 
+/////
+// Public API Implementation
+/////
+
 binarytree *bt_create(void)
 {
     return BT_EMPTY;
 }
 
-binarytree *bt_create_with_values(size_t count, ...)
+binarytree *bt_createwithvalues(size_t count, ...)
 {
     binarytree *new_tree = bt_create();
     
@@ -137,7 +141,7 @@ void bt_free(binarytree *tree)
     free(tree);
 }
 
-bool bt_is_empty(binarytree *tree)
+bool bt_isempty(binarytree *tree)
 {
     return tree == BT_EMPTY;
 }
@@ -147,7 +151,7 @@ void bt_insert(binarytree **tree_ref, int value)
     if (!tree_ref) return;
     
     if (!*tree_ref) {
-        *tree_ref = create_node(value);
+        *tree_ref = make_node(value);
     } else if ((*tree_ref)->value > value) {
         bt_insert(&(*tree_ref)->left, value);
     } else if ((*tree_ref)->value < value) {
@@ -174,7 +178,7 @@ bool bt_contains(binarytree *tree, int value)
     
     if (tree->value == value) return true;
     
-    binarytree **child_ref = find_child_ref(tree, value);
+    binarytree **child_ref = find_childref(tree, value);
     return *child_ref;
 }
 

@@ -15,11 +15,11 @@ typedef struct bt_node binarytree;
 
 binarytree *bt_create(void);
 
-binarytree *bt_create_with_values(size_t, ...);
+binarytree *bt_createwithvalues(size_t, ...);
 
 void bt_free(binarytree *);
 
-_Bool bt_is_empty(binarytree *);
+_Bool bt_isempty(binarytree *);
 
 void bt_insert(binarytree **, int);
 
