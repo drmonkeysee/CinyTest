@@ -1,38 +1,38 @@
 //
-//  binary_tree.h
+//  binarytree.h
 //  CinyTest-Sample
 //
 //  Created by Brandon Stansbury on 8/24/14.
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#ifndef CinyTest_Sample_binary_tree_h
-#define CinyTest_Sample_binary_tree_h
+#ifndef CinyTest_Sample_binarytree_h
+#define CinyTest_Sample_binarytree_h
 
 #include <stddef.h>
 
-typedef struct bt_node binary_tree;
+typedef struct bt_node binarytree;
 
-binary_tree *bt_create(void);
+binarytree *bt_create(void);
 
-binary_tree *bt_create_with_values(size_t, ...);
+binarytree *bt_create_with_values(size_t, ...);
 
-void bt_free(binary_tree *);
+void bt_free(binarytree *);
 
-_Bool bt_is_empty(binary_tree *);
+_Bool bt_is_empty(binarytree *);
 
-void bt_insert(binary_tree **, int);
+void bt_insert(binarytree **, int);
 
-void bt_remove(binary_tree **, int);
+void bt_remove(binarytree **, int);
 
-_Bool bt_contains(binary_tree *, int);
+_Bool bt_contains(binarytree *, int);
 
-void bt_rebalance(binary_tree **);
+void bt_rebalance(binarytree **);
 
-size_t bt_size(binary_tree *);
+size_t bt_size(binarytree *);
 
-size_t bt_depth(binary_tree *);
+size_t bt_depth(binarytree *);
 
-void bt_print(binary_tree *);
+void bt_print(binarytree *);
 
 #endif
