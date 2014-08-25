@@ -11,6 +11,7 @@
 		0232FA4A19AAEDE000AABF6A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0232FA4919AAEDE000AABF6A /* XCTest.framework */; };
 		0232FA5019AAEDE000AABF6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */; };
 		0232FA5D19AAF0CE00AABF6A /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5C19AAF0CE00AABF6A /* binarytree.c */; };
+		0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		0232FA5319AAEDE000AABF6A /* CinyTest-SampleTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTest-SampleTests-Prefix.pch"; sourceTree = "<group>"; };
 		0232FA5919AAEFDC00AABF6A /* binarytree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = binarytree.h; sourceTree = "<group>"; };
 		0232FA5C19AAF0CE00AABF6A /* binarytree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = binarytree.c; sourceTree = "<group>"; };
+		0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BinaryTreeTestDriver.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 		0232FA4B19AAEDE000AABF6A /* CinyTest-SampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */,
 				0232FA4C19AAEDE000AABF6A /* Supporting Files */,
 			);
 			path = "CinyTest-SampleTests";
@@ -216,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
