@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include "ciny.h"
+#include <stddef.h>
 
 size_t binarytree_tests(void)
 {
