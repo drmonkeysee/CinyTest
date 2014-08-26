@@ -12,6 +12,7 @@
 		0232FA5019AAEDE000AABF6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */; };
 		0232FA5D19AAF0CE00AABF6A /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5C19AAF0CE00AABF6A /* binarytree.c */; };
 		0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */; };
+		02DA592F19AC2F10009C3B4B /* binarytree_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 02DA592E19AC2F10009C3B4B /* binarytree_tests.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		0232FA5919AAEFDC00AABF6A /* binarytree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = binarytree.h; sourceTree = "<group>"; };
 		0232FA5C19AAF0CE00AABF6A /* binarytree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = binarytree.c; sourceTree = "<group>"; };
 		0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BinaryTreeTestDriver.m; sourceTree = "<group>"; };
+		02DA592E19AC2F10009C3B4B /* binarytree_tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = binarytree_tests.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 		0232FA4B19AAEDE000AABF6A /* CinyTest-SampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				02DA592E19AC2F10009C3B4B /* binarytree_tests.c */,
 				0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */,
 				0232FA4C19AAEDE000AABF6A /* Supporting Files */,
 			);
@@ -219,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02DA592F19AC2F10009C3B4B /* binarytree_tests.c in Sources */,
 				0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,6 +382,7 @@
 				0232FA4219AAED0500AABF6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0232FA5619AAEDE000AABF6A /* Build configuration list for PBXNativeTarget "CinyTest-SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -386,6 +391,7 @@
 				0232FA5819AAEDE000AABF6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

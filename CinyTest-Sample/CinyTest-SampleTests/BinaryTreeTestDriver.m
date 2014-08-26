@@ -8,27 +8,19 @@
 
 #import <XCTest/XCTest.h>
 
+size_t binarytree_tests(void);
+
 @interface BinaryTreeTestDriver : XCTestCase
 
 @end
 
 @implementation BinaryTreeTestDriver
 
-- (void)setUp
+- (void)test_BinaryTree_Suite
 {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    size_t results = binarytree_tests();
+    
+    XCTAssertEqual(0, results);
 }
 
 @end
