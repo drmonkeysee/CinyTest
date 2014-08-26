@@ -16,46 +16,46 @@
 
 struct bt_node {
     int value;
-    binarytree *left;
-    binarytree *right;
+    struct bt_node *left;
+    struct bt_node *right;
 };
 
-static binarytree *make_node(int value)
+static struct bt_node *make_node(int value)
 {
-    binarytree *new_node = malloc(sizeof *new_node);
+    struct bt_node *new_node = malloc(sizeof *new_node);
     new_node->value = value;
     new_node->left = BT_EMPTY;
     new_node->right = BT_EMPTY;
     return new_node;
 }
 
-static binarytree **find_childref(binarytree *parent, int value)
+static struct bt_node **find_childref(struct bt_node *parent, int value)
 {
-    binarytree **child_ref = parent->value > value ? &parent->left : &parent->right;
+    struct bt_node **child_ref = parent->value > value ? &parent->left : &parent->right;
     if (!(*child_ref) || (*child_ref)->value == value) {
         return child_ref;
     }
     return find_childref(*child_ref, value);
 }
 
-static binarytree *minimum_child(binarytree *tree)
+static struct bt_node *minimum_child(struct bt_node *tree)
 {
-    binarytree *minimum_child = tree;
+    struct bt_node *minimum_child = tree;
     while (minimum_child->left) {
         minimum_child = minimum_child->left;
     }
     return minimum_child;
 }
 
-static void remove_node(binarytree *tree, int value)
+static void remove_node(struct bt_node *tree, int value)
 {
-    binarytree **node_ref = find_childref(tree, value);
-    binarytree *node = *node_ref;
+    struct bt_node **node_ref = find_childref(tree, value);
+    struct bt_node *node = *node_ref;
     
     if (!node) return;
     
     if (node->left && node->right) {
-        binarytree *successor = minimum_child(node->right);
+        struct bt_node *successor = minimum_child(node->right);
         node->value = successor->value;
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
@@ -72,7 +72,7 @@ static void remove_node(binarytree *tree, int value)
     }
 }
 
-static void print_tree(binarytree *tree, int indent, char label)
+static void print_tree(struct bt_node *tree, int indent, char label)
 {
     if (!tree) return;
     
@@ -84,7 +84,7 @@ static void print_tree(binarytree *tree, int indent, char label)
     print_tree(tree->right, indent + 1, 'R');
 }
 
-static void inline_tree(binarytree *tree, binarytree *nodes[], ptrdiff_t *current_index)
+static void inline_tree(struct bt_node *tree, struct bt_node *nodes[], ptrdiff_t *current_index)
 {
     if (tree->left) {
         inline_tree(tree->left, nodes, current_index);
@@ -97,13 +97,13 @@ static void inline_tree(binarytree *tree, binarytree *nodes[], ptrdiff_t *curren
     }
 }
 
-static binarytree *rebalance_node(binarytree *node_list[], ptrdiff_t start_index, ptrdiff_t end_index)
+static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t start_index, ptrdiff_t end_index)
 {
     if (start_index > end_index) return BT_EMPTY;
     
     ptrdiff_t distance = end_index - start_index;
     ptrdiff_t middle_index = start_index + (distance / 2);
-    binarytree *node = node_list[middle_index];
+    struct bt_node *node = node_list[middle_index];
     
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
     node->right = rebalance_node(node_list, middle_index + 1, end_index);
@@ -122,7 +122,7 @@ binarytree *bt_create(void)
 
 binarytree *bt_createwithvalues(size_t n, ...)
 {
-    binarytree *new_tree = bt_create();
+    struct bt_node *new_tree = bt_create();
     
     va_list args;
     va_start(args, n);
@@ -165,6 +165,7 @@ void bt_remove(binarytree **tree_ref, int value)
 {
     if (!tree_ref) return;
     
+    // TODO: can i move this
     if (!*tree_ref || (*tree_ref)->value == value) {
         bt_free(*tree_ref);
         *tree_ref = BT_EMPTY;
@@ -180,16 +181,17 @@ bool bt_contains(binarytree *tree, int value)
     
     if (tree->value == value) return true;
     
-    binarytree **child_ref = find_childref(tree, value);
+    struct bt_node **child_ref = find_childref(tree, value);
     return *child_ref != BT_EMPTY;
 }
 
 void bt_rebalance(binarytree **tree_ref)
 {
+    // TODO: test for null ref
     if (!*tree_ref) return;
     
     size_t size = bt_size(*tree_ref);
-    binarytree *sorted_nodes[size];
+    struct bt_node *sorted_nodes[size];
     
     ptrdiff_t start = 0;
     ptrdiff_t end = size - 1;

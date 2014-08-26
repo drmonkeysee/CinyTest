@@ -57,7 +57,7 @@ extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *
 extern inline struct ct_comparable_value ct_makevalue_integral(int, long long);
 extern inline struct ct_comparable_value ct_makevalue_uintegral(int, unsigned long long);
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
-extern inline struct ct_comparable_value ct_makevalue_complex(int, long double _Complex);
+extern inline struct ct_comparable_value ct_makevalue_complex(int, long double complex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
 /////
