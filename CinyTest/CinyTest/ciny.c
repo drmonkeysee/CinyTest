@@ -102,7 +102,7 @@ static void print_linemessage(const char *message)
 static bool pretty_truncate(char *str, size_t size)
 {
     static const char * const ellipsis = "\u2026";
-    size_t ellipsis_length = strlen(ellipsis);
+    const size_t ellipsis_length = strlen(ellipsis);
     ptrdiff_t truncation_index = size - 1 - ellipsis_length;
     
     bool can_fit_ellipsis = truncation_index >= 0;
