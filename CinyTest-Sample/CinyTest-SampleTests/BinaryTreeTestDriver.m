@@ -20,7 +20,7 @@ size_t binarytree_tests(void);
 {
     size_t results = binarytree_tests();
     
-    XCTAssertEqual(0, results);
+    XCTAssertEqual(0, results, "%zu binary tree tests failed", results);
 }
 
 @end
