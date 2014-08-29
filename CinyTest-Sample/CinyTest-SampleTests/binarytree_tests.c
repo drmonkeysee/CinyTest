@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stddef.h>
+#include <cinytest/ciny.h>
 
 size_t binarytree_tests(void)
 {
-    return 0;
+    return 1;
 }
