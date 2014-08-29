@@ -38,7 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0232FA3719AAED0500AABF6A /* CinyTest-Sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CinyTest-Sample"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0232FA3719AAED0500AABF6A /* cinytest-sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "cinytest-sample"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0232FA3A19AAED0500AABF6A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0232FA4719AAEDDF00AABF6A /* CinyTest-SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CinyTest-SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0232FA4919AAEDE000AABF6A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -83,7 +83,7 @@
 		0232FA3819AAED0500AABF6A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0232FA3719AAED0500AABF6A /* CinyTest-Sample */,
+				0232FA3719AAED0500AABF6A /* cinytest-sample */,
 				0232FA4719AAEDDF00AABF6A /* CinyTest-SampleTests.xctest */,
 			);
 			name = Products;
@@ -144,7 +144,7 @@
 			);
 			name = "CinyTest-Sample";
 			productName = "CinyTest-Sample";
-			productReference = 0232FA3719AAED0500AABF6A /* CinyTest-Sample */;
+			productReference = 0232FA3719AAED0500AABF6A /* cinytest-sample */;
 			productType = "com.apple.product-type.tool";
 		};
 		0232FA4619AAEDDF00AABF6A /* CinyTest-SampleTests */ = {
@@ -322,14 +322,16 @@
 		0232FA4119AAED0500AABF6A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INSTALL_PATH = /bin;
+				PRODUCT_NAME = "$(TARGET_NAME:lower)";
 			};
 			name = Debug;
 		};
 		0232FA4219AAED0500AABF6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INSTALL_PATH = /bin;
+				PRODUCT_NAME = "$(TARGET_NAME:lower)";
 			};
 			name = Release;
 		};
