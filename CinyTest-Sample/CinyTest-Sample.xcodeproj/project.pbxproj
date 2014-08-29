@@ -12,6 +12,7 @@
 		0232FA5019AAEDE000AABF6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */; };
 		0232FA5D19AAF0CE00AABF6A /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5C19AAF0CE00AABF6A /* binarytree.c */; };
 		0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */; };
+		024A547719B1066700BCA7D9 /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5C19AAF0CE00AABF6A /* binarytree.c */; };
 		0251212219B0429800368C07 /* libcinytest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0251212119B0429800368C07 /* libcinytest.a */; };
 		02DA592F19AC2F10009C3B4B /* binarytree_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 02DA592E19AC2F10009C3B4B /* binarytree_tests.c */; };
 /* End PBXBuildFile section */
@@ -228,6 +229,7 @@
 			files = (
 				02DA592F19AC2F10009C3B4B /* binarytree_tests.c in Sources */,
 				0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */,
+				024A547719B1066700BCA7D9 /* binarytree.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
