@@ -159,7 +159,7 @@ static void assertstate_handle(const struct assertstate *assert_state, const cha
 
 static void assertstate_setdescription(struct assertstate *assert_state, const char *format, ...)
 {
-    size_t description_size = sizeof assert_state->description;
+    const size_t description_size = sizeof assert_state->description;
     va_list format_args;
     va_start(format_args, format);
     int write_count = vsnprintf(assert_state->description, description_size, format, format_args);
@@ -179,7 +179,7 @@ do { \
 } while (false)
 static void assertstate_setvmessage(struct assertstate *assert_state, const char *format, va_list format_args)
 {
-    size_t message_size = sizeof assert_state->message;
+    const size_t message_size = sizeof assert_state->message;
     int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
     
     if (write_count >= message_size) {
