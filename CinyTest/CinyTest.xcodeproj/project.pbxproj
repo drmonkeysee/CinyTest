@@ -36,7 +36,7 @@
 		02EE6D5218FA3AA000E5A8D7 /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EE6D5018FA3AA000E5A8D7 /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02EE6D5A18FA3AC700E5A8D7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D5918FA3AC700E5A8D7 /* XCTest.framework */; };
 		02EE6D6018FA3AC700E5A8D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02EE6D5E18FA3AC700E5A8D7 /* InfoPlist.strings */; };
-		02EE6D6B18FA416D00E5A8D7 /* libCinyTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */; };
+		02EE6D6B18FA416D00E5A8D7 /* libcinytest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D4718FA39A500E5A8D7 /* libcinytest.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +82,7 @@
 		02C70E44191EDD89007B2C6A /* CTAssertNotNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotNullTests.m; sourceTree = "<group>"; };
 		02C79629191DEE5B00CA82FE /* CTAssertTrueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertTrueTests.m; sourceTree = "<group>"; };
 		02C7962C191DF83800CA82FE /* CTAssertFalseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFalseTests.m; sourceTree = "<group>"; };
-		02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCinyTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		02EE6D4718FA39A500E5A8D7 /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		02EE6D4F18FA3AA000E5A8D7 /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = ciny.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		02EE6D5018FA3AA000E5A8D7 /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ciny.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		02EE6D5718FA3AC700E5A8D7 /* CinyTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CinyTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02EE6D6B18FA416D00E5A8D7 /* libCinyTest.a in Frameworks */,
+				02EE6D6B18FA416D00E5A8D7 /* libcinytest.a in Frameworks */,
 				02EE6D5A18FA3AC700E5A8D7 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,7 +125,7 @@
 		02EE6D4818FA39A500E5A8D7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */,
+				02EE6D4718FA39A500E5A8D7 /* libcinytest.a */,
 				02EE6D5718FA3AC700E5A8D7 /* CinyTestTests.xctest */,
 			);
 			name = Products;
@@ -226,7 +226,7 @@
 			);
 			name = CinyTest;
 			productName = CinyTest;
-			productReference = 02EE6D4718FA39A500E5A8D7 /* libCinyTest.a */;
+			productReference = 02EE6D4718FA39A500E5A8D7 /* libcinytest.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		02EE6D5618FA3AC700E5A8D7 /* CinyTestTests */ = {
@@ -427,7 +427,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INSTALL_PATH = /lib;
+				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				PUBLIC_HEADERS_FOLDER_PATH = "/include/$(PRODUCT_NAME)";
 			};
 			name = Debug;
 		};
@@ -435,7 +437,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INSTALL_PATH = /lib;
+				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				PUBLIC_HEADERS_FOLDER_PATH = "/include/$(PRODUCT_NAME)";
 			};
 			name = Release;
 		};
