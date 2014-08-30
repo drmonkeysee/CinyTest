@@ -137,7 +137,7 @@ Running this program on the command line (assuming all tests pass) will output:
     [✔] - 'rectanglehypotenuse_calculateshypotenuse' success
     [✔] - 'rectangletostring_buildsrectanglestring' success
     Test suite 'main' completed at 2014-08-19 18:25:26
-    Ran 4 tests (0.000 seconds): 4 passed, 0 failed, 0 ignored.
+    Ran 4 tests (0 seconds): 4 passed, 0 failed, 0 ignored.
     ====-- CinyTest End --====
 
 For reference here is the Rectangle module definition used to run the example code and verify its correctness.
