@@ -31,7 +31,10 @@ static void teardown(void **context)
     free(*context);
 }
 
-#define gettree(context) (((struct bt_testcontext *)(context))->tree)
+static binarytree *gettree(void *context)
+{
+    return ((struct bt_testcontext *)context)->tree;
+}
 
 /////
 // Tests
@@ -66,9 +69,12 @@ static void btdepth_returnszero_ifemptytree(void *context)
 
 static void btinsert_doesnothing_iftreeisnull(void *context)
 {
-    bt_insert(NULL, 4);
+    binarytree **ref = NULL;
     
-    // nothing to assert
+    bt_insert(ref, 4);
+    
+    // nothing to assert so this is merely illustrative
+    ct_assertnull(ref);
 }
 
 static void btinsert_insertsvalue(void *context)
@@ -173,7 +179,61 @@ static void btcontains_returnsfalse_ifemptytree(void *context)
     ct_assertfalse(contains);
 }
 
-// TODO: bt_remove and bt_rebalance
+static void btremove_doesnothing_iftreeisnull(void *context)
+{
+    binarytree **ref = NULL;
+    
+    bt_remove(ref, 8);
+    
+    // nothing to assert so this is merely illustrative
+    ct_assertnull(ref);
+}
+
+static void btremove_doesnothing_iftreeisempty(void *context)
+{
+    binarytree *tree = gettree(context);
+    
+    bt_remove(&tree, 9);
+    
+    ct_asserttrue(bt_isempty(tree));
+}
+
+static void btremove_removesvalue(void *context)
+{
+    binarytree *tree = gettree(context);
+    int expected_value = 9;
+    bt_insert(&tree, expected_value);
+    
+    bt_remove(&tree, expected_value);
+    
+    ct_assertfalse(bt_contains(tree, expected_value));
+}
+
+static void btremove_removesvalue_ifamongothervalues(void *context)
+{
+    binarytree *tree = gettree(context);
+    int expected_value = 7;
+    bt_insert(&tree, 5);
+    bt_insert(&tree, 3);
+    bt_insert(&tree, 10);
+    bt_insert(&tree, expected_value);
+    bt_insert(&tree, 6);
+    
+    bt_remove(&tree, expected_value);
+    
+    ct_assertfalse(bt_contains(tree, expected_value));
+}
+
+static void btremove_supportszero(void *context)
+{
+    binarytree *tree = gettree(context);
+    int expected_value = 0;
+    bt_insert(&tree, expected_value);
+    
+    bt_remove(&tree, expected_value);
+    
+    ct_assertfalse(bt_contains(tree, expected_value));
+}
 
 static void btcreatewithvalues_createstree(void *context)
 {
@@ -208,6 +268,51 @@ static void btcreatewithvalues_insertsvaluesinorder(void *context)
     ct_assertequal(count, bt_depth(tree));
 }
 
+static void btrebalance_doesnothing_iftreeisnull(void *context)
+{
+    binarytree **ref = NULL;
+    
+    bt_rebalance(ref);
+    
+    // nothing to assert so this is merely illustrative
+    ct_assertnull(ref);
+}
+
+static void btrebalance_rebalancestree(void *context)
+{
+    // discard the tree created in setup
+    binarytree *tree = gettree(context);
+    bt_free(tree);
+    const size_t count = 10;
+    tree = bt_createwithvalues(count, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    // add new tree to test context so it gets cleaned up even if test fails
+    ((struct bt_testcontext *)context)->tree = tree;
+    ct_assertequal(count, bt_depth(tree));
+    
+    bt_rebalance(&tree);
+    
+    ct_assertequal(4u, bt_depth(tree));
+}
+
+static void btrebalance_doesnothing_ifemptytree(void *context)
+{
+    binarytree *tree = gettree(context);
+    
+    bt_rebalance(&tree);
+    
+    ct_asserttrue(bt_isempty(tree));
+}
+
+static void btrebalance_doesnothing_ifoneelementtree(void *context)
+{
+    binarytree *tree = gettree(context);
+    bt_insert(&tree, 12);
+    
+    bt_rebalance(&tree);
+    
+    ct_assertequal(1lu, bt_size(tree));
+}
+
 size_t binarytree_tests(void)
 {
     struct ct_testcase tests[] = {
@@ -227,8 +332,19 @@ size_t binarytree_tests(void)
         ct_maketest(btcontains_returnsfalse_ifvaluenotpresent),
         ct_maketest(btcontains_returnsfalse_ifemptytree),
         
+        ct_maketest(btremove_doesnothing_iftreeisnull),
+        ct_maketest(btremove_doesnothing_iftreeisempty),
+        ct_maketest(btremove_removesvalue),
+        ct_maketest(btremove_removesvalue_ifamongothervalues),
+        ct_maketest(btremove_supportszero),
+        
         ct_maketest(btcreatewithvalues_createstree),
-        ct_maketest(btcreatewithvalues_insertsvaluesinorder)
+        ct_maketest(btcreatewithvalues_insertsvaluesinorder),
+        
+        ct_maketest(btrebalance_doesnothing_iftreeisnull),
+        ct_maketest(btrebalance_rebalancestree),
+        ct_maketest(btrebalance_doesnothing_ifemptytree),
+        ct_maketest(btrebalance_doesnothing_ifoneelementtree)
     };
     struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup, teardown);
     
