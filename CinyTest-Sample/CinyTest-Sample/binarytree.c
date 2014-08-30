@@ -163,10 +163,9 @@ void bt_insert(binarytree **tree_ref, int value)
 
 void bt_remove(binarytree **tree_ref, int value)
 {
-    if (!tree_ref) return;
+    if (!tree_ref || !*tree_ref) return;
     
-    // TODO: can i move this
-    if (!*tree_ref || (*tree_ref)->value == value) {
+    if ((*tree_ref)->value == value) {
         bt_free(*tree_ref);
         *tree_ref = BT_EMPTY;
         return;
@@ -187,8 +186,7 @@ bool bt_contains(binarytree *tree, int value)
 
 void bt_rebalance(binarytree **tree_ref)
 {
-    // TODO: test for null ref
-    if (!*tree_ref) return;
+    if (!tree_ref || !*tree_ref) return;
     
     size_t size = bt_size(*tree_ref);
     struct bt_node *sorted_nodes[size];
