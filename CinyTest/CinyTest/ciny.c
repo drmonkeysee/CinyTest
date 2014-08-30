@@ -87,7 +87,7 @@ static void print_runfooter(const struct ct_testsuite *suite, time_t start_time,
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     double elapsed_time = difftime(end_time, start_time);
-    printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, ledger->passed, ledger->failed, ledger->ignored);
+    printf("Ran %zu tests (%.0f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, ledger->passed, ledger->failed, ledger->ignored);
     
     print_delimiter("End");
 }
