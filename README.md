@@ -1,6 +1,6 @@
 # CinyTest
 
-CinyTest is a simple, lightweight library providing an API to define and run unit tests in C.
+CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Features
 
@@ -19,11 +19,11 @@ Add make file
 
 ## Project Structure
 
-CinyTest consists of a header file and source file: **ciny.h** and **ciny.c**. To build and use CinyTest only these two files are needed. CinyTest was developed in Xcode and uses the project structure for that IDE, though a simple [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in [XCTest]. The notable parts of the repository are:
+CinyTest consists of a header file and source file: **ciny.h** and **ciny.c**. CinyTest was developed in Xcode and uses the project structure for that IDE, though a [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in [XCTest]. The notable parts of the repository are:
 
-- **CinyTest** - main project consisting of CinyTest code and [XCTest] unit tests. builds the library and runs the tests.
-- **CinyTest-Sample** - sample project illustrating the use of CinyTest to test a simple binary tree module.
-- **Documentation** - a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under the releases tab in GitHub.
+- **CinyTest**: main project consisting of CinyTest code and [XCTest] unit tests. builds the library and runs the tests.
+- **CinyTest-Sample**: sample project illustrating the use of CinyTest to test a binary tree module.
+- **Documentation**: a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under the releases tab in GitHub.
 
 ## Example
 
@@ -181,7 +181,7 @@ Many C test frameworks did not fit the bill; some required make files as part of
 
 CinyTest provides a straightforward and terse public API for writing unit tests in C. While CinyTest does not integrate *directly* into an IDE test framework (due to lack of tool support) it is trivial to include bare-bones driver code to hook into any test framework of choice while still maintaining all the actual test code in native C.
 
-In the sample code included in the CinyTest workspace, CinyTest is bootstrapped into [XCTest] using a very simple Objective-C test class. A similar approach would work for any other programming environment that can interoperate with C. In addition CinyTest could be run as a native C executable by defining and calling any test suites within a `main` function, which could then be built and run using whatever tool fits your needs. This approach is shown in the Example section of this document.
+In the sample code included in the CinyTest workspace, CinyTest is bootstrapped into [XCTest] using a small Objective-C test class. A similar approach would work for any other programming environment that can interoperate with C. In addition CinyTest could be run as a native C executable by defining and calling any test suites within a `main` function, which could then be built and run using whatever tool fits your needs. This approach is shown in the Example section of this document.
 
 ### Constraints and Assumptions
 
