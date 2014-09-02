@@ -282,7 +282,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *testcase, void *testcontext, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *testcase, void * restrict testcontext, size_t index, struct runledger *ledger)
 {
     if (!testcase->test) {
         ++ledger->ignored;
