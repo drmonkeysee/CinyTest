@@ -11,6 +11,7 @@
 
 #include <stddef.h>
 #include <limits.h>
+#include <stdint.h>
 
 /**
  @file
@@ -304,8 +305,8 @@ enum ct_valuetype_annotation {
  */
 struct ct_comparable_value {
     union {
-        long long integral_value;           /**< Access the value as a signed integral. */
-        unsigned long long uintegral_value; /**< Access the value as an unsigned integral. */
+        intmax_t integral_value;            /**< Access the value as a signed integral. */
+        uintmax_t uintegral_value;          /**< Access the value as an unsigned integral. */
         long double floating_value;         /**< Access the value as a floating point. */
         long double _Complex complex_value; /**< Access the value as a complex number. */
     };
@@ -365,7 +366,7 @@ _Generic(v, \
  @param value The widest possible expression of the signed integral value to be converted.
  @return A comparable value structure for the signed integral value.
  */
-inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long long value)
+inline struct ct_comparable_value ct_makevalue_integral(int placeholder, intmax_t value)
 {
     struct ct_comparable_value cv = { .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
     return cv;
@@ -376,7 +377,7 @@ inline struct ct_comparable_value ct_makevalue_integral(int placeholder, long lo
  @param value The widest possible expression of the unsigned integral value to be converted.
  @return A comparable value structure for the unsigned integral value.
  */
-inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, unsigned long long value)
+inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, uintmax_t value)
 {
     struct ct_comparable_value cv = { .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNEDINTEGRAL };
     return cv;
