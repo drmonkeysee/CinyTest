@@ -18,6 +18,12 @@
 #include "ciny.h"
 
 /////
+// Platform-specific Definitions
+/////
+
+long get_currentmsecs(void);
+
+/////
 // Type and Data Definitions
 /////
 
