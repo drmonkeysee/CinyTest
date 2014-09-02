@@ -27,12 +27,14 @@ static void equality_test(void *context)
         case TAT_INT:
         case TAT_LONG:
         case TAT_LONG_LONG:
+        case TAT_SMAX:
             switch (testObject.actualType) {
                 case TAT_SCHAR:
                 case TAT_SHORT:
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
+                case TAT_SMAX:
                     ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
@@ -41,6 +43,7 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
+                case TAT_UMAX:
                     ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
@@ -61,12 +64,14 @@ static void equality_test(void *context)
         case TAT_UINT:
         case TAT_ULONG:
         case TAT_ULONG_LONG:
+        case TAT_UMAX:
             switch (testObject.actualType) {
                 case TAT_SCHAR:
                 case TAT_SHORT:
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
+                case TAT_SMAX:
                     ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
@@ -75,6 +80,7 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
+                case TAT_UMAX:
                     ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
@@ -98,6 +104,7 @@ static void equality_test(void *context)
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
+                case TAT_SMAX:
                     ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
@@ -106,6 +113,7 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
+                case TAT_UMAX:
                     ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
@@ -129,6 +137,7 @@ static void equality_test(void *context)
                 case TAT_INT:
                 case TAT_LONG:
                 case TAT_LONG_LONG:
+                case TAT_SMAX:
                     ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
@@ -137,6 +146,7 @@ static void equality_test(void *context)
                 case TAT_UINT:
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
+                case TAT_UMAX:
                     ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
@@ -297,12 +307,40 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
+- (void)test_ctassertequal_ComparesEqual_IfMaxIntegralValue
+{
+    smx_values[ARG_EXPECTED] = INTMAX_MAX;
+    smx_values[ARG_ACTUAL] = INTMAX_MAX;
+    self.expectedType = TAT_SMAX;
+    self.actualType = TAT_SMAX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    successful_assertion_expected(run_result);
+}
+
 - (void)test_ctassertequal_ComparesEqual_IfSmallestIntegralValue
 {
     ll_values[ARG_EXPECTED] = LONG_LONG_MIN;
     ll_values[ARG_ACTUAL] = LONG_LONG_MIN;
     self.expectedType = TAT_LONG_LONG;
     self.actualType = TAT_LONG_LONG;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    successful_assertion_expected(run_result);
+}
+
+- (void)test_ctassertequal_ComparesEqual_IfMinIntegralValue
+{
+    smx_values[ARG_EXPECTED] = INTMAX_MIN;
+    smx_values[ARG_ACTUAL] = INTMAX_MIN;
+    self.expectedType = TAT_SMAX;
+    self.actualType = TAT_SMAX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
@@ -341,10 +379,10 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxIntegralValues
 {
-    ll_values[ARG_EXPECTED] = LONG_LONG_MIN;
-    ll_values[ARG_ACTUAL] = LONG_LONG_MAX;
-    self.expectedType = TAT_LONG_LONG;
-    self.actualType = TAT_LONG_LONG;
+    smx_values[ARG_EXPECTED] = INTMAX_MIN;
+    smx_values[ARG_ACTUAL] = INTMAX_MAX;
+    self.expectedType = TAT_SMAX;
+    self.actualType = TAT_SMAX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     
@@ -425,6 +463,20 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
+- (void)test_ctassertequal_ComparesEqual_IfMaxUnsignedIntegralValue
+{
+    umx_values[ARG_EXPECTED] = UINTMAX_MAX;
+    umx_values[ARG_ACTUAL] = UINTMAX_MAX;
+    self.expectedType = TAT_UMAX;
+    self.actualType = TAT_UMAX;
+    struct ct_testcase tests[] = { ct_maketest(equality_test) };
+    struct ct_testsuite suite = ct_makesuite(tests);
+    
+    size_t run_result = ct_runsuite(&suite);
+    
+    successful_assertion_expected(run_result);
+}
+
 - (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValues
 {
     ui_values[ARG_EXPECTED] = 560;
@@ -455,10 +507,10 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegralValues
 {
-    ull_values[ARG_EXPECTED] = 0;
-    ull_values[ARG_ACTUAL] = ULONG_LONG_MAX;
-    self.expectedType = TAT_ULONG_LONG;
-    self.actualType = TAT_ULONG_LONG;
+    umx_values[ARG_EXPECTED] = 0;
+    umx_values[ARG_ACTUAL] = UINTMAX_MAX;
+    self.expectedType = TAT_UMAX;
+    self.actualType = TAT_UMAX;
     struct ct_testcase tests[] = { ct_maketest(equality_test) };
     struct ct_testsuite suite = ct_makesuite(tests);
     

@@ -15,7 +15,14 @@
 #include <stdbool.h>
 #include <float.h>
 #include <math.h>
+#include <inttypes.h>
 #include "ciny.h"
+
+/////
+// Platform-specific Definitions
+/////
+
+uint64_t get_currentmsecs(void);
 
 /////
 // Type and Data Definitions
@@ -25,6 +32,7 @@
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 static const char IgnoredTestGlyph = '?';
+static const double MillisecondsPerSecond = 1000.0;
 
 #define COMPVALUE_STR_SIZE 75
 enum assert_type {
@@ -54,8 +62,8 @@ struct runledger {
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
-extern inline struct ct_comparable_value ct_makevalue_integral(int, long long);
-extern inline struct ct_comparable_value ct_makevalue_uintegral(int, unsigned long long);
+extern inline struct ct_comparable_value ct_makevalue_integral(int, intmax_t);
+extern inline struct ct_comparable_value ct_makevalue_uintegral(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
 extern inline struct ct_comparable_value ct_makevalue_complex(int, long double complex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
@@ -80,14 +88,13 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct runledger *ledger)
+static void print_runfooter(const struct ct_testsuite *suite, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_SIZE];
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
-    double elapsed_time = difftime(end_time, start_time);
-    printf("Ran %zu tests (%.0f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, ledger->passed, ledger->failed, ledger->ignored);
+    printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_msecs / MillisecondsPerSecond, ledger->passed, ledger->failed, ledger->ignored);
     
     print_delimiter("End");
 }
@@ -243,10 +250,10 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
     
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
-            write_count = snprintf(buffer, size, "%lld", value->integral_value);
+            write_count = snprintf(buffer, size, "%"PRIdMAX, value->integral_value);
             break;
         case CT_ANNOTATE_UNSIGNEDINTEGRAL:
-            write_count = snprintf(buffer, size, "%llu", value->uintegral_value);
+            write_count = snprintf(buffer, size, "%"PRIuMAX, value->uintegral_value);
             break;
         case CT_ANNOTATE_FLOATINGPOINT:
             write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floating_value);
@@ -275,7 +282,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *testcase, void *testcontext, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *testcase, void * restrict testcontext, size_t index, struct runledger *ledger)
 {
     if (!testcase->test) {
         ++ledger->ignored;
@@ -316,16 +323,16 @@ static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
-    time_t start_time = time(NULL);
-    print_runheader(suite, start_time);
+    uint64_t start_msecs = get_currentmsecs();
+    print_runheader(suite, time(NULL));
     
     struct runledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
         testsuite_run(suite, i, &ledger, &AssertState, AssertSignal);
     }
     
-    time_t end_time = time(NULL);
-    print_runfooter(suite, start_time, end_time, &ledger);
+    uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
+    print_runfooter(suite, time(NULL), elapsed_msecs, &ledger);
     
     return ledger.failed;
 }

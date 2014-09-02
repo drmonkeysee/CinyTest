@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_INT,
     TAT_LONG,
     TAT_LONG_LONG,
+    TAT_SMAX,
     
     TAT_BOOL,
     TAT_UCHAR,
@@ -30,6 +31,7 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_UINT,
     TAT_ULONG,
     TAT_ULONG_LONG,
+    TAT_UMAX,
     
     TAT_FLOAT,
     TAT_DOUBLE,
@@ -49,13 +51,15 @@ enum argument {
                                     : (T) == TAT_SHORT ? s_values[i] \
                                     : (T) == TAT_INT ? i_values[i] \
                                     : (T) == TAT_LONG ? l_values[i] \
-                                    : ll_values[i])
+                                    : (T) == TAT_LONG_LONG ? ll_values[i] \
+                                    : smx_values[i])
 #define get_uintegral_test_arg(T, i) ((T) == TAT_BOOL ? b_values[i] \
                                         : (T) == TAT_UCHAR ? uc_values[i] \
                                         : (T) == TAT_USHORT ? us_values[i] \
                                         : (T) == TAT_UINT ? ui_values[i] \
                                         : (T) == TAT_ULONG ? ul_values[i] \
-                                        : ull_values[i])
+                                        : (T) == TAT_ULONG_LONG ? ull_values[i] \
+                                        : umx_values[i])
 #define get_float_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
                                     : (T) == TAT_DOUBLE ? d_values[i] \
                                     : ld_values[i])
@@ -68,6 +72,7 @@ extern short s_values[2];
 extern int i_values[2];
 extern long l_values[2];
 extern long long ll_values[2];
+extern intmax_t smx_values[2];
 
 extern _Bool b_values[2];
 extern unsigned char uc_values[2];
@@ -75,6 +80,7 @@ extern unsigned short us_values[2];
 extern unsigned int ui_values[2];
 extern unsigned long ul_values[2];
 extern unsigned long long ull_values[2];
+extern uintmax_t umx_values[2];
 
 extern float f_values[2];
 extern double d_values[2];
