@@ -19,7 +19,7 @@ Add make file
 
 ## Project Structure
 
-CinyTest consists of a header file and source file: **ciny.h** and **ciny.c**. CinyTest was developed in Xcode and uses the project structure for that IDE, though a [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in [XCTest]. The notable parts of the repository are:
+CinyTest consists of a header file and two source files: **ciny.h**, **ciny.c**, and **ciny_posix.c**. CinyTest was developed in Xcode and uses the project structure for that IDE, though a [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in [XCTest]. The notable parts of the repository are:
 
 - **CinyTest**: main project consisting of CinyTest code and [XCTest] unit tests. builds the library and runs the tests.
 - **CinyTest-Sample**: sample project illustrating the use of CinyTest to test a binary tree module.
@@ -185,9 +185,11 @@ In the sample code included in the CinyTest workspace, CinyTest is bootstrapped 
 
 ### Constraints and Assumptions
 
-While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no vendor-specific compiler features and targeted the latest C language standard, C11. It uses C11 features that are, as of this writing, not widely available.
+While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no platform-specific compiler features and targeted the latest C language standard, C11.
 
-It was developed on Xcode 5 using [clang] and should work with any modern C11-compliant compiler. Currently that only includes [clang]. It *may* work with [gcc]. It will almost certainly not work with [cl.exe], nor does it make any effort to target other less common C compilers or embedded system compilers.
+I had to dive into platform-specific code in one case: OS X does not yet implement `timespec_get()` in **time.h** so I had to fall back to the POSIX function `gettimeofday()` in **sys/time.h** to get millisecond time resolution when measuring elapsed time of a test run. The platform functions are isolated to **ciny_posix.c** behind a standards-compliant interface declared in **ciny.c** (since they are not intended to be public functions). This makes it easy to include or exclude the file and allow a non-POSIX platform to provide its own definitions at build time.
+
+CinyTest uses C11 features that are, as of this writing, available largely on POSIX platforms only. It was developed on Xcode 5 using [clang] and should work with any modern C11-compliant compiler. Currently that includes [clang] and [gcc]. It will almost certainly not work with [cl.exe], nor does it make any effort to target other less common C compilers or embedded system compilers.
 
 CinyTest relies on the following C11 features:
 
@@ -205,6 +207,7 @@ CinyTest's header includes (and is dependent upon) the following standard librar
 
 - `stddef.h`
 - `limits.h`
+- `stdint.h`
 
 ### How do I pronounce CinyTest?
 
