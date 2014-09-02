@@ -121,8 +121,8 @@ ct_makesuite_setup_teardown_named(__func__, \
  @param teardown The teardown function. Runs after each test case. Can be NULL.
  @return A test suite.
  */
-inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
-                                             struct ct_testcase tests[],
+inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict name,
+                                             struct ct_testcase tests[restrict],
                                              size_t count,
                                              ct_setupteardown_function setup,
                                              ct_setupteardown_function teardown)
@@ -431,7 +431,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  @param format The printf-style format string to display when the test is ignored.
  @param format_args Format arguments for the format string.
  */
-_Noreturn void ct_internal_ignore(const char *, ...);
+_Noreturn void ct_internal_ignore(const char * restrict, ...);
 
 /**
  Assert failure unconditionally with contextual details and message.
@@ -442,7 +442,7 @@ _Noreturn void ct_internal_ignore(const char *, ...);
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-_Noreturn void ct_internal_assertfail(const char *, int, const char *, ...);
+_Noreturn void ct_internal_assertfail(const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is true, with contextual details and message.
@@ -455,7 +455,7 @@ _Noreturn void ct_internal_assertfail(const char *, int, const char *, ...);
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_asserttrue(_Bool, const char *, const char *, int, const char *, ...);
+void ct_internal_asserttrue(_Bool, const char * restrict, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is false, with contextual details and message.
@@ -468,7 +468,7 @@ void ct_internal_asserttrue(_Bool, const char *, const char *, int, const char *
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertfalse(_Bool, const char *, const char *, int, const char *, ...);
+void ct_internal_assertfalse(_Bool, const char * restrict, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is NULL, with contextual details and message.
@@ -481,7 +481,7 @@ void ct_internal_assertfalse(_Bool, const char *, const char *, int, const char 
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnull(const void *, const char *, const char *, int, const char *, ...);
+void ct_internal_assertnull(const void * restrict, const char * restrict, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is not NULL, with contextual details and message.
@@ -494,7 +494,7 @@ void ct_internal_assertnull(const void *, const char *, const char *, int, const
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotnull(const void *, const char *, const char *, int, const char *, ...);
+void ct_internal_assertnotnull(const void * restrict, const char * restrict, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two values are equal, with contextual details and message.
@@ -509,7 +509,7 @@ void ct_internal_assertnotnull(const void *, const char *, const char *, int, co
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
+void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two values are not equal, with contextual details and message.
@@ -524,7 +524,7 @@ void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char *, int, const char *, ...);
+void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two values are equal within plus or minus a degree of error, with contextual details and message.
@@ -540,7 +540,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertaboutequal(long double, const char *, long double, const char *, long double, const char *, int, const char *, ...);
+void ct_internal_assertaboutequal(long double, const char *, long double, const char *, long double, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two values are not equal within plus or minus a degree of error, with contextual details and message.
@@ -556,7 +556,7 @@ void ct_internal_assertaboutequal(long double, const char *, long double, const 
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotaboutequal(long double, const char *, long double, const char *, long double, const char *, int, const char *, ...);
+void ct_internal_assertnotaboutequal(long double, const char *, long double, const char *, long double, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two pointers refer to the same object, with contextual details and message.
@@ -571,7 +571,7 @@ void ct_internal_assertnotaboutequal(long double, const char *, long double, con
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertsame(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
+void ct_internal_assertsame(const void *, const char *, const void *, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two pointers refer to different objects, with contextual details and message.
@@ -586,7 +586,7 @@ void ct_internal_assertsame(const void *, const char *, const void *, const char
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotsame(const void *, const char *, const void *, const char *, const char *, int, const char *, ...);
+void ct_internal_assertnotsame(const void *, const char *, const void *, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two strings are equal, with contextual details and message.
@@ -603,7 +603,7 @@ void ct_internal_assertnotsame(const void *, const char *, const void *, const c
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertequalstrn(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
+void ct_internal_assertequalstrn(const char *, const char *, const char *, const char *, size_t, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two strings are not equal, with contextual details and message.
@@ -620,7 +620,7 @@ void ct_internal_assertequalstrn(const char *, const char *, const char *, const
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotequalstrn(const char *, const char *, const char *, const char *, size_t, const char *, int, const char *, ...);
+void ct_internal_assertnotequalstrn(const char *, const char *, const char *, const char *, size_t, const char * restrict, int, const char * restrict, ...);
 
 /**
  @}
