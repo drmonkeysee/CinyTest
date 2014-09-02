@@ -323,18 +323,16 @@ static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
-    time_t start_time = time(NULL);
     uint64_t start_msecs = get_currentmsecs();
-    print_runheader(suite, start_time);
+    print_runheader(suite, time(NULL));
     
     struct runledger ledger = { 0, 0, 0 };
     for (size_t i = 0; i < suite->count; ++i) {
         testsuite_run(suite, i, &ledger, &AssertState, AssertSignal);
     }
     
-    time_t end_time = time(NULL);
     uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
-    print_runfooter(suite, end_time, elapsed_msecs, &ledger);
+    print_runfooter(suite, time(NULL), elapsed_msecs, &ledger);
     
     return ledger.failed;
 }
