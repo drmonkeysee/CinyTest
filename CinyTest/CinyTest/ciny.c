@@ -15,7 +15,7 @@
 #include <stdbool.h>
 #include <float.h>
 #include <math.h>
-#include <stdint.h>
+#include <inttypes.h>
 #include "ciny.h"
 
 /////
@@ -62,8 +62,8 @@ struct runledger {
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
-extern inline struct ct_comparable_value ct_makevalue_integral(int, long long);
-extern inline struct ct_comparable_value ct_makevalue_uintegral(int, unsigned long long);
+extern inline struct ct_comparable_value ct_makevalue_integral(int, intmax_t);
+extern inline struct ct_comparable_value ct_makevalue_uintegral(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
 extern inline struct ct_comparable_value ct_makevalue_complex(int, long double complex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
@@ -250,10 +250,10 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
     
     switch (value->type) {
         case CT_ANNOTATE_INTEGRAL:
-            write_count = snprintf(buffer, size, "%lld", value->integral_value);
+            write_count = snprintf(buffer, size, "%"PRIdMAX, value->integral_value);
             break;
         case CT_ANNOTATE_UNSIGNEDINTEGRAL:
-            write_count = snprintf(buffer, size, "%llu", value->uintegral_value);
+            write_count = snprintf(buffer, size, "%"PRIuMAX, value->uintegral_value);
             break;
         case CT_ANNOTATE_FLOATINGPOINT:
             write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floating_value);
