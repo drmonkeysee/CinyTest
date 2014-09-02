@@ -37,6 +37,7 @@
 		02EE6D5A18FA3AC700E5A8D7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D5918FA3AC700E5A8D7 /* XCTest.framework */; };
 		02EE6D6018FA3AC700E5A8D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02EE6D5E18FA3AC700E5A8D7 /* InfoPlist.strings */; };
 		02EE6D6B18FA416D00E5A8D7 /* libcinytest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D4718FA39A500E5A8D7 /* libcinytest.a */; };
+		02F73C9D19B564CC0026A57C /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 02F73C9C19B564CC0026A57C /* ciny_posix.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		02EE6D5D18FA3AC700E5A8D7 /* CinyTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CinyTestTests-Info.plist"; sourceTree = "<group>"; };
 		02EE6D5F18FA3AC700E5A8D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		02EE6D6318FA3AC700E5A8D7 /* CinyTestTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTestTests-Prefix.pch"; sourceTree = "<group>"; };
+		02F73C9C19B564CC0026A57C /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 			children = (
 				02EE6D5018FA3AA000E5A8D7 /* ciny.h */,
 				02EE6D4F18FA3AA000E5A8D7 /* ciny.c */,
+				02F73C9C19B564CC0026A57C /* ciny_posix.c */,
 			);
 			path = CinyTest;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02F73C9D19B564CC0026A57C /* ciny_posix.c in Sources */,
 				02EE6D5118FA3AA000E5A8D7 /* ciny.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
