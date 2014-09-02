@@ -15,13 +15,14 @@
 #include <stdbool.h>
 #include <float.h>
 #include <math.h>
+#include <stdint.h>
 #include "ciny.h"
 
 /////
 // Platform-specific Definitions
 /////
 
-long get_currentmsecs(void);
+uint64_t get_currentmsecs(void);
 
 /////
 // Type and Data Definitions
@@ -31,6 +32,7 @@ long get_currentmsecs(void);
 static const char * const DateFormatString = "%F %T";
 static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 static const char IgnoredTestGlyph = '?';
+static const double MillisecondsPerSecond = 1000.0;
 
 #define COMPVALUE_STR_SIZE 75
 enum assert_type {
@@ -86,14 +88,13 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, const struct runledger *ledger)
+static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_SIZE];
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
-    double elapsed_time = difftime(end_time, start_time);
-    printf("Ran %zu tests (%.0f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_time, ledger->passed, ledger->failed, ledger->ignored);
+    printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_msecs / MillisecondsPerSecond, ledger->passed, ledger->failed, ledger->ignored);
     
     print_delimiter("End");
 }
@@ -323,6 +324,7 @@ static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     time_t start_time = time(NULL);
+    uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, start_time);
     
     struct runledger ledger = { 0, 0, 0 };
@@ -331,7 +333,8 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     }
     
     time_t end_time = time(NULL);
-    print_runfooter(suite, start_time, end_time, &ledger);
+    uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
+    print_runfooter(suite, start_time, end_time, elapsed_msecs, &ledger);
     
     return ledger.failed;
 }
