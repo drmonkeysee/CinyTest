@@ -134,7 +134,7 @@ static void assertstate_reset(struct assertstate *assert_state)
     assert_state->message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+static void assertstate_handlefailure(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->failed;
     printf("[\u2718] - '%s' failure\n", testname);
@@ -142,14 +142,14 @@ static void assertstate_handlefailure(const struct assertstate *assert_state, co
     print_linemessage(assert_state->message);
 }
 
-static void assertstate_handleignore(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+static void assertstate_handleignore(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->ignored;
     printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
     print_linemessage(assert_state->message);
 }
 
-static void assertstate_handle(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+static void assertstate_handle(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     switch (assert_state->type) {
         case ASSERT_FAILURE:
@@ -164,7 +164,7 @@ static void assertstate_handle(const struct assertstate *assert_state, const cha
     }
 }
 
-static void assertstate_setdescription(struct assertstate *assert_state, const char *format, ...)
+static void assertstate_setdescription(struct assertstate * restrict assert_state, const char * restrict format, ...)
 {
     const size_t description_size = sizeof assert_state->description;
     va_list format_args;
@@ -184,7 +184,7 @@ do { \
     assertstate_setvmessage(&assert_state, format, format_args); \
     va_end(format_args); \
 } while (false)
-static void assertstate_setvmessage(struct assertstate *assert_state, const char *format, va_list format_args)
+static void assertstate_setvmessage(struct assertstate *assert_state, const char * restrict format, va_list format_args)
 {
     const size_t message_size = sizeof assert_state->message;
     int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
@@ -244,7 +244,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value *expec
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value *value, char *buffer, size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value *value, char * restrict buffer, size_t size)
 {
     int write_count = 0;
     
