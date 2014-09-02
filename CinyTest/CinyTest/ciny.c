@@ -88,7 +88,7 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, time_t start_time, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
+static void print_runfooter(const struct ct_testsuite *suite, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_SIZE];
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
@@ -334,7 +334,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     
     time_t end_time = time(NULL);
     uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
-    print_runfooter(suite, start_time, end_time, elapsed_msecs, &ledger);
+    print_runfooter(suite, end_time, elapsed_msecs, &ledger);
     
     return ledger.failed;
 }
