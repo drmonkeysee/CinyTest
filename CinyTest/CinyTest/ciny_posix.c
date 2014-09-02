@@ -19,9 +19,7 @@ static const uint64_t NanosecondsPerMillisecond = 1000000;
 uint64_t get_currentmsecs(void)
 {
     struct timeval vtime;
-    if (gettimeofday(&vtime, NULL) != 0) {
-        return 0;
-    }
+    gettimeofday(&vtime, NULL);
     
     // proxy through the C11 timespec type so returned value is standards compliant
     struct timespec time = { vtime.tv_sec, vtime.tv_usec * NanosecondsPerMicrosecond };
