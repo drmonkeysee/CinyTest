@@ -122,7 +122,7 @@ ct_makesuite_setup_teardown_named(__func__, \
  @return A test suite.
  */
 inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict name,
-                                             struct ct_testcase tests[restrict],
+                                             struct ct_testcase tests[],
                                              size_t count,
                                              ct_setupteardown_function setup,
                                              ct_setupteardown_function teardown)

@@ -61,7 +61,7 @@ struct runledger {
 /////
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, struct ct_testcase[restrict], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline struct ct_comparable_value ct_makevalue_integral(int, intmax_t);
 extern inline struct ct_comparable_value ct_makevalue_uintegral(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
@@ -184,7 +184,7 @@ do { \
     assertstate_setvmessage(&assert_state, format, format_args); \
     va_end(format_args); \
 } while (false)
-static void assertstate_setvmessage(struct assertstate *assert_state, const char * restrict format, va_list format_args)
+static void assertstate_setvmessage(struct assertstate * restrict assert_state, const char * restrict format, va_list format_args)
 {
     const size_t message_size = sizeof assert_state->message;
     int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
