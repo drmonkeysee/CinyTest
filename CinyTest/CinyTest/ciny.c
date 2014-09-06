@@ -61,7 +61,7 @@ struct runledger {
 /////
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline struct ct_comparable_value ct_makevalue_integral(int, intmax_t);
 extern inline struct ct_comparable_value ct_makevalue_uintegral(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
@@ -134,7 +134,7 @@ static void assertstate_reset(struct assertstate *assert_state)
     assert_state->message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+static void assertstate_handlefailure(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->failed;
     printf("[\u2718] - '%s' failure\n", testname);
@@ -142,14 +142,14 @@ static void assertstate_handlefailure(const struct assertstate *assert_state, co
     print_linemessage(assert_state->message);
 }
 
-static void assertstate_handleignore(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+static void assertstate_handleignore(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->ignored;
     printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
     print_linemessage(assert_state->message);
 }
 
-static void assertstate_handle(const struct assertstate *assert_state, const char *testname, struct runledger *ledger)
+static void assertstate_handle(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     switch (assert_state->type) {
         case ASSERT_FAILURE:
@@ -164,7 +164,7 @@ static void assertstate_handle(const struct assertstate *assert_state, const cha
     }
 }
 
-static void assertstate_setdescription(struct assertstate *assert_state, const char *format, ...)
+static void assertstate_setdescription(struct assertstate * restrict assert_state, const char * restrict format, ...)
 {
     const size_t description_size = sizeof assert_state->description;
     va_list format_args;
@@ -184,7 +184,7 @@ do { \
     assertstate_setvmessage(&assert_state, format, format_args); \
     va_end(format_args); \
 } while (false)
-static void assertstate_setvmessage(struct assertstate *assert_state, const char *format, va_list format_args)
+static void assertstate_setvmessage(struct assertstate * restrict assert_state, const char * restrict format, va_list format_args)
 {
     const size_t message_size = sizeof assert_state->message;
     int write_count = vsnprintf(assert_state->message, message_size, format, format_args);
@@ -244,7 +244,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value *expec
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value *value, char *buffer, size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value *value, char * restrict buffer, size_t size)
 {
     int write_count = 0;
     
@@ -337,18 +337,18 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     return ledger.failed;
 }
 
-_Noreturn void ct_internal_ignore(const char *format, ...)
+_Noreturn void ct_internal_ignore(const char * restrict format, ...)
 {
     assertstate_raise_signal(AssertState, ASSERT_IGNORE, AssertSignal, NULL, 0, format);
 }
 
-_Noreturn void ct_internal_assertfail(const char *file, int line, const char *format, ...)
+_Noreturn void ct_internal_assertfail(const char * restrict file, int line, const char * restrict format, ...)
 {
     assertstate_setdescription(&AssertState, "%s", "asserted unconditional failure");
     assertstate_raise_signal(AssertState, ASSERT_FAILURE, AssertSignal, file, line, format);
 }
 
-void ct_internal_asserttrue(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_internal_asserttrue(bool expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (!expression) {
         assertstate_setdescription(&AssertState, "(%s) is true failed", stringized_expression);
@@ -356,7 +356,7 @@ void ct_internal_asserttrue(bool expression, const char *stringized_expression, 
     }
 }
 
-void ct_internal_assertfalse(bool expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_internal_assertfalse(bool expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (expression) {
         assertstate_setdescription(&AssertState, "(%s) is false failed", stringized_expression);
@@ -364,7 +364,7 @@ void ct_internal_assertfalse(bool expression, const char *stringized_expression,
     }
 }
 
-void ct_internal_assertnull(const void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_internal_assertnull(const void * restrict expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (expression) {
         assertstate_setdescription(&AssertState, "(%s) is NULL failed: (%p)", stringized_expression, expression);
@@ -372,7 +372,7 @@ void ct_internal_assertnull(const void *expression, const char *stringized_expre
     }
 }
 
-void ct_internal_assertnotnull(const void *expression, const char *stringized_expression, const char *file, int line, const char *format, ...)
+void ct_internal_assertnotnull(const void * restrict expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (!expression) {
         assertstate_setdescription(&AssertState, "(%s) is not NULL failed", stringized_expression);
@@ -380,7 +380,7 @@ void ct_internal_assertnotnull(const void *expression, const char *stringized_ex
     }
 }
 
-void ct_internal_assertequal(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+void ct_internal_assertequal(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
 {
     bool failed_assert = false;
     if (!comparable_value_equaltypes(&expected, &actual)) {
@@ -400,7 +400,7 @@ void ct_internal_assertequal(struct ct_comparable_value expected, const char *st
     }
 }
 
-void ct_internal_assertnotequal(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+void ct_internal_assertnotequal(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
 {
     bool failed_assert = false;
     if (!comparable_value_equaltypes(&expected, &actual)) {
@@ -418,7 +418,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value expected, const char 
     }
 }
 
-void ct_internal_assertaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char *file, int line, const char *format, ...)
+void ct_internal_assertaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char * restrict file, int line, const char * restrict format, ...)
 {
     long double diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
@@ -428,7 +428,7 @@ void ct_internal_assertaboutequal(long double expected, const char *stringized_e
     }
 }
 
-void ct_internal_assertnotaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char *file, int line, const char *format, ...)
+void ct_internal_assertnotaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char * restrict file, int line, const char * restrict format, ...)
 {
     long double diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
@@ -438,7 +438,7 @@ void ct_internal_assertnotaboutequal(long double expected, const char *stringize
     }
 }
 
-void ct_internal_assertsame(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+void ct_internal_assertsame(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (expected != actual) {
         assertstate_setdescription(&AssertState, "(%s) is not the same as (%s): expected (%p), actual (%p)", stringized_expected, stringized_actual, expected, actual);
@@ -446,7 +446,7 @@ void ct_internal_assertsame(const void *expected, const char *stringized_expecte
     }
 }
 
-void ct_internal_assertnotsame(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char *file, int line, const char *format, ...)
+void ct_internal_assertnotsame(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (expected == actual) {
         assertstate_setdescription(&AssertState, "(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, expected);
@@ -454,7 +454,7 @@ void ct_internal_assertnotsame(const void *expected, const char *stringized_expe
     }
 }
 
-void ct_internal_assertequalstrn(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char *file, int line, const char *format, ...)
+void ct_internal_assertequalstrn(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char * restrict file, int line, const char * restrict format, ...)
 {
     if ((expected && !actual) || (!expected && actual)
         || (expected && actual && (strncmp(expected, actual, n) != 0))) {
@@ -472,7 +472,7 @@ void ct_internal_assertequalstrn(const char *expected, const char *stringized_ex
     }
 }
 
-void ct_internal_assertnotequalstrn(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char *file, int line, const char *format, ...)
+void ct_internal_assertnotequalstrn(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char * restrict file, int line, const char * restrict format, ...)
 {
     if ((!expected && !actual) || (expected && actual && (strncmp(expected, actual, n) == 0))) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
