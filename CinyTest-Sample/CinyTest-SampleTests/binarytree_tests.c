@@ -18,22 +18,22 @@ struct bt_testcontext {
     binarytree *tree;
 };
 
-static void setup(void **context)
-{
-    struct bt_testcontext *bt_context = malloc(sizeof *bt_context);
-    bt_context->tree = bt_create();
-    *context = bt_context;
-}
-
-static void teardown(void **context)
-{
-    bt_free(((struct bt_testcontext *)*context)->tree);
-    free(*context);
-}
-
 static binarytree *gettree(void *context)
 {
     return ((struct bt_testcontext *)context)->tree;
+}
+
+static void setup(void **contextref)
+{
+    struct bt_testcontext *bt_context = malloc(sizeof *bt_context);
+    bt_context->tree = bt_create();
+    *contextref = bt_context;
+}
+
+static void teardown(void **contextref)
+{
+    bt_free(gettree(*contextref));
+    free(*contextref);
 }
 
 /////

@@ -33,7 +33,7 @@ typedef void (*ct_test_function)(void *);
 
 /**
  Type definition for a unit test setup or teardown function.
- @param context Pointer to a test context for initialization or destruction.
+ @param contextref Pointer to a test context for initialization or destruction.
  The test context will be passed to all unit tests for a given suite.
  */
 typedef void (*ct_setupteardown_function)(void **);

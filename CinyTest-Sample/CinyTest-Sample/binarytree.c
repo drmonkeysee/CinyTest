@@ -148,30 +148,30 @@ bool bt_isempty(binarytree *tree)
     return tree == BT_EMPTY;
 }
 
-void bt_insert(binarytree **tree_ref, int value)
+void bt_insert(binarytree **treeref, int value)
 {
-    if (!tree_ref) return;
+    if (!treeref) return;
     
-    if (!*tree_ref) {
-        *tree_ref = make_node(value);
-    } else if ((*tree_ref)->value > value) {
-        bt_insert(&(*tree_ref)->left, value);
-    } else if ((*tree_ref)->value < value) {
-        bt_insert(&(*tree_ref)->right, value);
+    if (!*treeref) {
+        *treeref = make_node(value);
+    } else if ((*treeref)->value > value) {
+        bt_insert(&(*treeref)->left, value);
+    } else if ((*treeref)->value < value) {
+        bt_insert(&(*treeref)->right, value);
     }
 }
 
-void bt_remove(binarytree **tree_ref, int value)
+void bt_remove(binarytree **treeref, int value)
 {
-    if (!tree_ref || !*tree_ref) return;
+    if (!treeref || !*treeref) return;
     
-    if ((*tree_ref)->value == value) {
-        bt_free(*tree_ref);
-        *tree_ref = BT_EMPTY;
+    if ((*treeref)->value == value) {
+        bt_free(*treeref);
+        *treeref = BT_EMPTY;
         return;
     }
     
-    remove_node(*tree_ref, value);
+    remove_node(*treeref, value);
 }
 
 bool bt_contains(binarytree *tree, int value)
@@ -184,19 +184,19 @@ bool bt_contains(binarytree *tree, int value)
     return *child_ref != BT_EMPTY;
 }
 
-void bt_rebalance(binarytree **tree_ref)
+void bt_rebalance(binarytree **treeref)
 {
-    if (!tree_ref || !*tree_ref) return;
+    if (!treeref || !*treeref) return;
     
-    size_t size = bt_size(*tree_ref);
+    size_t size = bt_size(*treeref);
     struct bt_node *sorted_nodes[size];
     
     ptrdiff_t start = 0;
     ptrdiff_t end = size - 1;
     ptrdiff_t current_index = start;
-    inline_tree(*tree_ref, sorted_nodes, &current_index);
+    inline_tree(*treeref, sorted_nodes, &current_index);
     
-    *tree_ref = rebalance_node(sorted_nodes, start, end);
+    *treeref = rebalance_node(sorted_nodes, start, end);
 }
 
 size_t bt_size(binarytree *tree)
