@@ -299,7 +299,7 @@ static void testcase_run(const struct ct_testcase *testcase, void * restrict tes
 static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct runledger *ledger, struct assertstate *assert_state, jmp_buf assert_signal)
 {
     assertstate_reset(assert_state);
-    struct ct_testcase *current_test = &suite->tests[index];
+    const struct ct_testcase *current_test = &suite->tests[index];
     
     void *testcontext = NULL;
     if (suite->setup) {
