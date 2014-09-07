@@ -324,8 +324,8 @@ static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct
 
 size_t ct_runsuite(const struct ct_testsuite *suite)
 {
-    if (!suite) {
-        fprintf(stderr, "NULL test suite detected! No tests run.\n");
+    if (!suite || !suite->tests) {
+        fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
         return INVALID_SUITE;
     }
     

@@ -100,8 +100,7 @@ struct ct_testsuite {
  Make a test suite with a setup and teardown function.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list should be an array lvalue
- to prevent multiple-evaluation side-effects.
+ The size of the test array is calculated inline so test_list must be an array lvalue.
  @param setup_function The setup function. Runs before each test case.
  @param teardown_function The teardown function. Runs after each test case.
  @return A test suite.
@@ -109,7 +108,7 @@ struct ct_testsuite {
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
 ct_makesuite_setup_teardown_named(__func__, \
                                     test_list, \
-                                    ((test_list) ? (sizeof (test_list) / sizeof (test_list)[0]) : 0), \
+                                    (sizeof (test_list) / sizeof (test_list)[0]), \
                                     setup_function, \
                                     teardown_function)
 /**

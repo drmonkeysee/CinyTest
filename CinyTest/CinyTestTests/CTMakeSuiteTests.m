@@ -73,7 +73,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(0, testsuite.count);
+    XCTAssertEqual(sizeof NULL, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -103,7 +103,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(0, testsuite.count);
+    XCTAssertEqual(sizeof NULL, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -134,7 +134,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(0, testsuite.count);
+    XCTAssertEqual(sizeof NULL, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
