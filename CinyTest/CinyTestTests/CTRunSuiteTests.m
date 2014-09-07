@@ -98,6 +98,13 @@ static void test_teardown(void **context)
     [super tearDown];
 }
 
+- (void)test_ctrunsuite_ReturnsZero_IfNullSuite
+{
+    size_t run_result = ct_runsuite(NULL);
+    
+    XCTAssertEqual(0, run_result);
+}
+
 - (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
 {
     struct ct_testsuite suite = ct_makesuite(NULL);
