@@ -79,7 +79,7 @@ static void print_tree(struct bt_node *tree, int indent, char label)
     for (int indent_count = indent; indent_count > 0; --indent_count) {
         printf("\t");
     }
-    printf("%c%d\n", label, tree->value);
+    printf("%c(%d)\n", label, tree->value);
     print_tree(tree->left, indent + 1, 'L');
     print_tree(tree->right, indent + 1, 'R');
 }
