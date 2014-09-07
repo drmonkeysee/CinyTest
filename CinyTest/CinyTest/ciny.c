@@ -29,8 +29,8 @@ uint64_t get_currentmsecs(void);
 /////
 
 #define DATE_FORMAT_SIZE 30
-static const char * const DateFormatString = "%F %T";
-static const char * const InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
+static const char * const restrict DateFormatString = "%F %T";
+static const char * const restrict InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 static const char IgnoredTestGlyph = '?';
 static const double MillisecondsPerSecond = 1000.0;
 
@@ -108,7 +108,7 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(char *str, size_t size)
 {
-    static const char * const ellipsis = "\u2026";
+    static const char * const restrict ellipsis = "\u2026";
     const size_t ellipsis_length = strlen(ellipsis);
     ptrdiff_t truncation_index = size - 1 - ellipsis_length;
     
