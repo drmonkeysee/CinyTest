@@ -7,9 +7,9 @@ INC_DIR = $(BUILD_DIR)/include/cinytest
 CC = gcc
 CFLAGS = -Wall -Os -std=c11 -I$(SOURCE_DIR)
 
-HEADER_FILES = $(SOURCE_DIR)/*.h
-SOURCE_FILES = $(SOURCE_DIR)/*.c
-OBJ_FILES = $(OBJ_DIR)/*.o
+HEADER_FILES = $(SOURCE_DIR)/ciny.h
+SOURCE_FILES = $(SOURCE_DIR)/ciny.c $(SOURCE_DIR)/ciny_posix.c
+OBJ_FILES = $(OBJ_DIR)/ciny.o $(OBJ_DIR)/ciny_posix.o
 LIB_FILE = libcinytest.a
 
 $(OBJ_DIR)/%.o: $(SOURCE_DIR)/%.c $(HEADER_FILES)
