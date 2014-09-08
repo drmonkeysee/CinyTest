@@ -5,7 +5,7 @@ LIB_DIR = $(BUILD_DIR)/lib
 INC_DIR = $(BUILD_DIR)/include/cinytest
 
 CC = gcc
-CFLAGS = -Wall -pedantic -Os -std=c11 -I$(SOURCE_DIR)
+CFLAGS = -Wall -Os -std=c11 -I$(SOURCE_DIR)
 
 HEADER_FILES = $(SOURCE_DIR)/*.h
 SOURCE_FILES = $(SOURCE_DIR)/*.c
