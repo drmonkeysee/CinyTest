@@ -81,8 +81,7 @@ struct ct_testsuite {
  Make a test suite for the list of tests.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list should be an array lvalue
- to prevent multiple-evaluation side-effects.
+ The size of the test array is calculated inline so test_list must be an array lvalue.
  @return A test suite.
  */
 #define ct_makesuite(test_list) ct_makesuite_setup(test_list, NULL)
@@ -90,8 +89,7 @@ struct ct_testsuite {
  Make a test suite with a setup function.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list should be an array lvalue
- to prevent multiple-evaluation side-effects.
+ The size of the test array is calculated inline so test_list must be an array lvalue.
  @param setup_function The setup function. Runs before each test case.
  @return A test suite.
  */
@@ -178,7 +176,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite);
 /**
  Assert whether two values are equal.
  Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
- @see ct_assertequalp for pointer equality.
+ @see ct_assertsame for pointer equality.
  @see ct_assertequalstr for string equality.
  @param expected The expected value.
  @param actual The actual value.
@@ -193,8 +191,8 @@ do { \
 /**
  Assert whether two values are not equal.
  Compares any two basic value types but does not handle pointers, structs, unions, arrays, or function pointers.
- @see ct_assertequalp for pointer equality.
- @see ct_assertequalstr for string equality.
+ @see ct_assertnotsame for pointer equality.
+ @see ct_assertnotequalstr for string equality.
  @param expected The expected value.
  @param actual The actual value.
  @param message A printf-style format string literal with optional arguments to display when the assertion fails.
@@ -207,7 +205,7 @@ do { \
 } while (0)
 
 /**
- Assert whether two values are equal within plus or minus a degree of error.
+ Assert whether two floating point values are equal within plus or minus a degree of error.
  @param expected The expected value.
  @param actual The actual value.
  @param precision The range of precision within which expected and actual may be considered equal.
@@ -215,7 +213,7 @@ do { \
  */
 #define ct_assertaboutequal(expected, actual, precision, ...) ct_internal_assertaboutequal(expected, #expected, actual, #actual, precision, __FILE__, __LINE__, "" __VA_ARGS__)
 /**
- Assert whether two values are not equal within plus or minus a degree of error.
+ Assert whether two floating point values are not equal within plus or minus a degree of error.
  @param expected The expected value.
  @param actual The actual value.
  @param precision The range of precision within which expected and actual may be considered not equal.
@@ -248,7 +246,7 @@ do { \
 #define ct_assertequalstr(expected, actual, ...) ct_internal_assertequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are equal.
- Compares up to length characters for equality.
+ Compares up to n characters for equality.
  @param expected The expected string.
  @param actual The actual string.
  @param n The maximum number of characters to compare for equality. Must not be greater than the size of expected.
@@ -265,7 +263,7 @@ do { \
 #define ct_assertnotequalstr(expected, actual, ...) ct_internal_assertnotequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, "" __VA_ARGS__);
 /**
  Assert whether two strings are not equal.
- Compares up to length characters for inequality.
+ Compares up to n characters for inequality.
  @param expected The expected string.
  @param actual The actual string.
  @param n The maximum number of characters to compare for inequality. Must not be greater than the size of expected.
@@ -281,7 +279,7 @@ do { \
  @defgroup internal Internal types and functions
  Implementation details of CinyTest.
  These functions provide a greater degree of control over how assertion comparisons are
- defined and displayed. They are not intended for direct use over the public API and are may
+ defined and displayed. They are not intended for direct use over the public API and may
  change in the future without revving the major version. Regardless, full documentation is provided
  since they are defined in the public header and as long as all parameter constraints are observed
  these functions are safe to use.
@@ -526,7 +524,7 @@ void ct_internal_assertequal(struct ct_comparable_value, const char *, struct ct
 void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct ct_comparable_value, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
- Assert whether two values are equal within plus or minus a degree of error, with contextual details and message.
+ Assert whether two floating point values are equal within plus or minus a degree of error, with contextual details and message.
  Intended for internal use only.
  @see ct_assertaboutequal
  @param expected The expected value.
@@ -542,7 +540,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value, const char *, struct
 void ct_internal_assertaboutequal(long double, const char *, long double, const char *, long double, const char * restrict, int, const char * restrict, ...);
 
 /**
- Assert whether two values are not equal within plus or minus a degree of error, with contextual details and message.
+ Assert whether two floating point values are not equal within plus or minus a degree of error, with contextual details and message.
  Intended for internal use only.
  @see ct_assertnotaboutequal
  @param expected The expected value.
@@ -575,7 +573,7 @@ void ct_internal_assertsame(const void *, const char *, const void *, const char
 /**
  Assert whether two pointers refer to different objects, with contextual details and message.
  Intended for internal use only.
- @see ct_assertsame
+ @see ct_assertnotsame
  @param expected The expected pointer.
  @param stringized_expected The string representation of the expected pointer expression.
  @param actual The actual pointer.
@@ -607,8 +605,8 @@ void ct_internal_assertequalstrn(const char *, const char *, const char *, const
 /**
  Assert whether two strings are not equal, with contextual details and message.
  Intended for internal use only.
- @see ct_assertequalstr
- @see ct_assertequalstrn
+ @see ct_assertnotequalstr
+ @see ct_assertnotequalstrn
  @param expected The expected string.
  @param stringized_expected The string representation of the expected string expression.
  @param actual The actual string.
