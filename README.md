@@ -17,7 +17,13 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 CinyTest was developed using Xcode; on OS X the workspace will build the library with [clang]. There is also a [make] file that will build CinyTest using [gcc].
 
-The [make] file has a default `build` target as well as `clean` and `rebuild` (which cleans before building). It will create a **makebuild** folder containing all of the [make] file's build artifacts.
+The [make] file has the following build targets:
+
+- `build`: the default target
+- `clean`: delete all [make] file artifacts
+- `rebuild`: `clean`, then `build`
+
+All of the [make] file artifacts are placed in a folder named **makebuild**.
 
 ## Project Structure
 
@@ -167,7 +173,7 @@ double rectangle_hypotenuse(struct rectangle rect)
 
 int rectangle_tostring(struct rectangle rect, char *output, size_t size)
 {
-    static const char * const template = "Rectangle { w: %d, h: %d }";
+    static const char * const restrict template = "Rectangle { w: %d, h: %d }";
     int num_chars = snprintf(output, size, template, rect.width, rect.height);
     return num_chars;
 }
