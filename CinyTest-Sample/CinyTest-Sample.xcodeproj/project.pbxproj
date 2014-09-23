@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0232FA3B19AAED0500AABF6A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA3A19AAED0500AABF6A /* main.c */; };
-		0232FA4A19AAEDE000AABF6A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0232FA4919AAEDE000AABF6A /* XCTest.framework */; };
 		0232FA5019AAEDE000AABF6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0232FA4E19AAEDE000AABF6A /* InfoPlist.strings */; };
 		0232FA5D19AAF0CE00AABF6A /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5C19AAF0CE00AABF6A /* binarytree.c */; };
 		0232FA5F19AAF5F800AABF6A /* BinaryTreeTestDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0232FA5E19AAF5F800AABF6A /* BinaryTreeTestDriver.m */; };
@@ -43,7 +42,6 @@
 		0232FA3719AAED0500AABF6A /* cinytest-sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "cinytest-sample"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0232FA3A19AAED0500AABF6A /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0232FA4719AAEDDF00AABF6A /* CinyTest-SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CinyTest-SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0232FA4919AAEDE000AABF6A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		0232FA4D19AAEDE000AABF6A /* CinyTest-SampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CinyTest-SampleTests-Info.plist"; sourceTree = "<group>"; };
 		0232FA4F19AAEDE000AABF6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0232FA5319AAEDE000AABF6A /* CinyTest-SampleTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTest-SampleTests-Prefix.pch"; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0251212219B0429800368C07 /* libcinytest.a in Frameworks */,
-				0232FA4A19AAEDE000AABF6A /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				0251212119B0429800368C07 /* libcinytest.a */,
-				0232FA4919AAEDE000AABF6A /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
