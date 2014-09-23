@@ -138,14 +138,14 @@ int main(int argc, char *argv[])
 Running this program on the command line (assuming all tests pass) will output:
 
     ====-- CinyTest Run --====
-    Starting test suite 'main' at 2014-09-07 20:37:30
+    Starting test suite 'main' at 2014-09-23 03:39:21
     Running 4 tests:
     [✔] - 'makerectangle_createsrectangle' success
     [✔] - 'rectanglearea_calculatesarea' success
     [✔] - 'rectanglehypotenuse_calculateshypotenuse' success
     [✔] - 'rectangletostring_buildsrectanglestring' success
-    Test suite 'main' completed at 2014-09-07 20:37:30
-    Ran 4 tests (0.003 seconds): 4 passed, 0 failed, 0 ignored.
+    Test suite 'main' completed at 2014-09-23 03:39:21
+    Ran 4 tests (0.001 seconds): 4 passed, 0 failed, 0 ignored.
     ====-- CinyTest End --====
 
 For reference here is the Rectangle module definition used to run the example code and verify its correctness.
