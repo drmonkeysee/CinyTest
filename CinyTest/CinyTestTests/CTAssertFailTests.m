@@ -20,8 +20,11 @@ static void fail_test_nomessage(void *context)
     testObject.invokedTest = YES;
     
     ct_assertfail();
-    
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     testObject.sawPostAssertCode = YES;
+#pragma clang diagnostic pop
 }
 
 static void fail_test_message(void *context)
@@ -32,7 +35,10 @@ static void fail_test_message(void *context)
     
     ct_assertfail("a test message");
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     testObject.sawPostAssertCode = YES;
+#pragma clang diagnostic pop
 }
 
 static void fail_test_formatmessage(void *context)
@@ -43,7 +49,10 @@ static void fail_test_formatmessage(void *context)
     
     ct_assertfail("a test message with %d format arguments: %f, %s", 3, 1.5, "foo");
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     testObject.sawPostAssertCode = YES;
+#pragma clang diagnostic pop
 }
 
 @implementation CTAssertFailTests

@@ -29,7 +29,10 @@ static void ignore_test_nomessage(void *context)
     
     ct_ignore();
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     testObject.sawPostAssertCode = YES;
+#pragma clang diagnostic pop
 }
 
 static void ignore_test_message(void *context)
@@ -40,7 +43,10 @@ static void ignore_test_message(void *context)
     
     ct_ignore("a test message");
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     testObject.sawPostAssertCode = YES;
+#pragma clang diagnostic pop
 }
 
 static void ignore_test_formatmessage(void *context)
@@ -51,7 +57,10 @@ static void ignore_test_formatmessage(void *context)
     
     ct_ignore("a test message with %d format arguments: %f, %s", 3, 1.5, "foo");
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     testObject.sawPostAssertCode = YES;
+#pragma clang diagnostic pop
 }
 
 @implementation CTIgnoreTests
