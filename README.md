@@ -15,7 +15,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed using Xcode; on OS X the workspace will build the library with [clang]. There is also a [make] file that will build CinyTest using [gcc].
+CinyTest was developed using Xcode; on OS X the workspace will build the library with [clang]. The workspace is current for Xcode 6. There is also a [make] file that will build CinyTest using [gcc].
 
 The [make] file has the following build targets:
 
@@ -197,7 +197,7 @@ While I hope CinyTest is useful to others it is also a hobby exercise of mine. I
 
 I had to dive into platform-specific code in one case: OS X does not yet implement `timespec_get()` in **time.h** so I had to fall back to the POSIX function `gettimeofday()` in **sys/time.h** to get millisecond time resolution when measuring elapsed time of a test run. The platform functions are isolated to **ciny_posix.c** behind a standards-compliant interface declared in **ciny.c** (since they are not intended to be public functions). This makes it easy to include or exclude the file and allow a non-POSIX platform to provide its own definitions at build time.
 
-CinyTest uses C11 features that are, as of this writing, available largely on POSIX platforms only. It was developed on Xcode 5 using [clang] and should work with any modern C11-compliant compiler. It has been tested with [clang] and [gcc]. It will almost certainly not work with [cl.exe], nor does it make any effort to target other less common C compilers or embedded system compilers.
+CinyTest uses C11 features that are, as of this writing, available largely on POSIX platforms only. It was developed on Xcode using [clang] and should work with any modern C11-compliant compiler. It has been tested with [clang] and [gcc]. It will almost certainly not work with [cl.exe], nor does it make any effort to target other less common C compilers or embedded system compilers.
 
 CinyTest relies on the following C11 features:
 
