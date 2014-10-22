@@ -22,6 +22,6 @@ uint64_t get_currentmsecs(void)
     gettimeofday(&vtime, NULL);
     
     // proxy through the C11 timespec type so returned value is standards compliant
-    struct timespec time = { vtime.tv_sec, vtime.tv_usec * NanosecondsPerMicrosecond };
+    const struct timespec time = { vtime.tv_sec, vtime.tv_usec * NanosecondsPerMicrosecond };
     return (time.tv_sec * MillisecondsPerSecond) + (time.tv_nsec / NanosecondsPerMillisecond);
 }

@@ -62,7 +62,7 @@ struct runledger {
 /////
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline struct ct_comparable_value ct_makevalue_integral(int, intmax_t);
 extern inline struct ct_comparable_value ct_makevalue_uintegral(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
