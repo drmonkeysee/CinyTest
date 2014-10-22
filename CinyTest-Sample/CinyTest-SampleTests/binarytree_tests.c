@@ -315,7 +315,7 @@ static void btrebalance_doesnothing_ifoneelementtree(void *context)
 
 size_t binarytree_tests(void)
 {
-    struct ct_testcase tests[] = {
+    const struct ct_testcase tests[] = {
         ct_maketest(btcreate_creates_emptytree),
         ct_maketest(btsize_returnszero_ifemptytree),
         ct_maketest(btdepth_returnszero_ifemptytree),
