@@ -71,7 +71,7 @@ inline struct ct_testcase ct_maketest_named(const char *name, ct_test_function t
  */
 struct ct_testsuite {
     const char *name;                       /**< The name of the test suite. */
-    struct ct_testcase *tests;              /**< The collection of tests to run. */
+    const struct ct_testcase *tests;        /**< The collection of tests to run. */
     size_t count;                           /**< The number of tests to be run. */
     ct_setupteardown_function setup;        /**< The test setup function. Run before each test case. May be NULL. */
     ct_setupteardown_function teardown;     /**< The test teardown function. Runs after each test case. May be NULL. */
@@ -119,7 +119,7 @@ ct_makesuite_setup_teardown_named(__func__, \
  @return A test suite.
  */
 inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict name,
-                                             struct ct_testcase tests[],
+                                             const struct ct_testcase tests[],
                                              size_t count,
                                              ct_setupteardown_function setup,
                                              ct_setupteardown_function teardown)
