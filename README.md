@@ -15,7 +15,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed using Xcode (last built using Xcode 6.1); on OS X the workspace will build the library with [clang]. There is also a [make] file that will build CinyTest using [gcc].
+CinyTest was developed using Xcode (the current project targets Xcode 6.1); on OS X the workspace will build the library with [clang]. There is also a [make] file that will build CinyTest using [gcc].
 
 The [make] file has the following build targets:
 
