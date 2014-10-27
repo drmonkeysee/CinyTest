@@ -3,7 +3,7 @@
 This project illustrates the integration of CinyTest into Xcode to test a binary tree module written in C. The project contains two targets:
 
 - **CinyTest-Sample**: a console app that defines a binary tree type, creates an instance of a binary tree, and prints information about it to stdout.
-- **CinyTest-SampleTests**: an [XCTest] bundle that uses CinyTest to unit test the binary tree. This project shows how [XCTest] can be used to boostrap CinyTest into Xcode using an `XCTestCase` class.
+- **CinyTest-SampleTests**: an XCTest bundle that uses CinyTest to unit test the binary tree. This project shows how XCTest can be used to boostrap CinyTest into Xcode using an `XCTestCase` class.
 
 ## Running the Sample
 
