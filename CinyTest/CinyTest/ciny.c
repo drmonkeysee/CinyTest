@@ -50,7 +50,7 @@ struct assertstate {
 static struct assertstate AssertState;
 static jmp_buf AssertSignal;
 
-#define INVALID_SUITE 0
+static const size_t InvalidSuite = 0;
 struct runledger {
     size_t passed;
     size_t failed;
@@ -326,7 +326,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     if (!suite || !suite->tests) {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
-        return INVALID_SUITE;
+        return InvalidSuite;
     }
     
     uint64_t start_msecs = get_currentmsecs();
