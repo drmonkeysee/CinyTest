@@ -119,7 +119,7 @@ static void rectangletostring_buildsrectanglestring(void *context)
 // Main driver function; returns non-zero if any tests failed.
 /////
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     const struct ct_testcase tests[] = {
         ct_maketest(makerectangle_createsrectangle),
