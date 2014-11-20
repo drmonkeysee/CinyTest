@@ -42,7 +42,7 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_LCOMPLEX
 };
 
-enum argument {
+enum {
     ARG_EXPECTED,
     ARG_ACTUAL
 };

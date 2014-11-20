@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_LDOUBLE
 };
 
-enum argument {
+enum {
     ARG_EXPECTED,
     ARG_ACTUAL,
     ARG_PRECISION
