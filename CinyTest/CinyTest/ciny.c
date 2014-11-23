@@ -332,7 +332,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, time(NULL));
     
-    struct runledger ledger = { 0, 0, 0 };
+    struct runledger ledger = { 0 };
     for (size_t i = 0; i < suite->count; ++i) {
         testsuite_run(suite, i, &ledger, &AssertState, AssertSignal);
     }
