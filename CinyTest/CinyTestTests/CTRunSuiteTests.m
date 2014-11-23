@@ -94,6 +94,7 @@ static void test_teardown(void **context)
 {
     TestClass = NULL;
     free(FakeContext);
+    FakeContext = NULL;
     
     [super tearDown];
 }

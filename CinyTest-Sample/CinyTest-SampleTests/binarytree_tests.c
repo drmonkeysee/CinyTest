@@ -34,6 +34,7 @@ static void teardown(void **contextref)
 {
     bt_free(gettree(*contextref));
     free(*contextref);
+    *contextref = NULL;
 }
 
 /////
