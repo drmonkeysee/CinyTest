@@ -8,10 +8,10 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 - unit suite execution, including setup and teardown support
 - detailed test run output to stdout
 - test assertions including:
-    - value equality, including approximate equality for floating point
-    - pointer equality and NULL testing
-    - C-string equality
-    - general true/false asserts
+	- value equality, including approximate equality for floating point
+	- pointer equality and NULL testing
+	- C-string equality
+	- general true/false asserts
 
 ## Build CinyTest
 
@@ -137,16 +137,16 @@ int main(int argc, const char *argv[])
 
 Running this program on the command line (assuming all tests pass) will output:
 
-    ====-- CinyTest Run --====
-    Starting test suite 'main' at 2014-10-26 04:27:35
-    Running 4 tests:
-    [✔] - 'makerectangle_createsrectangle' success
-    [✔] - 'rectanglearea_calculatesarea' success
-    [✔] - 'rectanglehypotenuse_calculateshypotenuse' success
-    [✔] - 'rectangletostring_buildsrectanglestring' success
-    Test suite 'main' completed at 2014-10-26 04:27:35
-    Ran 4 tests (0.009 seconds): 4 passed, 0 failed, 0 ignored.
-    ====-- CinyTest End --====
+	====-- CinyTest Run --====
+	Starting test suite 'main' at 2014-10-26 04:27:35
+	Running 4 tests:
+	[✔] - 'makerectangle_createsrectangle' success
+	[✔] - 'rectanglearea_calculatesarea' success
+	[✔] - 'rectanglehypotenuse_calculateshypotenuse' success
+	[✔] - 'rectangletostring_buildsrectanglestring' success
+	Test suite 'main' completed at 2014-10-26 04:27:35
+	Ran 4 tests (0.009 seconds): 4 passed, 0 failed, 0 ignored.
+	====-- CinyTest End --====
 
 For reference here is the Rectangle module definition used to run the example code and verify its correctness.
 
