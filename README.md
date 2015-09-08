@@ -217,6 +217,14 @@ CinyTest's header includes (and is dependent upon) the following standard librar
 - `limits.h`
 - `stdint.h`
 
+### A Word on Warnings
+
+CinyTest uses variadic macros for its test assertions. The call signature has an optional assert message and can be called either as `ct_assert_true(foo)` or `ct_assert_true(foo, "Expected true expression")`.
+
+However if you compile with `-Werror` or `-Wgnu-zero-variadic-macro-arguments` the `ct_assert_true(foo)` form will trigger the missing variadic arguments warning. This can be supressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`.
+
+I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Werror -pedantic`. However I tend to be more lax for test code so I would likely omit the warning for unit tests using CinyTest. If that's an unappealing option then use one of the syntax remedies described above.
+
 ### How do I pronounce CinyTest?
 
 I don't know. The name is a visual pun on "C" and "Tiny". Some possibilities:
