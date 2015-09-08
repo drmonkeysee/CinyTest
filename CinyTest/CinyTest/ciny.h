@@ -367,6 +367,7 @@ _Generic(v, \
  */
 inline struct ct_comparable_value ct_makevalue_integral(int placeholder, intmax_t value)
 {
+    (void)placeholder;
     return (struct ct_comparable_value){ .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
 }
 /**
@@ -377,6 +378,7 @@ inline struct ct_comparable_value ct_makevalue_integral(int placeholder, intmax_
  */
 inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, uintmax_t value)
 {
+    (void)placeholder;
     return (struct ct_comparable_value){ .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNEDINTEGRAL };
 }
 /**
@@ -387,6 +389,7 @@ inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, uintma
  */
 inline struct ct_comparable_value ct_makevalue_floating(int placeholder, long double value)
 {
+    (void)placeholder;
     return (struct ct_comparable_value){ .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
 }
 /**
@@ -397,6 +400,7 @@ inline struct ct_comparable_value ct_makevalue_floating(int placeholder, long do
  */
 inline struct ct_comparable_value ct_makevalue_complex(int placeholder, long double _Complex value)
 {
+    (void)placeholder;
     return (struct ct_comparable_value){ .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
 }
 /**
@@ -407,6 +411,7 @@ inline struct ct_comparable_value ct_makevalue_complex(int placeholder, long dou
  */
 inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 {
+    (void)placeholder;
     return (struct ct_comparable_value){ .type = CT_ANNOTATE_INVALID };
 }
 
