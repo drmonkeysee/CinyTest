@@ -24,6 +24,7 @@
                 assert_valuetype_variant(volatile T, v, a, acc); \
                 assert_valuetype_variant(_Atomic T, v, a, acc); \
             } while (false)
+
 #define assert_valuetype_variant(T, v, a, acc) \
             do { \
                 T foo = v; \
