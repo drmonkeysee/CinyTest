@@ -7,6 +7,7 @@
 //
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <cinytest/ciny.h>
 #include "binarytree.h"
 
@@ -348,6 +349,8 @@ size_t binarytree_tests(void)
         ct_maketest(btrebalance_doesnothing_ifoneelementtree)
     };
     struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup, teardown);
+    
+    printf("Running sample tests with CinyTest v%s...\n", CT_VERSION);
     
     size_t results = ct_runsuite(&suite);
     
