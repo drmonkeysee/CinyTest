@@ -24,7 +24,7 @@ The [make] file has the following build targets:
 - `rebuild`: `clean`, then `build`
 - `testsample`: run sample test suite
 
-All of the [make] file artifacts are placed in a folder named **makebuild**.
+All of the [make] file artifacts are placed in a folder named **build**.
 
 ## Project Structure
 
