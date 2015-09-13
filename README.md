@@ -22,6 +22,7 @@ The [make] file has the following build targets:
 - `build`: the default target
 - `clean`: delete all [make] file artifacts
 - `rebuild`: `clean`, then `build`
+- `testsample`: run sample test suite
 
 All of the [make] file artifacts are placed in a folder named **makebuild**.
 
@@ -189,7 +190,7 @@ Many C test frameworks did not fit the bill; some required make files as part of
 
 CinyTest provides a straightforward and terse public API for writing unit tests in C. While CinyTest does not integrate *directly* into an IDE test framework (due to lack of tool support) it is trivial to include bare-bones driver code to hook into any test framework of choice while still maintaining all the actual test code in native C.
 
-In the sample code included in the CinyTest workspace, CinyTest is bootstrapped into XCTest using a small Objective-C test class. A similar approach would work for any other programming environment that can interoperate with C. In addition CinyTest could be run as a native C executable by defining and calling any test suites within a `main` function, which could then be built and run using whatever tool fits your needs. This approach is shown in the Example section of this document.
+In the sample code included in the CinyTest workspace, CinyTest is bootstrapped into XCTest using a small Objective-C test class. A similar approach would work for any other programming environment that can interoperate with C. In addition CinyTest could be run as a native C executable by defining and calling any test suites within a `main` function, which could then be built and run using whatever tool fits your needs. This approach is shown in the Example section of this document and as a build target in the Makefile.
 
 ### Constraints and Assumptions
 
