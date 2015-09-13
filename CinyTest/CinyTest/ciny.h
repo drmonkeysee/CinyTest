@@ -26,6 +26,11 @@
  */
 
 /**
+ Current version of CinyTest as MAJOR.MINOR.PATCH string (using semantic versioning).
+ */
+#define CT_VERSION "1.2.1"
+
+/**
  Type definition for a unit test function.
  @param context Test context created in a suite's setup function.
  */
