@@ -31,7 +31,7 @@ testsample: LDFLAGS := -L$(LIB_DIR) -lcinytest
 testsample: TEST_SRC_FILES := $(TEST_SRC_DIR)/binarytree.c $(TEST_TESTSRC_DIR)/main.c $(TEST_TESTSRC_DIR)/binarytree_tests.c
 testsample: TEST_TARGET := sampletests
 testsample: build
-	$(CC) $(CFLAGS) $(LDFLAGS) $(TEST_SRC_FILES) -o $(BUILD_DIR)/$(TEST_TARGET)
+	$(CC) $(CFLAGS) $(TEST_SRC_FILES) $(LDFLAGS) -o $(BUILD_DIR)/$(TEST_TARGET)
 	$(BUILD_DIR)/$(TEST_TARGET)
 
 $(OBJ_DIR):
