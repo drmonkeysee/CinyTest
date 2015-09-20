@@ -36,7 +36,7 @@ CinyTest consists of a header file and two source files: **ciny.h**, **ciny.c**,
 
 ## Example
 
-This example shows how to test a simple rectangle module. For a more extensive example see the **CinyTest-Sample** project in the workspace included in this repository. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
+This example shows how to test a simple rectangle module. The example's full source code can be found in the [CinyTest-Example repo](https://github.com/drmonkeysee/CinyTest-Example). For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
 
 ### Rectangle.h
 ```c
@@ -112,7 +112,7 @@ static void rectangletostring_buildsrectanglestring(void *context)
     
     int characters_written = rectangle_tostring(rect, output, sizeof output);
     
-    ct_asserttrue(characters_written < sizeof output, "Test buffer too small for rectangle_tostring");
+    ct_asserttrue((size_t)characters_written < sizeof output, "Test buffer too small for rectangle_tostring");
     ct_assertequalstr("Rectangle { w: 6, h: 8 }", output);
 }
 
@@ -222,9 +222,9 @@ CinyTest's header includes (and is dependent upon) the following standard librar
 
 CinyTest uses variadic macros for its test assertions. The call signature has an optional assert message and can be called either as `ct_assert_true(foo)` or `ct_assert_true(foo, "Expected true expression")`.
 
-However if you compile with `-Werror` or `-Wgnu-zero-variadic-macro-arguments` the `ct_assert_true(foo)` form will trigger the missing variadic arguments warning. This can be supressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`.
+However if you compile with `-Wextra` or `-Wgnu-zero-variadic-macro-arguments` the `ct_assert_true(foo)` form will trigger the missing variadic arguments warning. This can be supressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`.
 
-I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Werror -pedantic`. However I tend to be more lax for test code so I would likely omit the warning for unit tests using CinyTest. If that's an unappealing option then use one of the syntax remedies described above.
+I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Wextra -pedantic`. However I tend to be more lax for test code so I would likely omit the warning for unit tests using CinyTest. If that's an unappealing option then use one of the syntax remedies described above.
 
 ### How do I pronounce CinyTest?
 
