@@ -1,5 +1,5 @@
-SRC_DIR := ./CinyTest/CinyTest
-BUILD_DIR := ./build
+SRC_DIR := CinyTest/CinyTest
+BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
 INC_DIR := $(BUILD_DIR)/include/cinytest
@@ -24,8 +24,8 @@ build: $(OBJ_FILES)
 	mkdir -p $(INC_DIR)
 	cp $(HEADER_FILES) $(INC_DIR)
 
-testsample: TEST_SRC_DIR := ./CinyTest-Sample/CinyTest-Sample
-testsample: TEST_TESTSRC_DIR := ./CinyTest-Sample/CinyTest-SampleTests
+testsample: TEST_SRC_DIR := CinyTest-Sample/CinyTest-Sample
+testsample: TEST_TESTSRC_DIR := CinyTest-Sample/CinyTest-SampleTests
 testsample: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -I$(BUILD_DIR)/include -I$(TEST_SRC_DIR)
 testsample: LDFLAGS := -L$(LIB_DIR) -lcinytest
 testsample: TEST_SRC_FILES := $(TEST_SRC_DIR)/binarytree.c $(TEST_TESTSRC_DIR)/main.c $(TEST_TESTSRC_DIR)/binarytree_tests.c
