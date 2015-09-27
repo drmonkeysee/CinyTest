@@ -19,19 +19,6 @@ struct bt_testcontext {
     binarytree *tree;
 };
 
-static binarytree *gettree(void *context)
-{
-    return ((struct bt_testcontext *)context)->tree;
-}
-
-// due to an empty tree actually being a NULL pointer
-// we have to hoist any bt_nodes created during the test
-// back into the context to ensure it gets freed
-static void settree(void *context, binarytree *tree)
-{
-    ((struct bt_testcontext *)context)->tree = tree;
-}
-
 static void setup(void **contextref)
 {
     struct bt_testcontext *bt_context = malloc(sizeof *bt_context);
@@ -41,7 +28,7 @@ static void setup(void **contextref)
 
 static void teardown(void **contextref)
 {
-    bt_free(gettree(*contextref));
+    bt_free(((struct bt_testcontext *)*contextref)->tree);
     free(*contextref);
     *contextref = NULL;
 }
@@ -52,27 +39,27 @@ static void teardown(void **contextref)
 
 static void btcreate_creates_emptytree(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    _Bool empty = bt_isempty(tree);
+    _Bool empty = bt_isempty(ctx->tree);
     
     ct_asserttrue(empty);
 }
 
 static void btsize_returnszero_ifemptytree(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    size_t size = bt_size(tree);
+    size_t size = bt_size(ctx->tree);
     
     ct_assertequal(0u, size);
 }
 
 static void btdepth_returnszero_ifemptytree(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    size_t depth = bt_depth(tree);
+    size_t depth = bt_depth(ctx->tree);
     
     ct_assertequal(0u, depth);
 }
@@ -89,110 +76,102 @@ static void btinsert_doesnothing_iftreeisnull(void *context)
 
 static void btinsert_insertsvalue(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    bt_insert(&tree, 5);
+    bt_insert(&ctx->tree, 5);
     
-    settree(context, tree);
-    ct_assertequal(1u, bt_size(tree));
+    ct_assertequal(1u, bt_size(ctx->tree));
 }
 
 static void btinsert_allowszero_ifinserted(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    bt_insert(&tree, 0);
+    bt_insert(&ctx->tree, 0);
     
-    settree(context, tree);
-    ct_assertequal(1u, bt_size(tree));
+    ct_assertequal(1u, bt_size(ctx->tree));
 }
 
 static void btinsert_createstreestructure(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    bt_insert(&tree, 3);
-    bt_insert(&tree, -4);
-    bt_insert(&tree, 8);
-    bt_insert(&tree, 10);
-    bt_insert(&tree, 1);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, -4);
+    bt_insert(&ctx->tree, 8);
+    bt_insert(&ctx->tree, 10);
+    bt_insert(&ctx->tree, 1);
     
-    settree(context, tree);
-    ct_assertequal(5u, bt_size(tree));
-    ct_assertequal(3u, bt_depth(tree));
+    ct_assertequal(5u, bt_size(ctx->tree));
+    ct_assertequal(3u, bt_depth(ctx->tree));
 }
 
 static void btinsert_insertsmultiplevalues(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    bt_insert(&tree, 4);
-    bt_insert(&tree, -3);
-    bt_insert(&tree, 8);
+    bt_insert(&ctx->tree, 4);
+    bt_insert(&ctx->tree, -3);
+    bt_insert(&ctx->tree, 8);
     
-    settree(context, tree);
-    ct_assertequal(3u, bt_size(tree));
+    ct_assertequal(3u, bt_size(ctx->tree));
 }
 
 static void btcontains_returnstrue_ifvaluepresent(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 7;
-    bt_insert(&tree, expected_value);
+    bt_insert(&ctx->tree, expected_value);
     
-    _Bool contains = bt_contains(tree, expected_value);
+    _Bool contains = bt_contains(ctx->tree, expected_value);
     
-    settree(context, tree);
     ct_asserttrue(contains);
 }
 
 static void btcontains_returnstrue_ifvalueiszero(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 0;
-    bt_insert(&tree, expected_value);
+    bt_insert(&ctx->tree, expected_value);
     
-    _Bool contains = bt_contains(tree, expected_value);
+    _Bool contains = bt_contains(ctx->tree, expected_value);
     
-    settree(context, tree);
     ct_asserttrue(contains);
 }
 
 static void btcontains_returnstrue_ifvalueamongothervalues(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 7;
-    bt_insert(&tree, 5);
-    bt_insert(&tree, 3);
-    bt_insert(&tree, 10);
-    bt_insert(&tree, expected_value);
-    bt_insert(&tree, 6);
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 10);
+    bt_insert(&ctx->tree, expected_value);
+    bt_insert(&ctx->tree, 6);
     
-    _Bool contains = bt_contains(tree, expected_value);
+    _Bool contains = bt_contains(ctx->tree, expected_value);
     
-    settree(context, tree);
     ct_asserttrue(contains);
 }
 
 static void btcontains_returnsfalse_ifvaluenotpresent(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 9;
-    bt_insert(&tree, 10);
-    bt_insert(&tree, 4);
+    bt_insert(&ctx->tree, 10);
+    bt_insert(&ctx->tree, 4);
     
-    _Bool contains = bt_contains(tree, expected_value);
+    _Bool contains = bt_contains(ctx->tree, expected_value);
     
-    settree(context, tree);
     ct_assertfalse(contains);
 }
 
 static void btcontains_returnsfalse_ifemptytree(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 9;
     
-    _Bool contains = bt_contains(tree, expected_value);
+    _Bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_assertfalse(contains);
 }
@@ -209,82 +188,77 @@ static void btremove_doesnothing_iftreeisnull(void *context)
 
 static void btremove_doesnothing_iftreeisempty(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    bt_remove(&tree, 9);
+    bt_remove(&ctx->tree, 9);
     
-    ct_asserttrue(bt_isempty(tree));
+    ct_asserttrue(bt_isempty(ctx->tree));
 }
 
 static void btremove_removesvalue(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 9;
-    bt_insert(&tree, expected_value);
+    bt_insert(&ctx->tree, expected_value);
     
-    bt_remove(&tree, expected_value);
+    bt_remove(&ctx->tree, expected_value);
     
-    settree(context, tree);
-    ct_assertfalse(bt_contains(tree, expected_value));
+    ct_assertfalse(bt_contains(ctx->tree, expected_value));
 }
 
 static void btremove_removesvalue_ifamongothervalues(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 7;
-    bt_insert(&tree, 5);
-    bt_insert(&tree, 3);
-    bt_insert(&tree, 10);
-    bt_insert(&tree, expected_value);
-    bt_insert(&tree, 6);
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 10);
+    bt_insert(&ctx->tree, expected_value);
+    bt_insert(&ctx->tree, 6);
     
-    bt_remove(&tree, expected_value);
+    bt_remove(&ctx->tree, expected_value);
     
-    settree(context, tree);
-    ct_assertfalse(bt_contains(tree, expected_value));
+    ct_assertfalse(bt_contains(ctx->tree, expected_value));
 }
 
 static void btremove_supportszero(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     int expected_value = 0;
-    bt_insert(&tree, expected_value);
+    bt_insert(&ctx->tree, expected_value);
     
-    bt_remove(&tree, expected_value);
+    bt_remove(&ctx->tree, expected_value);
     
-    settree(context, tree);
-    ct_assertfalse(bt_contains(tree, expected_value));
+    ct_assertfalse(bt_contains(ctx->tree, expected_value));
 }
 
 static void btcreatewithvalues_createstree(void *context)
 {
+    struct bt_testcontext *ctx = context;
     // discard the tree created in setup
-    binarytree *tree = gettree(context);
-    bt_free(tree);
+    bt_free(ctx->tree);
     int numbers[] = { 1, 2, 3, 4, 5 };
     const size_t count = sizeof numbers / sizeof numbers[0];
     
-    tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);
+    ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);
     
-    settree(context, tree);
-    ct_assertfalse(bt_isempty(tree));
-    ct_assertequal(count, bt_size(tree));
+    ct_assertfalse(bt_isempty(ctx->tree));
+    ct_assertequal(count, bt_size(ctx->tree));
     for (size_t i = 0; i < count; ++i) {
-        ct_asserttrue(bt_contains(tree, numbers[i]));
+        ct_asserttrue(bt_contains(ctx->tree, numbers[i]));
     }
 }
 
 static void btcreatewithvalues_insertsvaluesinorder(void *context)
 {
+    struct bt_testcontext *ctx = context;
     // discard the tree created in setup
-    binarytree *tree = gettree(context);
-    bt_free(tree);
+    bt_free(ctx->tree);
     const size_t count = 5;
     
-    tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);
+    ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);
     
-    settree(context, tree);
-    ct_assertequal(count, bt_depth(tree));
+    ct_assertequal(count, bt_depth(ctx->tree));
 }
 
 static void btrebalance_doesnothing_iftreeisnull(void *context)
@@ -299,39 +273,36 @@ static void btrebalance_doesnothing_iftreeisnull(void *context)
 
 static void btrebalance_rebalancestree(void *context)
 {
+    struct bt_testcontext *ctx = context;
     // discard the tree created in setup
-    binarytree *tree = gettree(context);
-    bt_free(tree);
+    bt_free(ctx->tree);
     const size_t count = 10;
-    tree = bt_createwithvalues(count, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-    settree(context, tree);
-    ct_assertequal(count, bt_depth(tree));
+    ct_assertequal(count, bt_depth(ctx->tree));
     
-    bt_rebalance(&tree);
+    bt_rebalance(&ctx->tree);
     
-    settree(context, tree);
-    ct_assertequal(4u, bt_depth(tree));
+    ct_assertequal(4u, bt_depth(ctx->tree));
 }
 
 static void btrebalance_doesnothing_ifemptytree(void *context)
 {
-    binarytree *tree = gettree(context);
+    struct bt_testcontext *ctx = context;
     
-    bt_rebalance(&tree);
+    bt_rebalance(&ctx->tree);
     
-    ct_asserttrue(bt_isempty(tree));
+    ct_asserttrue(bt_isempty(ctx->tree));
 }
 
 static void btrebalance_doesnothing_ifoneelementtree(void *context)
 {
-    binarytree *tree = gettree(context);
-    bt_insert(&tree, 12);
+    struct bt_testcontext *ctx = context;
+    bt_insert(&ctx->tree, 12);
     
-    bt_rebalance(&tree);
+    bt_rebalance(&ctx->tree);
     
-    settree(context, tree);
-    ct_assertequal(1lu, bt_size(tree));
+    ct_assertequal(1lu, bt_size(ctx->tree));
 }
 
 size_t binarytree_tests(void)
