@@ -42,8 +42,8 @@ enum assert_type {
 };
 struct assertstate {
     enum assert_type type;
-    const char *file;
     int line;
+    const char *file;
     char description[200 + (COMPVALUE_STR_SIZE * 2)];
     char message[1000];
 };
