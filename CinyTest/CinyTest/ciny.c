@@ -41,9 +41,9 @@ enum assert_type {
     ASSERT_IGNORE
 };
 struct assertstate {
-    enum assert_type type;
-    int line;
     const char *file;
+    int line;
+    enum assert_type type;
     char description[200 + (COMPVALUE_STR_SIZE * 2)];
     char message[1000];
 };
