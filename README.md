@@ -15,7 +15,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed using Xcode; on OS X the workspace will build the library with [clang]. There is also a [make] file that will build CinyTest using [gcc].
+CinyTest was developed using Xcode; on OS X the workspace will build the library with [clang]. There is also a [make] file that will build CinyTest on the command line.
 
 The [make] file has the following build targets:
 
@@ -28,15 +28,15 @@ All of the [make] file artifacts are placed in a folder named **build**.
 
 ## Project Structure
 
-CinyTest consists of a header file and two source files: **ciny.h**, **ciny.c**, and **ciny_posix.c**. CinyTest was developed in Xcode and uses the project structure for that IDE, though a [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in XCTest. The notable parts of the repository are:
+CinyTest consists of a header file and two source files: **ciny.h**, **ciny.c**, and **ciny_posix.c**. CinyTest was developed in Xcode, though a [make] file is available. Of course a unit testing library should itself be tested, so CinyTest has a battery of unit tests written in XCTest. The notable parts of the repository are:
 
-- **CinyTest**: main project consisting of CinyTest code and XCTest unit tests. builds the library and runs the tests.
-- **CinyTest-Sample**: sample project illustrating the use of CinyTest to test a binary tree module.
-- **Documentation**: a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under the releases tab in GitHub.
+- **osx/CinyTest**: main project consisting of CinyTest code and XCTest unit tests. builds the library and runs the tests.
+- **osx/CinyTest-Sample**: sample project illustrating the use of CinyTest to test a binary tree module.
+- **doc**: a [Doxygen] configuration file for the CinyTest header file. the generated doc files are packaged as part of the zip files found under the releases tab in GitHub.
 
 ## Example
 
-This example shows how to test a simple rectangle module. The example's full source code can be found in the [CinyTest-Example repo](https://github.com/drmonkeysee/CinyTest-Example). For a more extensive example see the **CinyTest-Sample** project in the CinyTest workspace. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
+This example shows how to test a simple rectangle module. The example's full source code can be found in the [CinyTest-Example repo](https://github.com/drmonkeysee/CinyTest-Example). For a more extensive example see the **osx/CinyTest-Sample** project in the CinyTest workspace. For a complete listing of CinyTest features consult the API documentation included in the release zip or header file.
 
 ### Rectangle.h
 ```c
