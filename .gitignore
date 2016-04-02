@@ -14,5 +14,5 @@ xcuserdata
 DerivedData
 
 # Project-specific
-Documentation/html/
+doc/html/
 makebuild/
