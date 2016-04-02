@@ -1,4 +1,4 @@
-SRC_DIR := CinyTest/CinyTest
+SRC_DIR := src
 BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
@@ -24,15 +24,15 @@ build: $(OBJ_FILES)
 	mkdir -p $(INC_DIR)
 	cp $(HEADER_FILES) $(INC_DIR)
 
-testsample: TEST_SRC_DIR := CinyTest-Sample/CinyTest-Sample
-testsample: TEST_TESTSRC_DIR := CinyTest-Sample/CinyTest-SampleTests
-testsample: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -I$(BUILD_DIR)/include -I$(TEST_SRC_DIR)
+testsample: SAMP_SRC_DIR := src/sample
+testsample: SAMP_TESTSRC_DIR := test/sample
+testsample: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -I$(BUILD_DIR)/include -I$(SAMP_SRC_DIR)
 testsample: LDFLAGS := -L$(LIB_DIR) -lcinytest
-testsample: TEST_SRC_FILES := $(TEST_SRC_DIR)/binarytree.c $(TEST_TESTSRC_DIR)/main.c $(TEST_TESTSRC_DIR)/binarytree_tests.c
-testsample: TEST_TARGET := sampletests
+testsample: SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c $(SAMP_TESTSRC_DIR)/main.c $(SAMP_TESTSRC_DIR)/binarytree_tests.c
+testsample: SAMP_TARGET := sampletests
 testsample: build
-	$(CC) $(CFLAGS) $(TEST_SRC_FILES) $(LDFLAGS) -o $(BUILD_DIR)/$(TEST_TARGET)
-	$(BUILD_DIR)/$(TEST_TARGET)
+	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) $(LDFLAGS) -o $(BUILD_DIR)/$(SAMP_TARGET)
+	$(BUILD_DIR)/$(SAMP_TARGET)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
