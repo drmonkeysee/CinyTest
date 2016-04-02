@@ -25,6 +25,9 @@
 		028DD22A1970F23000B485F7 /* CTStringAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 028DD2291970F23000B485F7 /* CTStringAssertionTestBase.m */; };
 		028DD22D1970F2D800B485F7 /* CTAboutEqualAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 028DD22C1970F2D800B485F7 /* CTAboutEqualAssertionTestBase.m */; };
 		028F5CB4191054DF000BCA3D /* CTRunSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */; };
+		02B048231CAF82E400BD8969 /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 02B048201CAF82E400BD8969 /* ciny_posix.c */; };
+		02B048241CAF82E400BD8969 /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = 02B048211CAF82E400BD8969 /* ciny.c */; };
+		02B048251CAF82E400BD8969 /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B048221CAF82E400BD8969 /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02B3DAF7196797C300174A88 /* CTAssertNotAboutEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */; };
 		02C1D4981917245800744654 /* CTAssertFailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C1D4971917245800744654 /* CTAssertFailTests.m */; };
 		02C1D49A1917295500744654 /* CTIgnoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C1D4991917295500744654 /* CTIgnoreTests.m */; };
@@ -32,11 +35,8 @@
 		02C70E45191EDD89007B2C6A /* CTAssertNotNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C70E44191EDD89007B2C6A /* CTAssertNotNullTests.m */; };
 		02C7962A191DEE5C00CA82FE /* CTAssertTrueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C79629191DEE5B00CA82FE /* CTAssertTrueTests.m */; };
 		02C7962D191DF83800CA82FE /* CTAssertFalseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C7962C191DF83800CA82FE /* CTAssertFalseTests.m */; };
-		02EE6D5118FA3AA000E5A8D7 /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = 02EE6D4F18FA3AA000E5A8D7 /* ciny.c */; };
-		02EE6D5218FA3AA000E5A8D7 /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EE6D5018FA3AA000E5A8D7 /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		02EE6D6018FA3AC700E5A8D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02EE6D5E18FA3AC700E5A8D7 /* InfoPlist.strings */; };
 		02EE6D6B18FA416D00E5A8D7 /* libcinytest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EE6D4718FA39A500E5A8D7 /* libcinytest.a */; };
-		02F73C9D19B564CC0026A57C /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 02F73C9C19B564CC0026A57C /* ciny_posix.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +75,9 @@
 		028DD22B1970F2D800B485F7 /* CTAboutEqualAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTAboutEqualAssertionTestBase.h; sourceTree = "<group>"; };
 		028DD22C1970F2D800B485F7 /* CTAboutEqualAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAboutEqualAssertionTestBase.m; sourceTree = "<group>"; };
 		028F5CB3191054DF000BCA3D /* CTRunSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunSuiteTests.m; sourceTree = "<group>"; };
+		02B048201CAF82E400BD8969 /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ciny_posix.c; path = ../../../src/ciny_posix.c; sourceTree = "<group>"; };
+		02B048211CAF82E400BD8969 /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ciny.c; path = ../../../src/ciny.c; sourceTree = "<group>"; };
+		02B048221CAF82E400BD8969 /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ciny.h; path = ../../../src/ciny.h; sourceTree = "<group>"; };
 		02B3DAF6196797C300174A88 /* CTAssertNotAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotAboutEqualTests.m; sourceTree = "<group>"; };
 		02C1D4971917245800744654 /* CTAssertFailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFailTests.m; sourceTree = "<group>"; };
 		02C1D4991917295500744654 /* CTIgnoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTIgnoreTests.m; sourceTree = "<group>"; };
@@ -83,13 +86,10 @@
 		02C79629191DEE5B00CA82FE /* CTAssertTrueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertTrueTests.m; sourceTree = "<group>"; };
 		02C7962C191DF83800CA82FE /* CTAssertFalseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFalseTests.m; sourceTree = "<group>"; };
 		02EE6D4718FA39A500E5A8D7 /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		02EE6D4F18FA3AA000E5A8D7 /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = ciny.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
-		02EE6D5018FA3AA000E5A8D7 /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ciny.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		02EE6D5718FA3AC700E5A8D7 /* CinyTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CinyTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		02EE6D5D18FA3AC700E5A8D7 /* CinyTestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CinyTestTests-Info.plist"; sourceTree = "<group>"; };
 		02EE6D5F18FA3AC700E5A8D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		02EE6D6318FA3AC700E5A8D7 /* CinyTestTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CinyTestTests-Prefix.pch"; sourceTree = "<group>"; };
-		02F73C9C19B564CC0026A57C /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,9 +132,9 @@
 		02EE6D4E18FA3AA000E5A8D7 /* CinyTest */ = {
 			isa = PBXGroup;
 			children = (
-				02EE6D5018FA3AA000E5A8D7 /* ciny.h */,
-				02EE6D4F18FA3AA000E5A8D7 /* ciny.c */,
-				02F73C9C19B564CC0026A57C /* ciny_posix.c */,
+				02B048221CAF82E400BD8969 /* ciny.h */,
+				02B048211CAF82E400BD8969 /* ciny.c */,
+				02B048201CAF82E400BD8969 /* ciny_posix.c */,
 			);
 			path = CinyTest;
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02EE6D5218FA3AA000E5A8D7 /* ciny.h in Headers */,
+				02B048251CAF82E400BD8969 /* ciny.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,8 +286,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02F73C9D19B564CC0026A57C /* ciny_posix.c in Sources */,
-				02EE6D5118FA3AA000E5A8D7 /* ciny.c in Sources */,
+				02B048241CAF82E400BD8969 /* ciny.c in Sources */,
+				02B048231CAF82E400BD8969 /* ciny_posix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
