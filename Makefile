@@ -4,7 +4,7 @@ OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
 INC_DIR := $(BUILD_DIR)/include/cinytest
 
-CC := gcc
+CC := clang
 CFLAGS := -Wall -Wextra -pedantic -Os -std=c11 $(XCFLAGS)
 
 HEADER_FILES := $(addprefix $(SRC_DIR)/,ciny.h)
