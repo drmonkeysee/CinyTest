@@ -120,7 +120,7 @@ static void btinsert_insertsmultiplevalues(void *context)
 static void btcontains_returnstrue_ifvaluepresent(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 7;
+    const int expected_value = 7;
     bt_insert(&ctx->tree, expected_value);
     
     _Bool contains = bt_contains(ctx->tree, expected_value);
@@ -131,7 +131,7 @@ static void btcontains_returnstrue_ifvaluepresent(void *context)
 static void btcontains_returnstrue_ifvalueiszero(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 0;
+    const int expected_value = 0;
     bt_insert(&ctx->tree, expected_value);
     
     _Bool contains = bt_contains(ctx->tree, expected_value);
@@ -142,7 +142,7 @@ static void btcontains_returnstrue_ifvalueiszero(void *context)
 static void btcontains_returnstrue_ifvalueamongothervalues(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 7;
+    const int expected_value = 7;
     bt_insert(&ctx->tree, 5);
     bt_insert(&ctx->tree, 3);
     bt_insert(&ctx->tree, 10);
@@ -157,7 +157,7 @@ static void btcontains_returnstrue_ifvalueamongothervalues(void *context)
 static void btcontains_returnsfalse_ifvaluenotpresent(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 9;
+    const int expected_value = 9;
     bt_insert(&ctx->tree, 10);
     bt_insert(&ctx->tree, 4);
     
@@ -169,7 +169,7 @@ static void btcontains_returnsfalse_ifvaluenotpresent(void *context)
 static void btcontains_returnsfalse_ifemptytree(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 9;
+    const int expected_value = 9;
     
     _Bool contains = bt_contains(ctx->tree, expected_value);
     
@@ -198,7 +198,7 @@ static void btremove_doesnothing_iftreeisempty(void *context)
 static void btremove_removesvalue(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 9;
+    const int expected_value = 9;
     bt_insert(&ctx->tree, expected_value);
     
     bt_remove(&ctx->tree, expected_value);
@@ -209,7 +209,7 @@ static void btremove_removesvalue(void *context)
 static void btremove_removesvalue_ifamongothervalues(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 7;
+    const int expected_value = 7;
     bt_insert(&ctx->tree, 5);
     bt_insert(&ctx->tree, 3);
     bt_insert(&ctx->tree, 10);
@@ -224,7 +224,7 @@ static void btremove_removesvalue_ifamongothervalues(void *context)
 static void btremove_supportszero(void *context)
 {
     struct bt_testcontext *ctx = context;
-    int expected_value = 0;
+    const int expected_value = 0;
     bt_insert(&ctx->tree, expected_value);
     
     bt_remove(&ctx->tree, expected_value);
