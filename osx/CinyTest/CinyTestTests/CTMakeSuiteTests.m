@@ -46,7 +46,7 @@ static struct ct_testsuite fakesuite_function(void)
 {
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-    struct ct_testcase *expected_tests = faketests;
+    const struct ct_testcase *expected_tests = faketests;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     struct ct_testsuite testsuite = ct_makesuite(faketests);
@@ -82,7 +82,7 @@ static struct ct_testsuite fakesuite_function(void)
 {
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-    struct ct_testcase *expected_tests = faketests;
+    const struct ct_testcase *expected_tests = faketests;
     ct_setupteardown_function expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
@@ -129,7 +129,7 @@ static struct ct_testsuite fakesuite_function(void)
 {
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-    struct ct_testcase *expected_tests = faketests;
+    const struct ct_testcase *expected_tests = faketests;
     ct_setupteardown_function expected_setup = makesuite_fakesetup;
     ct_setupteardown_function expected_teardown = makesuite_faketeardown;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
@@ -160,7 +160,7 @@ static struct ct_testsuite fakesuite_function(void)
 {
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-    struct ct_testcase *expected_tests = faketests;
+    const struct ct_testcase *expected_tests = faketests;
     size_t expected_count = 10;
     ct_setupteardown_function expected_setup = makesuite_fakesetup;
     ct_setupteardown_function expected_teardown = makesuite_faketeardown;
