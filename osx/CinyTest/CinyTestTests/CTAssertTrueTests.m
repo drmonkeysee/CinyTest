@@ -62,7 +62,7 @@ static void literal_false_test(void *context)
 - (void)test_ctasserttrue_ComparesTrue_IfVariableIsTrue
 {
     self.testVariable = true;
-    struct ct_testcase cases[] = { ct_maketest(variable_test) };
+    const struct ct_testcase cases[] = { ct_maketest(variable_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -73,7 +73,7 @@ static void literal_false_test(void *context)
 - (void)test_ctasserttrue_ComparesFalse_IfVariableIsFalse
 {
     self.testVariable = false;
-    struct ct_testcase cases[] = { ct_maketest(variable_test) };
+    const struct ct_testcase cases[] = { ct_maketest(variable_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -85,7 +85,7 @@ static void literal_false_test(void *context)
 {
     self.gtExpressionLhs = 10;
     self.gtExpressionRhs = 5;
-    struct ct_testcase cases[] = { ct_maketest(expression_test) };
+    const struct ct_testcase cases[] = { ct_maketest(expression_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -97,7 +97,7 @@ static void literal_false_test(void *context)
 {
     self.gtExpressionLhs = 5;
     self.gtExpressionRhs = 10;
-    struct ct_testcase cases[] = { ct_maketest(expression_test) };
+    const struct ct_testcase cases[] = { ct_maketest(expression_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -107,7 +107,7 @@ static void literal_false_test(void *context)
 
 - (void)test_ctasserttrue_ComparesTrue_IfLiteralIsTrue
 {
-    struct ct_testcase cases[] = { ct_maketest(literal_true_test) };
+    const struct ct_testcase cases[] = { ct_maketest(literal_true_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -117,7 +117,7 @@ static void literal_false_test(void *context)
 
 - (void)test_ctasserttrue_ComparesFalse_IfLiteralIsFalse
 {
-    struct ct_testcase cases[] = { ct_maketest(literal_false_test) };
+    const struct ct_testcase cases[] = { ct_maketest(literal_false_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);

@@ -59,7 +59,7 @@ static void fail_test_formatmessage(void *context)
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenNoMessage
 {
-    struct ct_testcase cases[] = { ct_maketest(fail_test_nomessage) };
+    const struct ct_testcase cases[] = { ct_maketest(fail_test_nomessage) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -69,7 +69,7 @@ static void fail_test_formatmessage(void *context)
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenMessage
 {
-    struct ct_testcase cases[] = { ct_maketest(fail_test_message) };
+    const struct ct_testcase cases[] = { ct_maketest(fail_test_message) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -79,7 +79,7 @@ static void fail_test_formatmessage(void *context)
 
 - (void)test_ctassertfail_TerminatesTest_IfGivenFormattedMessage
 {
-    struct ct_testcase cases[] = { ct_maketest(fail_test_formatmessage) };
+    const struct ct_testcase cases[] = { ct_maketest(fail_test_formatmessage) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);

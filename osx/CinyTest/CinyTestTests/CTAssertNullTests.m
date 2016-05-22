@@ -62,7 +62,7 @@ static void literal_notnull_test(void *context)
 - (void)test_ctassertnull_ComparesNull_IfVariableIsNull
 {
     self.testVariable = NULL;
-    struct ct_testcase cases[] = { ct_maketest(variable_test) };
+    const struct ct_testcase cases[] = { ct_maketest(variable_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -73,7 +73,7 @@ static void literal_notnull_test(void *context)
 - (void)test_ctassertnull_ComparesNotNull_IfVariableIsNotNull
 {
     self.testVariable = TestClass;
-    struct ct_testcase cases[] = { ct_maketest(variable_test) };
+    const struct ct_testcase cases[] = { ct_maketest(variable_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -84,7 +84,7 @@ static void literal_notnull_test(void *context)
 - (void)test_ctassertnull_ComparesNull_IfExpressionReturnsNull
 {
     self.useRealPointer = false;
-    struct ct_testcase cases[] = { ct_maketest(expression_test) };
+    const struct ct_testcase cases[] = { ct_maketest(expression_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -95,7 +95,7 @@ static void literal_notnull_test(void *context)
 - (void)test_ctassertnull_ComparesNotNull_IfExpressionReturnsNotNull
 {
     self.useRealPointer = true;
-    struct ct_testcase cases[] = { ct_maketest(expression_test) };
+    const struct ct_testcase cases[] = { ct_maketest(expression_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -105,7 +105,7 @@ static void literal_notnull_test(void *context)
 
 - (void)test_ctassertnull_ComparesNull_IfLiteralIsNull
 {
-    struct ct_testcase cases[] = { ct_maketest(literal_null_test) };
+    const struct ct_testcase cases[] = { ct_maketest(literal_null_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
@@ -115,7 +115,7 @@ static void literal_notnull_test(void *context)
 
 - (void)test_ctassertnull_ComparesNotNull_IfLiteralIsNotNull
 {
-    struct ct_testcase cases[] = { ct_maketest(literal_notnull_test) };
+    const struct ct_testcase cases[] = { ct_maketest(literal_notnull_test) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);

@@ -50,7 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualStrTests.m; sourceTree = "<group>"; };
+		0200E1F219553708009BA407 /* CTAssertEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CTAssertEqualStrTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		020A83A119592C7200A5CD81 /* CTAssertNotEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualStrTests.m; sourceTree = "<group>"; };
 		0237F3631904CFE70030E3EC /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
 		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
