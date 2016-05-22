@@ -237,7 +237,7 @@ static void btcreatewithvalues_createstree(void *context)
     struct bt_testcontext *ctx = context;
     // discard the tree created in setup
     bt_free(ctx->tree);
-    int numbers[] = { 1, 2, 3, 4, 5 };
+    const int numbers[] = { 1, 2, 3, 4, 5 };
     const size_t count = sizeof numbers / sizeof numbers[0];
     
     ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);

@@ -151,7 +151,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 
 - (void)test_ctassertsame_ComparesNotSame_IfPointingAtDifferentPartsOfSameObject
 {
-    int values[] = { 2, 4, 5 };
+    const int values[] = { 2, 4, 5 };
     self.expectedPointer = values;
     self.actualPointer = values + 1;
     struct ct_testcase tests[] = { ct_maketest(identity_test) };
