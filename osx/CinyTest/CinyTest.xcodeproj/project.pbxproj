@@ -56,12 +56,12 @@
 		0237F3651904D0BB0030E3EC /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
 		023D7EFF195FA41100AA7A9C /* CTAssertAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CTAssertAboutEqualTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0244607D194801F100D31360 /* CTAssertNotEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualTests.m; sourceTree = "<group>"; };
-		025EF551193157C8002EA558 /* CTAssertEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualTests.m; sourceTree = "<group>"; };
-		025EF55319315EF3002EA558 /* CTMakeValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeValueTests.m; sourceTree = "<group>"; };
+		025EF551193157C8002EA558 /* CTAssertEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CTAssertEqualTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		025EF55319315EF3002EA558 /* CTMakeValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CTMakeValueTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		02701E52194D34E5003AE057 /* CTAssertSameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertSameTests.m; sourceTree = "<group>"; };
 		02701E54194D43AC003AE057 /* CTAssertNotSameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotSameTests.m; sourceTree = "<group>"; };
-		027877551CBDEBB1003C2A5D /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
-		027877561CBDEBB1003C2A5D /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ciny.h; sourceTree = "<group>"; };
+		027877551CBDEBB1003C2A5D /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = ciny.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
+		027877561CBDEBB1003C2A5D /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ciny.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		027877571CBDEBB1003C2A5D /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 		028DD2191970E39600B485F7 /* CTAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTAssertionTestBase.h; sourceTree = "<group>"; };
 		028DD21A1970E39600B485F7 /* CTAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertionTestBase.m; sourceTree = "<group>"; };

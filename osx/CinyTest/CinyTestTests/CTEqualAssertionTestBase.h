@@ -47,13 +47,13 @@ enum {
     ARG_ACTUAL
 };
 
-#define get_integral_test_arg(T, i) ((T) == TAT_SCHAR ? sc_values[i] \
+#define get_integer_test_arg(T, i) ((T) == TAT_SCHAR ? sc_values[i] \
                                     : (T) == TAT_SHORT ? s_values[i] \
                                     : (T) == TAT_INT ? i_values[i] \
                                     : (T) == TAT_LONG ? l_values[i] \
                                     : (T) == TAT_LONG_LONG ? ll_values[i] \
                                     : smx_values[i])
-#define get_uintegral_test_arg(T, i) ((T) == TAT_BOOL ? b_values[i] \
+#define get_uinteger_test_arg(T, i) ((T) == TAT_BOOL ? b_values[i] \
                                         : (T) == TAT_UCHAR ? uc_values[i] \
                                         : (T) == TAT_USHORT ? us_values[i] \
                                         : (T) == TAT_UINT ? ui_values[i] \

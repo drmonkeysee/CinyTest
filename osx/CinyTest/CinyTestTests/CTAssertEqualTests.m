@@ -35,7 +35,7 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -44,17 +44,17 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_integral_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
             }
             break;
@@ -72,7 +72,7 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -81,17 +81,17 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_uintegral_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
             }
             break;
@@ -105,7 +105,7 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -114,7 +114,7 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
@@ -138,7 +138,7 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_integral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -147,7 +147,7 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_uintegral_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
@@ -207,9 +207,9 @@ static void equality_test_withtypevariants(void *context)
 
 @implementation CTAssertEqualTests
 
-#pragma mark - Integral Equality
+#pragma mark - Integer Equality
 
-- (void)test_ctassertequal_ComparesEqual_IfSameIntegralTypes
+- (void)test_ctassertequal_ComparesEqual_IfSameIntegerTypes
 {
     i_values[ARG_EXPECTED] = 34503;
     i_values[ARG_ACTUAL] = 34503;
@@ -223,7 +223,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfDifferentIntegralTypes
+- (void)test_ctassertequal_ComparesEqual_IfDifferentIntegerTypes
 {
     sc_values[ARG_EXPECTED] = 42;
     ll_values[ARG_ACTUAL] = 42;
@@ -237,7 +237,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValues
+- (void)test_ctassertequal_ComparesEqual_IfNegativeIntegerValues
 {
     i_values[ARG_EXPECTED] = -5673;
     i_values[ARG_ACTUAL] = -5673;
@@ -251,7 +251,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfNegativeIntegralValuesWithDifferentTypes
+- (void)test_ctassertequal_ComparesEqual_IfNegativeIntegerValuesWithDifferentTypes
 {
     s_values[ARG_EXPECTED] = -5673;
     l_values[ARG_ACTUAL] = -5673;
@@ -265,7 +265,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValues
+- (void)test_ctassertequal_ComparesEqual_IfZeroIntegerValues
 {
     i_values[ARG_EXPECTED] = 0;
     i_values[ARG_ACTUAL] = 0;
@@ -279,7 +279,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfZeroIntegralValuesWithDifferentTypes
+- (void)test_ctassertequal_ComparesEqual_IfZeroIntegerValuesWithDifferentTypes
 {
     sc_values[ARG_EXPECTED] = 0;
     s_values[ARG_ACTUAL] = 0;
@@ -293,7 +293,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfLargestIntegralValue
+- (void)test_ctassertequal_ComparesEqual_IfLargestIntegerValue
 {
     ll_values[ARG_EXPECTED] = LONG_LONG_MAX;
     ll_values[ARG_ACTUAL] = LONG_LONG_MAX;
@@ -307,7 +307,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfMaxIntegralValue
+- (void)test_ctassertequal_ComparesEqual_IfMaxIntegerValue
 {
     smx_values[ARG_EXPECTED] = INTMAX_MAX;
     smx_values[ARG_ACTUAL] = INTMAX_MAX;
@@ -321,7 +321,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfSmallestIntegralValue
+- (void)test_ctassertequal_ComparesEqual_IfSmallestIntegerValue
 {
     ll_values[ARG_EXPECTED] = LONG_LONG_MIN;
     ll_values[ARG_ACTUAL] = LONG_LONG_MIN;
@@ -335,7 +335,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfMinIntegralValue
+- (void)test_ctassertequal_ComparesEqual_IfMinIntegerValue
 {
     smx_values[ARG_EXPECTED] = INTMAX_MIN;
     smx_values[ARG_ACTUAL] = INTMAX_MIN;
@@ -349,7 +349,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValues
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegerValues
 {
     i_values[ARG_EXPECTED] = 560;
     i_values[ARG_ACTUAL] = -346;
@@ -363,7 +363,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegralValuesAndTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentIntegerValuesAndTypes
 {
     s_values[ARG_EXPECTED] = 560;
     l_values[ARG_ACTUAL] = -4574234;
@@ -377,7 +377,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxIntegralValues
+- (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxIntegerValues
 {
     smx_values[ARG_EXPECTED] = INTMAX_MIN;
     smx_values[ARG_ACTUAL] = INTMAX_MAX;
@@ -391,9 +391,9 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-#pragma mark - Unsigned Integral Equality
+#pragma mark - Unsigned Integer Equality
 
-- (void)test_ctassertequal_ComparesEqual_IfSameUnsignedIntegralTypes
+- (void)test_ctassertequal_ComparesEqual_IfSameUnsignedIntegerTypes
 {
     ui_values[ARG_EXPECTED] = 34503;
     ui_values[ARG_ACTUAL] = 34503;
@@ -407,7 +407,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfDifferentUnsignedIntegralTypes
+- (void)test_ctassertequal_ComparesEqual_IfDifferentUnsignedIntegerTypes
 {
     b_values[ARG_EXPECTED] = 1;
     ull_values[ARG_ACTUAL] = 1;
@@ -421,7 +421,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValues
+- (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegerValues
 {
     ui_values[ARG_EXPECTED] = 0;
     ui_values[ARG_ACTUAL] = 0;
@@ -435,7 +435,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegralValuesWithDifferentTypes
+- (void)test_ctassertequal_ComparesEqual_IfZeroUnsignedIntegerValuesWithDifferentTypes
 {
     uc_values[ARG_EXPECTED] = 0;
     ul_values[ARG_ACTUAL] = 0;
@@ -449,7 +449,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfLargestUnsignedIntegralValue
+- (void)test_ctassertequal_ComparesEqual_IfLargestUnsignedIntegerValue
 {
     ull_values[ARG_EXPECTED] = ULONG_LONG_MAX;
     ull_values[ARG_ACTUAL] = ULONG_LONG_MAX;
@@ -463,7 +463,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfMaxUnsignedIntegralValue
+- (void)test_ctassertequal_ComparesEqual_IfMaxUnsignedIntegerValue
 {
     umx_values[ARG_EXPECTED] = UINTMAX_MAX;
     umx_values[ARG_ACTUAL] = UINTMAX_MAX;
@@ -477,7 +477,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValues
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegerValues
 {
     ui_values[ARG_EXPECTED] = 560;
     ui_values[ARG_ACTUAL] = 123467;
@@ -491,7 +491,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegralValuesAndTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfDifferentUnsignedIntegerValuesAndTypes
 {
     us_values[ARG_EXPECTED] = 560;
     ui_values[ARG_ACTUAL] = 688334;
@@ -505,7 +505,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegralValues
+- (void)test_ctassertequal_ComparesNotEqual_ForMinAndMaxUnsignedIntegerValues
 {
     umx_values[ARG_EXPECTED] = 0;
     umx_values[ARG_ACTUAL] = UINTMAX_MAX;
@@ -889,7 +889,7 @@ static void equality_test_withtypevariants(void *context)
 
 #pragma mark - Type Inequality
 
-- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndUIntegralTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndUIntegerTypes
 {
     i_values[ARG_EXPECTED] = 20;
     ui_values[ARG_ACTUAL] = 20;
@@ -903,7 +903,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndFloatTypes
 {
     i_values[ARG_EXPECTED] = 20;
     d_values[ARG_ACTUAL] = 20;
@@ -917,7 +917,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndComplexTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndComplexTypes
 {
     i_values[ARG_EXPECTED] = 20;
     dc_values[ARG_ACTUAL] = CMPLX(20, 0.0);
@@ -931,7 +931,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfUIntegerAndFloatTypes
 {
     ui_values[ARG_EXPECTED] = 20;
     d_values[ARG_ACTUAL] = 20;
@@ -945,7 +945,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndComplexTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfUIntegerAndComplexTypes
 {
     ui_values[ARG_EXPECTED] = 20;
     dc_values[ARG_ACTUAL] = CMPLX(20, 0.0);
@@ -975,7 +975,7 @@ static void equality_test_withtypevariants(void *context)
 
 #pragma mark - Bit Pattern Inequality
 
-- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndUIntegralIdenticalBitPattern
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndUIntegerIdenticalBitPattern
 {
     _Static_assert(sizeof(int) == sizeof(unsigned int), "int and uint not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
@@ -990,7 +990,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfIntegralAndFloatIdenticalBitPattern
+- (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndFloatIdenticalBitPattern
 {
     _Static_assert(sizeof(int) == sizeof(float), "int and float not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
@@ -1005,7 +1005,7 @@ static void equality_test_withtypevariants(void *context)
     failed_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfUIntegralAndFloatIdenticalBitPattern
+- (void)test_ctassertequal_ComparesNotEqual_IfUIntegerAndFloatIdenticalBitPattern
 {
     _Static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
     ui_values[ARG_EXPECTED] = 3248488448;
@@ -1070,7 +1070,7 @@ static void equality_test_withtypevariants(void *context)
     successful_assertion_expected(run_result);
 }
 
-- (void)test_ctassertequal_ComparesEqual_IfCharAndIntegralType
+- (void)test_ctassertequal_ComparesEqual_IfCharAndIntegerType
 {
     c_values[ARG_EXPECTED] = 42;
     i_values[ARG_ACTUAL] = 42;
@@ -1086,7 +1086,7 @@ static void equality_test_withtypevariants(void *context)
     XCTAssertTrue(self.sawPostAssertCode);
 }
 
-- (void)test_ctassertequal_ComparesNotEqual_IfCharAndUIntegralTypes
+- (void)test_ctassertequal_ComparesNotEqual_IfCharAndUIntegerTypes
 {
     c_values[ARG_EXPECTED] = 20;
     ui_values[ARG_ACTUAL] = 20;

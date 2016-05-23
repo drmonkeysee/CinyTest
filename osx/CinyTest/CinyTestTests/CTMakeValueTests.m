@@ -12,9 +12,9 @@
 #include <complex.h>
 #include "ciny.h"
 
-#define get_integral_value(cv) (cv).integral_value
-#define get_uintegral_value(cv) (cv).uintegral_value
-#define get_floating_value(cv) (cv).floating_value
+#define get_integer_value(cv) (cv).integer_value
+#define get_uinteger_value(cv) (cv).uinteger_value
+#define get_floatingpoint_value(cv) (cv).floatingpoint_value
 #define get_complex_value(cv) (cv).complex_value
 
 #define assert_valuetype(T, v, a, acc) \
@@ -57,49 +57,49 @@
     [super tearDown];
 }
 
-- (void)test_ctmakevalue_CreatesIntegralValues
+- (void)test_ctmakevalue_CreatesIntegerValues
 {
-    assert_valuetype(signed char, SCHAR_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    assert_valuetype(signed char, SCHAR_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
-    assert_valuetype(short, SHRT_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    assert_valuetype(short, SHRT_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
-    assert_valuetype(int, INT_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    assert_valuetype(int, INT_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
-    assert_valuetype(long, LONG_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    assert_valuetype(long, LONG_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
-    assert_valuetype(long long, LONG_LONG_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    assert_valuetype(long long, LONG_LONG_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
 #if CHAR_MIN < 0
-    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_INTEGRAL, get_integral_value);
+    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
 #endif
 }
 
-- (void)test_ctmakevalue_CreatesUnsignedIntegralValues
+- (void)test_ctmakevalue_CreatesUnsignedIntegerValues
 {
-    assert_valuetype(bool, true, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(bool, true, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
-    assert_valuetype(unsigned char, UCHAR_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned char, UCHAR_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
-    assert_valuetype(unsigned short, USHRT_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned short, USHRT_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
-    assert_valuetype(unsigned int, UINT_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned int, UINT_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
-    assert_valuetype(unsigned long, ULONG_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned long, ULONG_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
-    assert_valuetype(unsigned long long, ULONG_LONG_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(unsigned long long, ULONG_LONG_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
 #if CHAR_MIN == 0
-    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_UNSIGNEDINTEGRAL, get_uintegral_value);
+    assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
 #endif
 }
 
-- (void)test_ctmakevalue_CreatesFloatingValues
+- (void)test_ctmakevalue_CreatesFloatingPointValues
 {
-    assert_valuetype(float, FLT_MAX, CT_ANNOTATE_FLOATINGPOINT, get_floating_value);
+    assert_valuetype(float, FLT_MAX, CT_ANNOTATE_FLOATINGPOINT, get_floatingpoint_value);
     
-    assert_valuetype(double, DBL_MAX, CT_ANNOTATE_FLOATINGPOINT, get_floating_value);
+    assert_valuetype(double, DBL_MAX, CT_ANNOTATE_FLOATINGPOINT, get_floatingpoint_value);
     
-    assert_valuetype(long double, LDBL_MAX, CT_ANNOTATE_FLOATINGPOINT, get_floating_value);
+    assert_valuetype(long double, LDBL_MAX, CT_ANNOTATE_FLOATINGPOINT, get_floatingpoint_value);
 }
 
 - (void)test_ctmakevalue_CreatesComplexValues
