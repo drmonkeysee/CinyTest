@@ -63,9 +63,9 @@ struct runledger {
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
-extern inline struct ct_comparable_value ct_makevalue_integral(int, intmax_t);
-extern inline struct ct_comparable_value ct_makevalue_uintegral(int, uintmax_t);
-extern inline struct ct_comparable_value ct_makevalue_floating(int, long double);
+extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t);
+extern inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t);
+extern inline struct ct_comparable_value ct_makevalue_floatingpoint(int, long double);
 extern inline struct ct_comparable_value ct_makevalue_complex(int, long double complex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
@@ -216,10 +216,10 @@ static bool comparable_value_equaltypes(const struct ct_comparable_value *expect
 static const char *comparable_value_typedescription(const struct ct_comparable_value *value)
 {
     switch (value->type) {
-        case CT_ANNOTATE_INTEGRAL:
-            return "integral";
-        case CT_ANNOTATE_UNSIGNEDINTEGRAL:
-            return "unsigned integral";
+        case CT_ANNOTATE_INTEGER:
+            return "integer";
+        case CT_ANNOTATE_UINTEGER:
+            return "unsigned integer";
         case CT_ANNOTATE_FLOATINGPOINT:
             return "floating point";
         case CT_ANNOTATE_COMPLEX:
@@ -232,12 +232,12 @@ static const char *comparable_value_typedescription(const struct ct_comparable_v
 static bool comparable_value_equalvalues(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
 {
     switch (type) {
-        case CT_ANNOTATE_INTEGRAL:
-            return expected->integral_value == actual->integral_value;
-        case CT_ANNOTATE_UNSIGNEDINTEGRAL:
-            return expected->uintegral_value == actual->uintegral_value;
+        case CT_ANNOTATE_INTEGER:
+            return expected->integer_value == actual->integer_value;
+        case CT_ANNOTATE_UINTEGER:
+            return expected->uinteger_value == actual->uinteger_value;
         case CT_ANNOTATE_FLOATINGPOINT:
-            return expected->floating_value == actual->floating_value;
+            return expected->floatingpoint_value == actual->floatingpoint_value;
         case CT_ANNOTATE_COMPLEX:
             return creall(expected->complex_value) == creall(actual->complex_value) && cimagl(expected->complex_value) == cimagl(actual->complex_value);
         default:
@@ -250,14 +250,14 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
     int write_count = 0;
     
     switch (value->type) {
-        case CT_ANNOTATE_INTEGRAL:
-            write_count = snprintf(buffer, size, "%"PRIdMAX, value->integral_value);
+        case CT_ANNOTATE_INTEGER:
+            write_count = snprintf(buffer, size, "%"PRIdMAX, value->integer_value);
             break;
-        case CT_ANNOTATE_UNSIGNEDINTEGRAL:
-            write_count = snprintf(buffer, size, "%"PRIuMAX, value->uintegral_value);
+        case CT_ANNOTATE_UINTEGER:
+            write_count = snprintf(buffer, size, "%"PRIuMAX, value->uinteger_value);
             break;
         case CT_ANNOTATE_FLOATINGPOINT:
-            write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floating_value);
+            write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floatingpoint_value);
             break;
         case CT_ANNOTATE_COMPLEX: {
             long double imagin_value = cimagl(value->complex_value);

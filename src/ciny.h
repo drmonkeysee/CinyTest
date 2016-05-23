@@ -298,8 +298,8 @@ do { \
  */
 enum ct_valuetype_annotation {
     CT_ANNOTATE_INVALID,            /**< Expression did not evaluate to a valid value type. */
-    CT_ANNOTATE_INTEGRAL,           /**< Value is a signed integral type. */
-    CT_ANNOTATE_UNSIGNEDINTEGRAL,   /**< Value is an unsigned integral type. */
+    CT_ANNOTATE_INTEGER,            /**< Value is a signed integer type. */
+    CT_ANNOTATE_UINTEGER,           /**< Value is an unsigned integer type. */
     CT_ANNOTATE_FLOATINGPOINT,      /**< Value is a floating point type. */
     CT_ANNOTATE_COMPLEX             /**< Value is a complex number type. */
 };
@@ -309,9 +309,9 @@ enum ct_valuetype_annotation {
  */
 struct ct_comparable_value {
     union {
-        intmax_t integral_value;            /**< Access the value as a signed integral. */
-        uintmax_t uintegral_value;          /**< Access the value as an unsigned integral. */
-        long double floating_value;         /**< Access the value as a floating point. */
+        intmax_t integer_value;             /**< Access the value as a signed integer. */
+        uintmax_t uinteger_value;           /**< Access the value as an unsigned integer. */
+        long double floatingpoint_value;    /**< Access the value as a floating point. */
         long double _Complex complex_value; /**< Access the value as a complex number. */
     };
     enum ct_valuetype_annotation type;      /**< Designates the correct type of the value. If type is CT_ANNOTATE_INVALID then the value is undefined. */
@@ -330,21 +330,21 @@ struct ct_comparable_value {
  */
 #define ct_makevalue_factory(v) \
 _Generic(v, \
-            ct_valuetype_variants(signed char,          ct_makevalue_integral), \
-            ct_valuetype_variants(short,                ct_makevalue_integral), \
-            ct_valuetype_variants(int,                  ct_makevalue_integral), \
-            ct_valuetype_variants(long,                 ct_makevalue_integral), \
-            ct_valuetype_variants(long long,            ct_makevalue_integral), \
+            ct_valuetype_variants(signed char,          ct_makevalue_integer), \
+            ct_valuetype_variants(short,                ct_makevalue_integer), \
+            ct_valuetype_variants(int,                  ct_makevalue_integer), \
+            ct_valuetype_variants(long,                 ct_makevalue_integer), \
+            ct_valuetype_variants(long long,            ct_makevalue_integer), \
             ct_valuetype_variants(char,                 ct_makevalue_char), \
-            ct_valuetype_variants(_Bool,                ct_makevalue_uintegral), \
-            ct_valuetype_variants(unsigned char,        ct_makevalue_uintegral), \
-            ct_valuetype_variants(unsigned short,       ct_makevalue_uintegral), \
-            ct_valuetype_variants(unsigned int,         ct_makevalue_uintegral), \
-            ct_valuetype_variants(unsigned long,        ct_makevalue_uintegral), \
-            ct_valuetype_variants(unsigned long long,   ct_makevalue_uintegral), \
-            ct_valuetype_variants(float,                ct_makevalue_floating), \
-            ct_valuetype_variants(double,               ct_makevalue_floating), \
-            ct_valuetype_variants(long double,          ct_makevalue_floating), \
+            ct_valuetype_variants(_Bool,                ct_makevalue_uinteger), \
+            ct_valuetype_variants(unsigned char,        ct_makevalue_uinteger), \
+            ct_valuetype_variants(unsigned short,       ct_makevalue_uinteger), \
+            ct_valuetype_variants(unsigned int,         ct_makevalue_uinteger), \
+            ct_valuetype_variants(unsigned long,        ct_makevalue_uinteger), \
+            ct_valuetype_variants(unsigned long long,   ct_makevalue_uinteger), \
+            ct_valuetype_variants(float,                ct_makevalue_floatingpoint), \
+            ct_valuetype_variants(double,               ct_makevalue_floatingpoint), \
+            ct_valuetype_variants(long double,          ct_makevalue_floatingpoint), \
             ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
             ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
             ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
@@ -360,31 +360,31 @@ _Generic(v, \
  Create a char comparable value structure based on whether char is signed or unsigned.
  */
 #if CHAR_MIN < 0
-#define ct_makevalue_char ct_makevalue_integral
+#define ct_makevalue_char ct_makevalue_integer
 #else
-#define ct_makevalue_char ct_makevalue_uintegral
+#define ct_makevalue_char ct_makevalue_uinteger
 #endif
 /**
- Create a signed integral comparable value structure.
+ Create a signed integer comparable value structure.
  @param placeholder An unused parameter to match arity for all makevalue functions. May be any value as it is ignored by the function.
- @param value The widest possible expression of the signed integral value to be converted.
- @return A comparable value structure for the signed integral value.
+ @param value The widest possible expression of the signed integer value to be converted.
+ @return A comparable value structure for the signed integer value.
  */
-inline struct ct_comparable_value ct_makevalue_integral(int placeholder, intmax_t value)
+inline struct ct_comparable_value ct_makevalue_integer(int placeholder, intmax_t value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .integral_value = value, .type = CT_ANNOTATE_INTEGRAL };
+    return (struct ct_comparable_value){ .integer_value = value, .type = CT_ANNOTATE_INTEGER };
 }
 /**
- Create an unsigned integral comparable value structure.
+ Create an unsigned integer comparable value structure.
  @param placeholder An unused parameter to match arity for all makevalue functions. May be any value as it is ignored by the function.
- @param value The widest possible expression of the unsigned integral value to be converted.
- @return A comparable value structure for the unsigned integral value.
+ @param value The widest possible expression of the unsigned integer value to be converted.
+ @return A comparable value structure for the unsigned integer value.
  */
-inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, uintmax_t value)
+inline struct ct_comparable_value ct_makevalue_uinteger(int placeholder, uintmax_t value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .uintegral_value = value, .type = CT_ANNOTATE_UNSIGNEDINTEGRAL };
+    return (struct ct_comparable_value){ .uinteger_value = value, .type = CT_ANNOTATE_UINTEGER };
 }
 /**
  Create a floating point comparable value structure.
@@ -392,10 +392,10 @@ inline struct ct_comparable_value ct_makevalue_uintegral(int placeholder, uintma
  @param value The widest possible expression of the floating point value to be converted.
  @return A comparable value structure for the floating point value.
  */
-inline struct ct_comparable_value ct_makevalue_floating(int placeholder, long double value)
+inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder, long double value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .floating_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
+    return (struct ct_comparable_value){ .floatingpoint_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
 }
 /**
  Create a complex number comparable value structure.
