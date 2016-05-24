@@ -45,7 +45,7 @@ struct assertstate {
     int line;
     enum assert_type type;
     char description[200 + (COMPVALUE_STR_SIZE * 2)];
-    char message[1000];
+    char message[1002];
 };
 static struct assertstate AssertState;
 static jmp_buf AssertSignal;
