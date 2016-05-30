@@ -6,6 +6,7 @@ INC_DIR := $(BUILD_DIR)/include/cinytest
 
 CC := clang
 CFLAGS := -Wall -Wextra -pedantic -Os -std=c11 $(XCFLAGS)
+SP := strip
 
 HEADER_FILES := $(addprefix $(SRC_DIR)/,ciny.h)
 SRC_FILES := $(addprefix $(SRC_DIR)/,ciny.c ciny_posix.c)
@@ -27,17 +28,19 @@ build: $(OBJ_FILES)
 testsample: SAMP_SRC_DIR := src/sample
 testsample: SAMP_TESTSRC_DIR := test/sample
 testsample: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -I$(BUILD_DIR)/include -I$(SAMP_SRC_DIR)
-testsample: LDFLAGS := -L$(LIB_DIR) -lcinytest
+testsample: LDFLAGS := -L$(LIB_DIR)
+testsample: LDLIBS := -lcinytest
 testsample: SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c $(SAMP_TESTSRC_DIR)/main.c $(SAMP_TESTSRC_DIR)/binarytree_tests.c
 testsample: SAMP_TARGET := sampletests
 testsample: build
-	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) $(LDFLAGS) -o $(BUILD_DIR)/$(SAMP_TARGET)
+	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) $(LDFLAGS) $(LDLIBS) -o $(BUILD_DIR)/$(SAMP_TARGET)
+	$(SP) $(BUILD_DIR)/$(SAMP_TARGET)
 	$(BUILD_DIR)/$(SAMP_TARGET)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -rf $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR)
 
 rebuild: clean build
