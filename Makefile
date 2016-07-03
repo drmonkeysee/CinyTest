@@ -10,6 +10,7 @@ INC_DIR := $(BUILD_DIR)/include/cinytest
 CC := gcc
 CFLAGS := -Wall -Wextra -pedantic -std=c11
 SP := strip
+SPFLAGS := -s
 ARFLAGS := -rsv
 
 HEADER_FILES := $(addprefix $(SRC_DIR)/,ciny.h)
@@ -21,23 +22,12 @@ BT_TARGET := btrun
 SAMP_TARGET := sampletests
 
 ifeq ($(OS_TARGET), Darwin)
-MACOS := 1
-endif
-
-ifdef MACOS
 CC := clang
+SPFLAGS := -
 endif
 
 ifdef XCFLAGS
 CFLAGS += $(XCFLAGS)
-endif
-
-ifndef SPFLAGS
-ifdef MACOS
-SPFLAGS := -
-else
-SPFLAGS := -s
-endif
 endif
 
 .PHONY: release debug buildall build buildbt buildbttests check clean
@@ -66,7 +56,7 @@ buildbt:
 	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) -o $(BUILD_DIR)/$(BT_TARGET)
 
 # suppress ISO C99 variadic macro at-least-one-argument warning
-ifdef MACOS
+ifeq ($(CC), clang)
 buildbttests: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments
 else
 buildbttests: CFLAGS += -Wno-pedantic
