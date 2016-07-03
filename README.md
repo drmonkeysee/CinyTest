@@ -19,10 +19,10 @@ CinyTest was developed using Xcode; on OS X the workspace will build the library
 
 The [make] file has the following build targets:
 
-- `build`: the default target
-- `clean`: delete all [make] file artifacts
-- `rebuild`: `clean`, then `build`
-- `testsample`: run sample test suite
+- `release`: the default target; build CinyTest library and sampletests executable with full optimizations
+- `debug`: build CinyTest library and sampletests executable with debug symbols and no optimizations
+- `check`: verify CinyTest by running the sampletests
+- `clean`: delete all [make] file artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
 
 All of the [make] file artifacts are placed in a folder named **build**.
 
