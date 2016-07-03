@@ -58,7 +58,13 @@ build: $(OBJ_FILES)
 
 buildsample: SAMP_SRC_DIR := src/sample
 buildsample: SAMP_TESTSRC_DIR := test/sample
-buildsample: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -I$(BUILD_DIR)/include -I$(SAMP_SRC_DIR)
+# suppress ISO C99 variadic macro at-least-one-argument warning
+ifdef MACOS
+buildsample: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments
+else
+buildsample: CFLAGS += -Wno-pedantic
+endif
+buildsample: CFLAGS += -Wno-unused-parameter -I$(BUILD_DIR)/include -I$(SAMP_SRC_DIR)
 buildsample: LDFLAGS := -L$(LIB_DIR)
 buildsample: LDLIBS := -lcinytest
 buildsample: SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c $(SAMP_TESTSRC_DIR)/main.c $(SAMP_TESTSRC_DIR)/binarytree_tests.c
