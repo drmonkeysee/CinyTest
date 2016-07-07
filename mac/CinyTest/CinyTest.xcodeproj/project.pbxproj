@@ -244,7 +244,7 @@
 				C8805A131D2E2222002ECC5E /* main.c */,
 			);
 			name = src;
-			path = ../../../src/sample;
+			path = ../../src/sample;
 			sourceTree = "<group>";
 		};
 		C8805A1B1D2E233D002ECC5E /* SampleTests */ = {
@@ -679,6 +679,7 @@
 				C8805A0F1D2E21B2002ECC5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C8805A1F1D2E233D002ECC5E /* Build configuration list for PBXNativeTarget "SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -687,6 +688,7 @@
 				C8805A211D2E233D002ECC5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
