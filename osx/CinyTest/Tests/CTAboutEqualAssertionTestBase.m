@@ -8,9 +8,9 @@
 
 #import "CTAboutEqualAssertionTestBase.h"
 
-float f_values[3];
-double d_values[3];
-long double ld_values[3];
+float af_values[3];
+double ad_values[3];
+long double ald_values[3];
 
 @implementation CTAboutEqualAssertionTestBase
 

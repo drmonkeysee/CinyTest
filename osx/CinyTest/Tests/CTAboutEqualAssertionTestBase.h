@@ -20,13 +20,13 @@ enum {
     ARG_PRECISION
 };
 
-#define get_test_arg(T, i) ((T) == TAT_FLOAT ? f_values[i] \
-                            : (T) == TAT_DOUBLE ? d_values[i] \
-                            : ld_values[i])
+#define get_test_arg(T, i) ((T) == TAT_FLOAT ? af_values[i] \
+                            : (T) == TAT_DOUBLE ? ad_values[i] \
+                            : ald_values[i])
 
-extern float f_values[3];
-extern double d_values[3];
-extern long double ld_values[3];
+extern float af_values[3];
+extern double ad_values[3];
+extern long double ald_values[3];
 
 @interface CTAboutEqualAssertionTestBase : CTAssertionTestBase
 
