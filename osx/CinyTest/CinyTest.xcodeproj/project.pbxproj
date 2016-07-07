@@ -6,8 +6,17 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B41D2E15B8002ECC5E /* ciny_posix.c */; };
+		C88059B81D2E15B8002ECC5E /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B51D2E15B8002ECC5E /* ciny.c */; };
+		C88059B91D2E15B8002ECC5E /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = C88059B61D2E15B8002ECC5E /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C88059951D2E11A0002ECC5E /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C88059B41D2E15B8002ECC5E /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
+		C88059B51D2E15B8002ECC5E /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
+		C88059B61D2E15B8002ECC5E /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ciny.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +33,7 @@
 		C880598C1D2E11A0002ECC5E = {
 			isa = PBXGroup;
 			children = (
+				C88059B31D2E1597002ECC5E /* src */,
 				C88059961D2E11A0002ECC5E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -36,6 +46,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C88059B31D2E1597002ECC5E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				C88059B61D2E15B8002ECC5E /* ciny.h */,
+				C88059B51D2E15B8002ECC5E /* ciny.c */,
+				C88059B41D2E15B8002ECC5E /* ciny_posix.c */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -43,6 +64,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C88059B91D2E15B8002ECC5E /* ciny.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C88059B81D2E15B8002ECC5E /* ciny.c in Sources */,
+				C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +248,7 @@
 				C880599B1D2E11A0002ECC5E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
