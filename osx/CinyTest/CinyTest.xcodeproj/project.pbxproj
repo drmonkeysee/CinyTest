@@ -37,6 +37,8 @@
 		C8805A001D2E177F002ECC5E /* CTSameAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E61D2E177F002ECC5E /* CTSameAssertionTestBase.m */; };
 		C8805A011D2E177F002ECC5E /* CTStringAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E81D2E177F002ECC5E /* CTStringAssertionTestBase.m */; };
 		C8805A041D2E1A50002ECC5E /* Tests.strings in Resources */ = {isa = PBXBuildFile; fileRef = C8805A031D2E1A50002ECC5E /* Tests.strings */; };
+		C8805A141D2E2222002ECC5E /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A111D2E2222002ECC5E /* binarytree.c */; };
+		C8805A151D2E2222002ECC5E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A131D2E2222002ECC5E /* main.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +104,10 @@
 		C88059E81D2E177F002ECC5E /* CTStringAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTStringAssertionTestBase.m; sourceTree = "<group>"; };
 		C8805A021D2E19FD002ECC5E /* Tests.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tests.pch; sourceTree = "<group>"; };
 		C8805A031D2E1A50002ECC5E /* Tests.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Tests.strings; sourceTree = "<group>"; };
-		C8805A091D2E21B2002ECC5E /* Sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sample; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8805A091D2E21B2002ECC5E /* sample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = sample; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8805A111D2E2222002ECC5E /* binarytree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = binarytree.c; sourceTree = "<group>"; };
+		C8805A121D2E2222002ECC5E /* binarytree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = binarytree.h; sourceTree = "<group>"; };
+		C8805A131D2E2222002ECC5E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +151,7 @@
 			children = (
 				C88059951D2E11A0002ECC5E /* libcinytest.a */,
 				C88059BE1D2E16D3002ECC5E /* Tests.xctest */,
-				C8805A091D2E21B2002ECC5E /* Sample */,
+				C8805A091D2E21B2002ECC5E /* sample */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,8 +212,20 @@
 		C8805A0A1D2E21B2002ECC5E /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				C8805A101D2E21F9002ECC5E /* src */,
 			);
 			path = Sample;
+			sourceTree = "<group>";
+		};
+		C8805A101D2E21F9002ECC5E /* src */ = {
+			isa = PBXGroup;
+			children = (
+				C8805A121D2E2222002ECC5E /* binarytree.h */,
+				C8805A111D2E2222002ECC5E /* binarytree.c */,
+				C8805A131D2E2222002ECC5E /* main.c */,
+			);
+			name = src;
+			path = ../../../src/sample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,7 +291,7 @@
 			);
 			name = Sample;
 			productName = Sample;
-			productReference = C8805A091D2E21B2002ECC5E /* Sample */;
+			productReference = C8805A091D2E21B2002ECC5E /* sample */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -373,6 +390,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8805A151D2E2222002ECC5E /* main.c in Sources */,
+				C8805A141D2E2222002ECC5E /* binarytree.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,18 +532,14 @@
 		C8805A0E1D2E21B2002ECC5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:lower)";
 			};
 			name = Debug;
 		};
 		C8805A0F1D2E21B2002ECC5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME:lower)";
 			};
 			name = Release;
 		};
