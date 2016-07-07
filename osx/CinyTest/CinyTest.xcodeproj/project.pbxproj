@@ -42,6 +42,7 @@
 		C8805A1D1D2E233D002ECC5E /* SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8805A1C1D2E233D002ECC5E /* SampleTests.m */; };
 		C8805A251D2E23BA002ECC5E /* binarytree_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A231D2E23BA002ECC5E /* binarytree_tests.c */; };
 		C8805A271D2E249D002ECC5E /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A111D2E2222002ECC5E /* binarytree.c */; };
+		C8805A2A1D2E26D8002ECC5E /* libcinytest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C88059951D2E11A0002ECC5E /* libcinytest.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8805A2A1D2E26D8002ECC5E /* libcinytest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
