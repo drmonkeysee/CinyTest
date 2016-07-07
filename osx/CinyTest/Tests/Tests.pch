@@ -1,0 +1,17 @@
+//
+//  Tests.pch
+//  CinyTest
+//
+//  Created by Brandon Stansbury on 7/6/16.
+//  Copyright © 2016 Brandon Stansbury. All rights reserved.
+//
+
+#ifndef Tests_pch
+#define Tests_pch
+
+#ifdef __OBJC__
+#import <Cocoa/Cocoa.h>
+#import <XCTest/XCTest.h>
+#endif
+
+#endif

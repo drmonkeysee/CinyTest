@@ -10,13 +10,86 @@
 		C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B41D2E15B8002ECC5E /* ciny_posix.c */; };
 		C88059B81D2E15B8002ECC5E /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B51D2E15B8002ECC5E /* ciny.c */; };
 		C88059B91D2E15B8002ECC5E /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = C88059B61D2E15B8002ECC5E /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C88059C31D2E16D3002ECC5E /* libcinytest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C88059951D2E11A0002ECC5E /* libcinytest.a */; };
+		C88059E91D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059CA1D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m */; };
+		C88059EA1D2E177F002ECC5E /* CTAssertAboutEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059CB1D2E177F002ECC5E /* CTAssertAboutEqualTests.m */; };
+		C88059EB1D2E177F002ECC5E /* CTAssertEqualStrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059CC1D2E177F002ECC5E /* CTAssertEqualStrTests.m */; };
+		C88059EC1D2E177F002ECC5E /* CTAssertEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059CD1D2E177F002ECC5E /* CTAssertEqualTests.m */; };
+		C88059ED1D2E177F002ECC5E /* CTAssertFailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059CE1D2E177F002ECC5E /* CTAssertFailTests.m */; };
+		C88059EE1D2E177F002ECC5E /* CTAssertFalseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059CF1D2E177F002ECC5E /* CTAssertFalseTests.m */; };
+		C88059EF1D2E177F002ECC5E /* CTAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D11D2E177F002ECC5E /* CTAssertionTestBase.m */; };
+		C88059F01D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D21D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m */; };
+		C88059F11D2E177F002ECC5E /* CTAssertNotEqualStrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D31D2E177F002ECC5E /* CTAssertNotEqualStrTests.m */; };
+		C88059F21D2E177F002ECC5E /* CTAssertNotEqualTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D41D2E177F002ECC5E /* CTAssertNotEqualTests.m */; };
+		C88059F31D2E177F002ECC5E /* CTAssertNotNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D51D2E177F002ECC5E /* CTAssertNotNullTests.m */; };
+		C88059F41D2E177F002ECC5E /* CTAssertNotSameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D61D2E177F002ECC5E /* CTAssertNotSameTests.m */; };
+		C88059F51D2E177F002ECC5E /* CTAssertNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D71D2E177F002ECC5E /* CTAssertNullTests.m */; };
+		C88059F61D2E177F002ECC5E /* CTAssertSameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D81D2E177F002ECC5E /* CTAssertSameTests.m */; };
+		C88059F71D2E177F002ECC5E /* CTAssertTrueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059D91D2E177F002ECC5E /* CTAssertTrueTests.m */; };
+		C88059F81D2E177F002ECC5E /* CTBoolAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059DB1D2E177F002ECC5E /* CTBoolAssertionTestBase.m */; };
+		C88059F91D2E177F002ECC5E /* CTEqualAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059DD1D2E177F002ECC5E /* CTEqualAssertionTestBase.m */; };
+		C88059FA1D2E177F002ECC5E /* CTIgnoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059DE1D2E177F002ECC5E /* CTIgnoreTests.m */; };
+		C88059FB1D2E177F002ECC5E /* CTMakeSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */; };
+		C88059FC1D2E177F002ECC5E /* CTMakeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E01D2E177F002ECC5E /* CTMakeTestTests.m */; };
+		C88059FD1D2E177F002ECC5E /* CTMakeValueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */; };
+		C88059FE1D2E177F002ECC5E /* CTNullAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E31D2E177F002ECC5E /* CTNullAssertionTestBase.m */; };
+		C88059FF1D2E177F002ECC5E /* CTRunSuiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E41D2E177F002ECC5E /* CTRunSuiteTests.m */; };
+		C8805A001D2E177F002ECC5E /* CTSameAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E61D2E177F002ECC5E /* CTSameAssertionTestBase.m */; };
+		C8805A011D2E177F002ECC5E /* CTStringAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C88059E81D2E177F002ECC5E /* CTStringAssertionTestBase.m */; };
+		C8805A041D2E1A50002ECC5E /* Tests.strings in Resources */ = {isa = PBXBuildFile; fileRef = C8805A031D2E1A50002ECC5E /* Tests.strings */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C88059C41D2E16D3002ECC5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C880598D1D2E11A0002ECC5E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C88059941D2E11A0002ECC5E;
+			remoteInfo = CinyTest;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		C88059951D2E11A0002ECC5E /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88059B41D2E15B8002ECC5E /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 		C88059B51D2E15B8002ECC5E /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
 		C88059B61D2E15B8002ECC5E /* ciny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ciny.h; sourceTree = "<group>"; };
+		C88059BE1D2E16D3002ECC5E /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C88059C21D2E16D3002ECC5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C88059C91D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTAboutEqualAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059CA1D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAboutEqualAssertionTestBase.m; sourceTree = "<group>"; };
+		C88059CB1D2E177F002ECC5E /* CTAssertAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertAboutEqualTests.m; sourceTree = "<group>"; };
+		C88059CC1D2E177F002ECC5E /* CTAssertEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualStrTests.m; sourceTree = "<group>"; };
+		C88059CD1D2E177F002ECC5E /* CTAssertEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertEqualTests.m; sourceTree = "<group>"; };
+		C88059CE1D2E177F002ECC5E /* CTAssertFailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFailTests.m; sourceTree = "<group>"; };
+		C88059CF1D2E177F002ECC5E /* CTAssertFalseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertFalseTests.m; sourceTree = "<group>"; };
+		C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059D11D2E177F002ECC5E /* CTAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertionTestBase.m; sourceTree = "<group>"; };
+		C88059D21D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotAboutEqualTests.m; sourceTree = "<group>"; };
+		C88059D31D2E177F002ECC5E /* CTAssertNotEqualStrTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualStrTests.m; sourceTree = "<group>"; };
+		C88059D41D2E177F002ECC5E /* CTAssertNotEqualTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotEqualTests.m; sourceTree = "<group>"; };
+		C88059D51D2E177F002ECC5E /* CTAssertNotNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotNullTests.m; sourceTree = "<group>"; };
+		C88059D61D2E177F002ECC5E /* CTAssertNotSameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNotSameTests.m; sourceTree = "<group>"; };
+		C88059D71D2E177F002ECC5E /* CTAssertNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertNullTests.m; sourceTree = "<group>"; };
+		C88059D81D2E177F002ECC5E /* CTAssertSameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertSameTests.m; sourceTree = "<group>"; };
+		C88059D91D2E177F002ECC5E /* CTAssertTrueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTAssertTrueTests.m; sourceTree = "<group>"; };
+		C88059DA1D2E177F002ECC5E /* CTBoolAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTBoolAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059DB1D2E177F002ECC5E /* CTBoolAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTBoolAssertionTestBase.m; sourceTree = "<group>"; };
+		C88059DC1D2E177F002ECC5E /* CTEqualAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTEqualAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059DD1D2E177F002ECC5E /* CTEqualAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTEqualAssertionTestBase.m; sourceTree = "<group>"; };
+		C88059DE1D2E177F002ECC5E /* CTIgnoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTIgnoreTests.m; sourceTree = "<group>"; };
+		C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeSuiteTests.m; sourceTree = "<group>"; };
+		C88059E01D2E177F002ECC5E /* CTMakeTestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeTestTests.m; sourceTree = "<group>"; };
+		C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTMakeValueTests.m; sourceTree = "<group>"; };
+		C88059E21D2E177F002ECC5E /* CTNullAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTNullAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059E31D2E177F002ECC5E /* CTNullAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTNullAssertionTestBase.m; sourceTree = "<group>"; };
+		C88059E41D2E177F002ECC5E /* CTRunSuiteTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunSuiteTests.m; sourceTree = "<group>"; };
+		C88059E51D2E177F002ECC5E /* CTSameAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTSameAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059E61D2E177F002ECC5E /* CTSameAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSameAssertionTestBase.m; sourceTree = "<group>"; };
+		C88059E71D2E177F002ECC5E /* CTStringAssertionTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTStringAssertionTestBase.h; sourceTree = "<group>"; };
+		C88059E81D2E177F002ECC5E /* CTStringAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTStringAssertionTestBase.m; sourceTree = "<group>"; };
+		C8805A021D2E19FD002ECC5E /* Tests.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tests.pch; sourceTree = "<group>"; };
+		C8805A031D2E1A50002ECC5E /* Tests.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Tests.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +100,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C88059BB1D2E16D3002ECC5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C88059C31D2E16D3002ECC5E /* libcinytest.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -34,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				C88059B31D2E1597002ECC5E /* src */,
+				C88059BF1D2E16D3002ECC5E /* Tests */,
 				C88059961D2E11A0002ECC5E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -42,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				C88059951D2E11A0002ECC5E /* libcinytest.a */,
+				C88059BE1D2E16D3002ECC5E /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,6 +138,48 @@
 			);
 			name = src;
 			path = ../../src;
+			sourceTree = "<group>";
+		};
+		C88059BF1D2E16D3002ECC5E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C88059E01D2E177F002ECC5E /* CTMakeTestTests.m */,
+				C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */,
+				C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */,
+				C88059E41D2E177F002ECC5E /* CTRunSuiteTests.m */,
+				C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */,
+				C88059D11D2E177F002ECC5E /* CTAssertionTestBase.m */,
+				C88059DE1D2E177F002ECC5E /* CTIgnoreTests.m */,
+				C88059CE1D2E177F002ECC5E /* CTAssertFailTests.m */,
+				C88059DA1D2E177F002ECC5E /* CTBoolAssertionTestBase.h */,
+				C88059DB1D2E177F002ECC5E /* CTBoolAssertionTestBase.m */,
+				C88059D91D2E177F002ECC5E /* CTAssertTrueTests.m */,
+				C88059CF1D2E177F002ECC5E /* CTAssertFalseTests.m */,
+				C88059E21D2E177F002ECC5E /* CTNullAssertionTestBase.h */,
+				C88059E31D2E177F002ECC5E /* CTNullAssertionTestBase.m */,
+				C88059D71D2E177F002ECC5E /* CTAssertNullTests.m */,
+				C88059D51D2E177F002ECC5E /* CTAssertNotNullTests.m */,
+				C88059DC1D2E177F002ECC5E /* CTEqualAssertionTestBase.h */,
+				C88059DD1D2E177F002ECC5E /* CTEqualAssertionTestBase.m */,
+				C88059CD1D2E177F002ECC5E /* CTAssertEqualTests.m */,
+				C88059D41D2E177F002ECC5E /* CTAssertNotEqualTests.m */,
+				C88059E51D2E177F002ECC5E /* CTSameAssertionTestBase.h */,
+				C88059E61D2E177F002ECC5E /* CTSameAssertionTestBase.m */,
+				C88059D81D2E177F002ECC5E /* CTAssertSameTests.m */,
+				C88059D61D2E177F002ECC5E /* CTAssertNotSameTests.m */,
+				C88059E71D2E177F002ECC5E /* CTStringAssertionTestBase.h */,
+				C88059E81D2E177F002ECC5E /* CTStringAssertionTestBase.m */,
+				C88059CC1D2E177F002ECC5E /* CTAssertEqualStrTests.m */,
+				C88059D31D2E177F002ECC5E /* CTAssertNotEqualStrTests.m */,
+				C88059C91D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.h */,
+				C88059CA1D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m */,
+				C88059CB1D2E177F002ECC5E /* CTAssertAboutEqualTests.m */,
+				C88059D21D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m */,
+				C88059C21D2E16D3002ECC5E /* Info.plist */,
+				C8805A021D2E19FD002ECC5E /* Tests.pch */,
+				C8805A031D2E1A50002ECC5E /* Tests.strings */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -88,6 +213,24 @@
 			productReference = C88059951D2E11A0002ECC5E /* libcinytest.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		C88059BD1D2E16D3002ECC5E /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C88059C61D2E16D3002ECC5E /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				C88059BA1D2E16D3002ECC5E /* Sources */,
+				C88059BB1D2E16D3002ECC5E /* Frameworks */,
+				C88059BC1D2E16D3002ECC5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C88059C51D2E16D3002ECC5E /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = C88059BE1D2E16D3002ECC5E /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -98,6 +241,9 @@
 				ORGANIZATIONNAME = "Brandon Stansbury";
 				TargetAttributes = {
 					C88059941D2E11A0002ECC5E = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					C88059BD1D2E16D3002ECC5E = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -115,9 +261,21 @@
 			projectRoot = "";
 			targets = (
 				C88059941D2E11A0002ECC5E /* CinyTest */,
+				C88059BD1D2E16D3002ECC5E /* Tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C88059BC1D2E16D3002ECC5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8805A041D2E1A50002ECC5E /* Tests.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C88059911D2E11A0002ECC5E /* Sources */ = {
@@ -129,7 +287,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C88059BA1D2E16D3002ECC5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C88059FF1D2E177F002ECC5E /* CTRunSuiteTests.m in Sources */,
+				C88059F51D2E177F002ECC5E /* CTAssertNullTests.m in Sources */,
+				C88059EF1D2E177F002ECC5E /* CTAssertionTestBase.m in Sources */,
+				C88059EE1D2E177F002ECC5E /* CTAssertFalseTests.m in Sources */,
+				C88059E91D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m in Sources */,
+				C8805A011D2E177F002ECC5E /* CTStringAssertionTestBase.m in Sources */,
+				C88059F61D2E177F002ECC5E /* CTAssertSameTests.m in Sources */,
+				C88059EA1D2E177F002ECC5E /* CTAssertAboutEqualTests.m in Sources */,
+				C88059F41D2E177F002ECC5E /* CTAssertNotSameTests.m in Sources */,
+				C88059ED1D2E177F002ECC5E /* CTAssertFailTests.m in Sources */,
+				C88059F31D2E177F002ECC5E /* CTAssertNotNullTests.m in Sources */,
+				C88059FB1D2E177F002ECC5E /* CTMakeSuiteTests.m in Sources */,
+				C88059EB1D2E177F002ECC5E /* CTAssertEqualStrTests.m in Sources */,
+				C88059F81D2E177F002ECC5E /* CTBoolAssertionTestBase.m in Sources */,
+				C88059EC1D2E177F002ECC5E /* CTAssertEqualTests.m in Sources */,
+				C88059F91D2E177F002ECC5E /* CTEqualAssertionTestBase.m in Sources */,
+				C88059F21D2E177F002ECC5E /* CTAssertNotEqualTests.m in Sources */,
+				C88059FA1D2E177F002ECC5E /* CTIgnoreTests.m in Sources */,
+				C88059FC1D2E177F002ECC5E /* CTMakeTestTests.m in Sources */,
+				C88059F01D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m in Sources */,
+				C88059F71D2E177F002ECC5E /* CTAssertTrueTests.m in Sources */,
+				C8805A001D2E177F002ECC5E /* CTSameAssertionTestBase.m in Sources */,
+				C88059F11D2E177F002ECC5E /* CTAssertNotEqualStrTests.m in Sources */,
+				C88059FD1D2E177F002ECC5E /* CTMakeValueTests.m in Sources */,
+				C88059FE1D2E177F002ECC5E /* CTNullAssertionTestBase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C88059C51D2E16D3002ECC5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C88059941D2E11A0002ECC5E /* CinyTest */;
+			targetProxy = C88059C41D2E16D3002ECC5E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C88059971D2E11A0002ECC5E /* Debug */ = {
@@ -229,6 +427,32 @@
 			};
 			name = Release;
 		};
+		C88059C71D2E16D3002ECC5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.drmonkeysee.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C88059C81D2E16D3002ECC5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.drmonkeysee.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -249,6 +473,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C88059C61D2E16D3002ECC5E /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C88059C71D2E16D3002ECC5E /* Debug */,
+				C88059C81D2E16D3002ECC5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
