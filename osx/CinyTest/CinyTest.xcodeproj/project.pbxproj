@@ -40,6 +40,8 @@
 		C8805A141D2E2222002ECC5E /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A111D2E2222002ECC5E /* binarytree.c */; };
 		C8805A151D2E2222002ECC5E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A131D2E2222002ECC5E /* main.c */; };
 		C8805A1D1D2E233D002ECC5E /* SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8805A1C1D2E233D002ECC5E /* SampleTests.m */; };
+		C8805A251D2E23BA002ECC5E /* binarytree_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A231D2E23BA002ECC5E /* binarytree_tests.c */; };
+		C8805A271D2E249D002ECC5E /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = C8805A111D2E2222002ECC5E /* binarytree.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +114,8 @@
 		C8805A1A1D2E233D002ECC5E /* SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8805A1C1D2E233D002ECC5E /* SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleTests.m; sourceTree = "<group>"; };
 		C8805A1E1D2E233D002ECC5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8805A231D2E23BA002ECC5E /* binarytree_tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = binarytree_tests.c; sourceTree = "<group>"; };
+		C8805A241D2E23BA002ECC5E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,10 +248,21 @@
 		C8805A1B1D2E233D002ECC5E /* SampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				C8805A221D2E239D002ECC5E /* test */,
 				C8805A1C1D2E233D002ECC5E /* SampleTests.m */,
 				C8805A1E1D2E233D002ECC5E /* Info.plist */,
 			);
 			path = SampleTests;
+			sourceTree = "<group>";
+		};
+		C8805A221D2E239D002ECC5E /* test */ = {
+			isa = PBXGroup;
+			children = (
+				C8805A231D2E23BA002ECC5E /* binarytree_tests.c */,
+				C8805A241D2E23BA002ECC5E /* main.c */,
+			);
+			name = test;
+			path = ../../../test/sample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -449,7 +464,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8805A251D2E23BA002ECC5E /* binarytree_tests.c in Sources */,
 				C8805A1D1D2E233D002ECC5E /* SampleTests.m in Sources */,
+				C8805A271D2E249D002ECC5E /* binarytree.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,9 +621,7 @@
 		C8805A201D2E233D002ECC5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = SampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.drmonkeysee.SampleTests;
@@ -617,9 +632,7 @@
 		C8805A211D2E233D002ECC5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = SampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.drmonkeysee.SampleTests;

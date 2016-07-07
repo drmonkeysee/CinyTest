@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <cinytest/ciny.h>
+#include "ciny.h"
 #include "binarytree.h"
 
 /////
