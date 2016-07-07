@@ -242,7 +242,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesEqual_WithVeryLongString
 {
-    NSString *longString = [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"LongString"];
+    NSString *longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
     self.expectedString = (char *)[longString UTF8String];
     NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
@@ -426,7 +426,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtStart
 {
-    NSString *longString = [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"LongString"];
+    NSString *longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
     self.expectedString = (char *)[longString UTF8String];
     NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
@@ -442,7 +442,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtEnd
 {
-    NSString *longString = [[NSBundle bundleForClass:self.class] objectForInfoDictionaryKey:@"LongString"];
+    NSString *longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
     self.expectedString = (char *)[longString UTF8String];
     NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
