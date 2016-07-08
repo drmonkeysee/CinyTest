@@ -183,7 +183,7 @@
 				C88059B41D2E15B8002ECC5E /* ciny_posix.c */,
 			);
 			name = src;
-			path = ../../src;
+			path = ../src;
 			sourceTree = "<group>";
 		};
 		C88059BF1D2E16D3002ECC5E /* Tests */ = {
@@ -236,7 +236,7 @@
 				C8970E211D2F25230087C1C3 /* main.c */,
 			);
 			name = Sample;
-			path = ../../src/sample;
+			path = ../src/sample;
 			sourceTree = "<group>";
 		};
 		C8805A1B1D2E233D002ECC5E /* SampleTests */ = {
@@ -256,7 +256,7 @@
 				C8805A241D2E23BA002ECC5E /* main.c */,
 			);
 			name = test;
-			path = ../../../test/sample;
+			path = ../../test/sample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
