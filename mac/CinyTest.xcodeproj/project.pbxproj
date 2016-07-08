@@ -46,6 +46,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C8249E6A1D2F29A0007ADA9A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C880598D1D2E11A0002ECC5E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C8805A081D2E21B2002ECC5E;
+			remoteInfo = Sample;
+		};
 		C88059C41D2E16D3002ECC5E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C880598D1D2E11A0002ECC5E /* Project object */;
@@ -336,6 +343,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C8249E6B1D2F29A0007ADA9A /* PBXTargetDependency */,
 			);
 			name = SampleTests;
 			productName = SampleTests;
@@ -467,6 +475,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C8249E6B1D2F29A0007ADA9A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C8805A081D2E21B2002ECC5E /* Sample */;
+			targetProxy = C8249E6A1D2F29A0007ADA9A /* PBXContainerItemProxy */;
+		};
 		C88059C51D2E16D3002ECC5E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C88059941D2E11A0002ECC5E /* CinyTest */;
