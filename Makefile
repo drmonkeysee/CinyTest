@@ -5,7 +5,7 @@ SAMP_TESTSRC_DIR := test/sample
 BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
-INC_DIR := $(BUILD_DIR)/include/cinytest
+INC_DIR := $(BUILD_DIR)/include
 
 CC := gcc
 CFLAGS := -Wall -Wextra -pedantic -std=c11
