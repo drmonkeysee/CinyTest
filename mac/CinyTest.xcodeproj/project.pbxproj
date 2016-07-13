@@ -521,7 +521,6 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -530,10 +529,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Wextra",
-				);
 			};
 			name = Debug;
 		};
@@ -564,7 +559,6 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_PEDANTIC = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -572,10 +566,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Wextra",
-				);
 			};
 			name = Release;
 		};
@@ -583,7 +573,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_PEDANTIC = YES;
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+				);
 			};
 			name = Debug;
 		};
@@ -591,7 +586,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_PEDANTIC = YES;
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+				);
 			};
 			name = Release;
 		};
@@ -624,14 +624,24 @@
 		C8805A0E1D2E21B2002ECC5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_WARN_PEDANTIC = YES;
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+				);
 			};
 			name = Debug;
 		};
 		C8805A0F1D2E21B2002ECC5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_WARN_PEDANTIC = YES;
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+				);
 			};
 			name = Release;
 		};
