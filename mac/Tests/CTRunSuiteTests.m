@@ -103,7 +103,7 @@ static void test_teardown(void **context)
 {
     size_t run_result = ct_runsuite(NULL);
     
-    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(0u, run_result);
 }
 
 - (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
@@ -112,7 +112,7 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(0u, run_result);
 }
 
 - (void)test_ctrunsuite_InvokesPassingTests_IfValidTestcases
@@ -122,10 +122,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.passingTestInvocations);
-    XCTAssertEqual(0, self.failingTestInvocations);
-    XCTAssertEqual(0, self.ignoredTestInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.passingTestInvocations);
+    XCTAssertEqual(0u, self.failingTestInvocations);
+    XCTAssertEqual(0u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfNoSetupMethod
@@ -135,7 +135,7 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(0u, run_result);
     XCTAssertTrue(FakeContext == NULL);
     XCTAssertEqual(-3, self.testSawContext);
 }
@@ -147,8 +147,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
 }
 
@@ -159,8 +159,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -172,8 +172,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(0, self.setupInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(0u, self.setupInvocations);
     XCTAssertTrue(FakeContext == NULL);
     XCTAssertEqual(-3, self.testSawContext);
     XCTAssertEqual(-3, self.teardownSawContext);
@@ -186,10 +186,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(2, self.passingTestInvocations);
-    XCTAssertEqual(0, self.failingTestInvocations);
-    XCTAssertEqual(0, self.ignoredTestInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(2u, self.passingTestInvocations);
+    XCTAssertEqual(0u, self.failingTestInvocations);
+    XCTAssertEqual(0u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_ExecutesTest_IfNullTestName
@@ -199,10 +199,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.passingTestInvocations);
-    XCTAssertEqual(0, self.failingTestInvocations);
-    XCTAssertEqual(0, self.ignoredTestInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.passingTestInvocations);
+    XCTAssertEqual(0u, self.failingTestInvocations);
+    XCTAssertEqual(0u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcaseWithContext
@@ -212,8 +212,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(2, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -225,10 +225,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertEqual(2, self.passingTestInvocations);
-    XCTAssertEqual(1, self.failingTestInvocations);
-    XCTAssertEqual(0, self.ignoredTestInvocations);
+    XCTAssertEqual(1u, run_result);
+    XCTAssertEqual(2u, self.passingTestInvocations);
+    XCTAssertEqual(1u, self.failingTestInvocations);
+    XCTAssertEqual(0u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_ReturnsFailureCount_IfAllTestsFail
@@ -238,10 +238,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(3, run_result);
-    XCTAssertEqual(0, self.passingTestInvocations);
-    XCTAssertEqual(3, self.failingTestInvocations);
-    XCTAssertEqual(0, self.ignoredTestInvocations);
+    XCTAssertEqual(3u, run_result);
+    XCTAssertEqual(0u, self.passingTestInvocations);
+    XCTAssertEqual(3u, self.failingTestInvocations);
+    XCTAssertEqual(0u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsFailWithNoSetupOrTeardown
@@ -251,7 +251,7 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(3, run_result);
+    XCTAssertEqual(3u, run_result);
     XCTAssertTrue(FakeContext == NULL);
     XCTAssertEqual(-3, self.testSawContext);
 }
@@ -263,8 +263,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(1u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -276,8 +276,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(3, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(3u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -289,10 +289,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(2, self.passingTestInvocations);
-    XCTAssertEqual(0, self.failingTestInvocations);
-    XCTAssertEqual(1, self.ignoredTestInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(2u, self.passingTestInvocations);
+    XCTAssertEqual(0u, self.failingTestInvocations);
+    XCTAssertEqual(1u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotIncludeIgnoredTestsInFailureCount_IfAllTestsIgnored
@@ -302,10 +302,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(0, self.passingTestInvocations);
-    XCTAssertEqual(0, self.failingTestInvocations);
-    XCTAssertEqual(3, self.ignoredTestInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(0u, self.passingTestInvocations);
+    XCTAssertEqual(0u, self.failingTestInvocations);
+    XCTAssertEqual(3u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsIgnoredWithNoSetupOrTeardown
@@ -315,7 +315,7 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
+    XCTAssertEqual(0u, run_result);
     XCTAssertTrue(FakeContext == NULL);
     XCTAssertEqual(-3, self.testSawContext);
 }
@@ -327,8 +327,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -340,8 +340,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }
@@ -353,10 +353,10 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertEqual(1, self.passingTestInvocations);
-    XCTAssertEqual(1, self.failingTestInvocations);
-    XCTAssertEqual(1, self.ignoredTestInvocations);
+    XCTAssertEqual(1u, run_result);
+    XCTAssertEqual(1u, self.passingTestInvocations);
+    XCTAssertEqual(1u, self.failingTestInvocations);
+    XCTAssertEqual(1u, self.ignoredTestInvocations);
 }
 
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfMixtureOfPassingIgnoredFailedTests
@@ -366,7 +366,7 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
+    XCTAssertEqual(1u, run_result);
     XCTAssertTrue(FakeContext == NULL);
     XCTAssertEqual(-3, self.testSawContext);
 }
@@ -378,8 +378,8 @@ static void test_teardown(void **context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result);
-    XCTAssertEqual(3, self.setupInvocations);
+    XCTAssertEqual(1u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
     XCTAssertEqual(3, self.teardownSawContext);
 }

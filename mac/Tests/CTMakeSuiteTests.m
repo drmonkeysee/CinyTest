@@ -53,7 +53,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
-    XCTAssertEqual(2, testsuite.count);
+    XCTAssertEqual(2u, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -90,7 +90,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
-    XCTAssertEqual(2, testsuite.count);
+    XCTAssertEqual(2u, testsuite.count);
     XCTAssertEqual(expected_setup, testsuite.setup);
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -107,7 +107,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
-    XCTAssertEqual(2, testsuite.count);
+    XCTAssertEqual(2u, testsuite.count);
     XCTAssertEqual(expected_setup, testsuite.setup);
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -138,7 +138,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
-    XCTAssertEqual(2, testsuite.count);
+    XCTAssertEqual(2u, testsuite.count);
     XCTAssertEqual(expected_setup, testsuite.setup);
     XCTAssertEqual(expected_teardown, testsuite.teardown);
 }
@@ -180,7 +180,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertTrue(testsuite.name == NULL, @"Expected NULL name");
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(0, testsuite.count);
+    XCTAssertEqual(0u, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }

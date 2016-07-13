@@ -12,7 +12,7 @@
 #undef failed_assertion_expected
 #define failed_assertion_expected(test_result) \
             do { \
-                XCTAssertEqual(0, test_result); \
+                XCTAssertEqual(0u, test_result); \
                 XCTAssertTrue(self.invokedTest); \
                 XCTAssertFalse(self.sawPostAssertCode); \
             } while (0);

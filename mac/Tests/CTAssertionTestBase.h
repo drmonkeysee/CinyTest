@@ -13,14 +13,14 @@
 // otherwise all test failures are reported as coming from CTAssertionTestBase
 #define successful_assertion_expected(test_result) \
             do { \
-                XCTAssertEqual(0, test_result); \
+                XCTAssertEqual(0u, test_result); \
                 XCTAssertTrue(self.invokedTest); \
                 XCTAssertTrue(self.sawPostAssertCode); \
             } while (0);
 
 #define failed_assertion_expected(test_result) \
             do { \
-                XCTAssertEqual(1, test_result); \
+                XCTAssertEqual(1u, test_result); \
                 XCTAssertTrue(self.invokedTest); \
                 XCTAssertFalse(self.sawPostAssertCode); \
             } while (0);
