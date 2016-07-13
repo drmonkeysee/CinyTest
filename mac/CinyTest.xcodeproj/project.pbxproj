@@ -607,7 +607,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
 					"$(inherited)",
-					"-Wno-gnu-zero-variadic-macro-arguments",
 					"-Wno-unused-parameter",
 					"-Wno-gnu",
 				);
@@ -626,7 +625,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
 					"$(inherited)",
-					"-Wno-gnu-zero-variadic-macro-arguments",
 					"-Wno-unused-parameter",
 					"-Wno-gnu",
 				);
@@ -657,7 +655,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
 					"$(inherited)",
-					"-Wno-gnu-zero-variadic-macro-arguments",
 					"-Wno-unused-parameter",
 					"-Wno-gnu",
 				);
@@ -674,7 +671,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
 					"$(inherited)",
-					"-Wno-gnu-zero-variadic-macro-arguments",
 					"-Wno-unused-parameter",
 					"-Wno-gnu",
 				);

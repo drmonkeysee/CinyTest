@@ -108,7 +108,9 @@ static void test_teardown(void **context)
 
 - (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
 {
-    struct ct_testsuite suite = ct_makesuite(NULL);
+    const struct ct_testcase *cases = NULL;
+    
+    struct ct_testsuite suite = ct_makesuite(cases);
     
     size_t run_result = ct_runsuite(&suite);
     

@@ -21,7 +21,8 @@ static void makesuite_faketeardown(void **context)
 
 static struct ct_testsuite fakesuite_function(void)
 {
-    return ct_makesuite(NULL);
+    const struct ct_testcase *cases = NULL;
+    return ct_makesuite(cases);
 }
 
 @interface CTMakeSuiteTests : XCTestCase
@@ -68,8 +69,9 @@ static struct ct_testsuite fakesuite_function(void)
 - (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
 {
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    const struct ct_testcase *cases = NULL;
     
-    struct ct_testsuite testsuite = ct_makesuite(NULL);
+    struct ct_testsuite testsuite = ct_makesuite(cases);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
@@ -115,8 +117,9 @@ static struct ct_testsuite fakesuite_function(void)
 - (void)test_ctmakesuitesetup_CreatesTestSuite_IfNullArguments
 {
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    const struct ct_testcase *cases = NULL;
     
-    struct ct_testsuite testsuite = ct_makesuite_setup(NULL, NULL);
+    struct ct_testsuite testsuite = ct_makesuite_setup(cases, NULL);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
@@ -146,8 +149,9 @@ static struct ct_testsuite fakesuite_function(void)
 - (void)test_ctmakesuitesetupteardown_CreatesTestSuite_IfNullArguments
 {
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    const struct ct_testcase *cases = NULL;
     
-    struct ct_testsuite testsuite = ct_makesuite_setup_teardown(NULL, NULL, NULL);
+    struct ct_testsuite testsuite = ct_makesuite_setup_teardown(cases, NULL, NULL);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");

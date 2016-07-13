@@ -50,7 +50,7 @@ static void about_equality_test_withformatmessage(void *context)
 
 @implementation CTAssertAboutEqualTests
 
-#pragma - Equal
+#pragma mark - Equal
 
 - (void)test_ctaboutequal_ComparesEqual_IfEqualValues
 {
@@ -680,7 +680,7 @@ static void about_equality_test_withformatmessage(void *context)
     successful_assertion_expected(run_result);
 }
 
-#pragma - Not Equal
+#pragma mark - Not Equal
 
 - (void)test_ctaboutequal_ComparesNotEqual_IfDifferentWidthsAndZeroPrecision
 {

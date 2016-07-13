@@ -50,7 +50,7 @@ static void notabout_equality_test_withformatmessage(void *context)
 
 @implementation CTAssertNotAboutEqualTests
 
-#pragma - Equal
+#pragma mark - Equal
 
 - (void)test_ctnotaboutequal_ComparesEqual_IfEqualValues
 {
@@ -680,7 +680,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     failed_assertion_expected(run_result);
 }
 
-#pragma - Not Equal
+#pragma mark - Not Equal
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_IfDifferentWidthsAndZeroPrecision
 {

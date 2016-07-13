@@ -1081,7 +1081,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(0, run_result, "Test unexpectedly failed - possibly compiled with unsigned char option?");
+    XCTAssertEqual(0u, run_result, "Test unexpectedly failed - possibly compiled with unsigned char option?");
     XCTAssertTrue(self.invokedTest);
     XCTAssertTrue(self.sawPostAssertCode);
 }
@@ -1097,7 +1097,7 @@ static void equality_test_withtypevariants(void *context)
     
     size_t run_result = ct_runsuite(&suite);
     
-    XCTAssertEqual(1, run_result, "Test unexpectedly passed - possibly compiled with unsigned char option?");
+    XCTAssertEqual(1u, run_result, "Test unexpectedly passed - possibly compiled with unsigned char option?");
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);
 }
