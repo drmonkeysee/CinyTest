@@ -609,6 +609,7 @@
 					"$(inherited)",
 					"-Wno-unused-parameter",
 					"-Wno-gnu",
+					"-Wno-complex-component-init",
 				);
 			};
 			name = Debug;
@@ -627,6 +628,7 @@
 					"$(inherited)",
 					"-Wno-unused-parameter",
 					"-Wno-gnu",
+					"-Wno-complex-component-init",
 				);
 			};
 			name = Release;

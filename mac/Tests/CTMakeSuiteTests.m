@@ -31,18 +31,6 @@ static struct ct_testsuite fakesuite_function(void)
 
 @implementation CTMakeSuiteTests
 
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
 - (void)test_ctmakesuite_CreatesTestSuite
 {
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
@@ -75,7 +63,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(sizeof NULL, testsuite.count);
+    XCTAssertEqual(0u, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -123,7 +111,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(sizeof NULL, testsuite.count);
+    XCTAssertEqual(0u, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }
@@ -155,7 +143,7 @@ static struct ct_testsuite fakesuite_function(void)
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
-    XCTAssertEqual(sizeof NULL, testsuite.count);
+    XCTAssertEqual(0u, testsuite.count);
     XCTAssertTrue(testsuite.setup == NULL, @"Expected NULL setup");
     XCTAssertTrue(testsuite.teardown == NULL, @"Expected NULL teardown");
 }

@@ -20,18 +20,6 @@ static void maketest_faketest(void *context)
 
 @implementation CTMakeTestTests
 
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
 - (void)test_ctmaketest_CreatesTestCase
 {
     ct_test_function expected_function = maketest_faketest;

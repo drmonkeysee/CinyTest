@@ -45,18 +45,6 @@
 
 @implementation CTMakeValueTests
 
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
 - (void)test_ctmakevalue_CreatesIntegerValues
 {
     assert_valuetype(signed char, SCHAR_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
@@ -76,11 +64,14 @@
 
 - (void)test_ctmakevalue_CreatesUnsignedIntegerValues
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-compare"
     assert_valuetype(bool, true, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
     assert_valuetype(unsigned char, UCHAR_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
     assert_valuetype(unsigned short, USHRT_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
+#pragma clang diagnostic pop
     
     assert_valuetype(unsigned int, UINT_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
