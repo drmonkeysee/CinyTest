@@ -94,9 +94,11 @@ CinyTest's header includes (and is dependent upon) the following standard librar
 
 CinyTest uses variadic macros for its test assertions. The call signature has an optional assert message and can be called either as `ct_assert_true(foo)` or `ct_assert_true(foo, "Expected true expression")`.
 
-However if you compile with `-Wextra` or `-Wgnu-zero-variadic-macro-arguments` the `ct_assert_true(foo)` form will trigger the missing variadic arguments warning. This can be suppressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`.
+However if you compile with `-Wextra` the `ct_assert_true(foo)` form will trigger the missing variadic arguments warning. This can be suppressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`. In addition any tests that don't use the test context parameter will trigger unused parameter warnings. This can be suppressed by casting the argument to void: `(void)context;`.
 
-I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Wextra -pedantic`. However I tend to be more lax for test code so I would likely omit the warning for unit tests using CinyTest. If that's an unappealing option then use one of the syntax remedies described above.
+I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Wextra -pedantic`. However I tend to be more lax for test code so I would likely omit the warnings for unit tests using CinyTest. In my experience all warnings triggered by usage of CinyTest would be caught by `-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments`. If that's an unappealing option then use one of the syntax remedies described above.
+
+The Xcode targets strive for the same degree of warning rigor as the Makefile. This is accomplished for CinyTest, the sample executable, and the sample tests written with CinyTest (using the above caveats). However XCTest uses some GNU extensions and a couple macros that trigger pedantic warnings so the warning level begins with `-Wall -Wextra -pedantic` but selectively scales back certain warnings as necessary either on the target or as compiler pragmas.
 
 ### How do I pronounce CinyTest?
 
