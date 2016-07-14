@@ -658,7 +658,7 @@
 				WARNING_CFLAGS = (
 					"$(inherited)",
 					"-Wno-unused-parameter",
-					"-Wno-gnu",
+					"-Wno-gnu-zero-variadic-macro-arguments",
 				);
 			};
 			name = Debug;
@@ -674,7 +674,7 @@
 				WARNING_CFLAGS = (
 					"$(inherited)",
 					"-Wno-unused-parameter",
-					"-Wno-gnu",
+					"-Wno-gnu-zero-variadic-macro-arguments",
 				);
 			};
 			name = Release;

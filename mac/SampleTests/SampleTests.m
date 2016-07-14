@@ -20,7 +20,10 @@ size_t binarytree_tests(void);
 {
     size_t results = binarytree_tests();
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu"
     XCTAssertEqual(0u, results, "%zu binary tree tests failed", results);
+#pragma clang diagnostic pop
 }
 
 @end
