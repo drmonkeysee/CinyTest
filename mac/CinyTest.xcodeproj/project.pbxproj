@@ -585,6 +585,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -593,6 +594,7 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
