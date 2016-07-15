@@ -15,20 +15,20 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed using Xcode; on macOS the project will build the static library with [clang]. There is also a [make] file that will build CinyTest on the command line.
+CinyTest was developed using Xcode so the primary way to build it would be with the Xcode project under the **mac** folder. There is also a [Makefile] that will build CinyTest for either macOS ([clang] by default) or Linux ([gcc] by default). The Xcode project and the [Makefile] will give you identical libraries on macOS so pick whichever build method is more convenient.
 
-The [make] file has the following build targets:
+The [Makefile] has the following build targets:
 
 - `release`: the default target; build CinyTest library and binary tree sample executables with full optimizations
 - `debug`: build CinyTest library and binary tree sample executables with debug symbols and no optimizations
 - `check`: verify CinyTest by running the sample tests
-- `clean`: delete all [make] file artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
+- `clean`: delete all build artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
 
-All of the [make] file artifacts are placed in a folder named **build**.
+All of the [Makefile] artifacts are placed in a folder named **build**.
 
-## Project Structure
+## Repo Structure
 
-The CinyTest project is structured fairly traditionally for a C/C++ project. **src** contains all source code and headers, **test** contains all test-related source code and headers, and **doc** contains a [Doxygen] configuration file. The generated documentation is packaged as part of the zip files found under the releases tab in GitHub.
+The CinyTest repo is structured fairly traditionally for a C/C++ project. **src** contains all source code and headers, **test** contains all test-related source code and headers, and **doc** contains a [Doxygen] configuration file. The generated documentation is packaged as part of the zip files found under the releases tab in GitHub.
 
 The macOS-specific IDE files are all contained under the **mac** folder. There is a single Xcode project made up of the following targets:
 
@@ -94,9 +94,9 @@ CinyTest's header includes (and is dependent upon) the following standard librar
 
 CinyTest uses variadic macros for its test assertions. The call signature has an optional assert message and can be called either as `ct_assert_true(foo)` or `ct_assert_true(foo, "Expected true expression")`.
 
-However if you compile with `-Wextra` the `ct_assert_true(foo)` form will trigger the missing variadic arguments warning. This can be suppressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`. In addition any tests that don't use the test context parameter will trigger unused parameter warnings. This can be suppressed by casting the argument to void: `(void)context;`.
+However if you compile with `-pedantic` the `ct_assert_true(foo)` form will trigger a missing variadic arguments warning. This can be suppressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`. In addition any tests that don't use the test context parameter will trigger unused parameter warnings. This can be suppressed by casting the argument to void: `(void)context;`.
 
-I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Wextra -pedantic`. However I tend to be more lax for test code so I would likely omit the warnings for unit tests using CinyTest. In my experience all warnings triggered by usage of CinyTest would be caught by `-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments`. If that's an unappealing option then use one of the syntax remedies described above.
+I always strive for zero warnings for production code; CinyTest itself has no warnings under `-Wall -Wextra -pedantic`. However I tend to be more lax for test code so I would likely omit the warnings for unit tests using CinyTest. In my experience all warnings triggered by usage of CinyTest would be caught by `-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments` (gcc does not define the latter flag so use `-Wno-pedantic` on test builds). If that's an unappealing option then use one of the syntax remedies described above.
 
 The Xcode targets strive for the same degree of warning rigor as the Makefile. This is accomplished for CinyTest, the sample executable, and the sample tests written with CinyTest (using the above caveats). However XCTest uses some GNU extensions and a couple macros that trigger pedantic warnings so the warning level begins with `-Wall -Wextra -pedantic` but selectively scales back certain warnings as necessary either on the target or as compiler pragmas.
 
@@ -123,4 +123,4 @@ List of features I would like to eventually add to CinyTest:
 [cl.exe]: http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx
 [cmocka]: http://cmocka.org
 [Doxygen]: http://www.doxygen.org
-[make]: http://www.gnu.org/software/make/
+[Makefile]: http://www.gnu.org/software/make/
