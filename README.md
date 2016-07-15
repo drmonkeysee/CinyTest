@@ -15,7 +15,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed using Xcode so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project and the Makefile will give you identical libraries on macOS so pick whichever build method is more convenient.
+CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project and the Makefile will give you identical libraries so pick whichever build method is more convenient.
 
 The Makefile has the following build targets:
 
@@ -26,14 +26,12 @@ The Makefile has the following build targets:
 
 All of the Makefile artifacts are placed in a folder named **build**.
 
-## Repo Structure
-
-The CinyTest repo is structured fairly traditionally for a C/C++ project. **src** contains all source code and headers, **test** contains all test-related source code and headers, and **doc** contains a [Doxygen](http://www.doxygen.org) configuration file. The generated documentation is packaged as part of the zip files found under the releases tab in GitHub.
-
-The macOS-specific IDE files are all contained under the **mac** folder. There is a single Xcode project made up of the following targets:
+The Xcode project consists of the following targets:
 
 - **CinyTest**: main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
 - **Sample**: additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
+
+Finally, there are precompiled zip files under the releases tab on GitHub. The zip files include documentation generated from the [Doxygen](http://www.doxygen.org) configuration file.
 
 ## Example
 
