@@ -30,7 +30,7 @@ ifdef XCFLAGS
 CFLAGS += $(XCFLAGS)
 endif
 
-.PHONY: release debug buildall build buildbt buildbttests check clean
+.PHONY: release debug buildall build buildsample buildsampletests check clean
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -iquote$(SRC_DIR) -c $< -o $@
@@ -43,7 +43,7 @@ release: buildall
 debug: CFLAGS += -g -O0 -DDEBUG
 debug: buildall
 
-buildall: build buildbt buildbttests
+buildall: build buildsample buildsampletests
 
 build: $(OBJ_FILES)
 	mkdir -p $(LIB_DIR)
@@ -51,21 +51,21 @@ build: $(OBJ_FILES)
 	mkdir -p $(INC_DIR)
 	cp $(HEADER_FILES) $(INC_DIR)
 
-buildbt: SAMP_SRC_FILES += $(SAMP_SRC_DIR)/main.c
-buildbt:
+buildsample: SAMP_SRC_FILES += $(SAMP_SRC_DIR)/main.c
+buildsample:
 	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) -o $(BUILD_DIR)/$(SAMP_TARGET)
 
 # suppress ISO C99 variadic macro at-least-one-argument warning
 ifeq ($(CC), clang)
-buildbttests: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments
+buildsampletests: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments
 else
-buildbttests: CFLAGS += -Wno-pedantic
+buildsampletests: CFLAGS += -Wno-pedantic
 endif
-buildbttests: CFLAGS += -Wno-unused-parameter -iquote$(BUILD_DIR)/include -iquote$(SAMP_SRC_DIR)
-buildbttests: LDFLAGS := -L$(LIB_DIR)
-buildbttests: LDLIBS := -lcinytest
-buildbttests: SAMP_SRC_FILES += $(SAMP_TESTSRC_DIR)/main.c $(SAMP_TESTSRC_DIR)/binarytree_tests.c
-buildbttests:
+buildsampletests: CFLAGS += -Wno-unused-parameter -iquote$(BUILD_DIR)/include -iquote$(SAMP_SRC_DIR)
+buildsampletests: LDFLAGS := -L$(LIB_DIR)
+buildsampletests: LDLIBS := -lcinytest
+buildsampletests: SAMP_SRC_FILES += $(SAMP_TESTSRC_DIR)/main.c $(SAMP_TESTSRC_DIR)/binarytree_tests.c
+buildsampletests:
 	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) $(LDFLAGS) $(LDLIBS) -o $(BUILD_DIR)/$(SAMPT_TARGET)
 
 $(OBJ_DIR):
