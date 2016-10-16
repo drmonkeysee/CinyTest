@@ -29,6 +29,9 @@ uint64_t get_currentmsecs(void);
 /////
 
 #define DATE_FORMAT_SIZE 30
+#define green_text(s) "\033[0;32m" s "\033[0m"
+#define red_text(s) "\033[0;31m" s "\033[0m"
+#define cyan_text(s) "\033[0;36m" s "\033[0m"
 static const char * const restrict DateFormatString = "%F %T";
 static const char * const restrict InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 static const char IgnoredTestGlyph = '?';
@@ -95,7 +98,7 @@ static void print_runfooter(const struct ct_testsuite *suite, time_t end_time, u
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
-    printf("Ran %zu tests (%.3f seconds): %zu passed, %zu failed, %zu ignored.\n", suite->count, elapsed_msecs / ms_per_sec, ledger->passed, ledger->failed, ledger->ignored);
+    printf("Ran %zu tests (%.3f seconds): " green_text("%zu passed") ", " red_text("%zu failed") ", " cyan_text("%zu ignored") ".\n", suite->count, elapsed_msecs / ms_per_sec, ledger->passed, ledger->failed, ledger->ignored);
     
     print_delimiter("End");
 }
@@ -138,7 +141,7 @@ static void assertstate_reset(struct assertstate *assert_state)
 static void assertstate_handlefailure(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->failed;
-    printf("[\u2718] - '%s' failure\n", testname);
+    printf("[ " red_text("\u2717") " ] - '%s' failure\n", testname);
     printf("%s L.%d : %s\n", assert_state->file, assert_state->line, assert_state->description);
     print_linemessage(assert_state->message);
 }
@@ -146,7 +149,7 @@ static void assertstate_handlefailure(const struct assertstate *assert_state, co
 static void assertstate_handleignore(const struct assertstate *assert_state, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->ignored;
-    printf("[%c] - '%s' ignored\n", IgnoredTestGlyph, testname);
+    printf("[ " cyan_text("%c") " ] - '%s' ignored\n", IgnoredTestGlyph, testname);
     print_linemessage(assert_state->message);
 }
 
@@ -287,14 +290,14 @@ static void testcase_run(const struct ct_testcase *testcase, void * restrict tes
 {
     if (!testcase->test) {
         ++ledger->ignored;
-        printf("[%c] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
+        printf("[ " cyan_text("%c") " ] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
         return;
     }
     
     testcase->test(testcontext);
     
     ++ledger->passed;
-    printf("[\u2714] - '%s' success\n", testcase->name);
+    printf("[ " green_text("\u2713") " ] - '%s' success\n", testcase->name);
 }
 
 static void testsuite_run(const struct ct_testsuite *suite, size_t index, struct runledger *ledger, struct assertstate *assert_state, jmp_buf assert_signal)
