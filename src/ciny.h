@@ -65,7 +65,7 @@ struct ct_testcase {
  @param test The unit test function for the test case.
  @return A test case.
  */
-inline struct ct_testcase ct_maketest_named(const char *name, ct_test_function test)
+inline struct ct_testcase ct_maketest_named(const char * restrict name, ct_test_function test)
 {
     return (struct ct_testcase){ name, test };
 }
