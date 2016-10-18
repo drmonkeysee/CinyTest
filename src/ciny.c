@@ -34,7 +34,7 @@ uint64_t get_currentmsecs(void);
 #define cyan_text(s) "\033[0;36m" s "\033[0m"
 static const char * const restrict DateFormatString = "%F %T";
 static const char * const restrict InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
-static const char IgnoredTestGlyph = '?';
+static const char IgnoredTestChar = '?';
 
 #define COMPVALUE_STR_SIZE 75
 enum assert_type {
@@ -148,7 +148,7 @@ static void assertstate_handlefailure(const char * restrict testname, struct run
 static void assertstate_handleignore(const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->ignored;
-    printf("[ " cyan_text("%c") " ] - '%s' ignored\n", IgnoredTestGlyph, testname);
+    printf("[ " cyan_text("%c") " ] - '%s' ignored\n", IgnoredTestChar, testname);
     print_linemessage(AssertState.message);
 }
 
@@ -285,28 +285,28 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *testcase, void * restrict testcontext, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *self, void * restrict testcontext, size_t index, struct runledger *ledger)
 {
-    if (!testcase->test) {
+    if (!self->test) {
         ++ledger->ignored;
-        printf("[ " cyan_text("%c") " ] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestGlyph, index);
+        printf("[ " cyan_text("%c") " ] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestChar, index);
         return;
     }
     
-    testcase->test(testcontext);
+    self->test(testcontext);
     
     ++ledger->passed;
-    printf("[ " green_text("\u2713") " ] - '%s' success\n", testcase->name);
+    printf("[ " green_text("\u2713") " ] - '%s' success\n", self->name);
 }
 
-static void testsuite_runtest(const struct ct_testsuite *suite, size_t index, struct runledger *ledger)
+static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
-    const struct ct_testcase *current_test = &suite->tests[index];
+    const struct ct_testcase *current_test = &self->tests[index];
     
     void *testcontext = NULL;
-    if (suite->setup) {
-        suite->setup(&testcontext);
+    if (self->setup) {
+        self->setup(&testcontext);
     }
     
     if (setjmp(AssertSignal)) {
@@ -315,8 +315,8 @@ static void testsuite_runtest(const struct ct_testsuite *suite, size_t index, st
         testcase_run(current_test, testcontext, index, ledger);
     }
     
-    if (suite->teardown) {
-        suite->teardown(&testcontext);
+    if (self->teardown) {
+        self->teardown(&testcontext);
     }
 }
 
@@ -336,7 +336,7 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     
     struct runledger ledger = { .passed = 0 };
     for (size_t i = 0; i < suite->count; ++i) {
-        testsuite_runtest(suite, i, &ledger);
+        testsuite_runcase(suite, i, &ledger);
     }
     
     uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;

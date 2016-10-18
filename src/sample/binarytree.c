@@ -29,27 +29,27 @@ static struct bt_node *make_node(int value)
     return new_node;
 }
 
-static struct bt_node **find_childref(struct bt_node *parent, int value)
+static struct bt_node **find_childref(struct bt_node *self, int value)
 {
-    struct bt_node **child_ref = parent->value > value ? &parent->left : &parent->right;
+    struct bt_node **child_ref = self->value > value ? &self->left : &self->right;
     if (!(*child_ref) || (*child_ref)->value == value) {
         return child_ref;
     }
     return find_childref(*child_ref, value);
 }
 
-static struct bt_node *minimum_child(struct bt_node *tree)
+static struct bt_node *minimum_child(struct bt_node *self)
 {
-    struct bt_node *minimum_child = tree;
+    struct bt_node *minimum_child = self;
     while (minimum_child->left) {
         minimum_child = minimum_child->left;
     }
     return minimum_child;
 }
 
-static void remove_node(struct bt_node *tree, int value)
+static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node **node_ref = find_childref(tree, value);
+    struct bt_node **node_ref = find_childref(self, value);
     struct bt_node *node = *node_ref;
     
     if (!node) return;
@@ -72,28 +72,28 @@ static void remove_node(struct bt_node *tree, int value)
     }
 }
 
-static void print_tree(struct bt_node *tree, int indent, char label)
+static void print_tree(struct bt_node *self, int indent, char label)
 {
-    if (!tree) return;
+    if (!self) return;
     
     for (int indent_count = indent; indent_count > 0; --indent_count) {
         printf("\t");
     }
-    printf("%c(%d)\n", label, tree->value);
-    print_tree(tree->left, indent + 1, 'L');
-    print_tree(tree->right, indent + 1, 'R');
+    printf("%c(%d)\n", label, self->value);
+    print_tree(self->left, indent + 1, 'L');
+    print_tree(self->right, indent + 1, 'R');
 }
 
-static void inline_tree(struct bt_node *tree, struct bt_node *nodes[], ptrdiff_t *current_index)
+static void inline_tree(struct bt_node *self, struct bt_node *nodes[], ptrdiff_t *current_index)
 {
-    if (tree->left) {
-        inline_tree(tree->left, nodes, current_index);
+    if (self->left) {
+        inline_tree(self->left, nodes, current_index);
     }
     
-    nodes[(*current_index)++] = tree;
+    nodes[(*current_index)++] = self;
     
-    if (tree->right) {
-        inline_tree(tree->right, nodes, current_index);
+    if (self->right) {
+        inline_tree(self->right, nodes, current_index);
     }
 }
 
@@ -134,18 +134,18 @@ binarytree *bt_createwithvalues(size_t n, ...)
     return new_tree;
 }
 
-void bt_free(binarytree *tree)
+void bt_free(binarytree *self)
 {
-    if (tree) {
-        bt_free(tree->left);
-        bt_free(tree->right);
+    if (self) {
+        bt_free(self->left);
+        bt_free(self->right);
     }
-    free(tree);
+    free(self);
 }
 
-bool bt_isempty(binarytree *tree)
+bool bt_isempty(binarytree *self)
 {
-    return tree == BT_EMPTY;
+    return self == BT_EMPTY;
 }
 
 void bt_insert(binarytree **treeref, int value)
@@ -174,13 +174,13 @@ void bt_remove(binarytree **treeref, int value)
     remove_node(*treeref, value);
 }
 
-bool bt_contains(binarytree *tree, int value)
+bool bt_contains(binarytree *self, int value)
 {
-    if (!tree) return false;
+    if (!self) return false;
     
-    if (tree->value == value) return true;
+    if (self->value == value) return true;
     
-    struct bt_node **child_ref = find_childref(tree, value);
+    struct bt_node **child_ref = find_childref(self, value);
     return *child_ref != BT_EMPTY;
 }
 
@@ -199,27 +199,27 @@ void bt_rebalance(binarytree **treeref)
     *treeref = rebalance_node(sorted_nodes, start, end);
 }
 
-size_t bt_size(binarytree *tree)
+size_t bt_size(binarytree *self)
 {
     size_t size = 0;
-    if (tree) {
+    if (self) {
         ++size;
-        size += bt_size(tree->left);
-        size += bt_size(tree->right);
+        size += bt_size(self->left);
+        size += bt_size(self->right);
     }
     return size;
 }
 
-size_t bt_depth(binarytree *tree)
+size_t bt_depth(binarytree *self)
 {
-    if (!tree) return 0;
+    if (!self) return 0;
     
-    size_t left_depth = bt_depth(tree->left);
-    size_t right_depth = bt_depth(tree->right);
+    size_t left_depth = bt_depth(self->left);
+    size_t right_depth = bt_depth(self->right);
     return (left_depth > right_depth ? left_depth : right_depth) + 1;
 }
 
-void bt_print(binarytree *tree)
+void bt_print(binarytree *self)
 {
-    print_tree(tree, 0, 'T');
+    print_tree(self, 0, 'T');
 }
