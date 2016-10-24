@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "binarytree.h"
 
 int main(int argc, const char *argv[])
@@ -24,5 +25,5 @@ int main(int argc, const char *argv[])
 
     bt_free(tree);
     
-    return 0;
+    return EXIT_SUCCESS;
 }
