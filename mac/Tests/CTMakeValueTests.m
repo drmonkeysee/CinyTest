@@ -23,6 +23,10 @@
                 assert_valuetype_variant(const T, v, a, acc); \
                 assert_valuetype_variant(volatile T, v, a, acc); \
                 assert_valuetype_variant(_Atomic T, v, a, acc); \
+                assert_valuetype_variant(const volatile T, v, a, acc); \
+                assert_valuetype_variant(const _Atomic T, v, a, acc); \
+                assert_valuetype_variant(volatile _Atomic T, v, a, acc); \
+                assert_valuetype_variant(const volatile _Atomic T, v, a, acc); \
             } while (false)
 
 #define assert_valuetype_variant(T, v, a, acc) \
