@@ -330,31 +330,25 @@ struct ct_comparable_value {
  */
 #define ct_makevalue_factory(v) \
 _Generic(v, \
-            ct_valuetype_variants(signed char,          ct_makevalue_integer), \
-            ct_valuetype_variants(short,                ct_makevalue_integer), \
-            ct_valuetype_variants(int,                  ct_makevalue_integer), \
-            ct_valuetype_variants(long,                 ct_makevalue_integer), \
-            ct_valuetype_variants(long long,            ct_makevalue_integer), \
-            ct_valuetype_variants(char,                 ct_makevalue_char), \
-            ct_valuetype_variants(_Bool,                ct_makevalue_uinteger), \
-            ct_valuetype_variants(unsigned char,        ct_makevalue_uinteger), \
-            ct_valuetype_variants(unsigned short,       ct_makevalue_uinteger), \
-            ct_valuetype_variants(unsigned int,         ct_makevalue_uinteger), \
-            ct_valuetype_variants(unsigned long,        ct_makevalue_uinteger), \
-            ct_valuetype_variants(unsigned long long,   ct_makevalue_uinteger), \
-            ct_valuetype_variants(float,                ct_makevalue_floatingpoint), \
-            ct_valuetype_variants(double,               ct_makevalue_floatingpoint), \
-            ct_valuetype_variants(long double,          ct_makevalue_floatingpoint), \
-            ct_valuetype_variants(float _Complex,       ct_makevalue_complex), \
-            ct_valuetype_variants(double _Complex,      ct_makevalue_complex), \
-            ct_valuetype_variants(long double _Complex, ct_makevalue_complex), \
-            default:                                    ct_makevalue_invalid)
-/**
- Generate all unique value-type variants for a generic selection.
- @param T The compile-time type for which to generate the variants.
- @param e The expression to use in the generic selection for all type variants.
- */
-#define ct_valuetype_variants(T, e) T: e, const T: e, volatile T: e, _Atomic T: e, const volatile T: e, const _Atomic T: e, volatile _Atomic T: e, const volatile _Atomic T: e
+            signed char:          ct_makevalue_integer, \
+            short:                ct_makevalue_integer, \
+            int:                  ct_makevalue_integer, \
+            long:                 ct_makevalue_integer, \
+            long long:            ct_makevalue_integer, \
+            char:                 ct_makevalue_char, \
+            _Bool:                ct_makevalue_uinteger, \
+            unsigned char:        ct_makevalue_uinteger, \
+            unsigned short:       ct_makevalue_uinteger, \
+            unsigned int:         ct_makevalue_uinteger, \
+            unsigned long:        ct_makevalue_uinteger, \
+            unsigned long long:   ct_makevalue_uinteger, \
+            float:                ct_makevalue_floatingpoint, \
+            double:               ct_makevalue_floatingpoint, \
+            long double:          ct_makevalue_floatingpoint, \
+            float _Complex:       ct_makevalue_complex, \
+            double _Complex:      ct_makevalue_complex, \
+            long double _Complex: ct_makevalue_complex, \
+            default:              ct_makevalue_invalid)
 
 /**
  Create a char comparable value structure based on whether char is signed or unsigned.
