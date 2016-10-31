@@ -20,7 +20,7 @@ struct bt_node {
     int value;
 };
 
-static struct bt_node *make_node(int value)
+static struct bt_node *create_node(int value)
 {
     struct bt_node *new_node = malloc(sizeof *new_node);
     new_node->value = value;
@@ -153,7 +153,7 @@ void bt_insert(binarytree **treeref, int value)
     if (!treeref) return;
     
     if (!*treeref) {
-        *treeref = make_node(value);
+        *treeref = create_node(value);
     } else if ((*treeref)->value > value) {
         bt_insert(&(*treeref)->left, value);
     } else if ((*treeref)->value < value) {
