@@ -29,12 +29,9 @@ uint64_t get_currentmsecs(void);
 /////
 
 #define DATE_FORMAT_SIZE 30
-#define green_text(s) "\033[0;32m" s "\033[0m"
-#define red_text(s) "\033[0;31m" s "\033[0m"
-#define cyan_text(s) "\033[0;36m" s "\033[0m"
 static const char * const restrict DateFormatString = "%F %T";
 static const char * const restrict InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
-static const char IgnoredTestChar = '?';
+static const char * const restrict IgnoredTestSymbol = "?";
 
 #define COMPVALUE_STR_SIZE 75
 enum assert_type {
@@ -58,6 +55,15 @@ struct runledger {
     size_t ignored;
 };
 
+enum text_highlight {
+    HIGHLIGHT_SUCCESS,
+    HIGHLIGHT_FAILURE,
+    HIGHLIGHT_IGNORE
+};
+struct runcontext {
+    bool colorized;
+};
+
 /////
 // Inline Function Call Sites
 /////
@@ -71,8 +77,73 @@ extern inline struct ct_comparable_value ct_makevalue_complex(int, long double c
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
 /////
+// Run Settings
+/////
+
+static struct runcontext make_runcontext(void)
+{
+    return (struct runcontext){ .colorized = true };
+}
+
+/////
 // Printing and Text Manipulation
 /////
+
+static void print_color(enum text_highlight color)
+{
+    switch (color) {
+        case HIGHLIGHT_SUCCESS:
+            printf("\033[0;32m");
+            break;
+        case HIGHLIGHT_FAILURE:
+            printf("\033[0;31m");
+            break;
+        case HIGHLIGHT_IGNORE:
+            printf("\033[0;36m");
+            break;
+    }
+}
+
+static void print_highlighted(const struct runcontext * restrict context, enum text_highlight color, const char * restrict format, ...)
+{
+    if (context->colorized) {
+        print_color(color);
+    }
+    
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+    
+    if (context->colorized) {
+        printf("\033[0m");
+    }
+}
+
+static void print_testresult(const struct runcontext * restrict context, enum text_highlight color, const char * restrict result_symbol, const char * restrict result_message, ...)
+{
+    printf("[ ");
+    print_highlighted(context, color, result_symbol);
+    printf(" ] - ");
+    
+    va_list args;
+    va_start(args, result_message);
+    vprintf(result_message, args);
+    va_end(args);
+    
+    printf("\n");
+}
+
+static void print_testresults(const struct runcontext *context, size_t test_count, uint64_t elapsed_msecs, const struct runledger *ledger)
+{
+    printf("Ran %zu tests (%.3f seconds): ", test_count, elapsed_msecs / 1000.0);
+    print_highlighted(context, HIGHLIGHT_SUCCESS, "%zu passed", ledger->passed);
+    printf(", ");
+    print_highlighted(context, HIGHLIGHT_FAILURE, "%zu failed", ledger->failed);
+    printf(", ");
+    print_highlighted(context, HIGHLIGHT_IGNORE, "%zu ignored", ledger->ignored);
+    printf(".\n");
+}
 
 static void print_delimiter(const char *message)
 {
@@ -90,14 +161,13 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     printf("Running %zu tests:\n", suite->count);
 }
 
-static void print_runfooter(const struct ct_testsuite *suite, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
+static void print_runfooter(const struct runcontext *context, const struct ct_testsuite *suite, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
 {
-    static const double ms_per_sec = 1000.0;
     char formatted_datetime[DATE_FORMAT_SIZE];
     size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
-    printf("Ran %zu tests (%.3f seconds): " green_text("%zu passed") ", " red_text("%zu failed") ", " cyan_text("%zu ignored") ".\n", suite->count, elapsed_msecs / ms_per_sec, ledger->passed, ledger->failed, ledger->ignored);
+    print_testresults(context, suite->count, elapsed_msecs, ledger);
     
     print_delimiter("End");
 }
@@ -137,29 +207,29 @@ static void assertstate_reset(void)
     AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const char * restrict testname, struct runledger *ledger)
+static void assertstate_handlefailure(const struct runcontext *context, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->failed;
-    printf("[ " red_text("\u2717") " ] - '%s' failure\n", testname);
+    print_testresult(context, HIGHLIGHT_FAILURE, "\u2717", "'%s' failure", testname);
     printf("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
     print_linemessage(AssertState.message);
 }
 
-static void assertstate_handleignore(const char * restrict testname, struct runledger *ledger)
+static void assertstate_handleignore(const struct runcontext *context, const char * restrict testname, struct runledger *ledger)
 {
     ++ledger->ignored;
-    printf("[ " cyan_text("%c") " ] - '%s' ignored\n", IgnoredTestChar, testname);
+    print_testresult(context, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "'%s' ignored", testname);
     print_linemessage(AssertState.message);
 }
 
-static void assertstate_handle(const char * restrict testname, struct runledger *ledger)
+static void assertstate_handle(const struct runcontext *context, const char * restrict testname, struct runledger *ledger)
 {
     switch (AssertState.type) {
         case ASSERT_FAILURE:
-            assertstate_handlefailure(testname, ledger);
+            assertstate_handlefailure(context, testname, ledger);
             break;
         case ASSERT_IGNORE:
-            assertstate_handleignore(testname, ledger);
+            assertstate_handleignore(context, testname, ledger);
             break;
         default:
             fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
@@ -285,24 +355,24 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *self, void * restrict testcontext, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *self, const struct runcontext *runcontext, void * restrict testcontext, size_t index, struct runledger *ledger)
 {
     if (!self->test) {
         ++ledger->ignored;
-        printf("[ " cyan_text("%c") " ] - ignored test at index %zu (NULL function pointer found)\n", IgnoredTestChar, index);
+        print_testresult(runcontext, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "ignored test at index %zu (NULL function pointer found)", index);
         return;
     }
     
     self->test(testcontext);
     
     ++ledger->passed;
-    printf("[ " green_text("\u2713") " ] - '%s' success\n", self->name);
+    print_testresult(runcontext, HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
+static void testsuite_runcase(const struct ct_testsuite *self, const struct runcontext *runcontext, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
-    const struct ct_testcase *current_test = &self->tests[index];
+    const struct ct_testcase *current_test = self->tests + index;
     
     void *testcontext = NULL;
     if (self->setup) {
@@ -310,9 +380,9 @@ static void testsuite_runcase(const struct ct_testsuite *self, size_t index, str
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(current_test->name, ledger);
+        assertstate_handle(runcontext, current_test->name, ledger);
     } else {
-        testcase_run(current_test, testcontext, index, ledger);
+        testcase_run(current_test, runcontext, testcontext, index, ledger);
     }
     
     if (self->teardown) {
@@ -331,16 +401,18 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
         return InvalidSuite;
     }
     
+    struct runcontext context = make_runcontext();
+    
     uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, time(NULL));
     
     struct runledger ledger = { .passed = 0 };
     for (size_t i = 0; i < suite->count; ++i) {
-        testsuite_runcase(suite, i, &ledger);
+        testsuite_runcase(suite, &context, i, &ledger);
     }
     
     uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
-    print_runfooter(suite, time(NULL), elapsed_msecs, &ledger);
+    print_runfooter(&context, suite, time(NULL), elapsed_msecs, &ledger);
     
     return ledger.failed;
 }
