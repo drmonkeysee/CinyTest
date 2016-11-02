@@ -110,10 +110,10 @@ static void print_highlighted(const struct runcontext * restrict context, enum t
         print_color(color);
     }
     
-    va_list args;
-    va_start(args, format);
-    vprintf(format, args);
-    va_end(args);
+    va_list format_args;
+    va_start(format_args, format);
+    vprintf(format, format_args);
+    va_end(format_args);
     
     if (context->colorized) {
         printf("\033[0m");
@@ -126,10 +126,10 @@ static void print_testresult(const struct runcontext * restrict context, enum te
     print_highlighted(context, color, result_symbol);
     printf(" ] - ");
     
-    va_list args;
-    va_start(args, result_message);
-    vprintf(result_message, args);
-    va_end(args);
+    va_list format_args;
+    va_start(format_args, result_message);
+    vprintf(result_message, format_args);
+    va_end(format_args);
     
     printf("\n");
 }
@@ -355,38 +355,38 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *self, const struct runcontext *runcontext, void * restrict testcontext, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *self, const struct runcontext *run_context, void * restrict test_context, size_t index, struct runledger *ledger)
 {
     if (!self->test) {
         ++ledger->ignored;
-        print_testresult(runcontext, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "ignored test at index %zu (NULL function pointer found)", index);
+        print_testresult(run_context, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "ignored test at index %zu (NULL function pointer found)", index);
         return;
     }
     
-    self->test(testcontext);
+    self->test(test_context);
     
     ++ledger->passed;
-    print_testresult(runcontext, HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
+    print_testresult(run_context, HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, const struct runcontext *runcontext, size_t index, struct runledger *ledger)
+static void testsuite_runcase(const struct ct_testsuite *self, const struct runcontext *run_context, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
     const struct ct_testcase *current_test = self->tests + index;
     
-    void *testcontext = NULL;
+    void *test_context = NULL;
     if (self->setup) {
-        self->setup(&testcontext);
+        self->setup(&test_context);
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(runcontext, current_test->name, ledger);
+        assertstate_handle(run_context, current_test->name, ledger);
     } else {
-        testcase_run(current_test, runcontext, testcontext, index, ledger);
+        testcase_run(current_test, run_context, test_context, index, ledger);
     }
     
     if (self->teardown) {
-        self->teardown(&testcontext);
+        self->teardown(&test_context);
     }
 }
 
@@ -402,7 +402,6 @@ size_t ct_runsuite(const struct ct_testsuite *suite)
     }
     
     struct runcontext context = make_runcontext();
-    
     uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, time(NULL));
     
