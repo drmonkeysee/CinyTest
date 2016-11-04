@@ -106,6 +106,24 @@
     assert_valuetype(long double complex, (CMPLXL(LDBL_MAX, LDBL_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
 }
 
+- (void)test_ctmakevalue_FromLiterals
+{
+    assert_valuetype(int, 22, CT_ANNOTATE_INTEGER, get_integer_value);
+    
+    assert_valuetype(int, 'A', CT_ANNOTATE_INTEGER, get_integer_value);
+    
+    assert_valuetype(unsigned int, 34u, CT_ANNOTATE_UINTEGER, get_uinteger_value);
+    
+    assert_valuetype(double, 5.34, CT_ANNOTATE_FLOATINGPOINT, get_floatingpoint_value);
+    
+    assert_invalidvaluetype("bad value");
+    
+    assert_invalidvaluetype(((int[]){ 1, 2, 3 }));
+    
+    struct t { int a; int b; };
+    assert_invalidvaluetype(((struct t){ .a = 1, .b = 2 }));
+}
+
 - (void)test_ctmakevalue_CreatesInvalidTypes
 {
     int i = 40;
