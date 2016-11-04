@@ -207,29 +207,29 @@ static void assertstate_reset(void)
     AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const struct runcontext *context, const char * restrict testname, struct runledger *ledger)
+static void assertstate_handlefailure(const struct runcontext *context, const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->failed;
-    print_testresult(context, HIGHLIGHT_FAILURE, "\u2717", "'%s' failure", testname);
+    print_testresult(context, HIGHLIGHT_FAILURE, "\u2717", "'%s' failure", test_name);
     printf("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
     print_linemessage(AssertState.message);
 }
 
-static void assertstate_handleignore(const struct runcontext *context, const char * restrict testname, struct runledger *ledger)
+static void assertstate_handleignore(const struct runcontext *context, const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->ignored;
-    print_testresult(context, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "'%s' ignored", testname);
+    print_testresult(context, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "'%s' ignored", test_name);
     print_linemessage(AssertState.message);
 }
 
-static void assertstate_handle(const struct runcontext *context, const char * restrict testname, struct runledger *ledger)
+static void assertstate_handle(const struct runcontext *context, const char * restrict test_name, struct runledger *ledger)
 {
     switch (AssertState.type) {
         case ASSERT_FAILURE:
-            assertstate_handlefailure(context, testname, ledger);
+            assertstate_handlefailure(context, test_name, ledger);
             break;
         case ASSERT_IGNORE:
-            assertstate_handleignore(context, testname, ledger);
+            assertstate_handleignore(context, test_name, ledger);
             break;
         default:
             fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
