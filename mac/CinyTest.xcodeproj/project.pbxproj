@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C84D9C451DEBE74D004605F3 /* CTColorOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */; };
 		C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B41D2E15B8002ECC5E /* ciny_posix.c */; };
 		C88059B81D2E15B8002ECC5E /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B51D2E15B8002ECC5E /* ciny.c */; };
 		C88059B91D2E15B8002ECC5E /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = C88059B61D2E15B8002ECC5E /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -75,6 +76,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTColorOptionTests.m; sourceTree = "<group>"; };
 		C88059951D2E11A0002ECC5E /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88059B41D2E15B8002ECC5E /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 		C88059B51D2E15B8002ECC5E /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */,
 				C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */,
 				C88059E41D2E177F002ECC5E /* CTRunSuiteTests.m */,
+				C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */,
 				C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */,
 				C88059D11D2E177F002ECC5E /* CTAssertionTestBase.m */,
 				C88059DE1D2E177F002ECC5E /* CTIgnoreTests.m */,
@@ -442,6 +445,7 @@
 				C88059F41D2E177F002ECC5E /* CTAssertNotSameTests.m in Sources */,
 				C88059ED1D2E177F002ECC5E /* CTAssertFailTests.m in Sources */,
 				C88059F31D2E177F002ECC5E /* CTAssertNotNullTests.m in Sources */,
+				C84D9C451DEBE74D004605F3 /* CTColorOptionTests.m in Sources */,
 				C88059FB1D2E177F002ECC5E /* CTMakeSuiteTests.m in Sources */,
 				C88059EB1D2E177F002ECC5E /* CTAssertEqualStrTests.m in Sources */,
 				C88059F81D2E177F002ECC5E /* CTBoolAssertionTestBase.m in Sources */,
