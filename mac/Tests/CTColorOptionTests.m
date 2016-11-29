@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "ciny.h"
 
 @interface CTColorOptionTests : XCTestCase
@@ -23,7 +24,33 @@ static void test_case(void *context)
 
 @implementation CTColorOptionTests
 
+- (void)setUp
+{
+    [super setUp];
+    
+    unsetenv("CINYTEST_COLORIZED");
+}
+
+- (void)tearDown
+{
+    unsetenv("CINYTEST_COLORIZED");
+    
+    [super tearDown];
+}
+
 - (void)test_colorizedEnabledByDefault
+{
+    [self assertSuiteOutputContains:@"[0;32m1 passed[0m,"];
+}
+
+- (void)test_colorizedDisabledByEnv
+{
+    setenv("CINYTEST_COLORIZED", "NO", 1);
+    
+    [self assertSuiteOutputContains:@"1 passed,"];
+}
+
+- (void)assertSuiteOutputContains:(NSString *)expected
 {
     const struct ct_testcase cases[] = { ct_maketest(test_case) };
     struct ct_testsuite suite = ct_makesuite(cases);
@@ -38,7 +65,8 @@ static void test_case(void *context)
     fflush(stdout);
     NSData *data = readOutput.availableData;
     NSString *result = [NSString stringWithCString:data.bytes encoding:NSUTF8StringEncoding];
-    NSString *expected = @"[0;32m1 passed[0m,";
+    // TODO: sometimes this is null
+    NSLog(@"FOO: %@", result);
     NSRange found = [result rangeOfString:expected];
     
     dup2(old_stdout, fileno(stdout));
