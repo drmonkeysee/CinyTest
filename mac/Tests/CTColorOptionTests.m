@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ciny.h"
 
 @interface CTColorOptionTests : XCTestCase
@@ -50,12 +51,14 @@ static void test_case(void *context)
     [self assertSuiteOutputContains:@"1 passed,"];
 }
 
+#define TEST_RESULT_SIZE 512u
+
 - (void)assertSuiteOutputContains:(NSString *)expected
 {
     const struct ct_testcase cases[] = { ct_maketest(test_case) };
     struct ct_testsuite suite = ct_makesuite(cases);
     
-    NSPipe *output = NSPipe.pipe;
+    NSPipe *output = [NSPipe pipe];
     NSFileHandle *readOutput = output.fileHandleForReading;
     int old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
@@ -64,15 +67,20 @@ static void test_case(void *context)
     
     fflush(stdout);
     NSData *data = readOutput.availableData;
-    NSString *result = [NSString stringWithCString:data.bytes encoding:NSUTF8StringEncoding];
-    // TODO: sometimes this is null
-    NSLog(@"FOO: %@", result);
-    NSRange found = [result rangeOfString:expected];
+    
+    // for some reason NSString+stringWithCString:encoding: flip-flops
+    // between a valid result and nil given the same NSData (XCode 8)
+    // so write directly into a cstring instead
+    XCTAssertGreaterThan(TEST_RESULT_SIZE, data.length);
+    char result[TEST_RESULT_SIZE];
+    [data getBytes:result length:data.length];
+    result[data.length] = '\0';
     
     dup2(old_stdout, fileno(stdout));
     close(old_stdout);
     
-    XCTAssertNotEqual(NSNotFound, found.location);
+    char *found = strstr(result, expected.UTF8String);
+    XCTAssertNotEqual(NULL, found);
 }
 
 @end
