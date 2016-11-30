@@ -67,20 +67,14 @@ static void test_case(void *context)
     
     fflush(stdout);
     NSData *data = readOutput.availableData;
-    
-    // for some reason NSString+stringWithCString:encoding: flip-flops
-    // between a valid result and nil given the same NSData (XCode 8)
-    // so write directly into a cstring instead
-    XCTAssertGreaterThan(TEST_RESULT_SIZE, data.length);
-    char result[TEST_RESULT_SIZE];
-    [data getBytes:result length:data.length];
-    result[data.length] = '\0';
-    
     dup2(old_stdout, fileno(stdout));
     close(old_stdout);
     
-    char *found = strstr(result, expected.UTF8String);
-    XCTAssertNotEqual(NULL, found);
+    NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSRange found = [result rangeOfString:expected];
+    
+    XCTAssertNotNil(result);
+    XCTAssertNotEqual(NSNotFound, found.location);
 }
 
 @end
