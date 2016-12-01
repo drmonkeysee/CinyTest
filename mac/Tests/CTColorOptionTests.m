@@ -41,19 +41,28 @@ static void test_case(void *context)
 
 - (void)test_colorizedEnabledByDefault
 {
-    [self assertSuiteOutputContains:@"[0;32m1 passed[0m,"];
+    [self assertSuiteOutputContains:@"[0;32m1 passed[0m," for:nil];
 }
 
 - (void)test_colorizedDisabledByEnv
 {
-    setenv("CINYTEST_COLORIZED", "NO", 1);
-    
-    [self assertSuiteOutputContains:@"1 passed,"];
+    NSArray *disableValues = [NSArray arrayWithObjects:@"NO", @"no", @"FALSE", @"false", @"0", @"n", @"F", nil];
+    for (NSString *value in disableValues) {
+        setenv("CINYTEST_COLORIZED", value.UTF8String, 1);
+        [self assertSuiteOutputContains:@"1 passed," for:value];
+    }
 }
 
-#define TEST_RESULT_SIZE 512u
+- (void)test_colorizedEnabledForPositiveEnvValues
+{
+    NSArray *randomValues = [NSArray arrayWithObjects:@"YES", @"true", @"blarg", @"", @"1", nil];
+    for (NSString *value in randomValues) {
+        setenv("CINYTEST_COLORIZED", value.UTF8String, 1);
+        [self assertSuiteOutputContains:@"[0;32m1 passed[0m," for:value];
+    }
+}
 
-- (void)assertSuiteOutputContains:(NSString *)expected
+- (void)assertSuiteOutputContains:(NSString *)expected for:(NSString *)envValue
 {
     const struct ct_testcase cases[] = { ct_maketest(test_case) };
     struct ct_testsuite suite = ct_makesuite(cases);
@@ -73,8 +82,8 @@ static void test_case(void *context)
     NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSRange found = [result rangeOfString:expected];
     
-    XCTAssertNotNil(result);
-    XCTAssertNotEqual(NSNotFound, found.location);
+    XCTAssertNotNil(result, @"Unexpected nil output string for env value \"%@\"", envValue);
+    XCTAssertNotEqual(NSNotFound, found.location, @"Expected string \"%@\" not found for env value \"%@\"", expected, envValue);
 }
 
 @end
