@@ -16,6 +16,7 @@
 #include <float.h>
 #include <math.h>
 #include <inttypes.h>
+#include <stdlib.h>
 #include "ciny.h"
 
 /////
@@ -80,9 +81,28 @@ extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 // Run Settings
 /////
 
+static bool value_off(const char *value)
+{
+    static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
+    static const size_t flags_count = sizeof off_flags / sizeof off_flags[0];
+    
+    if (!value) {
+        return false;
+    }
+    
+    for (size_t i = 0; i < flags_count; ++i) {
+        if (value[0] == off_flags[i]) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 static struct runcontext make_runcontext(void)
 {
-    return (struct runcontext){ .colorized = true };
+    const char *color_option = getenv("CINYTEST_COLORIZED");
+    return (struct runcontext){ .colorized = !value_off(color_option) };
 }
 
 /////
