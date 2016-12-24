@@ -50,7 +50,7 @@ static void test_case(void *context)
     NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"n", @"F"];
     for (NSString *value in disableValues) {
         setenv("CINYTEST_COLORIZED", value.UTF8String, 1);
-        [self assertSuiteOutputContains:@"1 passed," forValue:value];
+        [self assertSuiteOutputContains:@"1 passed," forValue:value];
     }
 }
 
@@ -76,7 +76,7 @@ static void test_case(void *context)
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
         uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
         [args insertObject:value atIndex:insertIndex];
-        [self assertSuiteOutputContains:@"1 passed," forValue:value withArgs:args];
+        [self assertSuiteOutputContains:@"1 passed," forValue:value withArgs:args];
     }
 }
 
