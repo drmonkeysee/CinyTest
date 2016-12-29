@@ -193,7 +193,7 @@ static void print_testresults(const struct runcontext *context, size_t test_coun
 
 static void print_delimiter(const char *message)
 {
-    printf("====-- CinyTest %s --====\n", message);
+    printf("====-- CinyTest (v%s) %s --====\n", CT_VERSION, message);
 }
 
 static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
