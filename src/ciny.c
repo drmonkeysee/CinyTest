@@ -113,6 +113,7 @@ static const char *arg_value(const char *arg)
 static struct runcontext make_runcontext(int argc, const char *argv[])
 {
     const char *color_option = NULL;
+    
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char *arg = argv[i];
@@ -122,9 +123,11 @@ static struct runcontext make_runcontext(int argc, const char *argv[])
             }
         }
     }
+    
     if (!color_option) {
         color_option = getenv("CINYTEST_COLORIZED");
     }
+    
     return (struct runcontext){ .colorized = !value_off(color_option) };
 }
 
