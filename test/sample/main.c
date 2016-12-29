@@ -8,11 +8,11 @@
 
 #include <stdlib.h>
 
-size_t binarytree_tests(void);
+size_t binarytree_tests(int argc, const char *argv[]);
 
 int main(int argc, const char *argv[])
 {
-    size_t results = binarytree_tests();
+    size_t results = binarytree_tests(argc, argv);
     
     return results != 0;
 }

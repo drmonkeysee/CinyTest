@@ -305,7 +305,7 @@ static void btrebalance_doesnothing_ifoneelementtree(void *context)
     ct_assertequal(1lu, bt_size(ctx->tree));
 }
 
-size_t binarytree_tests(void)
+size_t binarytree_tests(int argc, const char *argv[])
 {
     const struct ct_testcase tests[] = {
         ct_maketest(btcreate_creates_emptytree),
@@ -342,7 +342,7 @@ size_t binarytree_tests(void)
     
     printf("Running sample tests with CinyTest v%s...\n", CT_VERSION);
     
-    size_t results = ct_runsuite(&suite);
+    size_t results = ct_runsuite_withargs(&suite, argc, argv);
     
     return results;
 }
