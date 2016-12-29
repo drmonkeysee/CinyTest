@@ -99,9 +99,32 @@ static bool value_off(const char *value)
     return false;
 }
 
-static struct runcontext make_runcontext(void)
+static const char *arg_value(const char *arg)
 {
-    const char *color_option = getenv("CINYTEST_COLORIZED");
+    char *delimiter = strrchr(arg, '=');
+    
+    if (delimiter) {
+        return ++delimiter;
+    }
+    
+    return NULL;
+}
+
+static struct runcontext make_runcontext(int argc, const char *argv[])
+{
+    const char *color_option = NULL;
+    if (argv) {
+        for (int i = 0; i < argc; ++i) {
+            const char *arg = argv[i];
+            if (strstr(arg, "--ct-colorized")) {
+                color_option = arg_value(arg);
+                break;
+            }
+        }
+    }
+    if (!color_option) {
+        color_option = getenv("CINYTEST_COLORIZED");
+    }
     return (struct runcontext){ .colorized = !value_off(color_option) };
 }
 
@@ -414,14 +437,14 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
 // Public Functions
 /////
 
-size_t ct_runsuite(const struct ct_testsuite *suite)
+size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
 {
     if (!suite || !suite->tests) {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
         return InvalidSuite;
     }
     
-    struct runcontext context = make_runcontext();
+    struct runcontext context = make_runcontext(argc, argv);
     uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, time(NULL));
     

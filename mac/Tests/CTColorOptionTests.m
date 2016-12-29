@@ -106,8 +106,13 @@ static void test_case(void *context)
     int old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
-    ct_runsuite(&suite);
-    // ct_runsuite_withargs(&suite, argc, argv);
+    const int argc = (int)args.count;
+    const char *argv[args.count];
+    for (int i = 0; i < argc; ++i) {
+        argv[i] = [args[i] UTF8String];
+    }
+    
+    ct_runsuite_withargs(&suite, argc, argv);
     
     fflush(stdout);
     NSData *data = readOutput.availableData;

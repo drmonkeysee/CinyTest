@@ -137,7 +137,16 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restri
  @param suite The test suite to run.
  @return The number of failed tests.
  */
-size_t ct_runsuite(const struct ct_testsuite *suite);
+#define ct_runsuite(suite) ct_runsuite_withargs(suite, 0, NULL)
+
+/**
+ Run a unit test suite with command line arguments.
+ @param suite The test suite to run.
+ @param argc The command line argument count.
+ @param argv The command line argument strings.
+ @return The number of failed tests.
+ */
+size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[]);
 
 /**
  Mark a test as ignored.
