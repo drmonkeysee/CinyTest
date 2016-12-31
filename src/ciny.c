@@ -442,6 +442,23 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
 // Public Functions
 /////
 
+size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+{
+    if (!suites) {
+        fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
+        return InvalidSuite;
+    }
+    
+    size_t failed_count = 0;
+    
+    for (size_t i = 0; i < count; ++i) {
+        const struct ct_testsuite *suite = suites + i;
+        failed_count += ct_runsuite_withargs(suite, argc, argv);
+    }
+    
+    return failed_count;
+}
+
 size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
 {
     if (!suite || !suite->tests) {
