@@ -72,6 +72,7 @@ struct runcontext {
 
 extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline size_t ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t);
 extern inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floatingpoint(int, long double);

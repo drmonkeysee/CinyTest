@@ -111,7 +111,7 @@ struct ct_testsuite {
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
 ct_makesuite_setup_teardown_named(__func__, \
                                     test_list, \
-                                    (sizeof (test_list) / sizeof (test_list)[0]), \
+                                    sizeof (test_list) / sizeof (test_list)[0], \
                                     setup_function, \
                                     teardown_function)
 /**
@@ -133,11 +133,22 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restri
 }
 
 /**
- Run a unit test suite.
- @param suite The test suite to run.
- @return The number of failed tests.
+ Run multiple unit test suites.
+ @param suites The test suites to run.
+ The size of the test suites array is calculated inline so suites must be an array lvalue.
+ @return The total number of failed tests.
  */
-#define ct_runsuite(suite) ct_runsuite_withargs(suite, 0, NULL)
+#define ct_run(suites) ct_run_withargs(suites, sizeof (suites) / sizeof (suites)[0], 0, NULL)
+
+/**
+ Run multiple unit test suites with command line arguments.
+ @param suites The test suites to run.
+ @param count The number of test suites.
+ @param argc The command line argument count.
+ @param argv The command line argument strings.
+ @return The total number of failed tests.
+ */
+size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[]);
 
 /**
  Run a unit test suite with command line arguments.
@@ -147,6 +158,16 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restri
  @return The number of failed tests.
  */
 size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[]);
+
+/**
+ Run a unit test suite.
+ @param suite The test suite to run.
+ @return The number of failed tests.
+ */
+inline size_t ct_runsuite(const struct ct_testsuite *suite)
+{
+    return ct_runsuite_withargs(suite, 0, NULL);
+}
 
 /**
  Mark a test as ignored.
