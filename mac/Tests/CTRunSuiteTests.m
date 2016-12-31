@@ -400,4 +400,18 @@ static void test_teardown(void **context)
     XCTAssertEqual(3, self.teardownSawContext);
 }
 
+- (void)test_ct_runsuite_withargs_Handles_NullAndEmpty_Arguments
+{
+    const struct ct_testcase cases[] = { ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    const char *args[] = { "foo", NULL, "bar", "" };
+    
+    size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
+    
+    XCTAssertEqual(1u, run_result);
+    XCTAssertEqual(3u, self.setupInvocations);
+    XCTAssertEqual(3, self.testSawContext);
+    XCTAssertEqual(3, self.teardownSawContext);
+}
+
 @end

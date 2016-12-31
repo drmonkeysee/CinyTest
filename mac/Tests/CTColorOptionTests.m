@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include <stddef.h>
 #include "ciny.h"
 
 @interface CTColorOptionTests : XCTestCase
@@ -66,7 +65,7 @@ static void test_case(void *context)
 
 - (void)test_colorizedEnabledWithArbitraryArgs
 {
-    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"NULL", @"--ct-somethingelse=NO"];
+    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"--ct-somethingelse=NO"];
     [self assertSuiteOutputContains:@"[0;32m1 passed[0m," forValue:nil withArgs:args];
 }
 
@@ -113,11 +112,10 @@ static void test_case(void *context)
     int old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
-    const int argc = (int)args.count;
+    int argc = (int)args.count;
     const char *argv[args.count];
     for (int i = 0; i < argc; ++i) {
-        NSString *arg = args[i];
-        argv[i] = [arg isEqualToString:@"NULL"] ? NULL : arg.UTF8String;
+        argv[i] = [args[i] UTF8String];
     }
     
     ct_runsuite_withargs(&suite, argc, argv);
