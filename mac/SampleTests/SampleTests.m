@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-size_t binarytree_tests(void);
+size_t binarytree_tests(int argc, const char *argv[]);
 
 @interface SampleTests : XCTestCase
 
@@ -18,7 +18,10 @@ size_t binarytree_tests(void);
 
 - (void)test_BinaryTree_Suite
 {
-    size_t results = binarytree_tests();
+    const char *argv[] = { "--ct-colorized=no" };
+    const int argc = sizeof argv / sizeof argv[0];
+    
+    size_t results = binarytree_tests(argc, argv);
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
