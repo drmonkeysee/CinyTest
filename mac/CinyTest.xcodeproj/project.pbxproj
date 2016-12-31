@@ -44,6 +44,7 @@
 		C8970E251D2F25430087C1C3 /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = C8970E1F1D2F25230087C1C3 /* binarytree.c */; };
 		C8970E261D2F25460087C1C3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = C8970E211D2F25230087C1C3 /* main.c */; };
 		C8970E271D2F25510087C1C3 /* binarytree.c in Sources */ = {isa = PBXBuildFile; fileRef = C8970E1F1D2F25230087C1C3 /* binarytree.c */; };
+		C8BF55B61E186AA700D1767D /* CTRunTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8BF55B51E186AA700D1767D /* CTRunTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,7 @@
 		C8970E1F1D2F25230087C1C3 /* binarytree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = binarytree.c; sourceTree = "<group>"; };
 		C8970E201D2F25230087C1C3 /* binarytree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = binarytree.h; sourceTree = "<group>"; };
 		C8970E211D2F25230087C1C3 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		C8BF55B51E186AA700D1767D /* CTRunTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 				C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */,
 				C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */,
 				C88059E41D2E177F002ECC5E /* CTRunSuiteTests.m */,
+				C8BF55B51E186AA700D1767D /* CTRunTests.m */,
 				C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */,
 				C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */,
 				C88059D11D2E177F002ECC5E /* CTAssertionTestBase.m */,
@@ -454,6 +457,7 @@
 				C88059F21D2E177F002ECC5E /* CTAssertNotEqualTests.m in Sources */,
 				C88059FA1D2E177F002ECC5E /* CTIgnoreTests.m in Sources */,
 				C88059FC1D2E177F002ECC5E /* CTMakeTestTests.m in Sources */,
+				C8BF55B61E186AA700D1767D /* CTRunTests.m in Sources */,
 				C88059F01D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m in Sources */,
 				C88059F71D2E177F002ECC5E /* CTAssertTrueTests.m in Sources */,
 				C8805A001D2E177F002ECC5E /* CTSameAssertionTestBase.m in Sources */,
