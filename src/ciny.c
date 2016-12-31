@@ -17,6 +17,7 @@
 #include <math.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include <stdnoreturn.h>
 #include "ciny.h"
 
 /////
@@ -462,12 +463,12 @@ size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const ch
     return ledger.failed;
 }
 
-_Noreturn void ct_internal_ignore(const char * restrict format, ...)
+noreturn void ct_internal_ignore(const char * restrict format, ...)
 {
     assertstate_raise_signal(ASSERT_IGNORE, NULL, 0, format);
 }
 
-_Noreturn void ct_internal_assertfail(const char * restrict file, int line, const char * restrict format, ...)
+noreturn void ct_internal_assertfail(const char * restrict file, int line, const char * restrict format, ...)
 {
     assertstate_setdescription("%s", "asserted unconditional failure");
     assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
