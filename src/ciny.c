@@ -117,7 +117,7 @@ static struct runcontext make_runcontext(int argc, const char *argv[])
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char *arg = argv[i];
-            if (strstr(arg, "--ct-colorized")) {
+            if (arg && strstr(arg, "--ct-colorized")) {
                 color_option = arg_value(arg);
                 break;
             }
