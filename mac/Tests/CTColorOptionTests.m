@@ -65,7 +65,7 @@ static void test_case(void *context)
 
 - (void)test_colorizedEnabledWithArbitraryArgs
 {
-    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO"];
+    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"--ct-somethingelse=NO"];
     [self assertSuiteOutputContains:@"[0;32m1 passed[0m," forValue:nil withArgs:args];
 }
 
@@ -89,6 +89,12 @@ static void test_case(void *context)
         [args insertObject:value atIndex:insertIndex];
         [self assertSuiteOutputContains:@"[0;32m1 passed[0m," forValue:value withArgs:args];
     }
+}
+
+- (void)test_colorizedHandlesDuplicateCommandLineArgs
+{
+    NSArray *args = @[@"--ct-colorized=NO", @"--ct-colorized=YES"];
+    [self assertSuiteOutputContains:@"1 passed," forValue:nil withArgs:args];
 }
 
 - (void)assertSuiteOutputContains:(NSString *)expected forValue:(NSString *)colorFlag
