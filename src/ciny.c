@@ -70,7 +70,6 @@ struct runcontext {
 // Inline Function Call Sites
 /////
 
-extern inline struct ct_testcase ct_maketest_named(const char *, ct_test_function);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline size_t ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t);
@@ -441,6 +440,12 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
 /////
 // Public Functions
 /////
+
+// TODO: parse args only once
+// TODO: per-suite and global totals
+// TODO: print guards only once (with option?)
+// TODO: turn off color by default for all CT tests
+// TODO: update example to include multiple suites and command line args
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {

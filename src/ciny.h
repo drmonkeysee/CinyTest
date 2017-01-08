@@ -55,20 +55,18 @@ struct ct_testcase {
 /**
  Make a test case.
  Uses the name of the unit test function as the name of the test case.
- @param test_function The unit test function for the test case.
+ @param test The unit test function for the test case.
  @return A test case.
  */
-#define ct_maketest(test_function) ct_maketest_named(#test_function, test_function)
+#define ct_maketest(test) ct_maketest_named(#test, test)
 /**
  Make a test case with a name.
+ Implemented as a macro to allow use as a static initializer.
  @param name The name of the test case.
  @param test The unit test function for the test case.
  @return A test case.
  */
-inline struct ct_testcase ct_maketest_named(const char * restrict name, ct_test_function test)
-{
-    return (struct ct_testcase){ name, test };
-}
+#define ct_maketest_named(name, test) (struct ct_testcase){ name, test }
 
 /**
  A test suite.
