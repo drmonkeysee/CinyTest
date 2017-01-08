@@ -6,11 +6,12 @@
 //  Copyright © 2016 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTTestBase.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include "ciny.h"
 
-@interface CTRunTests : XCTestCase
+@interface CTRunTests : CTTestBase
 
 @property (nonatomic, assign) NSUInteger passingTestInvocationsA;
 @property (nonatomic, assign) NSUInteger failingTestInvocationsA;
@@ -160,8 +161,10 @@ static void test_teardownB(void **context)
 - (void)tearDown
 {
     TestClass = NULL;
+    
     free(FakeContextA);
     FakeContextA = NULL;
+    
     free(FakeContextB);
     FakeContextB = NULL;
     

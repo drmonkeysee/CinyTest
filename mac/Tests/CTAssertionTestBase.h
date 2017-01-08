@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTTestBase.h"
 #include <stddef.h>
 
 // these are macros instead of objc methods so the
@@ -27,7 +28,7 @@
 
 extern void *TestClass;
 
-@interface CTAssertionTestBase : XCTestCase
+@interface CTAssertionTestBase : CTTestBase
 
 @property (nonatomic, assign) BOOL invokedTest;
 @property (nonatomic, assign) BOOL sawPostAssertCode;

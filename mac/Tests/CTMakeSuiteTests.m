@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTTestBase.h"
 #include <stddef.h>
 #include "ciny.h"
 
@@ -25,7 +26,7 @@ static struct ct_testsuite fakesuite_function(void)
     return ct_makesuite(cases);
 }
 
-@interface CTMakeSuiteTests : XCTestCase
+@interface CTMakeSuiteTests : CTTestBase
 
 @end
 

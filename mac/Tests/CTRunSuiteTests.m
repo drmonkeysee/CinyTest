@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTTestBase.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include "ciny.h"
 
-@interface CTRunSuiteTests : XCTestCase
+@interface CTRunSuiteTests : CTTestBase
 
 @property (nonatomic, assign) NSUInteger passingTestInvocations;
 @property (nonatomic, assign) NSUInteger failingTestInvocations;

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTTestBase.h"
 #include <stddef.h>
 #include "ciny.h"
 
@@ -14,7 +15,7 @@ static void maketest_faketest(void *context)
     // do nothing
 }
 
-@interface CTMakeTestTests : XCTestCase
+@interface CTMakeTestTests : CTTestBase
 
 @end
 

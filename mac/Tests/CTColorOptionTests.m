@@ -6,7 +6,7 @@
 //  Copyright © 2016 Brandon Stansbury. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+#import "CTTestBase.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include "ciny.h"
 
-@interface CTColorOptionTests : XCTestCase
+@interface CTColorOptionTests : CTTestBase
 
 @end
 

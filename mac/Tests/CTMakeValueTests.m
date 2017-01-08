@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#import "CTTestBase.h"
 #include <limits.h>
 #include <stdbool.h>
 #include <float.h>
@@ -43,7 +44,7 @@
                 XCTAssertEqual(CT_ANNOTATE_INVALID, foo_value.type); \
             } while (false)
 
-@interface CTMakeValueTests : XCTestCase
+@interface CTMakeValueTests : CTTestBase
 
 @end
 
