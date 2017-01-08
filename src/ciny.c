@@ -151,7 +151,7 @@ static void print_color(enum text_highlight color)
     }
 }
 
-static void print_highlighted(const struct runcontext * restrict context, enum text_highlight color, const char * restrict format, ...)
+static void print_highlighted(const struct runcontext *context, enum text_highlight color, const char * restrict format, ...)
 {
     if (context->colorized) {
         print_color(color);
@@ -167,7 +167,7 @@ static void print_highlighted(const struct runcontext * restrict context, enum t
     }
 }
 
-static void print_testresult(const struct runcontext * restrict context, enum text_highlight color, const char * restrict result_symbol, const char * restrict result_message, ...)
+static void print_testresult(const struct runcontext *context, enum text_highlight color, const char * restrict result_symbol, const char * restrict result_message, ...)
 {
     printf("[ ");
     print_highlighted(context, color, result_symbol);
