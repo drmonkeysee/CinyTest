@@ -444,8 +444,6 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
 // TODO: parse args only once
 // TODO: per-suite and global totals
 // TODO: print guards only once (with option?)
-// TODO: turn off color by default for all CT tests
-// TODO: update example to include multiple suites and command line args
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
