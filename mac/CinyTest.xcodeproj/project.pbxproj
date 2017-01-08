@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C84D9C451DEBE74D004605F3 /* CTColorOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */; };
+		C85B4A4E1E220B950031C1BB /* CTTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A4D1E220B950031C1BB /* CTTestBase.m */; };
 		C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B41D2E15B8002ECC5E /* ciny_posix.c */; };
 		C88059B81D2E15B8002ECC5E /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B51D2E15B8002ECC5E /* ciny.c */; };
 		C88059B91D2E15B8002ECC5E /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = C88059B61D2E15B8002ECC5E /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,6 +79,8 @@
 
 /* Begin PBXFileReference section */
 		C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTColorOptionTests.m; sourceTree = "<group>"; };
+		C85B4A4D1E220B950031C1BB /* CTTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTTestBase.m; sourceTree = "<group>"; };
+		C85B4A4F1E220BBE0031C1BB /* CTTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTTestBase.h; sourceTree = "<group>"; };
 		C88059951D2E11A0002ECC5E /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88059B41D2E15B8002ECC5E /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 		C88059B51D2E15B8002ECC5E /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
@@ -200,6 +203,8 @@
 		C88059BF1D2E16D3002ECC5E /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C85B4A4F1E220BBE0031C1BB /* CTTestBase.h */,
+				C85B4A4D1E220B950031C1BB /* CTTestBase.m */,
 				C88059E01D2E177F002ECC5E /* CTMakeTestTests.m */,
 				C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */,
 				C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */,
@@ -462,6 +467,7 @@
 				C88059F71D2E177F002ECC5E /* CTAssertTrueTests.m in Sources */,
 				C8805A001D2E177F002ECC5E /* CTSameAssertionTestBase.m in Sources */,
 				C88059F11D2E177F002ECC5E /* CTAssertNotEqualStrTests.m in Sources */,
+				C85B4A4E1E220B950031C1BB /* CTTestBase.m in Sources */,
 				C88059FD1D2E177F002ECC5E /* CTMakeValueTests.m in Sources */,
 				C88059FE1D2E177F002ECC5E /* CTNullAssertionTestBase.m in Sources */,
 			);
