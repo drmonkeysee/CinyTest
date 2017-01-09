@@ -21,7 +21,7 @@ size_t binarytree_tests(int argc, const char *argv[]);
     const char *argv[] = { "--ct-colorized=no" };
     const int argc = sizeof argv / sizeof argv[0];
     
-    size_t results = binarytree_tests(argc, argv);
+    const size_t results = binarytree_tests(argc, argv);
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"

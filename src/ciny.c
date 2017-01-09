@@ -102,7 +102,7 @@ static bool value_off(const char *value)
 
 static const char *arg_value(const char *arg)
 {
-    char *delimiter = strrchr(arg, '=');
+    const char *delimiter = strrchr(arg, '=');
     
     if (delimiter) {
         return ++delimiter;
@@ -202,7 +202,7 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
     print_delimiter("Run");
     
     char formatted_datetime[DATE_FORMAT_SIZE];
-    size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&start_time));
+    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&start_time));
     printf("Starting test suite '%s' at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     printf("Running %zu tests:\n", suite->count);
@@ -211,7 +211,7 @@ static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
 static void print_runfooter(const struct runcontext *context, const struct ct_testsuite *suite, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
 {
     char formatted_datetime[DATE_FORMAT_SIZE];
-    size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
+    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     print_testresults(context, suite->count, elapsed_msecs, ledger);
@@ -230,9 +230,9 @@ static bool pretty_truncate(char *str, size_t size)
 {
     static const char * const restrict ellipsis = "\u2026";
     const size_t ellipsis_length = strlen(ellipsis);
-    ptrdiff_t truncation_index = size - 1 - ellipsis_length;
+    const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
     
-    bool can_fit_ellipsis = truncation_index >= 0;
+    const bool can_fit_ellipsis = truncation_index >= 0;
     if (can_fit_ellipsis) {
         str[truncation_index] = '\0';
         strcat(str, ellipsis);
@@ -289,7 +289,7 @@ static void assertstate_setdescription(const char * restrict format, ...)
     const size_t description_size = sizeof AssertState.description;
     va_list format_args;
     va_start(format_args, format);
-    int write_count = vsnprintf(AssertState.description, description_size, format, format_args);
+    const int write_count = vsnprintf(AssertState.description, description_size, format, format_args);
     va_end(format_args);
     
     if ((size_t)write_count >= description_size) {
@@ -307,7 +307,7 @@ do { \
 static void assertstate_setvmessage(const char *format, va_list format_args)
 {
     const size_t message_size = sizeof AssertState.message;
-    int write_count = vsnprintf(AssertState.message, message_size, format, format_args);
+    const int write_count = vsnprintf(AssertState.message, message_size, format, format_args);
     
     if ((size_t)write_count >= message_size) {
         pretty_truncate(AssertState.message, message_size);
@@ -470,7 +470,7 @@ size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const ch
     }
     
     struct runcontext context = make_runcontext(argc, argv);
-    uint64_t start_msecs = get_currentmsecs();
+    const uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, time(NULL));
     
     struct runledger ledger = { .passed = 0 };
@@ -478,7 +478,7 @@ size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const ch
         testsuite_runcase(suite, &context, i, &ledger);
     }
     
-    uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
+    const uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
     print_runfooter(&context, suite, time(NULL), elapsed_msecs, &ledger);
     
     return ledger.failed;
@@ -567,7 +567,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value expected, const char 
 
 void ct_internal_assertaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char * restrict file, int line, const char * restrict format, ...)
 {
-    long double diff = fabsl(expected - actual);
+    const long double diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
         assertstate_setdescription("(%s) differs from (%s) by greater than \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
@@ -577,7 +577,7 @@ void ct_internal_assertaboutequal(long double expected, const char *stringized_e
 
 void ct_internal_assertnotaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char * restrict file, int line, const char * restrict format, ...)
 {
-    long double diff = fabsl(expected - actual);
+    const long double diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
         assertstate_setdescription("(%s) differs from (%s) by less than or equal to \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         

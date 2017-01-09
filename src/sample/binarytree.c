@@ -101,8 +101,8 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t sta
 {
     if (start_index > end_index) return BT_EMPTY;
     
-    ptrdiff_t distance = end_index - start_index;
-    ptrdiff_t middle_index = start_index + (distance / 2);
+    const ptrdiff_t distance = end_index - start_index;
+    const ptrdiff_t middle_index = start_index + (distance / 2);
     struct bt_node *node = node_list[middle_index];
     
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
@@ -188,11 +188,11 @@ void bt_rebalance(binarytree **treeref)
 {
     if (!treeref || !*treeref) return;
     
-    size_t size = bt_size(*treeref);
+    const size_t size = bt_size(*treeref);
     struct bt_node *sorted_nodes[size];
     
-    ptrdiff_t start = 0;
-    ptrdiff_t end = size - 1;
+    const ptrdiff_t start = 0;
+    const ptrdiff_t end = size - 1;
     ptrdiff_t current_index = start;
     inline_tree(*treeref, sorted_nodes, &current_index);
     
@@ -214,8 +214,8 @@ size_t bt_depth(binarytree *self)
 {
     if (!self) return 0;
     
-    size_t left_depth = bt_depth(self->left);
-    size_t right_depth = bt_depth(self->right);
+    const size_t left_depth = bt_depth(self->left);
+    const size_t right_depth = bt_depth(self->right);
     return (left_depth > right_depth ? left_depth : right_depth) + 1;
 }
 

@@ -41,7 +41,7 @@ static void btcreate_creates_emptytree(void *context)
 {
     struct bt_testcontext *ctx = context;
     
-    _Bool empty = bt_isempty(ctx->tree);
+    const _Bool empty = bt_isempty(ctx->tree);
     
     ct_asserttrue(empty);
 }
@@ -50,7 +50,7 @@ static void btsize_returnszero_ifemptytree(void *context)
 {
     struct bt_testcontext *ctx = context;
     
-    size_t size = bt_size(ctx->tree);
+    const size_t size = bt_size(ctx->tree);
     
     ct_assertequal(0u, size);
 }
@@ -59,7 +59,7 @@ static void btdepth_returnszero_ifemptytree(void *context)
 {
     struct bt_testcontext *ctx = context;
     
-    size_t depth = bt_depth(ctx->tree);
+    const size_t depth = bt_depth(ctx->tree);
     
     ct_assertequal(0u, depth);
 }
@@ -123,7 +123,7 @@ static void btcontains_returnstrue_ifvaluepresent(void *context)
     const int expected_value = 7;
     bt_insert(&ctx->tree, expected_value);
     
-    _Bool contains = bt_contains(ctx->tree, expected_value);
+    const _Bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_asserttrue(contains);
 }
@@ -134,7 +134,7 @@ static void btcontains_returnstrue_ifvalueiszero(void *context)
     const int expected_value = 0;
     bt_insert(&ctx->tree, expected_value);
     
-    _Bool contains = bt_contains(ctx->tree, expected_value);
+    const _Bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_asserttrue(contains);
 }
@@ -149,7 +149,7 @@ static void btcontains_returnstrue_ifvalueamongothervalues(void *context)
     bt_insert(&ctx->tree, expected_value);
     bt_insert(&ctx->tree, 6);
     
-    _Bool contains = bt_contains(ctx->tree, expected_value);
+    const _Bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_asserttrue(contains);
 }
@@ -161,7 +161,7 @@ static void btcontains_returnsfalse_ifvaluenotpresent(void *context)
     bt_insert(&ctx->tree, 10);
     bt_insert(&ctx->tree, 4);
     
-    _Bool contains = bt_contains(ctx->tree, expected_value);
+    const _Bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_assertfalse(contains);
 }
@@ -171,7 +171,7 @@ static void btcontains_returnsfalse_ifemptytree(void *context)
     struct bt_testcontext *ctx = context;
     const int expected_value = 9;
     
-    _Bool contains = bt_contains(ctx->tree, expected_value);
+    const _Bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_assertfalse(contains);
 }
@@ -338,11 +338,11 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btrebalance_doesnothing_ifemptytree),
         ct_maketest(btrebalance_doesnothing_ifoneelementtree)
     };
-    struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup, teardown);
+    const struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup, teardown);
     
     printf("Running sample tests ...\n");
     
-    size_t results = ct_runsuite_withargs(&suite, argc, argv);
+    const size_t results = ct_runsuite_withargs(&suite, argc, argv);
     
     return results;
 }
