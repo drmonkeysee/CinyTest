@@ -74,7 +74,7 @@ static void test_case(void *context)
     NSArray *disableValues = @[@"--ct-colorized=NO", @"--ct-colorized=no", @"--ct-colorized=FALSE", @"--ct-colorized=false", @"--ct-colorized=0", @"--ct-colorized=N", @"--ct-colorized=f"];
     for (NSString *value in disableValues) {
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
-        uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
+        const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
         [args insertObject:value atIndex:insertIndex];
         [self assertSuiteOutputContains:@"1 passed," forValue:value withArgs:args];
     }
@@ -85,7 +85,7 @@ static void test_case(void *context)
     NSArray *randomValues = @[@"--ct-colorized=YES", @"--ct-colorized=true", @"--ct-colorized=blarg", @"--ct-colorized=", @"--ct-colorized", @"--ct-colorized=1"];
     for (NSString *value in randomValues) {
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
-        uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
+        const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
         [args insertObject:value atIndex:insertIndex];
         [self assertSuiteOutputContains:@"[0;32m1 passed[0m," forValue:value withArgs:args];
     }
@@ -105,14 +105,14 @@ static void test_case(void *context)
 - (void)assertSuiteOutputContains:(NSString *)expected forValue:(NSString *)colorFlag withArgs:(NSArray *)args
 {
     const struct ct_testcase cases[] = { ct_maketest(test_case) };
-    struct ct_testsuite suite = ct_makesuite(cases);
+    const struct ct_testsuite suite = ct_makesuite(cases);
     
     NSPipe *output = [NSPipe pipe];
     NSFileHandle *readOutput = output.fileHandleForReading;
-    int old_stdout = dup(fileno(stdout));
+    const int old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
-    int argc = (int)args.count;
+    const int argc = (int)args.count;
     const char *argv[args.count];
     for (int i = 0; i < argc; ++i) {
         argv[i] = [args[i] UTF8String];

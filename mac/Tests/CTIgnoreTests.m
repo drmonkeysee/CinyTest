@@ -68,9 +68,9 @@ static void ignore_test_formatmessage(void *context)
 - (void)test_ctignore_TerminatesTest_IfGivenNoMessage
 {
     const struct ct_testcase cases[] = { ct_maketest(ignore_test_nomessage) };
-    struct ct_testsuite suite = ct_makesuite(cases);
+    const struct ct_testsuite suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    const size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -78,9 +78,9 @@ static void ignore_test_formatmessage(void *context)
 - (void)test_ctignore_TerminatesTest_IfGivenMessage
 {
     const struct ct_testcase cases[] = { ct_maketest(ignore_test_message) };
-    struct ct_testsuite suite = ct_makesuite(cases);
+    const struct ct_testsuite suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    const size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -88,9 +88,9 @@ static void ignore_test_formatmessage(void *context)
 - (void)test_ctignore_TerminatesTest_IfGivenFormattedMessage
 {
     const struct ct_testcase cases[] = { ct_maketest(ignore_test_formatmessage) };
-    struct ct_testsuite suite = ct_makesuite(cases);
+    const struct ct_testsuite suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    const size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }

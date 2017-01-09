@@ -39,7 +39,7 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase *expected_tests = faketests;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    struct ct_testsuite testsuite = ct_makesuite(faketests);
+    const struct ct_testsuite testsuite = ct_makesuite(faketests);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -50,7 +50,7 @@ static struct ct_testsuite fakesuite_function(void)
 
 - (void)test_ctmakesuite_UsesFunctionName
 {
-    struct ct_testsuite testsuite = fakesuite_function();
+    const struct ct_testsuite testsuite = fakesuite_function();
     
     XCTAssertEqualObjects([NSString stringWithUTF8String:"fakesuite_function"], [NSString stringWithUTF8String:testsuite.name]);
 }
@@ -60,7 +60,7 @@ static struct ct_testsuite fakesuite_function(void)
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     const struct ct_testcase *cases = NULL;
     
-    struct ct_testsuite testsuite = ct_makesuite(cases);
+    const struct ct_testsuite testsuite = ct_makesuite(cases);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
@@ -74,10 +74,10 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     const struct ct_testcase *expected_tests = faketests;
-    ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    const ct_setupteardown_function expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
+    const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -91,10 +91,10 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     const struct ct_testcase *expected_tests = faketests;
-    ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    const ct_setupteardown_function expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
+    const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -108,7 +108,7 @@ static struct ct_testsuite fakesuite_function(void)
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     const struct ct_testcase *cases = NULL;
     
-    struct ct_testsuite testsuite = ct_makesuite_setup(cases, NULL);
+    const struct ct_testsuite testsuite = ct_makesuite_setup(cases, NULL);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
@@ -122,11 +122,11 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase faketests[] = { ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL) };
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     const struct ct_testcase *expected_tests = faketests;
-    ct_setupteardown_function expected_setup = makesuite_fakesetup;
-    ct_setupteardown_function expected_teardown = makesuite_faketeardown;
+    const ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    const ct_setupteardown_function expected_teardown = makesuite_faketeardown;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    struct ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
+    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -140,7 +140,7 @@ static struct ct_testsuite fakesuite_function(void)
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     const struct ct_testcase *cases = NULL;
     
-    struct ct_testsuite testsuite = ct_makesuite_setup_teardown(cases, NULL, NULL);
+    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown(cases, NULL, NULL);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");
@@ -155,10 +155,10 @@ static struct ct_testsuite fakesuite_function(void)
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
     const struct ct_testcase *expected_tests = faketests;
     size_t expected_count = 10;
-    ct_setupteardown_function expected_setup = makesuite_fakesetup;
-    ct_setupteardown_function expected_teardown = makesuite_faketeardown;
+    const ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    const ct_setupteardown_function expected_teardown = makesuite_faketeardown;
     
-    struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", faketests, expected_count, expected_setup, expected_teardown);
+    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", faketests, expected_count, expected_setup, expected_teardown);
     
     XCTAssertEqualObjects(@"fake suite", [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -169,7 +169,7 @@ static struct ct_testsuite fakesuite_function(void)
 
 - (void)test_ctmakesuitesetupteardownnamed_CreatesTestSuite_IfNullArguments
 {
-    struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named(NULL, NULL, 0, NULL, NULL);
+    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named(NULL, NULL, 0, NULL, NULL);
     
     XCTAssertTrue(testsuite.name == NULL, @"Expected NULL name");
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");

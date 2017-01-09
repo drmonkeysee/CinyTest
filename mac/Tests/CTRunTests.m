@@ -175,7 +175,7 @@ static void test_teardownB(void **context)
 {
     const struct ct_testsuite *suites = NULL;
     
-    size_t run_result = ct_run(suites);
+    const size_t run_result = ct_run(suites);
     
     XCTAssertEqual(0u, run_result);
 }
@@ -185,7 +185,7 @@ static void test_teardownB(void **context)
     const struct ct_testcase *cases = NULL;
     const struct ct_testsuite suites[] = { ct_makesuite(cases), ct_makesuite(cases) };
     
-    size_t run_result = ct_run(suites);
+    const size_t run_result = ct_run(suites);
     
     XCTAssertEqual(0u, run_result);
 }
@@ -205,7 +205,7 @@ static void test_teardownB(void **context)
     };
     const struct ct_testsuite suites[] = { ct_makesuite(casesA), ct_makesuite(casesB) };
     
-    size_t run_result = ct_run(suites);
+    const size_t run_result = ct_run(suites);
     
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
@@ -235,7 +235,7 @@ static void test_teardownB(void **context)
     };
     const struct ct_testsuite suites[] = { ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA), ct_makesuite(casesB) };
     
-    size_t run_result = ct_run(suites);
+    const size_t run_result = ct_run(suites);
     
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
@@ -267,7 +267,7 @@ static void test_teardownB(void **context)
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
     };
     
-    size_t run_result = ct_run(suites);
+    const size_t run_result = ct_run(suites);
     
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
@@ -295,7 +295,7 @@ static void test_teardownB(void **context)
     };
     const struct ct_testsuite suites[] = { ct_makesuite(casesA), ct_makesuite(casesB) };
     
-    size_t run_result = ct_run(suites);
+    const size_t run_result = ct_run(suites);
     
     XCTAssertEqual(7u, run_result);
     XCTAssertEqual(0u, self.passingTestInvocationsA);
@@ -325,7 +325,7 @@ static void test_teardownB(void **context)
     };
     const char *args[] = { "foo", "bar" };
     
-    size_t run_result = ct_run_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
+    const size_t run_result = ct_run_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
@@ -357,7 +357,7 @@ static void test_teardownB(void **context)
     };
     const char *args[] = { "foo", NULL, "bar", "" };
     
-    size_t run_result = ct_run_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
+    const size_t run_result = ct_run_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
