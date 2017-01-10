@@ -17,9 +17,9 @@
 
 typedef struct bt_node binarytree;
 
-binarytree *bt_create(void);
+binarytree *bt_new(void);
 
-binarytree *bt_createwithvalues(size_t n, ...);
+binarytree *bt_new_withvalues(size_t n, ...);
 
 void bt_free(binarytree *self);
 

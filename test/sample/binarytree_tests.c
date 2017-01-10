@@ -22,7 +22,7 @@ struct bt_testcontext {
 static void setup(void **contextref)
 {
     struct bt_testcontext *bt_context = malloc(sizeof *bt_context);
-    bt_context->tree = bt_create();
+    bt_context->tree = bt_new();
     *contextref = bt_context;
 }
 
@@ -37,7 +37,7 @@ static void teardown(void **contextref)
 // Tests
 /////
 
-static void btcreate_creates_emptytree(void *context)
+static void btnew_creates_emptytree(void *context)
 {
     struct bt_testcontext *ctx = context;
     
@@ -232,7 +232,7 @@ static void btremove_supportszero(void *context)
     ct_assertfalse(bt_contains(ctx->tree, expected_value));
 }
 
-static void btcreatewithvalues_createstree(void *context)
+static void btnewwithvalues_createstree(void *context)
 {
     struct bt_testcontext *ctx = context;
     // discard the tree created in setup
@@ -240,7 +240,7 @@ static void btcreatewithvalues_createstree(void *context)
     const int numbers[] = { 1, 2, 3, 4, 5 };
     const size_t count = sizeof numbers / sizeof numbers[0];
     
-    ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);
+    ctx->tree = bt_new_withvalues(count, 1, 2, 3, 4, 5);
     
     ct_assertfalse(bt_isempty(ctx->tree));
     ct_assertequal(count, bt_size(ctx->tree));
@@ -249,14 +249,14 @@ static void btcreatewithvalues_createstree(void *context)
     }
 }
 
-static void btcreatewithvalues_insertsvaluesinorder(void *context)
+static void btnewwithvalues_insertsvaluesinorder(void *context)
 {
     struct bt_testcontext *ctx = context;
     // discard the tree created in setup
     bt_free(ctx->tree);
     const size_t count = 5;
     
-    ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5);
+    ctx->tree = bt_new_withvalues(count, 1, 2, 3, 4, 5);
     
     ct_assertequal(count, bt_depth(ctx->tree));
 }
@@ -277,7 +277,7 @@ static void btrebalance_rebalancestree(void *context)
     // discard the tree created in setup
     bt_free(ctx->tree);
     const size_t count = 10;
-    ctx->tree = bt_createwithvalues(count, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    ctx->tree = bt_new_withvalues(count, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     ct_assertequal(count, bt_depth(ctx->tree));
     
@@ -308,7 +308,7 @@ static void btrebalance_doesnothing_ifoneelementtree(void *context)
 size_t binarytree_tests(int argc, const char *argv[])
 {
     const struct ct_testcase tests[] = {
-        ct_maketest(btcreate_creates_emptytree),
+        ct_maketest(btnew_creates_emptytree),
         ct_maketest(btsize_returnszero_ifemptytree),
         ct_maketest(btdepth_returnszero_ifemptytree),
         
@@ -330,8 +330,8 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btremove_removesvalue_ifamongothervalues),
         ct_maketest(btremove_supportszero),
         
-        ct_maketest(btcreatewithvalues_createstree),
-        ct_maketest(btcreatewithvalues_insertsvaluesinorder),
+        ct_maketest(btnewwithvalues_createstree),
+        ct_maketest(btnewwithvalues_insertsvaluesinorder),
         
         ct_maketest(btrebalance_doesnothing_iftreeisnull),
         ct_maketest(btrebalance_rebalancestree),

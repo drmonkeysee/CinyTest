@@ -115,14 +115,14 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t sta
 // Public API Implementation
 /////
 
-binarytree *bt_create(void)
+binarytree *bt_new(void)
 {
     return BT_EMPTY;
 }
 
-binarytree *bt_createwithvalues(size_t n, ...)
+binarytree *bt_new_withvalues(size_t n, ...)
 {
-    struct bt_node *new_tree = bt_create();
+    struct bt_node *new_tree = bt_new();
     
     va_list args;
     va_start(args, n);

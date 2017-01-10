@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include "binarytree.h"
 
 int main(int argc, const char *argv[])
@@ -15,7 +16,7 @@ int main(int argc, const char *argv[])
     (void)argc;
     (void)argv;
 
-    binarytree *tree = bt_createwithvalues(12, 1, 2, 3, 6, 5, 4, 10, 11, 12, 13, 14, 15);
+    binarytree *tree = bt_new_withvalues(12, 1, 2, 3, 6, 5, 4, 10, 11, 12, 13, 14, 15);
     printf("This tree is wack:\n");
     bt_print(tree);
     
@@ -24,6 +25,7 @@ int main(int argc, const char *argv[])
     bt_print(tree);
 
     bt_free(tree);
+    tree = NULL;
     
     return EXIT_SUCCESS;
 }

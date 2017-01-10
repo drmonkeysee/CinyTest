@@ -111,7 +111,7 @@ static const char *arg_value(const char *arg)
     return NULL;
 }
 
-static struct runcontext make_runcontext(int argc, const char *argv[])
+static struct runcontext runcontext_make(int argc, const char *argv[])
 {
     const char *color_option = NULL;
     
@@ -469,7 +469,7 @@ size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const ch
         return InvalidSuite;
     }
     
-    struct runcontext context = make_runcontext(argc, argv);
+    struct runcontext context = runcontext_make(argc, argv);
     const uint64_t start_msecs = get_currentmsecs();
     print_runheader(suite, time(NULL));
     
