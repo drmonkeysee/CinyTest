@@ -71,6 +71,7 @@ struct runcontext {
 /////
 
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]);
 extern inline size_t ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t);
 extern inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t);
@@ -199,8 +200,6 @@ static void print_delimiter(const char *message)
 
 static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
 {
-    print_delimiter("Run");
-    
     char formatted_datetime[DATE_FORMAT_SIZE];
     const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&start_time));
     printf("Starting test suite '%s' at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
@@ -215,8 +214,6 @@ static void print_runfooter(const struct runcontext *context, const struct ct_te
     printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
     
     print_testresults(context, suite->count, elapsed_msecs, ledger);
-    
-    print_delimiter("End");
 }
 
 static void print_linemessage(const char *message)
@@ -437,51 +434,54 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
     }
 }
 
-/////
-// Public Functions
-/////
-
-// TODO: parse args only once
-// TODO: per-suite and global totals
-// TODO: print guards only once (with option?)
-
-size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+static size_t testsuite_run(const struct ct_testsuite *self, const struct runcontext *context)
 {
-    if (!suites) {
-        fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
-        return InvalidSuite;
-    }
-    
-    size_t failed_count = 0;
-    
-    for (size_t i = 0; i < count; ++i) {
-        const struct ct_testsuite *suite = suites + i;
-        failed_count += ct_runsuite_withargs(suite, argc, argv);
-    }
-    
-    return failed_count;
-}
-
-size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
-{
-    if (!suite || !suite->tests) {
+    if (!self || !self->tests) {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
         return InvalidSuite;
     }
     
-    struct runcontext context = runcontext_make(argc, argv);
     const uint64_t start_msecs = get_currentmsecs();
-    print_runheader(suite, time(NULL));
+    print_runheader(self, time(NULL));
     
     struct runledger ledger = { .passed = 0 };
-    for (size_t i = 0; i < suite->count; ++i) {
-        testsuite_runcase(suite, &context, i, &ledger);
+    for (size_t i = 0; i < self->count; ++i) {
+        testsuite_runcase(self, context, i, &ledger);
     }
     
     const uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
-    print_runfooter(&context, suite, time(NULL), elapsed_msecs, &ledger);
+    print_runfooter(context, self, time(NULL), elapsed_msecs, &ledger);
     
     return ledger.failed;
+}
+
+/////
+// Public Functions
+/////
+
+// TODO: per-suite and global totals
+// TODO: add option for print guards
+// TODO: run filter
+
+size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+{
+    print_delimiter("Run");
+    
+    size_t failed_count = 0;
+    if (suites) {
+        const struct runcontext context = runcontext_make(argc, argv);
+        for (size_t i = 0; i < count; ++i) {
+            const struct ct_testsuite *suite = suites + i;
+            failed_count += testsuite_run(suite, &context);
+        }
+    } else {
+        fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
+        failed_count = InvalidSuite;
+    }
+
+    print_delimiter("End");
+    
+    return failed_count;
 }
 
 noreturn void ct_internal_ignore(const char * restrict format, ...)

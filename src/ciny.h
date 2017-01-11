@@ -155,7 +155,10 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
  @param argv The command line argument strings.
  @return The number of failed tests.
  */
-size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[]);
+inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
+{
+    return ct_run_withargs(suite, 1, argc, argv);
+}
 
 /**
  Run a unit test suite.
