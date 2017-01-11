@@ -118,7 +118,7 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
-            const char *arg = argv[i];
+            const char * const arg = argv[i];
             if (arg && strstr(arg, "--ct-colorized")) {
                 color_option = arg_value(arg);
                 break;
@@ -416,7 +416,7 @@ static void testcase_run(const struct ct_testcase *self, const struct runcontext
 static void testsuite_runcase(const struct ct_testsuite *self, const struct runcontext *run_context, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
-    const struct ct_testcase *current_test = self->tests + index;
+    const struct ct_testcase * const current_test = self->tests + index;
     
     void *test_context = NULL;
     if (self->setup) {
@@ -462,6 +462,7 @@ static size_t testsuite_run(const struct ct_testsuite *self, const struct runcon
 // TODO: per-suite and global totals
 // TODO: add option for print guards
 // TODO: run filter
+// TODO: review pointer vars for const
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
@@ -471,7 +472,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
     if (suites) {
         const struct runcontext context = runcontext_make(argc, argv);
         for (size_t i = 0; i < count; ++i) {
-            const struct ct_testsuite *suite = suites + i;
+            const struct ct_testsuite * const suite = suites + i;
             failed_count += testsuite_run(suite, &context);
         }
     } else {
