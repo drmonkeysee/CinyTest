@@ -22,7 +22,7 @@ struct bt_node {
 
 static struct bt_node *create_node(int value)
 {
-    struct bt_node *new_node = malloc(sizeof *new_node);
+    struct bt_node * const new_node = malloc(sizeof *new_node);
     new_node->value = value;
     new_node->left = BT_EMPTY;
     new_node->right = BT_EMPTY;
@@ -31,7 +31,7 @@ static struct bt_node *create_node(int value)
 
 static struct bt_node **find_childref(struct bt_node *self, int value)
 {
-    struct bt_node **child_ref = self->value > value ? &self->left : &self->right;
+    struct bt_node ** const child_ref = self->value > value ? &self->left : &self->right;
     if (!(*child_ref) || (*child_ref)->value == value) {
         return child_ref;
     }
@@ -49,13 +49,13 @@ static struct bt_node *minimum_child(struct bt_node *self)
 
 static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node **node_ref = find_childref(self, value);
-    struct bt_node *node = *node_ref;
+    struct bt_node ** const node_ref = find_childref(self, value);
+    struct bt_node * const node = *node_ref;
     
     if (!node) return;
     
     if (node->left && node->right) {
-        struct bt_node *successor = minimum_child(node->right);
+        struct bt_node * const successor = minimum_child(node->right);
         node->value = successor->value;
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
@@ -103,7 +103,7 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t sta
     
     const ptrdiff_t distance = end_index - start_index;
     const ptrdiff_t middle_index = start_index + (distance / 2);
-    struct bt_node *node = node_list[middle_index];
+    struct bt_node * const node = node_list[middle_index];
     
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
     node->right = rebalance_node(node_list, middle_index + 1, end_index);
@@ -180,7 +180,7 @@ bool bt_contains(binarytree *self, int value)
     
     if (self->value == value) return true;
     
-    struct bt_node **child_ref = find_childref(self, value);
+    struct bt_node ** const child_ref = find_childref(self, value);
     return *child_ref != BT_EMPTY;
 }
 

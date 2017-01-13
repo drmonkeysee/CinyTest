@@ -173,7 +173,7 @@ static void test_teardownB(void **context)
 
 - (void)test_ctrun_ReturnsZero_IfNullSuites
 {
-    const struct ct_testsuite *suites = NULL;
+    const struct ct_testsuite * const suites = NULL;
     
     const size_t run_result = ct_run(suites);
     
@@ -182,7 +182,7 @@ static void test_teardownB(void **context)
 
 - (void)test_ctrun_ReturnsZero_IfSuitesHaveNullTestLists
 {
-    const struct ct_testcase *cases = NULL;
+    const struct ct_testcase * const cases = NULL;
     const struct ct_testsuite suites[] = { ct_makesuite(cases), ct_makesuite(cases) };
     
     const size_t run_result = ct_run(suites);

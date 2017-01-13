@@ -41,8 +41,8 @@ static void test_equality_stringn_withformatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    const char *expected = "foobar";
-    const char *actual = "barfoo";
+    const char * const expected = "foobar";
+    const char * const actual = "barfoo";
     
     ct_assertequalstrn(expected, actual, sizeof "foobar", "who said %s?!, i said %s", actual, expected);
     
@@ -99,7 +99,7 @@ static void test_equality_string_withformatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    const char *actual = "barfoo";
+    const char * const actual = "barfoo";
     
     ct_assertequalstr("foobar", actual, "why'd you say %s??", actual);
     
