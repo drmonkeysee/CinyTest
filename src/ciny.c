@@ -462,7 +462,6 @@ static size_t testsuite_run(const struct ct_testsuite *self, const struct runcon
 // TODO: per-suite and global totals
 // TODO: add option for print guards
 // TODO: run filter
-// TODO: review order of const keyword use
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {

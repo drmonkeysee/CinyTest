@@ -180,7 +180,7 @@ bool bt_contains(binarytree *self, int value)
     
     if (self->value == value) return true;
     
-    struct bt_node ** const child_ref = find_childref(self, value);
+    struct bt_node * const * const child_ref = find_childref(self, value);
     return *child_ref != BT_EMPTY;
 }
 
