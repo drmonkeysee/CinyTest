@@ -418,7 +418,7 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
     assertstate_reset();
     const struct ct_testcase * const current_test = self->tests + index;
     
-    void * const test_context = NULL;
+    void *test_context = NULL;
     if (self->setup) {
         self->setup(&test_context);
     }
