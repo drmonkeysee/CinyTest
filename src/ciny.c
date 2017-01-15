@@ -56,6 +56,11 @@ struct runledger {
     size_t failed;
     size_t ignored;
 };
+static struct runsummary {
+    size_t test_count;
+    uint64_t total_time;
+    struct runledger ledger;
+} RunSummary;
 
 enum text_highlight {
     HIGHLIGHT_SUCCESS,
@@ -216,6 +221,24 @@ static void print_runfooter(const struct runcontext *context, const struct ct_te
     print_testresults(context, suite->count, elapsed_msecs, ledger);
 }
 
+static void print_summary(const struct runcontext *context)
+{
+    printf("[ ");
+    if (RunSummary.ledger.failed > 0) {
+        print_highlighted(context, HIGHLIGHT_FAILURE, "FAILED");
+    } else {
+        print_highlighted(context, HIGHLIGHT_SUCCESS, "SUCCESS");
+    }
+    printf(" ]");
+    printf(" Ran %zu tests total (%.3f seconds): ", RunSummary.test_count, RunSummary.total_time / 1000.0);
+    print_highlighted(context, HIGHLIGHT_SUCCESS, "%zu passed", RunSummary.ledger.passed);
+    printf(", ");
+    print_highlighted(context, HIGHLIGHT_FAILURE, "%zu failed", RunSummary.ledger.failed);
+    printf(", ");
+    print_highlighted(context, HIGHLIGHT_IGNORE, "%zu ignored", RunSummary.ledger.ignored);
+    printf(".\n");
+}
+
 static void print_linemessage(const char *message)
 {
     if (printf("%s", message) > 0) {
@@ -236,6 +259,22 @@ static bool pretty_truncate(char *str, size_t size)
     }
     
     return can_fit_ellipsis;
+}
+
+/////
+// Run Summary
+/////
+
+static void runsummary_reset(void)
+{
+    RunSummary = (struct runsummary){ .test_count = 0 };
+}
+
+static void runsummary_add(const struct runledger *ledger)
+{
+    RunSummary.ledger.passed += ledger->passed;
+    RunSummary.ledger.failed += ledger->failed;
+    RunSummary.ledger.ignored += ledger->ignored;
 }
 
 /////
@@ -434,54 +473,60 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
     }
 }
 
-static size_t testsuite_run(const struct ct_testsuite *self, const struct runcontext *context)
+static void testsuite_run(const struct ct_testsuite *self, const struct runcontext *context)
 {
-    if (!self || !self->tests) {
-        fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
-        return InvalidSuite;
-    }
-    
-    const uint64_t start_msecs = get_currentmsecs();
-    print_runheader(self, time(NULL));
-    
     struct runledger ledger = { .passed = 0 };
-    for (size_t i = 0; i < self->count; ++i) {
-        testsuite_runcase(self, context, i, &ledger);
+    
+    if (self && self->tests) {
+        const uint64_t start_msecs = get_currentmsecs();
+        RunSummary.test_count += self->count;
+        print_runheader(self, time(NULL));
+        
+        for (size_t i = 0; i < self->count; ++i) {
+            testsuite_runcase(self, context, i, &ledger);
+        }
+        
+        const uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
+        RunSummary.total_time += elapsed_msecs;
+        print_runfooter(context, self, time(NULL), elapsed_msecs, &ledger);
+    } else {
+        fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
+        ledger.failed = InvalidSuite;
     }
     
-    const uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
-    print_runfooter(context, self, time(NULL), elapsed_msecs, &ledger);
-    
-    return ledger.failed;
+    runsummary_add(&ledger);
 }
 
 /////
 // Public Functions
 /////
 
-// TODO: per-suite and global totals
+// TODO: unify print summary functions
 // TODO: add option for print guards
 // TODO: run filter
+// TODO: review output, maybe less chatty
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
     print_delimiter("Run");
     
-    size_t failed_count = 0;
+    runsummary_reset();
+    
     if (suites) {
         const struct runcontext context = runcontext_make(argc, argv);
         for (size_t i = 0; i < count; ++i) {
             const struct ct_testsuite * const suite = suites + i;
-            failed_count += testsuite_run(suite, &context);
+            testsuite_run(suite, &context);
         }
+        print_summary(&context);
     } else {
         fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
-        failed_count = InvalidSuite;
+        RunSummary.ledger.failed = InvalidSuite;
     }
 
     print_delimiter("End");
     
-    return failed_count;
+    return RunSummary.ledger.failed;
 }
 
 noreturn void ct_internal_ignore(const char * restrict format, ...)
