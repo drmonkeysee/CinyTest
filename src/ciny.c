@@ -486,7 +486,7 @@ static void testsuite_run(const struct ct_testsuite *self, const struct runconte
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
-    printf("====-- CinyTest (v" CT_VERSION ") --====\n");
+    printf("---=== CinyTest (v" CT_VERSION ") ===---\n");
     
     RunTotals = runsummary_make();
     
