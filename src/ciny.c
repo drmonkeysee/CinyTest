@@ -30,9 +30,6 @@ uint64_t get_currentmsecs(void);
 // Type and Data Definitions
 /////
 
-#define DATE_FORMAT_SIZE 30
-static const char * const restrict DateFormatString = "%F %T";
-static const char * const restrict InvalidDateFormat = "Invalid Date (formatted output may have exceeded buffer size)";
 static const char * const restrict IgnoredTestSymbol = "?";
 
 #define COMPVALUE_STR_SIZE 75
@@ -60,7 +57,7 @@ static struct runsummary {
     size_t test_count;
     uint64_t total_time;
     struct runledger ledger;
-} RunSummary;
+} RunTotals;
 
 enum text_highlight {
     HIGHLIGHT_SUCCESS,
@@ -173,11 +170,16 @@ static void print_highlighted(const struct runcontext *context, enum text_highli
     }
 }
 
-static void print_testresult(const struct runcontext *context, enum text_highlight color, const char * restrict result_symbol, const char * restrict result_message, ...)
+static void print_resultlabel(const struct runcontext *context, enum text_highlight color, const char * restrict result_label)
 {
     printf("[ ");
-    print_highlighted(context, color, result_symbol);
+    print_highlighted(context, color, result_label);
     printf(" ] - ");
+}
+
+static void print_testresult(const struct runcontext *context, enum text_highlight color, const char * restrict result_label, const char * restrict result_message, ...)
+{
+    print_resultlabel(context, color, result_label);
     
     va_list format_args;
     va_start(format_args, result_message);
@@ -187,56 +189,33 @@ static void print_testresult(const struct runcontext *context, enum text_highlig
     printf("\n");
 }
 
-static void print_testresults(const struct runcontext *context, size_t test_count, uint64_t elapsed_msecs, const struct runledger *ledger)
+static void print_testresults(const struct runcontext *context, const struct runsummary *summary)
 {
-    printf("Ran %zu tests (%.3f seconds): ", test_count, elapsed_msecs / 1000.0);
-    print_highlighted(context, HIGHLIGHT_SUCCESS, "%zu passed", ledger->passed);
+    printf("Ran %zu tests (%.3f seconds): ", summary->test_count, summary->total_time / 1000.0);
+    print_highlighted(context, HIGHLIGHT_SUCCESS, "%zu passed", summary->ledger.passed);
     printf(", ");
-    print_highlighted(context, HIGHLIGHT_FAILURE, "%zu failed", ledger->failed);
+    print_highlighted(context, HIGHLIGHT_FAILURE, "%zu failed", summary->ledger.failed);
     printf(", ");
-    print_highlighted(context, HIGHLIGHT_IGNORE, "%zu ignored", ledger->ignored);
+    print_highlighted(context, HIGHLIGHT_IGNORE, "%zu ignored", summary->ledger.ignored);
     printf(".\n");
 }
 
-static void print_delimiter(const char *message)
+static void print_suiteheader(const struct ct_testsuite *suite, time_t start_time)
 {
-    printf("====-- CinyTest (v%s) %s --====\n", CT_VERSION, message);
-}
-
-static void print_runheader(const struct ct_testsuite *suite, time_t start_time)
-{
-    char formatted_datetime[DATE_FORMAT_SIZE];
-    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&start_time));
-    printf("Starting test suite '%s' at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
-    
-    printf("Running %zu tests:\n", suite->count);
-}
-
-static void print_runfooter(const struct runcontext *context, const struct ct_testsuite *suite, time_t end_time, uint64_t elapsed_msecs, const struct runledger *ledger)
-{
-    char formatted_datetime[DATE_FORMAT_SIZE];
-    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, DateFormatString, localtime(&end_time));
-    printf("Test suite '%s' completed at %s\n", suite->name, format_length ? formatted_datetime : InvalidDateFormat);
-    
-    print_testresults(context, suite->count, elapsed_msecs, ledger);
+    char formatted_datetime[30];
+    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
+    printf("Test suite '%s' started at %s\n", suite->name,
+           format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
 static void print_summary(const struct runcontext *context)
 {
-    printf("[ ");
-    if (RunSummary.ledger.failed > 0) {
-        print_highlighted(context, HIGHLIGHT_FAILURE, "FAILED");
+    if (RunTotals.ledger.failed > 0) {
+        print_resultlabel(context, HIGHLIGHT_FAILURE, "FAILED");
     } else {
-        print_highlighted(context, HIGHLIGHT_SUCCESS, "SUCCESS");
+        print_resultlabel(context, HIGHLIGHT_SUCCESS, "SUCCESS");
     }
-    printf(" ]");
-    printf(" Ran %zu tests total (%.3f seconds): ", RunSummary.test_count, RunSummary.total_time / 1000.0);
-    print_highlighted(context, HIGHLIGHT_SUCCESS, "%zu passed", RunSummary.ledger.passed);
-    printf(", ");
-    print_highlighted(context, HIGHLIGHT_FAILURE, "%zu failed", RunSummary.ledger.failed);
-    printf(", ");
-    print_highlighted(context, HIGHLIGHT_IGNORE, "%zu ignored", RunSummary.ledger.ignored);
-    printf(".\n");
+    print_testresults(context, &RunTotals);
 }
 
 static void print_linemessage(const char *message)
@@ -265,16 +244,18 @@ static bool pretty_truncate(char *str, size_t size)
 // Run Summary
 /////
 
-static void runsummary_reset(void)
+static struct runsummary runsummary_make(void)
 {
-    RunSummary = (struct runsummary){ .test_count = 0 };
+    return (struct runsummary){ .test_count = 0 };
 }
 
-static void runsummary_add(const struct runledger *ledger)
+static void runtotals_add(const struct runsummary *summary)
 {
-    RunSummary.ledger.passed += ledger->passed;
-    RunSummary.ledger.failed += ledger->failed;
-    RunSummary.ledger.ignored += ledger->ignored;
+    RunTotals.test_count += summary->test_count;
+    RunTotals.total_time += summary->total_time;
+    RunTotals.ledger.passed += summary->ledger.passed;
+    RunTotals.ledger.failed += summary->ledger.failed;
+    RunTotals.ledger.ignored += summary->ledger.ignored;
 }
 
 /////
@@ -475,42 +456,39 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
 
 static void testsuite_run(const struct ct_testsuite *self, const struct runcontext *context)
 {
-    struct runledger ledger = { .passed = 0 };
+    struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
         const uint64_t start_msecs = get_currentmsecs();
-        RunSummary.test_count += self->count;
-        print_runheader(self, time(NULL));
+        summary.test_count = self->count;
+        print_suiteheader(self, time(NULL));
         
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, context, i, &ledger);
+            testsuite_runcase(self, context, i, &summary.ledger);
         }
         
-        const uint64_t elapsed_msecs = get_currentmsecs() - start_msecs;
-        RunSummary.total_time += elapsed_msecs;
-        print_runfooter(context, self, time(NULL), elapsed_msecs, &ledger);
+        summary.total_time = get_currentmsecs() - start_msecs;
+        print_testresults(context, &summary);
     } else {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
-        ledger.failed = InvalidSuite;
+        summary.ledger.failed = InvalidSuite;
     }
     
-    runsummary_add(&ledger);
+    runtotals_add(&summary);
 }
 
 /////
 // Public Functions
 /////
 
-// TODO: unify print summary functions
 // TODO: add option for print guards
 // TODO: run filter
-// TODO: review output, maybe less chatty
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
-    print_delimiter("Run");
+    printf("====-- CinyTest (v" CT_VERSION ") --====\n");
     
-    runsummary_reset();
+    RunTotals = runsummary_make();
     
     if (suites) {
         const struct runcontext context = runcontext_make(argc, argv);
@@ -521,12 +499,10 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
         print_summary(&context);
     } else {
         fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
-        RunSummary.ledger.failed = InvalidSuite;
+        RunTotals.ledger.failed = InvalidSuite;
     }
 
-    print_delimiter("End");
-    
-    return RunSummary.ledger.failed;
+    return RunTotals.ledger.failed;
 }
 
 noreturn void ct_internal_ignore(const char * restrict format, ...)
