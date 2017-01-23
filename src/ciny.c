@@ -125,11 +125,11 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
         for (int i = 0; i < argc; ++i) {
             const char * const arg = argv[i];
             if (strstr(arg, "--ct-help")) {
-                color_option = arg_value(arg);
+                context.help = true;
             } else if (strstr(arg, "--ct-version")) {
                 context.version = true;
             } else if (strstr(arg, "--ct-colorized")) {
-                context.help = true;
+                color_option = arg_value(arg);
             }
         }
     }
