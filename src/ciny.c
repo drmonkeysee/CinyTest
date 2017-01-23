@@ -65,8 +65,9 @@ enum text_highlight {
     HIGHLIGHT_IGNORE
 };
 struct runcontext {
-    bool colorized;
+    bool help;
     bool version;
+    bool colorized;
 };
 
 /////
@@ -123,10 +124,12 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char * const arg = argv[i];
-            if (strstr(arg, "--ct-colorized")) {
+            if (strstr(arg, "--ct-help")) {
                 color_option = arg_value(arg);
             } else if (strstr(arg, "--ct-version")) {
                 context.version = true;
+            } else if (strstr(arg, "--ct-colorized")) {
+                context.help = true;
             }
         }
     }
@@ -143,6 +146,15 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
 /////
 // Printing and Text Manipulation
 /////
+
+static void print_usage(void)
+{
+    printf("---=== CinyTest Usage ===---\n");
+    printf("This program contains CinyTest tests and can accept the following command line options:\n");
+    printf("\t--ct-help\tPrint this help message (does not run tests).\n");
+    printf("\t--ct-version\tPrint CinyTest version (does not run tests).\n");
+    printf("\t--ct-colorized=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n");
+}
 
 static void print_version(void)
 {
@@ -496,14 +508,16 @@ static void testsuite_run(const struct ct_testsuite *self, const struct runconte
 /////
 
 // TODO: add option for print guards
-// TODO: run filter
+// TODO: can runcontext be global?
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
     const struct runcontext context = runcontext_make(argc, argv);
     RunTotals = runsummary_make();
     
-    if (context.version) {
+    if (context.help) {
+        print_usage();
+    } else if (context.version) {
         print_version();
     } else {
         if (suites) {
