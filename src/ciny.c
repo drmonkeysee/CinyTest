@@ -150,10 +150,10 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
 static void print_usage(void)
 {
     printf("---=== CinyTest Usage ===---\n");
-    printf("This program contains CinyTest tests and can accept the following command line options:\n");
-    printf("\t--ct-help\tPrint this help message (does not run tests).\n");
-    printf("\t--ct-version\tPrint CinyTest version (does not run tests).\n");
-    printf("\t--ct-colorized=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n");
+    printf("This program contains CinyTest tests and can accept the following command line options:\n\n");
+    printf("  --ct-help\t\tPrint this help message (does not run tests).\n");
+    printf("  --ct-version\t\tPrint CinyTest version (does not run tests).\n");
+    printf("  --ct-colorized=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n");
 }
 
 static void print_version(void)
