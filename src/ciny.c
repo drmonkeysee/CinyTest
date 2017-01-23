@@ -66,6 +66,7 @@ enum text_highlight {
 };
 struct runcontext {
     bool colorized;
+    bool version;
 };
 
 /////
@@ -116,14 +117,16 @@ static const char *arg_value(const char *arg)
 
 static struct runcontext runcontext_make(int argc, const char *argv[])
 {
+    struct runcontext context = { .version = false };
     const char *color_option = NULL;
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char * const arg = argv[i];
-            if (arg && strstr(arg, "--ct-colorized")) {
+            if (strstr(arg, "--ct-colorized")) {
                 color_option = arg_value(arg);
-                break;
+            } else if (strstr(arg, "--ct-version")) {
+                context.version = true;
             }
         }
     }
@@ -132,12 +135,23 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
         color_option = getenv("CINYTEST_COLORIZED");
     }
     
-    return (struct runcontext){ .colorized = !value_off(color_option) };
+    context.colorized = !value_off(color_option);
+    
+    return context;
 }
 
 /////
 // Printing and Text Manipulation
 /////
+
+static void print_version(void)
+{
+    printf("CinyTest " CT_VERSION);
+#ifdef __VERSION__
+    printf(" (" __VERSION__ ")");
+#endif
+    printf("\n");
+}
 
 static void print_color(enum text_highlight color)
 {
@@ -486,20 +500,22 @@ static void testsuite_run(const struct ct_testsuite *self, const struct runconte
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
-    printf("---=== CinyTest (v" CT_VERSION ") ===---\n");
-    
+    const struct runcontext context = runcontext_make(argc, argv);
     RunTotals = runsummary_make();
     
-    if (suites) {
-        const struct runcontext context = runcontext_make(argc, argv);
-        for (size_t i = 0; i < count; ++i) {
-            const struct ct_testsuite * const suite = suites + i;
-            testsuite_run(suite, &context);
-        }
-        print_summary(&context);
+    if (context.version) {
+        print_version();
     } else {
-        fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
-        RunTotals.ledger.failed = InvalidSuite;
+        if (suites) {
+            for (size_t i = 0; i < count; ++i) {
+                const struct ct_testsuite * const suite = suites + i;
+                testsuite_run(suite, &context);
+            }
+            print_summary(&context);
+        } else {
+            fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
+            RunTotals.ledger.failed = InvalidSuite;
+        }
     }
 
     return RunTotals.ledger.failed;
