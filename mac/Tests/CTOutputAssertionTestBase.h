@@ -10,7 +10,14 @@
 
 @interface CTOutputAssertionTestBase : CTTestBase
 
-- (void)assertSuiteOutputContains:(NSString *)expected forValue:(NSString *)colorFlag;
-- (void)assertSuiteOutputContains:(NSString *)expected forValue:(NSString *)colorFlag withArgs:(NSArray *)args;
+@property (nonatomic) NSString *envProperty;
+
+- (void)assertDefaultOptionOutputContains:(NSString *)expected;
+- (void)assertEnvDisabledOptionOutputContains:(NSString *)expected;
+- (void)assertEnvEnabledOptionOutputContains:(NSString *)expected;
+- (void)assertArbitraryArgsOptionOutputContains:(NSString *)expected;
+- (void)assertArgDisablesOption:(NSString *)optionArgument outputContains:(NSString *)expected;
+- (void)assertArgEnablesOption:(NSString *)optionArgument outputContains:(NSString *)expected;
+- (void)assertDuplicateOption:(NSString *)optionArgument outputContains:(NSString *)expected;
 
 @end
