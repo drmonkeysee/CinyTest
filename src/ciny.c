@@ -124,7 +124,9 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char * const arg = argv[i];
-            if (strstr(arg, "--ct-help")) {
+            if (!arg) {
+                continue;
+            } else if (strstr(arg, "--ct-help")) {
                 context.help = true;
             } else if (strstr(arg, "--ct-version")) {
                 context.version = true;
