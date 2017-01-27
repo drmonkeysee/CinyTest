@@ -35,36 +35,36 @@ static void test_case(void *context)
     [super tearDown];
 }
 
-- (void)assertDefaultOptionOutputContains:(NSString *)expected
+- (void)assertDefault:(CTOutputComparison)compare value:(NSString *)expected
 {
-    [self assertSuiteOutputContains:expected forValue:nil];
+    [self assertSuite:compare value:expected forOption:nil];
 }
 
-- (void)assertEnvDisabledOptionOutputContains:(NSString *)expected
+- (void)assertEnvDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"n", @"F"];
     for (NSString *value in disableValues) {
         setenv(self.envProperty.UTF8String, value.UTF8String, 1);
-        [self assertSuiteOutputContains:expected forValue:value];
+        [self assertSuite:compare value:expected forOption:value];
     }
 }
 
-- (void)assertEnvEnabledOptionOutputContains:(NSString *)expected
+- (void)assertEnvEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"1"];
     for (NSString *value in randomValues) {
         setenv(self.envProperty.UTF8String, value.UTF8String, 1);
-        [self assertSuiteOutputContains:expected forValue:value];
+        [self assertSuite:compare value:expected forOption:value];
     }
 }
 
-- (void)assertArbitraryArgsOptionOutputContains:(NSString *)expected
+- (void)assertArbitraryArgs:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"--ct-somethingelse=NO"];
-    [self assertSuiteOutputContains:expected forValue:nil withArgs:args];
+    [self assertSuite:compare value:expected forOption:nil withArgs:args];
 }
 
-- (void)assertArgDisablesOption:(NSString *)optionArgument outputContains:(NSString *)expected
+- (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *disableValues = @[@"%@=NO", @"%@=no", @"%@=FALSE", @"%@=false", @"%@=0", @"%@=N", @"%@=f"];
     for (NSString *value in disableValues) {
@@ -72,11 +72,11 @@ static void test_case(void *context)
         const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
         NSString *argValue = [NSString stringWithFormat:value, optionArgument];
         [args insertObject:argValue atIndex:insertIndex];
-        [self assertSuiteOutputContains:expected forValue:value withArgs:args];
+        [self assertSuite:compare value:expected forOption:value withArgs:args];
     }
 }
 
-- (void)assertArgEnablesOption:(NSString *)optionArgument outputContains:(NSString *)expected
+- (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *randomValues = @[@"%@=YES", @"%@=true", @"%@=blarg", @"%@=", @"%@", @"%@=1"];
     for (NSString *value in randomValues) {
@@ -84,22 +84,22 @@ static void test_case(void *context)
         const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
         NSString *argValue = [NSString stringWithFormat:value, optionArgument];
         [args insertObject:argValue atIndex:insertIndex];
-        [self assertSuiteOutputContains:expected forValue:value withArgs:args];
+        [self assertSuite:compare value:expected forOption:value withArgs:args];
     }
 }
 
-- (void)assertDuplicateOption:(NSString *)optionArgument outputContains:(NSString *)expected
+- (void)assertDuplicateArg:(NSString *)optionArgument isDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *args = @[[optionArgument stringByAppendingString:@"=YES"], [optionArgument stringByAppendingString:@"=NO"]];
-    [self assertSuiteOutputContains:expected forValue:@"NO" withArgs:args];
+    [self assertSuite:compare value:expected forOption:@"NO" withArgs:args];
 }
 
-- (void)assertSuiteOutputContains:(NSString *)expected forValue:(NSString *)optionFlag
+- (void)assertSuite:(CTOutputComparison)compare value:(NSString *)expected forOption:(NSString *)optionFlag
 {
-    [self assertSuiteOutputContains:expected forValue:optionFlag withArgs:[NSArray array]];
+    [self assertSuite:compare value:expected forOption:optionFlag withArgs:[NSArray array]];
 }
 
-- (void)assertSuiteOutputContains:(NSString *)expected forValue:(NSString *)optionFlag withArgs:(NSArray *)args
+- (void)assertSuite:(CTOutputComparison)compare value:(NSString *)expected forOption:(NSString *)optionFlag withArgs:(NSArray *)args
 {
     const struct ct_testcase cases[] = { ct_maketest(test_case) };
     const struct ct_testsuite suite = ct_makesuite(cases);
@@ -126,7 +126,11 @@ static void test_case(void *context)
     NSRange found = [result rangeOfString:expected];
     
     XCTAssertNotNil(result, @"Unexpected nil output string for option flag value \"%@\"", optionFlag);
-    XCTAssertNotEqual(NSNotFound, found.location, @"Expected string \"%@\" not found for option flag value \"%@\"", expected, optionFlag);
+    if (compare == CTOutputContains) {
+        XCTAssertNotEqual(NSNotFound, found.location, @"Expected string \"%@\" not found for option flag value \"%@\"", expected, optionFlag);
+    } else {
+        XCTAssertEqual(NSNotFound, found.location, @"Unexpected string \"%@\" found for option flag value \"%@\"", expected, optionFlag);
+    }
 }
 
 @end

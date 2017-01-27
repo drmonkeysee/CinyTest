@@ -8,16 +8,21 @@
 
 #import "CTTestBase.h"
 
+typedef NS_ENUM(NSUInteger, CTOutputComparison) {
+    CTOutputContains,
+    CTOutputDoesNotContain
+};
+
 @interface CTOutputAssertionTestBase : CTTestBase
 
 @property (nonatomic) NSString *envProperty;
 
-- (void)assertDefaultOptionOutputContains:(NSString *)expected;
-- (void)assertEnvDisabledOptionOutputContains:(NSString *)expected;
-- (void)assertEnvEnabledOptionOutputContains:(NSString *)expected;
-- (void)assertArbitraryArgsOptionOutputContains:(NSString *)expected;
-- (void)assertArgDisablesOption:(NSString *)optionArgument outputContains:(NSString *)expected;
-- (void)assertArgEnablesOption:(NSString *)optionArgument outputContains:(NSString *)expected;
-- (void)assertDuplicateOption:(NSString *)optionArgument outputContains:(NSString *)expected;
+- (void)assertDefault:(CTOutputComparison)compare value:(NSString *)expected;
+- (void)assertEnvDisabled:(CTOutputComparison)compare value:(NSString *)expected;
+- (void)assertEnvEnabled:(CTOutputComparison)compare value:(NSString *)expected;
+- (void)assertArbitraryArgs:(CTOutputComparison)compare value:(NSString *)expected;
+- (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected;
+- (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected;
+- (void)assertDuplicateArg:(NSString *)optionArgument isDisabled:(CTOutputComparison)compare value:(NSString *)expected;
 
 @end
