@@ -23,39 +23,39 @@
     return nil;
 }
 
-- (void)test_suiteBreaksEnabledByDefault
+- (void)test_suiteBreakEnabledByDefault
 {
-    [self assertDefaultOptionOutputContains:@"[0;32m1 passed[0m,"];
+    [self assertDefault:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
 
-- (void)test_suiteBreaksDisabledByEnv
+- (void)test_suiteBreakDisabledByEnv
 {
-    [self assertEnvDisabledOptionOutputContains:@"1 passed,"];
+    [self assertEnvDisabled:CTOutputContains value:@"1 passed,"];
 }
 
-- (void)test_suiteBreaksEnabledForPositiveEnvValues
+- (void)test_suiteBreakEnabledForPositiveEnvValues
 {
-    [self assertEnvEnabledOptionOutputContains:@"[0;32m1 passed[0m,"];
+    [self assertEnvEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
 
-- (void)test_suiteBreaksEnabledWithArbitraryArgs
+- (void)test_suiteBreakEnabledWithArbitraryArgs
 {
-    [self assertArbitraryArgsOptionOutputContains:@"[0;32m1 passed[0m,"];
+    [self assertArbitraryArgs:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
 
-- (void)test_suiteBreaksDisabledWithCommandLineArg
+- (void)test_suiteBreakDisabledWithCommandLineArg
 {
-    [self assertArgDisablesOption:@"--ct-suite-breaks" outputContains:@"1 passed,"];
+    [self assertArg:@"--ct-colorized" ifDisabled:CTOutputContains value:@"1 passed,"];
 }
 
-- (void)test_suiteBreaksEnabledWithPositiveCommandLineArg
+- (void)test_suiteBreakEnabledWithPositiveCommandLineArg
 {
-    [self assertArgEnablesOption:@"--ct-suite-breaks" outputContains:@"[0;32m1 passed[0m,"];
+    [self assertArg:@"--ct-colorized" ifEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
 
-- (void)test_suiteBreaksHandlesDuplicateCommandLineArgs
+- (void)test_suiteBreakHandlesDuplicateCommandLineArgs
 {
-    [self assertDuplicateOption:@"--ct-suite-breaks" outputContains:@"1 passed,"];
+    [self assertDuplicateArg:@"--ct-colorized" isDisabled:CTOutputContains value:@"1 passed,"];
 }
 
 @end
