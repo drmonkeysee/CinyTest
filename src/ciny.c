@@ -29,7 +29,10 @@ uint64_t get_currentmsecs(void);
 /////
 // Type and Data Definitions
 /////
-
+static const char * const restrict HelpOption = "--ct-help";
+static const char * const restrict VersionOption = "--ct-version";
+static const char * const restrict ColorizedOption = "--ct-colorized";
+static const char * const restrict SuiteBreaksOption = "--ct-suite-breaks";
 static const char * const restrict IgnoredTestSymbol = "?";
 
 #define COMPVALUE_STR_SIZE 75
@@ -68,6 +71,7 @@ struct runcontext {
     bool help;
     bool version;
     bool colorized;
+    bool suite_breaks;
 };
 
 /////
@@ -87,22 +91,20 @@ extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 // Run Settings
 /////
 
-static bool value_off(const char *value)
+static bool value_on(const char *value)
 {
     static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
     static const size_t flags_count = sizeof off_flags / sizeof off_flags[0];
     
-    if (!value) {
-        return false;
-    }
-    
-    for (size_t i = 0; i < flags_count; ++i) {
-        if (value[0] == off_flags[i]) {
-            return true;
+    if (value) {
+        for (size_t i = 0; i < flags_count; ++i) {
+            if (value[0] == off_flags[i]) {
+                return false;
+            }
         }
     }
     
-    return false;
+    return true;
 }
 
 static const char *arg_value(const char *arg)
@@ -120,18 +122,21 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
 {
     struct runcontext context = { .version = false };
     const char *color_option = NULL;
+    const char *suite_breaks_option = NULL;
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char * const arg = argv[i];
             if (!arg) {
                 continue;
-            } else if (strstr(arg, "--ct-help")) {
+            } else if (strstr(arg, HelpOption)) {
                 context.help = true;
-            } else if (strstr(arg, "--ct-version")) {
+            } else if (strstr(arg, VersionOption)) {
                 context.version = true;
-            } else if (strstr(arg, "--ct-colorized")) {
+            } else if (strstr(arg, ColorizedOption)) {
                 color_option = arg_value(arg);
+            } else if (strstr(arg, SuiteBreaksOption)) {
+                suite_breaks_option = arg_value(arg);
             }
         }
     }
@@ -139,8 +144,12 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
     if (!color_option) {
         color_option = getenv("CINYTEST_COLORIZED");
     }
+    if (!suite_breaks_option) {
+        suite_breaks_option = getenv("CINYTEST_SUITE_BREAKS");
+    }
     
-    context.colorized = !value_off(color_option);
+    context.colorized = value_on(color_option);
+    context.suite_breaks = value_on(suite_breaks_option);
     
     return context;
 }
@@ -153,9 +162,10 @@ static void print_usage(void)
 {
     printf("---=== CinyTest Usage ===---\n");
     printf("This program contains CinyTest tests and can accept the following command line options:\n\n");
-    printf("  --ct-help\t\tPrint this help message (does not run tests).\n");
-    printf("  --ct-version\t\tPrint CinyTest version (does not run tests).\n");
-    printf("  --ct-colorized=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n");
+    printf("  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
+    printf("  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
+    printf("  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
+    printf("  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
 }
 
 static void print_version(void)
@@ -489,14 +499,18 @@ static void testsuite_run(const struct ct_testsuite *self, const struct runconte
     if (self && self->tests) {
         const uint64_t start_msecs = get_currentmsecs();
         summary.test_count = self->count;
-        print_suiteheader(self, time(NULL));
+        if (context->suite_breaks) {
+            print_suiteheader(self, time(NULL));
+        }
         
         for (size_t i = 0; i < self->count; ++i) {
             testsuite_runcase(self, context, i, &summary.ledger);
         }
         
         summary.total_time = get_currentmsecs() - start_msecs;
-        print_testresults(context, &summary);
+        if (context->suite_breaks) {
+            print_testresults(context, &summary);
+        }
     } else {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
         summary.ledger.failed = InvalidSuite;
@@ -509,7 +523,6 @@ static void testsuite_run(const struct ct_testsuite *self, const struct runconte
 // Public Functions
 /////
 
-// TODO: add option for print guards
 // TODO: can runcontext be global?
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
