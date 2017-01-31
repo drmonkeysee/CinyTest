@@ -25,37 +25,37 @@
 
 - (void)test_suiteBreakEnabledByDefault
 {
-    [self assertDefault:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertDefault:CTOutputContains value:@"Test suite '"];
 }
 
 - (void)test_suiteBreakDisabledByEnv
 {
-    [self assertEnvDisabled:CTOutputContains value:@"1 passed,"];
+    [self assertEnvDisabled:CTOutputDoesNotContain value:@"Test suite '"];
 }
 
 - (void)test_suiteBreakEnabledForPositiveEnvValues
 {
-    [self assertEnvEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertEnvEnabled:CTOutputContains value:@"Test suite '"];
 }
 
 - (void)test_suiteBreakEnabledWithArbitraryArgs
 {
-    [self assertArbitraryArgs:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertArbitraryArgs:CTOutputContains value:@"Test suite '"];
 }
 
 - (void)test_suiteBreakDisabledWithCommandLineArg
 {
-    [self assertArg:@"--ct-colorized" ifDisabled:CTOutputContains value:@"1 passed,"];
+    [self assertArg:@"--ct-suite-breaks" ifDisabled:CTOutputDoesNotContain value:@"Test suite '"];
 }
 
 - (void)test_suiteBreakEnabledWithPositiveCommandLineArg
 {
-    [self assertArg:@"--ct-colorized" ifEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertArg:@"--ct-suite-breaks" ifEnabled:CTOutputContains value:@"Test suite '"];
 }
 
 - (void)test_suiteBreakHandlesDuplicateCommandLineArgs
 {
-    [self assertDuplicateArg:@"--ct-colorized" isDisabled:CTOutputContains value:@"1 passed,"];
+    [self assertDuplicateArg:@"--ct-suite-breaks" isDisabled:CTOutputDoesNotContain value:@"Test suite '"];
 }
 
 @end
