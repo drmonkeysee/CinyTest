@@ -120,7 +120,7 @@ static const char *arg_value(const char *arg)
 
 static struct runcontext runcontext_make(int argc, const char *argv[])
 {
-    struct runcontext context = { .version = false };
+    struct runcontext context = { .help = false };
     const char *color_option = NULL;
     const char *suite_breaks_option = NULL;
     
