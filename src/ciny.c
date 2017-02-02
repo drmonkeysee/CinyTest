@@ -67,12 +67,12 @@ enum text_highlight {
     HIGHLIGHT_FAILURE,
     HIGHLIGHT_IGNORE
 };
-struct runcontext {
+static struct {
     bool help;
     bool version;
     bool colorized;
     bool suite_breaks;
-};
+} RunContext;
 
 /////
 // Inline Function Call Sites
@@ -118,9 +118,11 @@ static const char *arg_value(const char *arg)
     return NULL;
 }
 
-static struct runcontext runcontext_make(int argc, const char *argv[])
+static void runcontext_set(int argc, const char *argv[])
 {
-    struct runcontext context = { .help = false };
+    RunContext.help = false;
+    RunContext.version = false;
+    
     const char *color_option = NULL;
     const char *suite_breaks_option = NULL;
     
@@ -130,9 +132,9 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
             if (!arg) {
                 continue;
             } else if (strstr(arg, HelpOption)) {
-                context.help = true;
+                RunContext.help = true;
             } else if (strstr(arg, VersionOption)) {
-                context.version = true;
+                RunContext.version = true;
             } else if (strstr(arg, ColorizedOption)) {
                 color_option = arg_value(arg);
             } else if (strstr(arg, SuiteBreaksOption)) {
@@ -148,10 +150,8 @@ static struct runcontext runcontext_make(int argc, const char *argv[])
         suite_breaks_option = getenv("CINYTEST_SUITE_BREAKS");
     }
     
-    context.colorized = value_on(color_option);
-    context.suite_breaks = value_on(suite_breaks_option);
-    
-    return context;
+    RunContext.colorized = value_on(color_option);
+    RunContext.suite_breaks = value_on(suite_breaks_option);
 }
 
 /////
@@ -192,9 +192,9 @@ static void print_color(enum text_highlight color)
     }
 }
 
-static void print_highlighted(const struct runcontext *context, enum text_highlight color, const char * restrict format, ...)
+static void print_highlighted(enum text_highlight color, const char * restrict format, ...)
 {
-    if (context->colorized) {
+    if (RunContext.colorized) {
         print_color(color);
     }
     
@@ -203,21 +203,21 @@ static void print_highlighted(const struct runcontext *context, enum text_highli
     vprintf(format, format_args);
     va_end(format_args);
     
-    if (context->colorized) {
+    if (RunContext.colorized) {
         printf("\033[0m");
     }
 }
 
-static void print_resultlabel(const struct runcontext *context, enum text_highlight color, const char * restrict result_label)
+static void print_resultlabel(enum text_highlight color, const char * restrict result_label)
 {
     printf("[ ");
-    print_highlighted(context, color, result_label);
+    print_highlighted(color, result_label);
     printf(" ] - ");
 }
 
-static void print_testresult(const struct runcontext *context, enum text_highlight color, const char * restrict result_label, const char * restrict result_message, ...)
+static void print_testresult(enum text_highlight color, const char * restrict result_label, const char * restrict result_message, ...)
 {
-    print_resultlabel(context, color, result_label);
+    print_resultlabel(color, result_label);
     
     va_list format_args;
     va_start(format_args, result_message);
@@ -227,14 +227,14 @@ static void print_testresult(const struct runcontext *context, enum text_highlig
     printf("\n");
 }
 
-static void print_testresults(const struct runcontext *context, const struct runsummary *summary)
+static void print_testresults(const struct runsummary *summary)
 {
     printf("Ran %zu tests (%.3f seconds): ", summary->test_count, summary->total_time / 1000.0);
-    print_highlighted(context, HIGHLIGHT_SUCCESS, "%zu passed", summary->ledger.passed);
+    print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", summary->ledger.passed);
     printf(", ");
-    print_highlighted(context, HIGHLIGHT_FAILURE, "%zu failed", summary->ledger.failed);
+    print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", summary->ledger.failed);
     printf(", ");
-    print_highlighted(context, HIGHLIGHT_IGNORE, "%zu ignored", summary->ledger.ignored);
+    print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", summary->ledger.ignored);
     printf(".\n");
 }
 
@@ -246,14 +246,14 @@ static void print_suiteheader(const struct ct_testsuite *suite, time_t start_tim
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
-static void print_summary(const struct runcontext *context)
+static void print_summary(void)
 {
     if (RunTotals.ledger.failed > 0) {
-        print_resultlabel(context, HIGHLIGHT_FAILURE, "FAILED");
+        print_resultlabel(HIGHLIGHT_FAILURE, "FAILED");
     } else {
-        print_resultlabel(context, HIGHLIGHT_SUCCESS, "SUCCESS");
+        print_resultlabel(HIGHLIGHT_SUCCESS, "SUCCESS");
     }
-    print_testresults(context, &RunTotals);
+    print_testresults(&RunTotals);
 }
 
 static void print_linemessage(const char *message)
@@ -309,29 +309,29 @@ static void assertstate_reset(void)
     AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const struct runcontext *context, const char * restrict test_name, struct runledger *ledger)
+static void assertstate_handlefailure(const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->failed;
-    print_testresult(context, HIGHLIGHT_FAILURE, "\u2717", "'%s' failure", test_name);
+    print_testresult(HIGHLIGHT_FAILURE, "\u2717", "'%s' failure", test_name);
     printf("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
     print_linemessage(AssertState.message);
 }
 
-static void assertstate_handleignore(const struct runcontext *context, const char * restrict test_name, struct runledger *ledger)
+static void assertstate_handleignore(const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->ignored;
-    print_testresult(context, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "'%s' ignored", test_name);
+    print_testresult(HIGHLIGHT_IGNORE, IgnoredTestSymbol, "'%s' ignored", test_name);
     print_linemessage(AssertState.message);
 }
 
-static void assertstate_handle(const struct runcontext *context, const char * restrict test_name, struct runledger *ledger)
+static void assertstate_handle(const char * restrict test_name, struct runledger *ledger)
 {
     switch (AssertState.type) {
         case ASSERT_FAILURE:
-            assertstate_handlefailure(context, test_name, ledger);
+            assertstate_handlefailure(test_name, ledger);
             break;
         case ASSERT_IGNORE:
-            assertstate_handleignore(context, test_name, ledger);
+            assertstate_handleignore(test_name, ledger);
             break;
         default:
             fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
@@ -457,21 +457,21 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *self, const struct runcontext *run_context, void * restrict test_context, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *self, void * restrict test_context, size_t index, struct runledger *ledger)
 {
     if (!self->test) {
         ++ledger->ignored;
-        print_testresult(run_context, HIGHLIGHT_IGNORE, IgnoredTestSymbol, "ignored test at index %zu (NULL function pointer found)", index);
+        print_testresult(HIGHLIGHT_IGNORE, IgnoredTestSymbol, "ignored test at index %zu (NULL function pointer found)", index);
         return;
     }
     
     self->test(test_context);
     
     ++ledger->passed;
-    print_testresult(run_context, HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
+    print_testresult(HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, const struct runcontext *run_context, size_t index, struct runledger *ledger)
+static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
     const struct ct_testcase * const current_test = self->tests + index;
@@ -482,9 +482,9 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(run_context, current_test->name, ledger);
+        assertstate_handle(current_test->name, ledger);
     } else {
-        testcase_run(current_test, run_context, test_context, index, ledger);
+        testcase_run(current_test, test_context, index, ledger);
     }
     
     if (self->teardown) {
@@ -492,24 +492,24 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct runc
     }
 }
 
-static void testsuite_run(const struct ct_testsuite *self, const struct runcontext *context)
+static void testsuite_run(const struct ct_testsuite *self)
 {
     struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
         const uint64_t start_msecs = get_currentmsecs();
         summary.test_count = self->count;
-        if (context->suite_breaks) {
+        if (RunContext.suite_breaks) {
             print_suiteheader(self, time(NULL));
         }
         
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, context, i, &summary.ledger);
+            testsuite_runcase(self, i, &summary.ledger);
         }
         
         summary.total_time = get_currentmsecs() - start_msecs;
-        if (context->suite_breaks) {
-            print_testresults(context, &summary);
+        if (RunContext.suite_breaks) {
+            print_testresults(&summary);
         }
     } else {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
@@ -523,24 +523,22 @@ static void testsuite_run(const struct ct_testsuite *self, const struct runconte
 // Public Functions
 /////
 
-// TODO: can runcontext be global?
-
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
-    const struct runcontext context = runcontext_make(argc, argv);
+    runcontext_set(argc, argv);
     RunTotals = runsummary_make();
     
-    if (context.help) {
+    if (RunContext.help) {
         print_usage();
-    } else if (context.version) {
+    } else if (RunContext.version) {
         print_version();
     } else {
         if (suites) {
             for (size_t i = 0; i < count; ++i) {
                 const struct ct_testsuite * const suite = suites + i;
-                testsuite_run(suite, &context);
+                testsuite_run(suite);
             }
-            print_summary(&context);
+            print_summary();
         } else {
             fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
             RunTotals.ledger.failed = InvalidSuite;
