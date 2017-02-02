@@ -88,7 +88,7 @@ extern inline struct ct_comparable_value ct_makevalue_complex(int, long double c
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
 /////
-// Run Settings
+// Run Context
 /////
 
 static bool value_on(const char *value)
@@ -227,35 +227,6 @@ static void print_testresult(enum text_highlight color, const char * restrict re
     printf("\n");
 }
 
-static void print_testresults(const struct runsummary *summary)
-{
-    printf("Ran %zu tests (%.3f seconds): ", summary->test_count, summary->total_time / 1000.0);
-    print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", summary->ledger.passed);
-    printf(", ");
-    print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", summary->ledger.failed);
-    printf(", ");
-    print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", summary->ledger.ignored);
-    printf(".\n");
-}
-
-static void print_suiteheader(const struct ct_testsuite *suite, time_t start_time)
-{
-    char formatted_datetime[30];
-    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
-    printf("Test suite '%s' started at %s\n", suite->name,
-           format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
-}
-
-static void print_summary(void)
-{
-    if (RunTotals.ledger.failed > 0) {
-        print_resultlabel(HIGHLIGHT_FAILURE, "FAILED");
-    } else {
-        print_resultlabel(HIGHLIGHT_SUCCESS, "SUCCESS");
-    }
-    print_testresults(&RunTotals);
-}
-
 static void print_linemessage(const char *message)
 {
     if (printf("%s", message) > 0) {
@@ -287,6 +258,17 @@ static struct runsummary runsummary_make(void)
     return (struct runsummary){ .test_count = 0 };
 }
 
+static void runsummary_print(const struct runsummary *self)
+{
+    printf("Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
+    print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed);
+    printf(", ");
+    print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed);
+    printf(", ");
+    print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", self->ledger.ignored);
+    printf(".\n");
+}
+
 static void runtotals_add(const struct runsummary *summary)
 {
     RunTotals.test_count += summary->test_count;
@@ -294,6 +276,16 @@ static void runtotals_add(const struct runsummary *summary)
     RunTotals.ledger.passed += summary->ledger.passed;
     RunTotals.ledger.failed += summary->ledger.failed;
     RunTotals.ledger.ignored += summary->ledger.ignored;
+}
+
+static void runtotals_print(void)
+{
+    if (RunTotals.ledger.failed > 0) {
+        print_resultlabel(HIGHLIGHT_FAILURE, "FAILED");
+    } else {
+        print_resultlabel(HIGHLIGHT_SUCCESS, "SUCCESS");
+    }
+    runsummary_print(&RunTotals);
 }
 
 /////
@@ -471,6 +463,14 @@ static void testcase_run(const struct ct_testcase *self, void * restrict test_co
     print_testresult(HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
 }
 
+static void testsuite_printheader(const struct ct_testsuite *self, time_t start_time)
+{
+    char formatted_datetime[30];
+    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
+    printf("Test suite '%s' started at %s\n", self->name,
+           format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
+}
+
 static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
@@ -500,7 +500,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         const uint64_t start_msecs = get_currentmsecs();
         summary.test_count = self->count;
         if (RunContext.suite_breaks) {
-            print_suiteheader(self, time(NULL));
+            testsuite_printheader(self, time(NULL));
         }
         
         for (size_t i = 0; i < self->count; ++i) {
@@ -509,7 +509,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         
         summary.total_time = get_currentmsecs() - start_msecs;
         if (RunContext.suite_breaks) {
-            print_testresults(&summary);
+            runsummary_print(&summary);
         }
     } else {
         fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
@@ -538,7 +538,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
                 const struct ct_testsuite * const suite = suites + i;
                 testsuite_run(suite);
             }
-            print_summary();
+            runtotals_print();
         } else {
             fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
             RunTotals.ledger.failed = InvalidSuite;
