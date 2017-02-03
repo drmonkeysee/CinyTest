@@ -80,7 +80,7 @@ static void btinsert_insertsvalue(void *context)
     
     bt_insert(&ctx->tree, 5);
     
-    ct_assertequal(2u, bt_size(ctx->tree));
+    ct_assertequal(1u, bt_size(ctx->tree));
 }
 
 static void btinsert_allowszero_ifinserted(void *context)
@@ -94,7 +94,6 @@ static void btinsert_allowszero_ifinserted(void *context)
 
 static void btinsert_createstreestructure(void *context)
 {
-    ct_ignore();
     struct bt_testcontext * const ctx = context;
     
     bt_insert(&ctx->tree, 3);
