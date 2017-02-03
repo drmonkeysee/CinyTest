@@ -61,15 +61,15 @@ CinyTest is not a standalone program but any program that has CinyTest compiled 
 
 ### Command-line Options
 
-`--ct-help`: print CinyTest usage
-`--ct-version`: print CinyTest version
-`--ct-colorized`: toggle colorized output in test results
-`--ct-suite-breaks`: toggle test suite headers and result summaries
+- `--ct-help`: print CinyTest usage
+- `--ct-version`: print CinyTest version
+- `--ct-colorized`: toggle colorized output in test results
+- `--ct-suite-breaks`: toggle test suite headers and result summaries
 
 ### Environment Variables
 
-`CINYTEST_COLORIZED`: equivalent to `--ct-colorized`
-`CINYTEST_SUITE_BREAKS`: equivalent to `--ct-suite-breaks`
+- `CINYTEST_COLORIZED`: equivalent to `--ct-colorized`
+- `CINYTEST_SUITE_BREAKS`: equivalent to `--ct-suite-breaks`
 
 ## Why CinyTest?
 
