@@ -39,16 +39,37 @@ A simple example demonstrating the use of CinyTest as an external dependency can
 
 Running this example on the command line (assuming all tests pass) will output something like the following:
 
-	====-- CinyTest Run --====
-	Starting test suite 'main' at 2014-10-26 04:27:35
-	Running 4 tests:
-	[✔] - 'makerectangle_createsrectangle' success
-	[✔] - 'rectanglearea_calculatesarea' success
-	[✔] - 'rectanglehypotenuse_calculateshypotenuse' success
-	[✔] - 'rectangletostring_buildsrectanglestring' success
-	Test suite 'main' completed at 2014-10-26 04:27:35
-	Ran 4 tests (0.009 seconds): 4 passed, 0 failed, 0 ignored.
-	====-- CinyTest End --====
+	Test suite 'rectangle_tests' started at 2017-02-02T20:21:19-0800
+	[ ✓ ] - 'rectanglemake_createsrectangle' success
+	[ ✓ ] - 'rectanglearea_calculatesarea' success
+	[ ✓ ] - 'rectanglehypotenuse_calculateshypotenuse' success
+	[ ✓ ] - 'rectangletostring_buildsrectanglestring' success
+	Ran 4 tests (0.001 seconds): 4 passed, 0 failed, 0 ignored.
+	Test suite 'circle_tests' started at 2017-02-02T20:21:19-0800
+	[ ✓ ] - 'circlemake_createscircle' success
+	[ ✓ ] - 'circlediameter_calculatesdiameter' success
+	[ ✓ ] - 'circlearea_calculatesarea' success
+	[ ✓ ] - 'circletostring_buildscirclestring' success
+	Ran 4 tests (0.000 seconds): 4 passed, 0 failed, 0 ignored.
+	[ SUCCESS ] - Ran 8 tests (0.001 seconds): 8 passed, 0 failed, 0 ignored.
+
+This example runs two test suites of four test cases each.
+
+## Options
+
+CinyTest is not a standalone program but any program that has CinyTest compiled into it will support a set of command-line options and environment variables that control CinyTest behavior. Command-line options take precedence over environment variables if both are specified.
+
+### Command-line Options
+
+`--ct-help`: print CinyTest usage
+`--ct-version`: print CinyTest version
+`--ct-colorized`: toggle colorized output in test results
+`--ct-suite-breaks`: toggle test suite headers and result summaries
+
+### Environment Variables
+
+`CINYTEST_COLORIZED`: equivalent to `--ct-colorized`
+`CINYTEST_SUITE_BREAKS`: equivalent to `--ct-suite-breaks`
 
 ## Why CinyTest?
 

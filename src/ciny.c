@@ -118,7 +118,7 @@ static const char *arg_value(const char *arg)
     return NULL;
 }
 
-static void runcontext_set(int argc, const char *argv[])
+static void runcontext_init(int argc, const char *argv[])
 {
     RunContext.help = false;
     RunContext.version = false;
@@ -525,7 +525,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 
 size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
-    runcontext_set(argc, argv);
+    runcontext_init(argc, argv);
     RunTotals = runsummary_make();
     
     if (RunContext.help) {
