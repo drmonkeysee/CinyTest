@@ -7,6 +7,7 @@
 //
 
 #include <stdint.h>
+#include <stddef.h>
 #include <sys/time.h>
 
 static const uint64_t MillisecondFactor = 1000;
