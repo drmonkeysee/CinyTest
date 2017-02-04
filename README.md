@@ -57,7 +57,7 @@ This example runs two test suites of four test cases each.
 
 ## Options
 
-CinyTest is not a standalone program but any program that has CinyTest compiled into it will support a set of command-line options and environment variables that control CinyTest behavior. Command-line options take precedence over environment variables if both are specified.
+Any program that CinyTest is compiled into will support a set of command-line options and environment variables that control CinyTest behavior. Command-line options take precedence over environment variables if both are specified. The available options are listed below.
 
 ### Command-line Options
 
