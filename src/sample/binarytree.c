@@ -191,8 +191,7 @@ void bt_rebalance(binarytree **treeref)
     const size_t size = bt_size(*treeref);
     struct bt_node *sorted_nodes[size];
     
-    const ptrdiff_t start = 0;
-    const ptrdiff_t end = size - 1;
+    const ptrdiff_t start = 0, end = size - 1;
     ptrdiff_t current_index = start;
     inline_tree(*treeref, sorted_nodes, &current_index);
     

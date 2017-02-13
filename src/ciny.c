@@ -598,8 +598,7 @@ void ct_internal_assertequal(struct ct_comparable_value expected, const char *st
         assertstate_setdescription("(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparable_value_typedescription(&expected), comparable_value_typedescription(&actual));
         failed_assert = true;
     } else if (!comparable_value_equalvalues(&expected, &actual, expected.type)) {
-        char valuestr_expected[COMPVALUE_STR_SIZE];
-        char valuestr_actual[COMPVALUE_STR_SIZE];
+        char valuestr_expected[COMPVALUE_STR_SIZE], valuestr_actual[COMPVALUE_STR_SIZE];
         comparable_value_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
         comparable_value_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
         assertstate_setdescription("(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
@@ -669,8 +668,7 @@ void ct_internal_assertequalstrn(const char *expected, const char *stringized_ex
 {
     if ((expected && !actual) || (!expected && actual)
         || (expected && actual && (strncmp(expected, actual, n) != 0))) {
-        char valuestr_expected[COMPVALUE_STR_SIZE];
-        char valuestr_actual[COMPVALUE_STR_SIZE];
+        char valuestr_expected[COMPVALUE_STR_SIZE], valuestr_actual[COMPVALUE_STR_SIZE];
         if ((size_t)snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
             pretty_truncate(valuestr_expected, sizeof valuestr_expected);
         }

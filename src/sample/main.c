@@ -13,8 +13,7 @@
 
 int main(int argc, const char *argv[])
 {
-    (void)argc;
-    (void)argv;
+    (void)argc, (void)argv;
 
     binarytree *tree = bt_new_withvalues(12, 1, 2, 3, 6, 5, 4, 10, 11, 12, 13, 14, 15);
     printf("This tree is wack:\n");
