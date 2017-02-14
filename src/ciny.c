@@ -96,14 +96,14 @@ static bool value_on(const char *value)
     static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
     static const size_t flags_count = sizeof off_flags / sizeof off_flags[0];
     
-    if (value) {
-        for (size_t i = 0; i < flags_count; ++i) {
-            if (value[0] == off_flags[i]) {
-                return false;
-            }
+    if (!value) return true;
+    
+    for (size_t i = 0; i < flags_count; ++i) {
+        if (value[0] == off_flags[i]) {
+            return false;
         }
     }
-    
+
     return true;
 }
 
