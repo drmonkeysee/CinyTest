@@ -52,9 +52,7 @@ static jmp_buf AssertSignal;
 
 static const size_t InvalidSuite = 0;
 struct runledger {
-    size_t passed;
-    size_t failed;
-    size_t ignored;
+    size_t passed, failed, ignored;
 };
 static struct runsummary {
     size_t test_count;

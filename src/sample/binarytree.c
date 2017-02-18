@@ -15,8 +15,7 @@
 #define BT_EMPTY NULL
 
 struct bt_node {
-    struct bt_node *left;
-    struct bt_node *right;
+    struct bt_node *left, *right;
     int value;
 };
 
