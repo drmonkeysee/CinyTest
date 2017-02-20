@@ -82,7 +82,7 @@ extern inline size_t ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t);
 extern inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floatingpoint(int, long double);
-extern inline struct ct_comparable_value ct_makevalue_complex(int, long double complex);
+extern inline struct ct_comparable_value ct_makevalue_complex(int, ct_lcomplex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
 /////

@@ -323,6 +323,26 @@ do { \
  these functions and types are safe to use.
  @{
  */
+
+/**
+ @defgroup compatibility Cross-platform compatibility
+ In order to support cross-platform builds for CinyTest some implementation details require
+ compatibility shims. These are not intended for direct use and are not part of the public API.
+ @{
+ */
+#ifdef _WIN64
+#define ct_fcomplex _Fcomplex               /**< Float complex number type. */
+#define ct_complex _Dcomplex                /**< Double complex number type. */
+#define ct_lcomplex _Lcomplex               /**< Long double complex number type. */
+#else
+#define ct_fcomplex float _Complex          /**< Float complex number type. */
+#define ct_complex double _Complex          /**< Double complex number type. */
+#define ct_lcomplex long double _Complex    /**< Long double complex number type. */
+#endif
+/**
+ @}
+ */
+
 /**
  Value type annotation.
  An enumeration of possible simple value types used for equality assertions.
@@ -343,7 +363,7 @@ struct ct_comparable_value {
         intmax_t integer_value;             /**< Access the value as a signed integer. */
         uintmax_t uinteger_value;           /**< Access the value as an unsigned integer. */
         long double floatingpoint_value;    /**< Access the value as a floating point. */
-        long double _Complex complex_value; /**< Access the value as a complex number. */
+        ct_lcomplex complex_value;          /**< Access the value as a complex number. */
     };
     enum ct_valuetype_annotation type;      /**< Designates the correct type of the value. If type is CT_ANNOTATE_INVALID then the value is undefined. */
 };
@@ -361,25 +381,25 @@ struct ct_comparable_value {
  */
 #define ct_makevalue_factory(v) \
 _Generic(v, \
-            signed char:          ct_makevalue_integer, \
-            short:                ct_makevalue_integer, \
-            int:                  ct_makevalue_integer, \
-            long:                 ct_makevalue_integer, \
-            long long:            ct_makevalue_integer, \
-            char:                 ct_makevalue_char, \
-            _Bool:                ct_makevalue_uinteger, \
-            unsigned char:        ct_makevalue_uinteger, \
-            unsigned short:       ct_makevalue_uinteger, \
-            unsigned int:         ct_makevalue_uinteger, \
-            unsigned long:        ct_makevalue_uinteger, \
-            unsigned long long:   ct_makevalue_uinteger, \
-            float:                ct_makevalue_floatingpoint, \
-            double:               ct_makevalue_floatingpoint, \
-            long double:          ct_makevalue_floatingpoint, \
-            float _Complex:       ct_makevalue_complex, \
-            double _Complex:      ct_makevalue_complex, \
-            long double _Complex: ct_makevalue_complex, \
-            default:              ct_makevalue_invalid)
+            signed char:            ct_makevalue_integer, \
+            short:                  ct_makevalue_integer, \
+            int:                    ct_makevalue_integer, \
+            long:                   ct_makevalue_integer, \
+            long long:              ct_makevalue_integer, \
+            char:                   ct_makevalue_char, \
+            _Bool:                  ct_makevalue_uinteger, \
+            unsigned char:          ct_makevalue_uinteger, \
+            unsigned short:         ct_makevalue_uinteger, \
+            unsigned int:           ct_makevalue_uinteger, \
+            unsigned long:          ct_makevalue_uinteger, \
+            unsigned long long:     ct_makevalue_uinteger, \
+            float:                  ct_makevalue_floatingpoint, \
+            double:                 ct_makevalue_floatingpoint, \
+            long double:            ct_makevalue_floatingpoint, \
+            ct_fcomplex:            ct_makevalue_complex, \
+            ct_complex:             ct_makevalue_complex, \
+            ct_lcomplex:            ct_makevalue_complex, \
+            default:                ct_makevalue_invalid)
 
 /**
  Create a char comparable value structure based on whether char is signed or unsigned.
@@ -428,7 +448,7 @@ inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder, lo
  @param value The widest possible expression of the complex number value to be converted.
  @return A comparable value structure for the complex number value.
  */
-inline struct ct_comparable_value ct_makevalue_complex(int placeholder, long double _Complex value)
+inline struct ct_comparable_value ct_makevalue_complex(int placeholder, ct_lcomplex value)
 {
     (void)placeholder;
     return (struct ct_comparable_value){ .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
