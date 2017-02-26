@@ -14,7 +14,7 @@ static const uint64_t MillisecondFactor = 1000;
 
 // macOS has not implemented timespec_get() so
 // use gettimeofday() for POSIX-compliant builds.
-uint64_t get_currentmsecs(void)
+uint64_t ct_get_currentmsecs(void)
 {
     struct timeval vtime;
     gettimeofday(&vtime, NULL);

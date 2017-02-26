@@ -24,7 +24,7 @@
 // Platform-specific Definitions
 /////
 
-uint64_t get_currentmsecs(void);
+uint64_t ct_get_currentmsecs(void);
 
 /////
 // Type and Data Definitions
@@ -495,7 +495,7 @@ static void testsuite_run(const struct ct_testsuite *self)
     struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
-        const uint64_t start_msecs = get_currentmsecs();
+        const uint64_t start_msecs = ct_get_currentmsecs();
         summary.test_count = self->count;
         if (RunContext.suite_breaks) {
             testsuite_printheader(self, time(NULL));
@@ -505,7 +505,7 @@ static void testsuite_run(const struct ct_testsuite *self)
             testsuite_runcase(self, i, &summary.ledger);
         }
         
-        summary.total_time = get_currentmsecs() - start_msecs;
+        summary.total_time = ct_get_currentmsecs() - start_msecs;
         if (RunContext.suite_breaks) {
             runsummary_print(&summary);
         }
