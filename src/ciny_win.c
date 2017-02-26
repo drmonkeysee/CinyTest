@@ -6,6 +6,8 @@
 //  Copyright © 2017 Brandon Stansbury. All rights reserved.
 //
 
+#include <stdint.h>
+
 uint64_t ct_get_currentmsecs(void)
 {
     return 12345;
