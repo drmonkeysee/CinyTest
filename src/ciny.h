@@ -28,7 +28,7 @@
 /**
  Current version of CinyTest as MAJOR.MINOR.PATCH string (using semantic versioning).
  */
-#define CT_VERSION "2.0.0"
+#define CT_VERSION "2.1.0"
 
 /**
  Type definition for a unit test function.
