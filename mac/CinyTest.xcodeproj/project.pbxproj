@@ -138,6 +138,7 @@
 		C8970E201D2F25230087C1C3 /* binarytree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = binarytree.h; sourceTree = "<group>"; };
 		C8970E211D2F25230087C1C3 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		C8BF55B51E186AA700D1767D /* CTRunTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTRunTests.m; sourceTree = "<group>"; };
+		C8CD741E1E629FA1007456D6 /* ciny_win.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ciny_win.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +203,7 @@
 				C88059B61D2E15B8002ECC5E /* ciny.h */,
 				C88059B51D2E15B8002ECC5E /* ciny.c */,
 				C88059B41D2E15B8002ECC5E /* ciny_posix.c */,
+				C8CD741E1E629FA1007456D6 /* ciny_win.c */,
 			);
 			name = src;
 			path = ../src;
