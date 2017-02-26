@@ -8,6 +8,10 @@
 
 #include <stdint.h>
 
+// TODO: get real current time in msecs
+// TODO: print colors properly
+// TODO: print non-unicode for nt shell friendly output
+
 uint64_t ct_get_currentmsecs(void)
 {
     return 12345;
