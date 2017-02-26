@@ -20,11 +20,11 @@ MKDIR %obj_dir%
 %cc% %cflags% -iquote%src_dir% -c %src_dir%\ciny.c -o %obj_dir%\ciny.obj
 IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
-REM %cc% %cflags% -iquote%src_dir% -c %src_dir%\ciny_win.c -o %obj_dir%\ciny_win.obj
+%cc% %cflags% -iquote%src_dir% -c %src_dir%\ciny_win.c -o %obj_dir%\ciny_win.obj
 IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
 MKDIR %lib_dir%
-REM LIB %obj_dir%\ciny.obj %obj_dir%\ciny_win.obj /OUT:%lib_dir%\cinytest.lib /VERBOSE /NOLOGO
+LIB %obj_dir%\ciny.obj %obj_dir%\ciny_win.obj /OUT:%lib_dir%\cinytest.lib /VERBOSE /NOLOGO
 IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
 MKDIR %inc_dir%
@@ -38,8 +38,7 @@ IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
 ECHO:
 ECHO Build CinyTest Sample Tests...
-TODO: clang knows of _Complex but win complex.h defines funcs based on structs, structs not visible without including header
-%cc% %cflags% -iquote%build_dir%\include -iquote%samp_src_dir% ^
+%cc% %cflags% -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -iquote%build_dir%\include -iquote%samp_src_dir% ^
 	-L%lib_dir% -lcinytest %samp_src_dir%\binarytree.c %samp_test_src_dir%\main.c %samp_test_src_dir%\binarytree_tests.c ^
 	-o %build_dir%\sampletests.exe
 IF "%ERRORLEVEL%" NEQ "0" GOTO end
