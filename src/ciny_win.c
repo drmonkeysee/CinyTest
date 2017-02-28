@@ -13,14 +13,14 @@
 // TODO: print colors properly
 // TODO: print non-unicode for nt shell friendly output
 
+// sys time returns 100s of nanoseconds
 static const uint64_t MillisecondFactor = 10000;
 
 uint64_t ct_get_currentmsecs(void)
 {
-    LPFILETIME vtime;
+    FILETIME vtime;
     GetSystemTimeAsFileTime(&vtime);
     
     ULARGE_INTEGER ntime = { .LowPart = vtime.dwLowDateTime, .HighPart = vtime.dwHighDateTime };
-    
     return ntime.QuadPart / MillisecondFactor;
 }
