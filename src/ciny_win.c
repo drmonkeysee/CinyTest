@@ -8,10 +8,8 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <stdint.h>
+#include <stddef.h>
 #include <Windows.h>
-
-// TODO: print colors properly
-// TODO: print non-unicode for nt shell friendly output
 
 // sys time returns 100s of nanoseconds
 static const uint64_t MillisecondFactor = 10000;
@@ -23,4 +21,14 @@ uint64_t ct_get_currentmsecs(void)
     
     ULARGE_INTEGER ntime = { .LowPart = vtime.dwLowDateTime, .HighPart = vtime.dwHighDateTime };
     return ntime.QuadPart / MillisecondFactor;
+}
+
+void ct_startcolor(size_t colorindex)
+{
+    
+}
+
+void ct_endcolor(void)
+{
+    
 }

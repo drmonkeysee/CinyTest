@@ -25,6 +25,9 @@
 /////
 
 uint64_t ct_get_currentmsecs(void);
+void ct_startcolor(size_t);
+void ct_endcolor(void);
+
 #ifdef _WIN64
 // windows console doesn't support utf-8 nicely
 static const char * const restrict Ellipsis = "...";
@@ -187,25 +190,10 @@ static void print_version(void)
     printf("\n");
 }
 
-static void print_color(enum text_highlight color)
-{
-    switch (color) {
-        case HIGHLIGHT_SUCCESS:
-            printf("\033[0;32m");
-            break;
-        case HIGHLIGHT_FAILURE:
-            printf("\033[0;31m");
-            break;
-        case HIGHLIGHT_IGNORE:
-            printf("\033[0;36m");
-            break;
-    }
-}
-
 static void print_highlighted(enum text_highlight color, const char * restrict format, ...)
 {
     if (RunContext.colorized) {
-        print_color(color);
+        ct_startcolor(color);
     }
     
     va_list format_args;
@@ -214,7 +202,7 @@ static void print_highlighted(enum text_highlight color, const char * restrict f
     va_end(format_args);
     
     if (RunContext.colorized) {
-        printf("\033[0m");
+        ct_endcolor();
     }
 }
 
