@@ -25,6 +25,18 @@
 /////
 
 uint64_t ct_get_currentmsecs(void);
+#ifdef _WIN64
+// windows console doesn't support utf-8 nicely
+static const char * const restrict Ellipsis = "...";
+static const char * const restrict PlusMinus = "+/-";
+static const char * const restrict PassedTestSymbol = "+";
+static const char * const restrict FailedTestSymbol = "x";
+#else
+static const char * const restrict Ellipsis = "\u2026";
+static const char * const restrict PlusMinus = "\u00b1";
+static const char * const restrict PassedTestSymbol = "\u2713";
+static const char * const restrict FailedTestSymbol = "\u2717";
+#endif
 
 /////
 // Type and Data Definitions
@@ -234,14 +246,13 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(char *str, size_t size)
 {
-    static const char * const restrict ellipsis = "\u2026";
-    const size_t ellipsis_length = strlen(ellipsis);
+    const size_t ellipsis_length = strlen(Ellipsis);
     const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
     
     const bool can_fit_ellipsis = truncation_index >= 0;
     if (can_fit_ellipsis) {
         str[truncation_index] = '\0';
-        strcat(str, ellipsis);
+        strcat(str, Ellipsis);
     }
     
     return can_fit_ellipsis;
@@ -302,7 +313,7 @@ static void assertstate_reset(void)
 static void assertstate_handlefailure(const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->failed;
-    print_testresult(HIGHLIGHT_FAILURE, "\u2717", "'%s' failure", test_name);
+    print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, "'%s' failure", test_name);
     printf("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
     print_linemessage(AssertState.message);
 }
@@ -458,7 +469,7 @@ static void testcase_run(const struct ct_testcase *self, void * restrict test_co
     self->test(test_context);
     
     ++ledger->passed;
-    print_testresult(HIGHLIGHT_SUCCESS, "\u2713", "'%s' success", self->name);
+    print_testresult(HIGHLIGHT_SUCCESS, PassedTestSymbol, "'%s' success", self->name);
 }
 
 static void testsuite_printheader(const struct ct_testsuite *self, time_t start_time)
@@ -630,7 +641,7 @@ void ct_internal_assertaboutequal(long double expected, const char *stringized_e
 {
     const long double diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
-        assertstate_setdescription("(%s) differs from (%s) by greater than \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
+        assertstate_setdescription("(%s) differs from (%s) by greater than %s(%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, PlusMinus, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
@@ -640,7 +651,7 @@ void ct_internal_assertnotaboutequal(long double expected, const char *stringize
 {
     const long double diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
-        assertstate_setdescription("(%s) differs from (%s) by less than or equal to \u00b1 (%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
+        assertstate_setdescription("(%s) differs from (%s) by less than or equal to %s(%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, PlusMinus, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
         
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
