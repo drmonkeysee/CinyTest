@@ -29,11 +29,11 @@ uint64_t ct_get_currentmsecs(void);
 // windows console doesn't support utf-8 nicely
 static const char * const restrict Ellipsis = "...";
 static const char * const restrict PlusMinus = "+/-";
-static const char * const restrict PassedTestSymbol = "+";
+static const char * const restrict PassedTestSymbol = ".";
 static const char * const restrict FailedTestSymbol = "x";
 #else
 static const char * const restrict Ellipsis = "\u2026";
-static const char * const restrict PlusMinus = "\u00b1";
+static const char * const restrict PlusMinus = "\u00B1";
 static const char * const restrict PassedTestSymbol = "\u2713";
 static const char * const restrict FailedTestSymbol = "\u2717";
 #endif
