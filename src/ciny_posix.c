@@ -29,9 +29,9 @@ uint64_t ct_get_currentmsecs(void)
 void ct_startcolor(size_t colorindex)
 {
     static const char * const restrict colors[] = { GREEN, RED, CYAN };
-    static const size_t color_size = sizeof colors;
+    static const size_t color_count = sizeof colors / sizeof colors[0];
     
-    if (colorindex < color_size) {
+    if (colorindex < color_count) {
         printf("%s", colors[colorindex]);
     }
 }

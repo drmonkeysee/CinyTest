@@ -107,7 +107,7 @@ extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 static bool value_on(const char *value)
 {
     static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
-    static const size_t flags_count = sizeof off_flags / sizeof off_flags[0];
+    static const size_t flags_count = sizeof off_flags;
     
     if (!value) return true;
     
