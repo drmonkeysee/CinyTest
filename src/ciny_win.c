@@ -23,7 +23,7 @@ uint64_t ct_get_currentmsecs(void)
     return ntime.QuadPart / MillisecondFactor;
 }
 
-void ct_startcolor(size_t colorindex)
+void ct_startcolor(size_t color_index)
 {
     
 }

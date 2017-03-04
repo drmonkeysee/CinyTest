@@ -26,13 +26,13 @@ uint64_t ct_get_currentmsecs(void)
     return (vtime.tv_sec * MillisecondFactor) + (vtime.tv_usec / MillisecondFactor);
 }
 
-void ct_startcolor(size_t colorindex)
+void ct_startcolor(size_t color_index)
 {
     static const char * const restrict colors[] = { GREEN, RED, CYAN };
     static const size_t color_count = sizeof colors / sizeof colors[0];
     
-    if (colorindex < color_count) {
-        printf("%s", colors[colorindex]);
+    if (color_index < color_count) {
+        printf("%s", colors[color_index]);
     }
 }
 

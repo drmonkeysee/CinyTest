@@ -136,8 +136,7 @@ static void runcontext_init(int argc, const char *argv[])
     RunContext.help = false;
     RunContext.version = false;
     
-    const char *color_option = NULL;
-    const char *suite_breaks_option = NULL;
+    const char *color_option = NULL, *breaks_option = NULL;
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
@@ -151,7 +150,7 @@ static void runcontext_init(int argc, const char *argv[])
             } else if (strstr(arg, ColorizedOption)) {
                 color_option = arg_value(arg);
             } else if (strstr(arg, SuiteBreaksOption)) {
-                suite_breaks_option = arg_value(arg);
+                breaks_option = arg_value(arg);
             }
         }
     }
@@ -159,12 +158,12 @@ static void runcontext_init(int argc, const char *argv[])
     if (!color_option) {
         color_option = getenv("CINYTEST_COLORIZED");
     }
-    if (!suite_breaks_option) {
-        suite_breaks_option = getenv("CINYTEST_SUITE_BREAKS");
+    if (!breaks_option) {
+        breaks_option = getenv("CINYTEST_SUITE_BREAKS");
     }
     
     RunContext.colorized = value_on(color_option);
-    RunContext.suite_breaks = value_on(suite_breaks_option);
+    RunContext.suite_breaks = value_on(breaks_option);
 }
 
 /////
@@ -190,10 +189,10 @@ static void print_version(void)
     printf("\n");
 }
 
-static void print_highlighted(enum text_highlight color, const char * restrict format, ...)
+static void print_highlighted(enum text_highlight style, const char * restrict format, ...)
 {
     if (RunContext.colorized) {
-        ct_startcolor(color);
+        ct_startcolor(style);
     }
     
     va_list format_args;
@@ -206,16 +205,16 @@ static void print_highlighted(enum text_highlight color, const char * restrict f
     }
 }
 
-static void print_resultlabel(enum text_highlight color, const char * restrict result_label)
+static void print_resultlabel(enum text_highlight style, const char * restrict result_label)
 {
     printf("[ ");
-    print_highlighted(color, result_label);
+    print_highlighted(style, result_label);
     printf(" ] - ");
 }
 
-static void print_testresult(enum text_highlight color, const char * restrict result_label, const char * restrict result_message, ...)
+static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict result_message, ...)
 {
-    print_resultlabel(color, result_label);
+    print_resultlabel(style, result_label);
     
     va_list format_args;
     va_start(format_args, result_message);
