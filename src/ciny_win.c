@@ -25,10 +25,16 @@ uint64_t ct_get_currentmsecs(void)
 
 void ct_startcolor(size_t color_index)
 {
+    HANDLE stdout = GetStdHandle(STD_OUTPUT_HANDLE);
     
+    SetConsoleTextAttribute(&stdout, FOREGROUND_RED);
 }
 
 void ct_endcolor(void)
 {
+    HANDLE stdout = GetStdHandle(STD_OUTPUT_HANDLE);
     
+    if (!SetConsoleTextAttribute(&stdout, 0)) {
+        printf("uh oh failed: %d", GetLastError());
+    }
 }
