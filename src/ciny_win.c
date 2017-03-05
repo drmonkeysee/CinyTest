@@ -23,18 +23,27 @@ uint64_t ct_get_currentmsecs(void)
     return ntime.QuadPart / MillisecondFactor;
 }
 
+static WORD PreviousAttributes;
 void ct_startcolor(size_t color_index)
 {
-    HANDLE stdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    static const WORD colors[] = { FOREGROUND_GREEN, FOREGROUND_RED, FOREGROUND_BLUE | FOREGROUND_GREEN };
+    static const size_t color_count = sizeof colors / sizeof colors[0];
     
-    SetConsoleTextAttribute(&stdout, FOREGROUND_RED);
+    const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    GetConsoleScreenBufferInfo(output, &info);
+    PreviousAttributes = info.wAttributes;
+    
+    if (color_index < color_count) {
+        SetConsoleTextAttribute(output, colors[color_index]);
+    }
 }
 
 void ct_endcolor(void)
 {
-    HANDLE stdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     
-    if (!SetConsoleTextAttribute(&stdout, 0)) {
-        printf("uh oh failed: %d", GetLastError());
+    if (PreviousAttributes) {
+        SetConsoleTextAttribute(output, PreviousAttributes);
     }
 }
