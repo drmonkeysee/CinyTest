@@ -13,7 +13,7 @@
 
 // sys time returns 100s of nanoseconds
 static const uint64_t MillisecondFactor = 10000;
-static WORD PrevAttributes;
+static WORD BufferOldAttributes;
 
 uint64_t ct_get_currentmsecs(void)
 {
@@ -32,7 +32,7 @@ void ct_startcolor(size_t color_index)
     const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
-    PrevAttributes = info.wAttributes;
+    BufferOldAttributes = info.wAttributes;
     
     if (color_index < color_count) {
         SetConsoleTextAttribute(output, colors[color_index]);
@@ -43,7 +43,7 @@ void ct_endcolor(void)
 {
     const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     
-    if (PrevAttributes) {
-        SetConsoleTextAttribute(output, PrevAttributes);
+    if (BufferOldAttributes) {
+        SetConsoleTextAttribute(output, BufferOldAttributes);
     }
 }
