@@ -37,7 +37,7 @@ struct ct_version {
  Get the current version of CinyTest as a semantic version structure.
  @return Version structure populated with the current version.
  */
-inline struct ct_version ct_version(void)
+inline struct ct_version ct_getversion(void)
 {
     return (struct ct_version){ 3, 0, 0 };
 }

@@ -17,7 +17,7 @@
 
 - (void)test_cthexversion_Matches_Current_Version
 {
-    const struct ct_version v = ct_version();
+    const struct ct_version v = ct_getversion();
     
     const uint32_t vhex = ct_versionhex(&v);
     
