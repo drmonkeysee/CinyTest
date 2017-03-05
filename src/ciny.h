@@ -42,10 +42,10 @@ inline struct ct_version ct_version(void)
     return (struct ct_version){ 3, 0, 0 };
 }
 /**
- Get the current version of CinyTest in hexadecimal form for easy numeric comparisons.
- The upper two bytes are always zero followed by MAJOR, MINOR, then PATCH.
- @param version The semantic version structure to convert.
- @return A numeric representation of the current version.
+ Convert a semantic verson to hexadecimal form for easy numeric comparisons.
+ The upper byte is always zero followed by MAJOR, MINOR, then PATCH.
+ @param version The semantic version structure to convert to a number.
+ @return A numeric representation of the version.
  */
 inline uint32_t ct_versionhex(const struct ct_version *version)
 {
