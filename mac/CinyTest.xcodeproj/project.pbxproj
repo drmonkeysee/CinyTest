@@ -12,6 +12,7 @@
 		C85B4A511E35B59B0031C1BB /* CTNoRunOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */; };
 		C85F39371E385A6100BE4219 /* CTOutputAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F39361E385A6100BE4219 /* CTOutputAssertionTestBase.m */; };
 		C85F393A1E3B0C8A00BE4219 /* CTSuiteBreakOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F39391E3B0C8A00BE4219 /* CTSuiteBreakOptionTests.m */; };
+		C86EFC3E1E6BE09D007B5FF9 /* CTVersionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C86EFC3D1E6BE09D007B5FF9 /* CTVersionTests.m */; };
 		C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B41D2E15B8002ECC5E /* ciny_posix.c */; };
 		C88059B81D2E15B8002ECC5E /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B51D2E15B8002ECC5E /* ciny.c */; };
 		C88059B91D2E15B8002ECC5E /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = C88059B61D2E15B8002ECC5E /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,6 +89,7 @@
 		C85F39361E385A6100BE4219 /* CTOutputAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTOutputAssertionTestBase.m; sourceTree = "<group>"; };
 		C85F39381E385A8E00BE4219 /* CTOutputAssertionTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTOutputAssertionTestBase.h; sourceTree = "<group>"; };
 		C85F39391E3B0C8A00BE4219 /* CTSuiteBreakOptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTSuiteBreakOptionTests.m; sourceTree = "<group>"; };
+		C86EFC3D1E6BE09D007B5FF9 /* CTVersionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTVersionTests.m; sourceTree = "<group>"; };
 		C88059951D2E11A0002ECC5E /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88059B41D2E15B8002ECC5E /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 		C88059B51D2E15B8002ECC5E /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			children = (
 				C85B4A4F1E220BBE0031C1BB /* CTTestBase.h */,
 				C85B4A4D1E220B950031C1BB /* CTTestBase.m */,
+				C86EFC3D1E6BE09D007B5FF9 /* CTVersionTests.m */,
 				C88059E01D2E177F002ECC5E /* CTMakeTestTests.m */,
 				C88059DF1D2E177F002ECC5E /* CTMakeSuiteTests.m */,
 				C88059E11D2E177F002ECC5E /* CTMakeValueTests.m */,
@@ -482,6 +485,7 @@
 				C88059F01D2E177F002ECC5E /* CTAssertNotAboutEqualTests.m in Sources */,
 				C88059F71D2E177F002ECC5E /* CTAssertTrueTests.m in Sources */,
 				C8805A001D2E177F002ECC5E /* CTSameAssertionTestBase.m in Sources */,
+				C86EFC3E1E6BE09D007B5FF9 /* CTVersionTests.m in Sources */,
 				C88059F11D2E177F002ECC5E /* CTAssertNotEqualStrTests.m in Sources */,
 				C85B4A4E1E220B950031C1BB /* CTTestBase.m in Sources */,
 				C88059FD1D2E177F002ECC5E /* CTMakeValueTests.m in Sources */,

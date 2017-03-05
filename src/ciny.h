@@ -26,9 +26,31 @@
  */
 
 /**
- Current version of CinyTest as MAJOR.MINOR.PATCH string (using semantic versioning).
+ A semantic version structure.
  */
-#define CT_VERSION "2.1.0"
+struct ct_version {
+    uint8_t major,  /**< The major part. */
+            minor,  /**< The minor part. */
+            patch;  /**< The patch part. */
+};
+/**
+ Get the current version of CinyTest as a semantic version structure.
+ @return Version structure populated with the current version.
+ */
+inline struct ct_version ct_version(void)
+{
+    return (struct ct_version){ 3, 0, 0 };
+}
+/**
+ Get the current version of CinyTest in hexadecimal form for easy numeric comparisons.
+ The upper two bytes are always zero followed by MAJOR, MINOR, then PATCH.
+ @param version The semantic version structure to convert.
+ @return A numeric representation of the current version.
+ */
+inline uint32_t ct_versionhex(const struct ct_version *version)
+{
+    return 0u | version->major << 16 | version->minor << 8 | version->patch;
+}
 
 /**
  Type definition for a unit test function.

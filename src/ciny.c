@@ -91,6 +91,8 @@ static struct {
 // Inline Function Call Sites
 /////
 
+extern inline struct ct_version ct_version(void);
+extern inline uint32_t ct_versionhex(const struct ct_version *);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
 extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]);
 extern inline size_t ct_runsuite(const struct ct_testsuite *);
@@ -182,7 +184,8 @@ static void print_usage(void)
 
 static void print_version(void)
 {
-    printf("CinyTest " CT_VERSION);
+    const struct ct_version v = ct_version();
+    printf("CinyTest %u.%u.%u", v.major, v.minor, v.patch);
 #ifdef __VERSION__
     printf(" (" __VERSION__ ")");
 #endif
