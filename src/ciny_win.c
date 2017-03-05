@@ -13,6 +13,7 @@
 
 // sys time returns 100s of nanoseconds
 static const uint64_t MillisecondFactor = 10000;
+static WORD PrevAttributes;
 
 uint64_t ct_get_currentmsecs(void)
 {
@@ -23,7 +24,6 @@ uint64_t ct_get_currentmsecs(void)
     return ntime.QuadPart / MillisecondFactor;
 }
 
-static WORD PreviousAttributes;
 void ct_startcolor(size_t color_index)
 {
     static const WORD colors[] = { FOREGROUND_GREEN, FOREGROUND_RED, FOREGROUND_BLUE | FOREGROUND_GREEN };
@@ -32,7 +32,7 @@ void ct_startcolor(size_t color_index)
     const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
-    PreviousAttributes = info.wAttributes;
+    PrevAttributes = info.wAttributes;
     
     if (color_index < color_count) {
         SetConsoleTextAttribute(output, colors[color_index]);
@@ -43,7 +43,7 @@ void ct_endcolor(void)
 {
     const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     
-    if (PreviousAttributes) {
-        SetConsoleTextAttribute(output, PreviousAttributes);
+    if (PrevAttributes) {
+        SetConsoleTextAttribute(output, PrevAttributes);
     }
 }
