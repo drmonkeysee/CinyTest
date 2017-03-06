@@ -50,7 +50,7 @@ static const char * const restrict ColorizedOption = "--ct-colorized";
 static const char * const restrict SuiteBreaksOption = "--ct-suite-breaks";
 static const char * const restrict IgnoredTestSymbol = "?";
 
-#define COMPVALUE_STR_SIZE 75
+#define COMPVALUE_STR_SIZE 75u
 enum assert_type {
     ASSERT_UNKNOWN,
     ASSERT_FAILURE,
