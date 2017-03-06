@@ -10,7 +10,7 @@ SET lib_dir=%build_dir%\lib
 SET inc_dir=%build_dir%\include
 
 SET cc=clang
-SET cflags=-Wall -Wextra -Wno-deprecated-declarations -pedantic -Werror -std=c11 -Os -v
+SET cflags=-Wall -Wextra -Werror -pedantic -Wno-deprecated-declarations -std=c11 -Os -v
 
 RMDIR /S /Q %build_dir%
 
