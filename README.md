@@ -15,7 +15,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project and the Makefile will give you identical libraries so pick whichever build method is more convenient.
+CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). Finally there is a Windows batch file, **winbuild.bat**, that also uses clang since [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx) does not support several C99 and C11 features (see Constraints and Assumptions below for more detail on Windows support). On macOS the Xcode project and Makefile will give you identical libraries so pick whichever build method is more convenient.
 
 The Makefile has the following build targets:
 
@@ -25,6 +25,8 @@ The Makefile has the following build targets:
 - `clean`: delete all build artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
 
 All of the Makefile artifacts are placed in a folder named **build**.
+
+The Windows batch file emulates a simplified version of the Makefile, building all targets unconditionally and clearing any previous build artifacts each time.
 
 The Xcode project consists of the following targets:
 
@@ -87,27 +89,21 @@ In the sample code included in the CinyTest project, CinyTest is bootstrapped in
 
 While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no platform-specific compiler features and targeted the latest C language standard, C11.
 
-I had to dive into platform-specific code in one case: macOS does not yet implement `timespec_get()` in **time.h** so I had to fall back to the POSIX function `gettimeofday()` in **sys/time.h** to get millisecond time resolution when measuring elapsed time of a test run. The platform functions are isolated to **ciny_posix.c** behind a standards-compliant interface declared in **ciny.c** (since they are not intended to be public functions). This makes it easy to include or exclude the file and allow a non-POSIX platform to provide its own definitions at build time.
+That original goal has been left behind at this point as I've expanded the library's scope and target platforms. However the majority of platform-specific code is nicely sequestered behind a common API and compiler targets. As of this writing there are POSIX and Windows compatibility source files.
 
-CinyTest uses C11 features that are, as of this writing, available largely on POSIX platforms only. It was developed on Xcode using clang and should work with any modern C11-compliant compiler. It has been tested with clang and gcc. It will almost certainly not work with [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx), nor does it make any effort to target other less common C compilers or embedded system compilers.
+#### Windows Support
 
-CinyTest relies on the following C11 features:
+CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards. Specifically the [Universal CRT](https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/) provides headers and libraries bridging the gap to C99. Combined with clang, a C11 codebase like CinyTest can be compiled and deployed on Windows.
 
-- `_Generic`
-- `_Static_assert`
-- `_Noreturn`
-- Anonymous unions
+It is possible to develop CinyTest in Visual Studio by installing the [Clang with Microsoft CodeGen](https://blogs.msdn.microsoft.com/vcblog/2015/12/04/clang-with-microsoft-codegen-in-vs-2015-update-1/) feature (packaged by default in Visual Studio 2015+) but **winbuild.bat** is sufficient to build artifacts.
 
-CinyTest also assumes the presence of the following optional C11 features:
+To build CinyTest on Windows install the following tools:
 
-- `_Complex` type and its associated mathematical functions (does not assume `_Imaginary` type)
-- `_Atomic` types
+- [Visual Studio Build Tools](https://blogs.msdn.microsoft.com/vcblog/2016/11/16/introducing-the-visual-studio-build-tools/)
+- clang
+- Doxygen (set the _WIN64 compiler macro to get the right documentation)
 
-CinyTest's header includes (and is dependent upon) the following standard library headers:
-
-- `stddef.h`
-- `limits.h`
-- `stdint.h`
+Use the x64 Native Build Tools Command Prompt in order to get the correct environment.
 
 ### A Word on Warnings
 
@@ -119,7 +115,7 @@ However the `ct_assert_true(foo)` form will trigger a missing variadic arguments
 
 I tend to be more lax for test code than production code so I would likely omit the warnings for unit tests. In my experience all warnings triggered by usage of CinyTest would be caught by `-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments` (gcc does not define the latter flag so use `-Wno-pedantic` on test builds). If that's an unappealing option then use one of the syntax remedies described above.
 
-The Xcode project builds with the same warning level as the Makefile. However XCTest uses some GNU extensions and a couple macros that trigger `-pedantic` issues so the project selectively scales back certain warnings either on the individual targets or as compiler pragmas when necessary.
+The Xcode project builds with the same warning level as the Makefile. However XCTest uses some GNU extensions and a couple macros that trigger `-pedantic` issues so the project selectively scales back certain warnings either on the individual targets or as compiler pragmas when necessary. On Windows the UCRT headers mark several stdlib functions as deprecated that are supported fine on Linux and macOS so the batch file includes the `-Wno-deprecated-declarations` option.
 
 ### How do I pronounce CinyTest?
 
@@ -130,11 +126,3 @@ I don't know. The name is a visual pun on "C" and "Tiny". Some possibilities:
 - SinyTest
 - ShinyTest
 - ???
-
-## Dev Wishlist
-
-List of features I would like to eventually add to CinyTest:
-
-- test auto registration
-- stub function support
-- mock function support
