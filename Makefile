@@ -8,7 +8,7 @@ LIB_DIR := $(BUILD_DIR)/lib
 INC_DIR := $(BUILD_DIR)/include
 
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -Werror -std=c11
+CFLAGS := -Wall -Wextra -Werror -pedantic -std=c11
 SP := strip
 SPFLAGS := -s
 ARFLAGS := -rsv
