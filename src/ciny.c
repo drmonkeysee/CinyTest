@@ -32,7 +32,7 @@ void ct_endcolor(void);
 // windows console doesn't support utf-8 nicely
 static const char * const restrict Ellipsis = "...";
 static const char * const restrict PlusMinus = "+/-";
-static const char * const restrict PassedTestSymbol = ".";
+static const char * const restrict PassedTestSymbol = "+";
 static const char * const restrict FailedTestSymbol = "x";
 #else
 static const char * const restrict Ellipsis = "\u2026";
