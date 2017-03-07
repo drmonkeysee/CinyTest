@@ -15,7 +15,16 @@
 
 @implementation CTVersionTests
 
-- (void)test_cthexversion_Matches_Current_Version
+- (void)test_ctversionhex_Generates_Expected_Value
+{
+    const struct ct_version v = { 5, 21, 205 };
+    
+    const uint32_t vhex = ct_versionhex(&v);
+    
+    XCTAssertEqual(0x000515CDu, vhex);
+}
+
+- (void)test_ctversionhex_Matches_Current_Version
 {
     const struct ct_version v = ct_getversion();
     
@@ -25,7 +34,7 @@
     XCTAssertEqual(expected, vhex);
 }
 
-- (void)test_cthexversion_Compares_Major_Properly
+- (void)test_ctversionhex_Compares_Major_Properly
 {
     const struct ct_version smaller = { 2, 1, 1 };
     const struct ct_version bigger = { 3, 1, 1 };
@@ -36,7 +45,7 @@
     XCTAssertLessThan(shex, bhex);
 }
 
-- (void)test_cthexversion_Compares_Minor_Properly
+- (void)test_ctversionhex_Compares_Minor_Properly
 {
     const struct ct_version smaller = { 2, 9, 1 };
     const struct ct_version bigger = { 2, 12, 1 };
@@ -47,7 +56,7 @@
     XCTAssertLessThan(shex, bhex);
 }
 
-- (void)test_cthexversion_Compares_Patch_Properly
+- (void)test_ctversionhex_Compares_Patch_Properly
 {
     const struct ct_version smaller = { 2, 5, 23 };
     const struct ct_version bigger = { 2, 5, 154 };
