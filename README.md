@@ -15,7 +15,9 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 ## Build CinyTest
 
-CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). Finally there is a Windows batch file, **winbuild.bat**, that also uses clang since [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx) does not support several C99 and C11 features (see **Constraints and Assumptions** below for more detail on Windows support). On macOS the Xcode project and Makefile will give you identical libraries so pick whichever build method is more convenient.
+CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). On macOS the Xcode project and Makefile will give you identical libraries so pick whichever build method is more convenient.
+
+For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx). See **Constraints and Assumptions** below for more detail on Windows support.
 
 The Makefile has the following build targets:
 
