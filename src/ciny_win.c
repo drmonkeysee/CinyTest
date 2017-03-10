@@ -28,6 +28,7 @@ void ct_startcolor(size_t color_index)
 {
     static const WORD colors[] = { FOREGROUND_GREEN, FOREGROUND_RED, FOREGROUND_BLUE | FOREGROUND_GREEN };
     static const size_t color_count = sizeof colors / sizeof colors[0];
+    static const WORD clear_foreground = ~(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
     
     const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO info;
@@ -35,7 +36,9 @@ void ct_startcolor(size_t color_index)
     ConsoleOldAttributes = info.wAttributes;
     
     if (color_index < color_count) {
-        SetConsoleTextAttribute(output, colors[color_index]);
+        info.wAttributes &= clear_foreground;
+        info.wAttributes |= colors[color_index];
+        SetConsoleTextAttribute(output, info.wAttributes);
     }
 }
 
