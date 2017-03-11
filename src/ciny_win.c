@@ -30,16 +30,16 @@ void ct_startcolor(size_t color_index)
     static const size_t color_count = sizeof colors / sizeof colors[0];
     static const WORD clear_foreground = ~(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
     
+    if (color_index >= color_count) return;
+    
     const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
     
-    if (color_index < color_count) {
-        info.wAttributes &= clear_foreground;
-        info.wAttributes |= colors[color_index];
-        SetConsoleTextAttribute(output, info.wAttributes);
-    }
+    info.wAttributes &= clear_foreground;
+    info.wAttributes |= colors[color_index];
+    SetConsoleTextAttribute(output, info.wAttributes);
 }
 
 void ct_endcolor(void)
