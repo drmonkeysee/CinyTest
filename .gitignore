@@ -22,5 +22,8 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
+# macOS
+.DS_Store
+
 # Project
 doc/html/
