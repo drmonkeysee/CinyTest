@@ -31,6 +31,8 @@ void bt_remove(binarytree **treeref, int value);
 
 _Bool bt_contains(binarytree *self, int value);
 
+_Bool bt_isbalanced(binarytree *self);
+
 void bt_rebalance(binarytree **treeref);
 
 size_t bt_size(binarytree *self);

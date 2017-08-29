@@ -183,6 +183,11 @@ bool bt_contains(binarytree *self, int value)
     return *child_ref != BT_EMPTY;
 }
 
+bool bt_isbalanced(binarytree *self)
+{
+    return false;
+}
+
 void bt_rebalance(binarytree **treeref)
 {
     if (!treeref || !*treeref) return;

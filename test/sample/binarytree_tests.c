@@ -261,6 +261,110 @@ static void btnewwithvalues_insertsvaluesinorder(void *context)
     ct_assertequal(count, bt_depth(ctx->tree));
 }
 
+static void btisbalanced_istrue_ifemptytree(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_asserttrue(balanced);
+}
+
+static void btisbalanced_istrue_ifsinglenode(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_asserttrue(balanced);
+}
+
+static void btisbalanced_istrue_iftwonodes(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 7);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_asserttrue(balanced);
+}
+
+static void btisbalanced_istrue_iftwoleafnodes(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 3);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_asserttrue(balanced);
+}
+
+static void btisbalanced_isfalse_ifthreeinlinenodes(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 9);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_assertfalse(balanced);
+}
+
+static void btisbalanced_istrue_ifevensubtrees(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 2);
+    bt_insert(&ctx->tree, 1);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 6);
+    bt_insert(&ctx->tree, 9);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_asserttrue(balanced);
+}
+
+static void btisbalanced_isfalse_ifunevensubtrees(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 2);
+    bt_insert(&ctx->tree, 1);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 6);
+    bt_insert(&ctx->tree, 9);
+    bt_insert(&ctx->tree, 11);
+    bt_insert(&ctx->tree, 8);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_assertfalse(balanced);
+}
+
+static void btisbalanced_isfalse_iflopsidedunevensubtrees(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 2);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 6);
+    bt_insert(&ctx->tree, 9);
+    bt_insert(&ctx->tree, 8);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_assertfalse(balanced);
+}
+
 static void btrebalance_doesnothing_iftreeisnull(void *context)
 {
     binarytree ** const ref = NULL;
@@ -332,6 +436,15 @@ size_t binarytree_tests(int argc, const char *argv[])
         
         ct_maketest(btnewwithvalues_createstree),
         ct_maketest(btnewwithvalues_insertsvaluesinorder),
+        
+        ct_maketest(btisbalanced_istrue_ifemptytree),
+        ct_maketest(btisbalanced_istrue_ifsinglenode),
+        ct_maketest(btisbalanced_istrue_iftwonodes),
+        ct_maketest(btisbalanced_istrue_iftwoleafnodes),
+        ct_maketest(btisbalanced_isfalse_ifthreeinlinenodes),
+        ct_maketest(btisbalanced_istrue_ifevensubtrees),
+        ct_maketest(btisbalanced_isfalse_ifunevensubtrees),
+        ct_maketest(btisbalanced_isfalse_iflopsidedunevensubtrees),
         
         ct_maketest(btrebalance_doesnothing_iftreeisnull),
         ct_maketest(btrebalance_rebalancestree),
