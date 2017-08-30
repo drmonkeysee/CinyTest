@@ -185,6 +185,14 @@ bool bt_contains(binarytree *self, int value)
 
 bool bt_isbalanced(binarytree *self)
 {
+    if (!self) return true;
+    
+    // TODO:
+    // call helper with current node
+    // helper returns diff in heights
+    // if diff > 1 between left and right bail out with false
+    // return true
+    
     return false;
 }
 
