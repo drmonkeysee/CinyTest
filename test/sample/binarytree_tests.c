@@ -365,6 +365,23 @@ static void btisbalanced_isfalse_iflopsidedunevensubtrees(void *context)
     ct_assertfalse(balanced);
 }
 
+static void btisbalanced_isfalse_ifforkedtree(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 4);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 2);
+    bt_insert(&ctx->tree, 6);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 8);
+    bt_insert(&ctx->tree, 9);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
+    ct_assertfalse(balanced);
+}
+
 static void btrebalance_doesnothing_iftreeisnull(void *context)
 {
     binarytree ** const ref = NULL;
@@ -445,6 +462,7 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btisbalanced_istrue_ifevensubtrees),
         ct_maketest(btisbalanced_isfalse_ifunevensubtrees),
         ct_maketest(btisbalanced_isfalse_iflopsidedunevensubtrees),
+        ct_maketest(btisbalanced_isfalse_ifforkedtree),
         
         ct_maketest(btrebalance_doesnothing_iftreeisnull),
         ct_maketest(btrebalance_rebalancestree),
