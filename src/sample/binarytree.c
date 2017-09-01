@@ -188,10 +188,9 @@ bool bt_isbalanced(binarytree *self)
     if (!self) return true;
     
     // TODO:
-    // call helper with current node
-    // helper returns diff in heights
-    // if diff > 1 between left and right bail out with false
-    // return true
+    // 1) Left subtree of T is balanced
+    // 2) Right subtree of T is balanced
+    // 3) The difference between heights of left subtree and right subtree is not more than 1.
     
     return false;
 }
