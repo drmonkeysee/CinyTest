@@ -83,6 +83,23 @@ static void print_tree(struct bt_node *self, int indent, char label)
     print_tree(self->right, indent + 1, 'R');
 }
 
+static bool balanced_tree(struct bt_node *self, size_t *depth)
+{
+    size_t ldepth = 0, rdepth = 0;
+    bool lbalanced = true, rbalanced = true;
+    
+    if (self->left) {
+        lbalanced = balanced_tree(self->left, &ldepth);
+    }
+    if (self->right) {
+        rbalanced = balanced_tree(self->right, &rdepth);
+    }
+    
+    *depth = (ldepth > rdepth ? ldepth : rdepth) + 1;
+    ptrdiff_t depth_diff = ldepth - rdepth;
+    return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
+}
+
 static void inline_tree(struct bt_node *self, struct bt_node *nodes[], ptrdiff_t *current_index)
 {
     if (self->left) {
@@ -187,12 +204,8 @@ bool bt_isbalanced(binarytree *self)
 {
     if (!self) return true;
     
-    // TODO:
-    // 1) Left subtree of T is balanced
-    // 2) Right subtree of T is balanced
-    // 3) The difference between heights of left subtree and right subtree is not more than 1.
-    
-    return false;
+    size_t depth;
+    return balanced_tree(self, &depth);
 }
 
 void bt_rebalance(binarytree **treeref)
@@ -224,9 +237,9 @@ size_t bt_depth(binarytree *self)
 {
     if (!self) return 0;
     
-    const size_t left_depth = bt_depth(self->left);
-    const size_t right_depth = bt_depth(self->right);
-    return (left_depth > right_depth ? left_depth : right_depth) + 1;
+    size_t depth;
+    balanced_tree(self, &depth);
+    return depth;
 }
 
 void bt_print(binarytree *self)

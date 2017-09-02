@@ -331,7 +331,7 @@ static void btisbalanced_istrue_ifevensubtrees(void *context)
     ct_asserttrue(balanced);
 }
 
-static void btisbalanced_isfalse_ifunevensubtrees(void *context)
+static void btisbalanced_isfalse_ifonelayer_unevensubtrees(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -346,6 +346,26 @@ static void btisbalanced_isfalse_ifunevensubtrees(void *context)
     
     const _Bool balanced = bt_isbalanced(ctx->tree);
     
+    ct_asserttrue(balanced);
+}
+
+static void btisbalanced_isfalse_ifunevensubtrees(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 2);
+    bt_insert(&ctx->tree, 1);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 7);
+    bt_insert(&ctx->tree, 6);
+    bt_insert(&ctx->tree, 9);
+    bt_insert(&ctx->tree, 11);
+    bt_insert(&ctx->tree, 8);
+    bt_insert(&ctx->tree, 10);
+    bt_insert(&ctx->tree, 12);
+    
+    const _Bool balanced = bt_isbalanced(ctx->tree);
+    
     ct_assertfalse(balanced);
 }
 
@@ -357,6 +377,7 @@ static void btisbalanced_isfalse_iflopsidedunevensubtrees(void *context)
     bt_insert(&ctx->tree, 3);
     bt_insert(&ctx->tree, 7);
     bt_insert(&ctx->tree, 6);
+    bt_insert(&ctx->tree, 10);
     bt_insert(&ctx->tree, 9);
     bt_insert(&ctx->tree, 8);
     
@@ -460,6 +481,7 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btisbalanced_istrue_iftwoleafnodes),
         ct_maketest(btisbalanced_isfalse_ifthreeinlinenodes),
         ct_maketest(btisbalanced_istrue_ifevensubtrees),
+        ct_maketest(btisbalanced_isfalse_ifonelayer_unevensubtrees),
         ct_maketest(btisbalanced_isfalse_ifunevensubtrees),
         ct_maketest(btisbalanced_isfalse_iflopsidedunevensubtrees),
         ct_maketest(btisbalanced_isfalse_ifforkedtree),
