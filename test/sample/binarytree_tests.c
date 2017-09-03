@@ -422,10 +422,12 @@ static void btrebalance_rebalancestree(void *context)
     ctx->tree = bt_new_withvalues(count, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     ct_assertequal(count, bt_depth(ctx->tree));
+    ct_assertfalse(bt_isbalanced(ctx->tree));
     
     bt_rebalance(&ctx->tree);
     
     ct_assertequal(4u, bt_depth(ctx->tree));
+    ct_asserttrue(bt_isbalanced(ctx->tree));
 }
 
 static void btrebalance_doesnothing_ifemptytree(void *context)
