@@ -71,7 +71,7 @@ static void remove_node(struct bt_node *self, int value)
     }
 }
 
-static void print_tree(struct bt_node *self, int indent, char label)
+static void print_tree(const struct bt_node *self, int indent, char label)
 {
     if (!self) return;
     
@@ -83,7 +83,7 @@ static void print_tree(struct bt_node *self, int indent, char label)
     print_tree(self->right, indent + 1, 'R');
 }
 
-static bool balanced_tree(struct bt_node *self, size_t *depth)
+static bool balanced_tree(const struct bt_node *self, size_t *depth)
 {
     size_t ldepth = 0, rdepth = 0;
     bool lbalanced = true, rbalanced = true;
