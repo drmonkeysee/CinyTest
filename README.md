@@ -111,9 +111,9 @@ Use the x64 Native Build Tools Command Prompt in order to get the correct enviro
 
 CinyTest strives for zero warnings under `-Wall -Wextra -pedantic`. This is achieved for the library itself but certain usages of the library contain some minor caveats.
 
-CinyTest uses variadic macros for its test assertions. The call signature has an optional assert message and can be called either as `ct_assert_true(foo)` or `ct_assert_true(foo, "Expected true expression")`.
+CinyTest uses variadic macros for its test assertions. The call signature has an optional assert message and can be called either as `ct_asserttrue(foo)` or `ct_asserttrue(foo, "Expected true expression")`.
 
-However the `ct_assert_true(foo)` form will trigger a missing variadic arguments warning for `-pedantic`. This can be suppressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_assert_true(foo,)`. In addition any tests that don't use the test context parameter will trigger unused parameter warnings if `-Wextra` is used. This can be suppressed by casting the argument to void: `(void)context;`.
+However the `ct_asserttrue(foo)` form will trigger a missing variadic arguments warning for `-pedantic`. This can be suppressed either by always specifying an assert message (as shown above) or by including a trailing comma which satisfies the preprocessor: `ct_asserttrue(foo,)`. In addition any tests that don't use the test context parameter will trigger unused parameter warnings if `-Wextra` is used. This can be suppressed by casting the argument to void: `(void)context;`.
 
 I tend to be more lax for test code than production code so I would likely omit the warnings for unit tests. In my experience all warnings triggered by usage of CinyTest would be caught by `-Wno-unused-parameter -Wno-gnu-zero-variadic-macro-arguments` (gcc does not define the latter flag so use `-Wno-pedantic` on test builds). If that's an unappealing option then use one of the syntax remedies described above.
 
