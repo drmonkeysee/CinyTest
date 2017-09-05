@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "ciny.h"
 
 static void test_case(void *context)
 {
@@ -25,6 +24,7 @@ static void test_case(void *context)
 {
     [super setUp];
     
+    self.testFunc = test_case;
     unsetenv(self.envProperty.UTF8String);
 }
 
@@ -101,7 +101,7 @@ static void test_case(void *context)
 
 - (void)assertSuite:(CTOutputComparison)compare value:(NSString *)expected forOption:(NSString *)optionFlag withArgs:(NSArray *)args
 {
-    const struct ct_testcase cases[] = { ct_maketest(test_case) };
+    const struct ct_testcase cases[] = { ct_maketest(self.testFunc) };
     const struct ct_testsuite suite = ct_makesuite(cases);
     
     NSPipe *output = [NSPipe pipe];

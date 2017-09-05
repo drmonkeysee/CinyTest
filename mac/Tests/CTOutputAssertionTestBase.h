@@ -7,6 +7,7 @@
 //
 
 #import "CTTestBase.h"
+#include "ciny.h"
 
 typedef NS_ENUM(NSUInteger, CTOutputComparison) {
     CTOutputContains,
@@ -16,6 +17,7 @@ typedef NS_ENUM(NSUInteger, CTOutputComparison) {
 @interface CTOutputAssertionTestBase : CTTestBase
 
 @property (nonatomic) NSString *envProperty;
+@property (nonatomic, assign) ct_test_function testFunc;
 
 - (void)assertDefault:(CTOutputComparison)compare value:(NSString *)expected;
 - (void)assertEnvDisabled:(CTOutputComparison)compare value:(NSString *)expected;
