@@ -25,8 +25,10 @@
 /////
 
 uint64_t ct_get_currentmsecs(void);
-void ct_startcolor(size_t);
-void ct_endcolor(void);
+void ct_startcolor(FILE *, size_t);
+void ct_endcolor(FILE *);
+FILE *ct_replacestream(FILE *);
+void ct_restorestream(FILE *, FILE *);
 
 #ifdef _WIN64
 // windows console doesn't support utf-8 nicely
@@ -48,6 +50,7 @@ static const char * const restrict HelpOption = "--ct-help";
 static const char * const restrict VersionOption = "--ct-version";
 static const char * const restrict ColorizedOption = "--ct-colorized";
 static const char * const restrict SuiteBreaksOption = "--ct-suite-breaks";
+static const char * const restrict SuppressOutputOption = "--ct-suppress-output";
 static const char * const restrict IgnoredTestSymbol = "?";
 
 #define COMPVALUE_STR_SIZE 75u
@@ -81,6 +84,7 @@ enum text_highlight {
     HIGHLIGHT_IGNORE
 };
 static struct {
+    FILE *out, *err;
     bool help;
     bool version;
     bool colorized;
@@ -138,7 +142,9 @@ static void runcontext_init(int argc, const char *argv[])
     RunContext.help = false;
     RunContext.version = false;
     
-    const char *color_option = NULL, *breaks_option = NULL;
+    const char *color_option = NULL,
+                *breaks_option = NULL,
+                *output_option = NULL;
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
@@ -153,6 +159,8 @@ static void runcontext_init(int argc, const char *argv[])
                 color_option = arg_value(arg);
             } else if (strstr(arg, SuiteBreaksOption)) {
                 breaks_option = arg_value(arg);
+            } else if (strstr(arg, SuppressOutputOption)) {
+                output_option = arg_value(arg);
             }
         }
     }
@@ -163,9 +171,28 @@ static void runcontext_init(int argc, const char *argv[])
     if (!breaks_option) {
         breaks_option = getenv("CINYTEST_SUITE_BREAKS");
     }
+    if (!output_option) {
+        output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
+    }
     
     RunContext.colorized = value_on(color_option);
     RunContext.suite_breaks = value_on(breaks_option);
+    
+    if (value_on(output_option)) {
+        RunContext.out = ct_replacestream(stdout);
+        RunContext.err = ct_replacestream(stderr);
+    } else {
+        RunContext.out = stdout;
+        RunContext.err = stderr;
+    }
+}
+
+static void runcontext_cleanup(void)
+{
+    ct_restorestream(stdout, RunContext.out);
+    RunContext.out = NULL;
+    ct_restorestream(stderr, RunContext.err);
+    RunContext.err = NULL;
 }
 
 /////
@@ -174,45 +201,45 @@ static void runcontext_init(int argc, const char *argv[])
 
 static void print_usage(void)
 {
-    printf("---=== CinyTest Usage ===---\n");
-    printf("This program contains CinyTest tests and can accept the following command line options:\n\n");
-    printf("  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
-    printf("  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
-    printf("  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
-    printf("  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
+    fprintf(RunContext.out, "---=== CinyTest Usage ===---\n");
+    fprintf(RunContext.out, "This program contains CinyTest tests and can accept the following command line options:\n\n");
+    fprintf(RunContext.out, "  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
+    fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
+    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
+    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
 }
 
 static void print_version(void)
 {
     const struct ct_version v = ct_getversion();
-    printf("CinyTest %u.%u.%u", v.major, v.minor, v.patch);
+    fprintf(RunContext.out, "CinyTest %u.%u.%u", v.major, v.minor, v.patch);
 #ifdef __VERSION__
-    printf(" (" __VERSION__ ")");
+    fprintf(RunContext.out, " (" __VERSION__ ")");
 #endif
-    printf("\n");
+    fprintf(RunContext.out, "\n");
 }
 
 static void print_highlighted(enum text_highlight style, const char * restrict format, ...)
 {
     if (RunContext.colorized) {
-        ct_startcolor(style);
+        ct_startcolor(RunContext.out, style);
     }
     
     va_list format_args;
     va_start(format_args, format);
-    vprintf(format, format_args);
+    vfprintf(RunContext.out, format, format_args);
     va_end(format_args);
     
     if (RunContext.colorized) {
-        ct_endcolor();
+        ct_endcolor(RunContext.out);
     }
 }
 
 static void print_resultlabel(enum text_highlight style, const char * restrict result_label)
 {
-    printf("[ ");
+    fprintf(RunContext.out, "[ ");
     print_highlighted(style, result_label);
-    printf(" ] - ");
+    fprintf(RunContext.out, " ] - ");
 }
 
 static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict result_message, ...)
@@ -221,16 +248,16 @@ static void print_testresult(enum text_highlight style, const char * restrict re
     
     va_list format_args;
     va_start(format_args, result_message);
-    vprintf(result_message, format_args);
+    vfprintf(RunContext.out, result_message, format_args);
     va_end(format_args);
     
-    printf("\n");
+    fprintf(RunContext.out, "\n");
 }
 
 static void print_linemessage(const char *message)
 {
-    if (printf("%s", message) > 0) {
-        printf("\n");
+    if (fprintf(RunContext.out, "%s", message) > 0) {
+        fprintf(RunContext.out, "\n");
     }
 }
 
@@ -259,13 +286,13 @@ static struct runsummary runsummary_make(void)
 
 static void runsummary_print(const struct runsummary *self)
 {
-    printf("Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
+    fprintf(RunContext.out, "Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
     print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed);
-    printf(", ");
+    fprintf(RunContext.out, ", ");
     print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed);
-    printf(", ");
+    fprintf(RunContext.out, ", ");
     print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", self->ledger.ignored);
-    printf(".\n");
+    fprintf(RunContext.out, ".\n");
 }
 
 static void runtotals_add(const struct runsummary *summary)
@@ -304,7 +331,7 @@ static void assertstate_handlefailure(const char * restrict test_name, struct ru
 {
     ++ledger->failed;
     print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, "'%s' failure", test_name);
-    printf("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
+    fprintf(RunContext.out, "%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
     print_linemessage(AssertState.message);
 }
 
@@ -325,7 +352,7 @@ static void assertstate_handle(const char * restrict test_name, struct runledger
             assertstate_handleignore(test_name, ledger);
             break;
         default:
-            fprintf(stderr, "WARNING: unknown assertion type encountered!\n");
+            fprintf(RunContext.err, "WARNING: unknown assertion type encountered!\n");
             break;
     }
 }
@@ -466,7 +493,7 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
 {
     char formatted_datetime[30];
     const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
-    printf("Test suite '%s' started at %s\n", self->name,
+    fprintf(RunContext.out, "Test suite '%s' started at %s\n", self->name,
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
@@ -511,7 +538,7 @@ static void testsuite_run(const struct ct_testsuite *self)
             runsummary_print(&summary);
         }
     } else {
-        fprintf(stderr, "NULL test suite or NULL test list detected! No tests run.\n");
+        fprintf(RunContext.err, "NULL test suite or NULL test list detected! No tests run.\n");
         summary.ledger.failed = InvalidSuite;
     }
     
@@ -539,11 +566,12 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
             }
             runtotals_print();
         } else {
-            fprintf(stderr, "NULL test suite collection detected! No test suites run.\n");
+            fprintf(RunContext.err, "NULL test suite collection detected! No test suites run.\n");
             RunTotals.ledger.failed = InvalidSuite;
         }
     }
 
+    runcontext_cleanup();
     return RunTotals.ledger.failed;
 }
 

@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <sys/time.h>
 
 #define RED "\033[0;31m"
@@ -26,17 +27,35 @@ uint64_t ct_get_currentmsecs(void)
     return (vtime.tv_sec * MillisecondFactor) + (vtime.tv_usec / MillisecondFactor);
 }
 
-void ct_startcolor(size_t color_index)
+void ct_startcolor(FILE *stream, size_t color_index)
 {
     static const char * const restrict colors[] = { GREEN, RED, CYAN };
     static const size_t color_count = sizeof colors / sizeof colors[0];
     
     if (color_index < color_count) {
-        printf("%s", colors[color_index]);
+        fprintf(stream, "%s", colors[color_index]);
     }
 }
 
-void ct_endcolor(void)
+void ct_endcolor(FILE *stream)
 {
-    printf("\033[0m");
+    fprintf(stream, "\033[0m");
+}
+
+FILE *ct_replacestream(FILE *stream)
+{
+    const int new_stream = dup(fileno(stream));
+    fflush(stream);
+    freopen("/dev/null", "w", stream);
+    return fdopen(new_stream, "w");
+}
+
+void ct_restorestream(FILE *to, FILE *from)
+{
+    if (to == from) return;
+    
+    fflush(to);
+    fflush(from);
+    dup2(fileno(from), fileno(to));
+    fclose(from);
 }
