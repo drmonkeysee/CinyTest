@@ -31,6 +31,7 @@ static void test_case(void *context)
 - (void)tearDown
 {
     unsetenv(self.envProperty.UTF8String);
+    self.testFunc = NULL;
     
     [super tearDown];
 }
