@@ -139,7 +139,7 @@ static void btcontains_returnstrue_ifvalueiszero(void *context)
     ct_asserttrue(contains);
 }
 
-static void btcontains_returnstrue_ifvalueamongothervalues(void *context)
+static void btcontains_returnstrue_ifvalue_among_othervalues(void *context)
 {
     struct bt_testcontext * const ctx = context;
     const int expected_value = 7;
@@ -206,7 +206,7 @@ static void btremove_removesvalue(void *context)
     ct_assertfalse(bt_contains(ctx->tree, expected_value));
 }
 
-static void btremove_removesvalue_ifamongothervalues(void *context)
+static void btremove_removesvalue_if_among_othervalues(void *context)
 {
     struct bt_testcontext * const ctx = context;
     const int expected_value = 7;
@@ -280,7 +280,7 @@ static void btisbalanced_istrue_ifsinglenode(void *context)
     ct_asserttrue(balanced);
 }
 
-static void btisbalanced_istrue_iftwonodes(void *context)
+static void btisbalanced_istrue_if_twonodes(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -291,7 +291,7 @@ static void btisbalanced_istrue_iftwonodes(void *context)
     ct_asserttrue(balanced);
 }
 
-static void btisbalanced_istrue_iftwoleafnodes(void *context)
+static void btisbalanced_istrue_if_twoleafnodes(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -303,7 +303,7 @@ static void btisbalanced_istrue_iftwoleafnodes(void *context)
     ct_asserttrue(balanced);
 }
 
-static void btisbalanced_isfalse_ifthreeinlinenodes(void *context)
+static void btisbalanced_isfalse_if_threeinlinenodes(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -315,7 +315,7 @@ static void btisbalanced_isfalse_ifthreeinlinenodes(void *context)
     ct_assertfalse(balanced);
 }
 
-static void btisbalanced_istrue_ifevensubtrees(void *context)
+static void btisbalanced_istrue_if_evensubtrees(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -349,7 +349,7 @@ static void btisbalanced_isfalse_ifonelayer_unevensubtrees(void *context)
     ct_asserttrue(balanced);
 }
 
-static void btisbalanced_isfalse_ifunevensubtrees(void *context)
+static void btisbalanced_isfalse_if_unevensubtrees(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -369,7 +369,7 @@ static void btisbalanced_isfalse_ifunevensubtrees(void *context)
     ct_assertfalse(balanced);
 }
 
-static void btisbalanced_isfalse_iflopsidedunevensubtrees(void *context)
+static void btisbalanced_isfalse_if_lopsidedunevensubtrees(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -386,7 +386,7 @@ static void btisbalanced_isfalse_iflopsidedunevensubtrees(void *context)
     ct_assertfalse(balanced);
 }
 
-static void btisbalanced_isfalse_ifforkedtree(void *context)
+static void btisbalanced_isfalse_if_forkedtree(void *context)
 {
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
@@ -464,14 +464,14 @@ size_t binarytree_tests(int argc, const char *argv[])
         
         ct_maketest(btcontains_returnstrue_ifvaluepresent),
         ct_maketest(btcontains_returnstrue_ifvalueiszero),
-        ct_maketest(btcontains_returnstrue_ifvalueamongothervalues),
+        ct_maketest(btcontains_returnstrue_ifvalue_among_othervalues),
         ct_maketest(btcontains_returnsfalse_ifvaluenotpresent),
         ct_maketest(btcontains_returnsfalse_ifemptytree),
         
         ct_maketest(btremove_doesnothing_iftreeisnull),
         ct_maketest(btremove_doesnothing_iftreeisempty),
         ct_maketest(btremove_removesvalue),
-        ct_maketest(btremove_removesvalue_ifamongothervalues),
+        ct_maketest(btremove_removesvalue_if_among_othervalues),
         ct_maketest(btremove_supportszero),
         
         ct_maketest(btnewwithvalues_createstree),
@@ -479,14 +479,14 @@ size_t binarytree_tests(int argc, const char *argv[])
         
         ct_maketest(btisbalanced_istrue_ifemptytree),
         ct_maketest(btisbalanced_istrue_ifsinglenode),
-        ct_maketest(btisbalanced_istrue_iftwonodes),
-        ct_maketest(btisbalanced_istrue_iftwoleafnodes),
-        ct_maketest(btisbalanced_isfalse_ifthreeinlinenodes),
-        ct_maketest(btisbalanced_istrue_ifevensubtrees),
+        ct_maketest(btisbalanced_istrue_if_twonodes),
+        ct_maketest(btisbalanced_istrue_if_twoleafnodes),
+        ct_maketest(btisbalanced_isfalse_if_threeinlinenodes),
+        ct_maketest(btisbalanced_istrue_if_evensubtrees),
         ct_maketest(btisbalanced_isfalse_ifonelayer_unevensubtrees),
-        ct_maketest(btisbalanced_isfalse_ifunevensubtrees),
-        ct_maketest(btisbalanced_isfalse_iflopsidedunevensubtrees),
-        ct_maketest(btisbalanced_isfalse_ifforkedtree),
+        ct_maketest(btisbalanced_isfalse_if_unevensubtrees),
+        ct_maketest(btisbalanced_isfalse_if_lopsidedunevensubtrees),
+        ct_maketest(btisbalanced_isfalse_if_forkedtree),
         
         ct_maketest(btrebalance_doesnothing_iftreeisnull),
         ct_maketest(btrebalance_rebalancestree),
