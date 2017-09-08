@@ -65,11 +65,11 @@ Any program that CinyTest is compiled into will support a set of command-line op
 
 | CLI Option | Environment Variable | Description |
 | ------ | ------- | ----------- |
-| `--ct-help` | N/A | print CinyTest usage |
-| `--ct-version` | N/A | print CinyTest version |
-| `--ct-colorized` | `CINYTEST_COLORIZED` | toggle colorized output in test results |
-| `--ct-suite-breaks` | `CINYTEST_SUITE_BREAKS` | toggle test suite headers and result summaries |
-| `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | toggle standard stream output |
+| `--ct-help` | N/A | Print CinyTest usage |
+| `--ct-version` | N/A | Print CinyTest version |
+| `--ct-colorized` | `CINYTEST_COLORIZED` | Toggle colorized output in test results |
+| `--ct-suite-breaks` | `CINYTEST_SUITE_BREAKS` | Toggle test suite headers and result summaries |
+| `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | Toggle standard stream output |
 
 ## Why CinyTest?
 
