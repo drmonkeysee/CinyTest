@@ -61,19 +61,15 @@ This example runs two test suites of four test cases each.
 
 ## Options
 
-Any program that CinyTest is compiled into will support a set of command-line options and environment variables that control CinyTest behavior. Command-line options take precedence over environment variables if both are specified. The available options are listed below.
+Any program that CinyTest is compiled into will support a set of command-line options and environment variables that control CinyTest behavior. Command-line options take precedence over environment variables if both are specified.
 
-### Command-line Options
-
-- `--ct-help`: print CinyTest usage
-- `--ct-version`: print CinyTest version
-- `--ct-colorized`: toggle colorized output in test results
-- `--ct-suite-breaks`: toggle test suite headers and result summaries
-
-### Environment Variables
-
-- `CINYTEST_COLORIZED`: equivalent to `--ct-colorized`
-- `CINYTEST_SUITE_BREAKS`: equivalent to `--ct-suite-breaks`
+| CLI Option | Environment Variable | Description |
+| ------ | ------- | ----------- |
+| `--ct-help` | N/A | print CinyTest usage |
+| `--ct-version` | N/A | print CinyTest version |
+| `--ct-colorized` | `CINYTEST_COLORIZED` | toggle colorized output in test results |
+| `--ct-suite-breaks` | `CINYTEST_SUITE_BREAKS` | toggle test suite headers and result summaries |
+| `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | toggle standard stream output |
 
 ## Why CinyTest?
 

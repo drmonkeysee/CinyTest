@@ -207,6 +207,7 @@ static void print_usage(void)
     fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
     fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
     fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
+    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
 }
 
 static void print_version(void)
