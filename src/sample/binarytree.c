@@ -164,30 +164,30 @@ bool bt_isempty(binarytree *self)
     return self == BT_EMPTY;
 }
 
-void bt_insert(binarytree **treeref, int value)
+void bt_insert(binarytree **selfref, int value)
 {
-    if (!treeref) return;
+    if (!selfref) return;
     
-    if (!*treeref) {
-        *treeref = create_node(value);
-    } else if ((*treeref)->value > value) {
-        bt_insert(&(*treeref)->left, value);
-    } else if ((*treeref)->value < value) {
-        bt_insert(&(*treeref)->right, value);
+    if (!*selfref) {
+        *selfref = create_node(value);
+    } else if ((*selfref)->value > value) {
+        bt_insert(&(*selfref)->left, value);
+    } else if ((*selfref)->value < value) {
+        bt_insert(&(*selfref)->right, value);
     }
 }
 
-void bt_remove(binarytree **treeref, int value)
+void bt_remove(binarytree **selfref, int value)
 {
-    if (!treeref || !*treeref) return;
+    if (!selfref || !*selfref) return;
     
-    if ((*treeref)->value == value) {
-        bt_free(*treeref);
-        *treeref = BT_EMPTY;
+    if ((*selfref)->value == value) {
+        bt_free(*selfref);
+        *selfref = BT_EMPTY;
         return;
     }
     
-    remove_node(*treeref, value);
+    remove_node(*selfref, value);
 }
 
 bool bt_contains(binarytree *self, int value)
@@ -208,18 +208,18 @@ bool bt_isbalanced(binarytree *self)
     return balanced_tree(self, &depth);
 }
 
-void bt_rebalance(binarytree **treeref)
+void bt_rebalance(binarytree **selfref)
 {
-    if (!treeref || !*treeref) return;
+    if (!selfref || !*selfref) return;
     
-    const size_t size = bt_size(*treeref);
+    const size_t size = bt_size(*selfref);
     struct bt_node *sorted_nodes[size];
     
     const ptrdiff_t start = 0, end = size - 1;
     ptrdiff_t current_index = start;
-    inline_tree(*treeref, sorted_nodes, &current_index);
+    inline_tree(*selfref, sorted_nodes, &current_index);
     
-    *treeref = rebalance_node(sorted_nodes, start, end);
+    *selfref = rebalance_node(sorted_nodes, start, end);
 }
 
 size_t bt_size(binarytree *self)

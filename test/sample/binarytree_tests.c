@@ -7,7 +7,6 @@
 //
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "ciny.h"
 #include "binarytree.h"
 
