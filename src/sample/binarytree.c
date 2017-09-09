@@ -96,7 +96,7 @@ static bool balanced_tree(const struct bt_node *self, size_t *depth)
     }
     
     *depth = (ldepth > rdepth ? ldepth : rdepth) + 1;
-    ptrdiff_t depth_diff = ldepth - rdepth;
+    const ptrdiff_t depth_diff = ldepth - rdepth;
     return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
 }
 
