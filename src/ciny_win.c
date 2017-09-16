@@ -34,7 +34,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
     
     if (color_index >= color_count) return;
     
-    const HANDLE output = _get_osfhandle(_fileno(stream));
+    const HANDLE output = (HANDLE)_get_osfhandle(_fileno(stream));
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
@@ -46,7 +46,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
 
 void ct_endcolor(FILE *stream)
 {
-    const HANDLE output = _get_osfhandle(_fileno(stream));
+    const HANDLE output = (HANDLE)_get_osfhandle(_fileno(stream));
     
     if (ConsoleOldAttributes) {
         SetConsoleTextAttribute(output, ConsoleOldAttributes);
