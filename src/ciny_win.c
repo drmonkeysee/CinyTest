@@ -11,7 +11,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <io.h>
-#include <Fcntl.h>
+#include <fcntl.h>
 #include <Windows.h>
 
 // sys time returns 100s of nanoseconds
@@ -62,7 +62,7 @@ FILE *ct_replacestream(FILE *stream)
     DuplicateHandle(GetCurrentProcess(), src_handle, GetCurrentProcess(), &dup_handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
     fflush(stream);
     freopen("NUL", "w", stream);
-    const int new_stream = _open_osfhandle(dup_handle, _O_TEXT);
+    const int new_stream = _open_osfhandle((intptr_t)dup_handle, _O_TEXT);
     return _fdopen(new_stream, "w");
 }
 
