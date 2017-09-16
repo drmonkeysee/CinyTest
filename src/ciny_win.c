@@ -11,6 +11,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <io.h>
+#include <Fcntl.h>
 #include <Windows.h>
 
 // sys time returns 100s of nanoseconds
@@ -55,9 +56,13 @@ void ct_endcolor(FILE *stream)
 
 FILE *ct_replacestream(FILE *stream)
 {
-    const int new_stream = _dup(_fileno(stream));
+    //const int new_stream = _dup(_fileno(stream));
+    const HANDLE src_handle = (HANDLE)_get_osfhandle(_fileno(stream));
+    HANDLE dup_handle;
+    DuplicateHandle(GetCurrentProcess(), src_handle, GetCurrentProcess(), &dup_handle, 0, FALSE, DUPLICATE_SAME_ACCESS);
     fflush(stream);
     freopen("NUL", "w", stream);
+    const int new_stream = _open_osfhandle(dup_handle, _O_TEXT);
     return _fdopen(new_stream, "w");
 }
 
