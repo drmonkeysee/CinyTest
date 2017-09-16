@@ -58,7 +58,7 @@ FILE *ct_replacestream(FILE *stream)
     const int new_stream = _dup(_fileno(stream));
     fflush(stream);
     freopen("NUL", "w", stream);
-    return fdopen(new_stream, "w");
+    return _fdopen(new_stream, "w");
 }
 
 void ct_restorestream(FILE *to, FILE *from)
