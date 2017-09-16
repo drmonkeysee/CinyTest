@@ -55,10 +55,18 @@ void ct_endcolor(FILE *stream)
 
 FILE *ct_replacestream(FILE *stream)
 {
-    return stream;
+    const int new_stream = _dup(_fileno(stream));
+    fflush(stream);
+    freopen("NUL", "w", stream);
+    return fdopen(new_stream, "w");
 }
 
 void ct_restorestream(FILE *to, FILE *from)
 {
     if (to == from) return;
+
+    fflush(to);
+    fflush(from);
+    _dup2(_fileno(from), _fileno(to));
+    fclose(from);
 }
