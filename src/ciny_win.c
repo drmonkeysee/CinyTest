@@ -17,6 +17,25 @@
 static const uint64_t MillisecondFactor = 10000;
 static WORD ConsoleOldAttributes;
 
+static void printinfo(const PCONSOLE_SCREEN_BUFFER_INFO info)
+{
+    printf("dwSize: {%d, %d}\n", info->dwSize.X, info->dwSize.Y);
+    printf("dwCursorPosition: {%d, %d}\n", info->dwCursorPosition.X, info->dwCursorPosition.Y);
+    printf("wAttributes: %x\n", info->wAttributes);
+    printf("srWindow: {%d, %d, %d, %d}\n", info->srWindow.Left, info->srWindow.Top, info->srWindow.Right, info->srWindow.Bottom);
+    printf("dwMaximumWindowSize: {%d, %d}\n", info->dwMaximumWindowSize.X, info->dwMaximumWindowSize.Y);
+}
+
+static HANDLE fdhandle(int fd)
+{
+    return (HANDLE)_get_osfhandle(fd);
+}
+
+static HANDLE streamhandle(FILE *stream)
+{
+    return fdhandle(_fileno(stream));
+}
+
 uint64_t ct_get_currentmsecs(void)
 {
     FILETIME vtime;
@@ -34,7 +53,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
     
     if (color_index >= color_count) return;
     
-    const HANDLE output = (HANDLE)_get_osfhandle(_fileno(stream));
+    const HANDLE output = streamhandle(stream);
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
@@ -46,7 +65,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
 
 void ct_endcolor(FILE *stream)
 {
-    const HANDLE output = (HANDLE)_get_osfhandle(_fileno(stream));
+    const HANDLE output = streamhandle(stream);
     
     if (ConsoleOldAttributes) {
         SetConsoleTextAttribute(output, ConsoleOldAttributes);
@@ -57,6 +76,20 @@ FILE *ct_replacestream(FILE *stream)
 {
     const int new_stream = _dup(_fileno(stream));
     fflush(stream);
+
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    const HANDLE handle = streamhandle(stream);
+    GetConsoleScreenBufferInfo(handle, &info);
+    printf("Old Info:\n");
+    printinfo(&info);
+
+    const HANDLE new_handle = fdhandle(new_stream);
+    CONSOLE_SCREEN_BUFFER_INFO new_info;
+    GetConsoleScreenBufferInfo(new_handle, &new_info);
+    printf("New Info:\n");
+    printinfo(&new_info);
+    //SetConsoleTextAttribute(new_handle info.wAttributes);
+
     freopen("NUL", "w", stream);
     return _fdopen(new_stream, "w");
 }
