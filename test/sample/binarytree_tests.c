@@ -7,6 +7,7 @@
 //
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include "ciny.h"
 #include "binarytree.h"
 
@@ -448,6 +449,19 @@ static void btrebalance_doesnothing_ifoneelementtree(void *context)
     ct_assertequal(1lu, bt_size(ctx->tree));
 }
 
+static void btprint_test(void *context)
+{
+    struct bt_testcontext * const ctx = context;
+    bt_insert(&ctx->tree, 5);
+    bt_insert(&ctx->tree, 3);
+    bt_insert(&ctx->tree, 10);
+    bt_insert(&ctx->tree, 6);
+
+    bt_print(ctx->tree);
+
+    ct_asserttrue(true, "Should not happen!");
+}
+
 size_t binarytree_tests(int argc, const char *argv[])
 {
     const struct ct_testcase tests[] = {
@@ -490,7 +504,9 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btrebalance_doesnothing_iftreeisnull),
         ct_maketest(btrebalance_rebalancestree),
         ct_maketest(btrebalance_doesnothing_ifemptytree),
-        ct_maketest(btrebalance_doesnothing_ifoneelementtree)
+        ct_maketest(btrebalance_doesnothing_ifoneelementtree),
+
+        ct_maketest(btprint_test)
     };
     const struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup, teardown);
     
