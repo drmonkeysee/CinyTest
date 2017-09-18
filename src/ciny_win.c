@@ -58,16 +58,11 @@ void ct_startcolor(FILE *stream, size_t color_index)
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
 
-    fprintf(stream, "current stream: %p", (void *)stream);
-    printinfo(stream, &info);
-    
     info.wAttributes &= clear_foreground;
     info.wAttributes |= colors[color_index];
     SetConsoleTextAttribute(output, info.wAttributes);
 
-    GetConsoleScreenBufferInfo(output, &info);
-    fprintf(stream, "Updated info:\n");
-    printinfo(stream, &info);
+    fflush(stream);
 }
 
 void ct_endcolor(FILE *stream)
@@ -77,6 +72,8 @@ void ct_endcolor(FILE *stream)
     if (ConsoleOldAttributes) {
         SetConsoleTextAttribute(output, ConsoleOldAttributes);
     }
+
+    fflush(stream);
 }
 
 FILE *ct_replacestream(FILE *stream)
