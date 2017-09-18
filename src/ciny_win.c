@@ -80,24 +80,6 @@ FILE *ct_replacestream(FILE *stream)
 {
     const int new_stream = _dup(_fileno(stream));
     fflush(stream);
-
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    const HANDLE handle = streamhandle(stream);
-    GetConsoleScreenBufferInfo(handle, &info);
-    printf("Old Info:\n");
-    printinfo(stream, &info);
-
-    const HANDLE new_handle = fdhandle(new_stream);
-    CONSOLE_SCREEN_BUFFER_INFO new_info;
-    if (GetConsoleScreenBufferInfo(new_handle, &new_info)) {
-        printf("New Info:\n");
-        printinfo(stream, &new_info);
-    } else {
-        printf("New info error: %lx\n", GetLastError());
-    }
-    printf("new stream: %p", (void *)stream);
-    //SetConsoleTextAttribute(new_handle info.wAttributes);
-
     freopen("NUL", "w", stream);
     return _fdopen(new_stream, "w");
 }
