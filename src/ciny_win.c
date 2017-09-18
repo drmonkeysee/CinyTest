@@ -17,15 +17,6 @@
 static const uint64_t MillisecondFactor = 10000;
 static WORD ConsoleOldAttributes;
 
-static void printinfo(FILE *stream, const PCONSOLE_SCREEN_BUFFER_INFO info)
-{
-    fprintf(stream, "dwSize: {%d, %d}\n", info->dwSize.X, info->dwSize.Y);
-    fprintf(stream, "dwCursorPosition: {%d, %d}\n", info->dwCursorPosition.X, info->dwCursorPosition.Y);
-    fprintf(stream, "wAttributes: %x\n", info->wAttributes);
-    fprintf(stream, "srWindow: {%d, %d, %d, %d}\n", info->srWindow.Left, info->srWindow.Top, info->srWindow.Right, info->srWindow.Bottom);
-    fprintf(stream, "dwMaximumWindowSize: {%d, %d}\n", info->dwMaximumWindowSize.X, info->dwMaximumWindowSize.Y);
-}
-
 static HANDLE fdhandle(int fd)
 {
     return (HANDLE)_get_osfhandle(fd);
@@ -52,6 +43,8 @@ void ct_startcolor(FILE *stream, size_t color_index)
     static const WORD clear_foreground = ~(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
     
     if (color_index >= color_count) return;
+
+    fflush(stream);
     
     const HANDLE output = streamhandle(stream);
     CONSOLE_SCREEN_BUFFER_INFO info;
@@ -61,19 +54,17 @@ void ct_startcolor(FILE *stream, size_t color_index)
     info.wAttributes &= clear_foreground;
     info.wAttributes |= colors[color_index];
     SetConsoleTextAttribute(output, info.wAttributes);
-
-    fflush(stream);
 }
 
 void ct_endcolor(FILE *stream)
 {
+    fflush(stream);
+
     const HANDLE output = streamhandle(stream);
     
     if (ConsoleOldAttributes) {
         SetConsoleTextAttribute(output, ConsoleOldAttributes);
     }
-
-    fflush(stream);
 }
 
 FILE *ct_replacestream(FILE *stream)
