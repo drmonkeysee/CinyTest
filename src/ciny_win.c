@@ -58,7 +58,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
 
-    fprintf(stream, "current stream: %p", stream);
+    fprintf(stream, "current stream: %p", (void *)stream);
     printinfo(stream, &info);
     
     info.wAttributes &= clear_foreground;
@@ -98,7 +98,7 @@ FILE *ct_replacestream(FILE *stream)
     } else {
         printf("New info error: %lx\n", GetLastError());
     }
-    printf("new stream: %p", stream);
+    printf("new stream: %p", (void *)stream);
     //SetConsoleTextAttribute(new_handle info.wAttributes);
 
     freopen("NUL", "w", stream);
