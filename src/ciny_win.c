@@ -17,14 +17,9 @@
 static const uint64_t MillisecondFactor = 10000;
 static WORD ConsoleOldAttributes;
 
-static HANDLE fdhandle(int fd)
-{
-    return (HANDLE)_get_osfhandle(fd);
-}
-
 static HANDLE streamhandle(FILE *stream)
 {
-    return fdhandle(_fileno(stream));
+    return (HANDLE)_get_osfhandle(_fileno(stream));
 }
 
 uint64_t ct_get_currentmsecs(void)
@@ -62,14 +57,14 @@ void ct_endcolor(FILE *stream)
 
     fflush(stream);
 
-    const HANDLE output = streamhandle(stream);
-    SetConsoleTextAttribute(output, ConsoleOldAttributes);
+    SetConsoleTextAttribute(streamhandle(stream), ConsoleOldAttributes);
 }
 
 FILE *ct_replacestream(FILE *stream)
 {
-    const int new_stream = _dup(_fileno(stream));
     fflush(stream);
+    
+    const int new_stream = _dup(_fileno(stream));
     freopen("NUL", "w", stream);
     return _fdopen(new_stream, "w");
 }

@@ -44,8 +44,9 @@ void ct_endcolor(FILE *stream)
 
 FILE *ct_replacestream(FILE *stream)
 {
-    const int new_stream = dup(fileno(stream));
     fflush(stream);
+    
+    const int new_stream = dup(fileno(stream));
     freopen("/dev/null", "w", stream);
     return fdopen(new_stream, "w");
 }
