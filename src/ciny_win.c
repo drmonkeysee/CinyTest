@@ -58,11 +58,10 @@ void ct_startcolor(FILE *stream, size_t color_index)
 
 void ct_endcolor(FILE *stream)
 {
-    fflush(stream);
-
     const HANDLE output = streamhandle(stream);
     
     if (ConsoleOldAttributes) {
+        fflush(stream);
         SetConsoleTextAttribute(output, ConsoleOldAttributes);
     }
 }
