@@ -89,7 +89,7 @@ FILE *ct_replacestream(FILE *stream)
         printf("New Info:\n");
         printinfo(&new_info);
     } else {
-        printf("New info error: %x\n", GetLastError());
+        printf("New info error: %lx\n", GetLastError());
     }
     //SetConsoleTextAttribute(new_handle info.wAttributes);
 
