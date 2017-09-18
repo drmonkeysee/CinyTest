@@ -85,9 +85,12 @@ FILE *ct_replacestream(FILE *stream)
 
     const HANDLE new_handle = fdhandle(new_stream);
     CONSOLE_SCREEN_BUFFER_INFO new_info;
-    GetConsoleScreenBufferInfo(new_handle, &new_info);
-    printf("New Info:\n");
-    printinfo(&new_info);
+    if (GetConsoleScreenBufferInfo(new_handle, &new_info)) {
+        printf("New Info:\n");
+        printinfo(&new_info);
+    } else {
+        printf("New info error: %x\n", GetLastError());
+    }
     //SetConsoleTextAttribute(new_handle info.wAttributes);
 
     freopen("NUL", "w", stream);
