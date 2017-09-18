@@ -17,13 +17,13 @@
 static const uint64_t MillisecondFactor = 10000;
 static WORD ConsoleOldAttributes;
 
-static void printinfo(const PCONSOLE_SCREEN_BUFFER_INFO info)
+static void printinfo(FILE *stream, const PCONSOLE_SCREEN_BUFFER_INFO info)
 {
-    printf("dwSize: {%d, %d}\n", info->dwSize.X, info->dwSize.Y);
-    printf("dwCursorPosition: {%d, %d}\n", info->dwCursorPosition.X, info->dwCursorPosition.Y);
-    printf("wAttributes: %x\n", info->wAttributes);
-    printf("srWindow: {%d, %d, %d, %d}\n", info->srWindow.Left, info->srWindow.Top, info->srWindow.Right, info->srWindow.Bottom);
-    printf("dwMaximumWindowSize: {%d, %d}\n", info->dwMaximumWindowSize.X, info->dwMaximumWindowSize.Y);
+    fprintf(stream, "dwSize: {%d, %d}\n", info->dwSize.X, info->dwSize.Y);
+    fprintf(stream, "dwCursorPosition: {%d, %d}\n", info->dwCursorPosition.X, info->dwCursorPosition.Y);
+    fprintf(stream, "wAttributes: %x\n", info->wAttributes);
+    fprintf(stream, "srWindow: {%d, %d, %d, %d}\n", info->srWindow.Left, info->srWindow.Top, info->srWindow.Right, info->srWindow.Bottom);
+    fprintf(stream, "dwMaximumWindowSize: {%d, %d}\n", info->dwMaximumWindowSize.X, info->dwMaximumWindowSize.Y);
 }
 
 static HANDLE fdhandle(int fd)
@@ -57,10 +57,17 @@ void ct_startcolor(FILE *stream, size_t color_index)
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
+
+    fprintf(stream, "current stream: %p", stream);
+    printinfo(stream, &info);
     
     info.wAttributes &= clear_foreground;
     info.wAttributes |= colors[color_index];
     SetConsoleTextAttribute(output, info.wAttributes);
+
+    GetConsoleScreenBufferInfo(output, &info);
+    fprintf(stream, "Updated info:\n");
+    printinfo(stream, &info);
 }
 
 void ct_endcolor(FILE *stream)
@@ -81,16 +88,17 @@ FILE *ct_replacestream(FILE *stream)
     const HANDLE handle = streamhandle(stream);
     GetConsoleScreenBufferInfo(handle, &info);
     printf("Old Info:\n");
-    printinfo(&info);
+    printinfo(stream, &info);
 
     const HANDLE new_handle = fdhandle(new_stream);
     CONSOLE_SCREEN_BUFFER_INFO new_info;
     if (GetConsoleScreenBufferInfo(new_handle, &new_info)) {
         printf("New Info:\n");
-        printinfo(&new_info);
+        printinfo(stream, &new_info);
     } else {
         printf("New info error: %lx\n", GetLastError());
     }
+    printf("new stream: %p", stream);
     //SetConsoleTextAttribute(new_handle info.wAttributes);
 
     freopen("NUL", "w", stream);
