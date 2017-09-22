@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8376AF31F74DD27005FE3C7 /* CTIncludeOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */; };
 		C84D9C451DEBE74D004605F3 /* CTColorOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */; };
 		C85B4A4E1E220B950031C1BB /* CTTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A4D1E220B950031C1BB /* CTTestBase.m */; };
 		C85B4A511E35B59B0031C1BB /* CTNoRunOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */; };
@@ -83,6 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTIncludeOptionTests.m; sourceTree = "<group>"; };
 		C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTColorOptionTests.m; sourceTree = "<group>"; };
 		C85B4A4D1E220B950031C1BB /* CTTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTTestBase.m; sourceTree = "<group>"; };
 		C85B4A4F1E220BBE0031C1BB /* CTTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTTestBase.h; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */,
 				C85F39391E3B0C8A00BE4219 /* CTSuiteBreakOptionTests.m */,
 				C88873C11F5CF60A002CDE3B /* CTSuppressOutputOptionTests.m */,
+				C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */,
 				C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */,
 				C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */,
 				C88059D11D2E177F002ECC5E /* CTAssertionTestBase.m */,
@@ -470,6 +473,7 @@
 				C8805A011D2E177F002ECC5E /* CTStringAssertionTestBase.m in Sources */,
 				C88059F61D2E177F002ECC5E /* CTAssertSameTests.m in Sources */,
 				C88059EA1D2E177F002ECC5E /* CTAssertAboutEqualTests.m in Sources */,
+				C8376AF31F74DD27005FE3C7 /* CTIncludeOptionTests.m in Sources */,
 				C88059F41D2E177F002ECC5E /* CTAssertNotSameTests.m in Sources */,
 				C88059ED1D2E177F002ECC5E /* CTAssertFailTests.m in Sources */,
 				C88059F31D2E177F002ECC5E /* CTAssertNotNullTests.m in Sources */,
