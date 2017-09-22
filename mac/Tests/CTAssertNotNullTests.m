@@ -7,6 +7,7 @@
 //
 
 #import "CTNullAssertionTestBase.h"
+#include <stddef.h>
 #include "ciny.h"
 
 @interface CTAssertNotNullTests : CTNullAssertionTestBase

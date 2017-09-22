@@ -7,6 +7,7 @@
 //
 
 #import "CTStringAssertionTestBase.h"
+#include <stddef.h>
 #include "ciny.h"
 
 @interface CTAssertEqualStrTests : CTStringAssertionTestBase

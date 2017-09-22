@@ -7,6 +7,7 @@
 //
 
 #import "CTOutputAssertionTestBase.h"
+#include <stddef.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>

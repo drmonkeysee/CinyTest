@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "ciny.h"
