@@ -139,8 +139,7 @@ static const char *arg_value(const char *arg)
 
 static void runcontext_init(int argc, const char *argv[])
 {
-    RunContext.help = false;
-    RunContext.version = false;
+    RunContext.help = RunContext.version = false;
     
     const char *color_option = NULL,
                 *breaks_option = NULL,
@@ -190,9 +189,8 @@ static void runcontext_init(int argc, const char *argv[])
 static void runcontext_cleanup(void)
 {
     ct_restorestream(stdout, RunContext.out);
-    RunContext.out = NULL;
     ct_restorestream(stderr, RunContext.err);
-    RunContext.err = NULL;
+    RunContext.out = RunContext.err = NULL;
 }
 
 /////
@@ -324,8 +322,7 @@ static void assertstate_reset(void)
     AssertState.type = ASSERT_UNKNOWN;
     AssertState.file = NULL;
     AssertState.line = 0;
-    AssertState.description[0] = '\0';
-    AssertState.message[0] = '\0';
+    AssertState.description[0] = AssertState.message[0] = '\0';
 }
 
 static void assertstate_handlefailure(const char * restrict test_name, struct runledger *ledger)

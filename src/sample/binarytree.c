@@ -23,8 +23,7 @@ static struct bt_node *create_node(int value)
 {
     struct bt_node * const new_node = malloc(sizeof *new_node);
     new_node->value = value;
-    new_node->left = BT_EMPTY;
-    new_node->right = BT_EMPTY;
+    new_node->left = new_node->right = BT_EMPTY;
     return new_node;
 }
 
