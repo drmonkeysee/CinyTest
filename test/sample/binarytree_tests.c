@@ -42,7 +42,7 @@ static void btnew_creates_emptytree(void *context)
 {
     struct bt_testcontext * const ctx = context;
     
-    const _Bool empty = bt_isempty(ctx->tree);
+    const bool empty = bt_isempty(ctx->tree);
     
     ct_asserttrue(empty);
 }
@@ -124,7 +124,7 @@ static void btcontains_returnstrue_ifvaluepresent(void *context)
     const int expected_value = 7;
     bt_insert(&ctx->tree, expected_value);
     
-    const _Bool contains = bt_contains(ctx->tree, expected_value);
+    const bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_asserttrue(contains);
 }
@@ -135,7 +135,7 @@ static void btcontains_returnstrue_ifvalueiszero(void *context)
     const int expected_value = 0;
     bt_insert(&ctx->tree, expected_value);
     
-    const _Bool contains = bt_contains(ctx->tree, expected_value);
+    const bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_asserttrue(contains);
 }
@@ -150,7 +150,7 @@ static void btcontains_returnstrue_ifvalue_among_othervalues(void *context)
     bt_insert(&ctx->tree, expected_value);
     bt_insert(&ctx->tree, 6);
     
-    const _Bool contains = bt_contains(ctx->tree, expected_value);
+    const bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_asserttrue(contains);
 }
@@ -162,7 +162,7 @@ static void btcontains_returnsfalse_ifvaluenotpresent(void *context)
     bt_insert(&ctx->tree, 10);
     bt_insert(&ctx->tree, 4);
     
-    const _Bool contains = bt_contains(ctx->tree, expected_value);
+    const bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_assertfalse(contains);
 }
@@ -172,7 +172,7 @@ static void btcontains_returnsfalse_ifemptytree(void *context)
     struct bt_testcontext * const ctx = context;
     const int expected_value = 9;
     
-    const _Bool contains = bt_contains(ctx->tree, expected_value);
+    const bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_assertfalse(contains);
 }
@@ -266,7 +266,7 @@ static void btisbalanced_istrue_ifemptytree(void *context)
 {
     struct bt_testcontext * const ctx = context;
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_asserttrue(balanced);
 }
@@ -276,7 +276,7 @@ static void btisbalanced_istrue_ifsinglenode(void *context)
     struct bt_testcontext * const ctx = context;
     bt_insert(&ctx->tree, 5);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_asserttrue(balanced);
 }
@@ -287,7 +287,7 @@ static void btisbalanced_istrue_if_twonodes(void *context)
     bt_insert(&ctx->tree, 5);
     bt_insert(&ctx->tree, 7);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_asserttrue(balanced);
 }
@@ -299,7 +299,7 @@ static void btisbalanced_istrue_if_twoleafnodes(void *context)
     bt_insert(&ctx->tree, 7);
     bt_insert(&ctx->tree, 3);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_asserttrue(balanced);
 }
@@ -311,7 +311,7 @@ static void btisbalanced_isfalse_if_threeinlinenodes(void *context)
     bt_insert(&ctx->tree, 7);
     bt_insert(&ctx->tree, 9);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_assertfalse(balanced);
 }
@@ -327,7 +327,7 @@ static void btisbalanced_istrue_if_evensubtrees(void *context)
     bt_insert(&ctx->tree, 6);
     bt_insert(&ctx->tree, 9);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_asserttrue(balanced);
 }
@@ -345,7 +345,7 @@ static void btisbalanced_isfalse_ifonelayer_unevensubtrees(void *context)
     bt_insert(&ctx->tree, 11);
     bt_insert(&ctx->tree, 8);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_asserttrue(balanced);
 }
@@ -365,7 +365,7 @@ static void btisbalanced_isfalse_if_unevensubtrees(void *context)
     bt_insert(&ctx->tree, 10);
     bt_insert(&ctx->tree, 12);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_assertfalse(balanced);
 }
@@ -382,7 +382,7 @@ static void btisbalanced_isfalse_if_lopsidedunevensubtrees(void *context)
     bt_insert(&ctx->tree, 9);
     bt_insert(&ctx->tree, 8);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_assertfalse(balanced);
 }
@@ -399,7 +399,7 @@ static void btisbalanced_isfalse_if_forkedtree(void *context)
     bt_insert(&ctx->tree, 8);
     bt_insert(&ctx->tree, 9);
     
-    const _Bool balanced = bt_isbalanced(ctx->tree);
+    const bool balanced = bt_isbalanced(ctx->tree);
     
     ct_assertfalse(balanced);
 }
