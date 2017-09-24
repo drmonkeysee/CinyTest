@@ -154,8 +154,7 @@ static void test_teardownB(void **context)
     [super setUp];
     
     TestClass = (__bridge void *)(self);
-    FakeContextA = NULL;
-    FakeContextB = NULL;
+    FakeContextA = FakeContextB = NULL;
 }
 
 - (void)tearDown

@@ -189,8 +189,9 @@ static void runcontext_init(int argc, const char *argv[])
 static void runcontext_cleanup(void)
 {
     ct_restorestream(stdout, RunContext.out);
+    RunContext.out = NULL;
     ct_restorestream(stderr, RunContext.err);
-    RunContext.out = RunContext.err = NULL;
+    RunContext.err = NULL;
 }
 
 /////
