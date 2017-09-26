@@ -33,22 +33,22 @@
     [self assertEnvDisabled:CTOutputDoesNotContain value:@"Test suite '"];
 }
 
-- (void)test_suiteBreakEnabledForPositiveEnvValues
+- (void)test_suiteBreakEnabled_ForPositiveEnvValues
 {
     [self assertEnvEnabled:CTOutputContains value:@"Test suite '"];
 }
 
-- (void)test_suiteBreakEnabledWithArbitraryArgs
+- (void)test_suiteBreakEnabled_WithArbitraryArgs
 {
     [self assertArbitraryArgs:CTOutputContains value:@"Test suite '"];
 }
 
-- (void)test_suiteBreakDisabledWithCommandLineArg
+- (void)test_suiteBreakDisabled_WithCommandLineArg
 {
     [self assertArg:@"--ct-suite-breaks" ifDisabled:CTOutputDoesNotContain value:@"Test suite '"];
 }
 
-- (void)test_suiteBreakEnabledWithPositiveCommandLineArg
+- (void)test_suiteBreakEnabled_WithPositiveCommandLineArg
 {
     [self assertArg:@"--ct-suite-breaks" ifEnabled:CTOutputContains value:@"Test suite '"];
 }

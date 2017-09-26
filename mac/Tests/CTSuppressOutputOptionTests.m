@@ -47,22 +47,22 @@ static void io_testcase(void *context)
     [self assertEnvDisabled:CTOutputContains value:@"stdout message"];
 }
 
-- (void)test_suppressOutputEnabledForPositiveEnvValues
+- (void)test_suppressOutputEnabled_ForPositiveEnvValues
 {
     [self assertEnvEnabled:CTOutputDoesNotContain value:@"stdout message"];
 }
 
-- (void)test_suppressOutputEnabledWithArbitraryArgs
+- (void)test_suppressOutputEnabled_WithArbitraryArgs
 {
     [self assertArbitraryArgs:CTOutputDoesNotContain value:@"stdout message"];
 }
 
-- (void)test_suppressOutputDisabledWithCommandLineArg
+- (void)test_suppressOutputDisabled_WithCommandLineArg
 {
     [self assertArg:@"--ct-suppress-output" ifDisabled:CTOutputContains value:@"stdout message"];
 }
 
-- (void)test_suppressOutputEnabledWithPositiveCommandLineArg
+- (void)test_suppressOutputEnabled_WithPositiveCommandLineArg
 {
     [self assertArg:@"--ct-suppress-output" ifEnabled:CTOutputDoesNotContain value:@"stdout message"];
 }

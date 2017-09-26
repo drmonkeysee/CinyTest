@@ -122,141 +122,141 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     Suite1Flags = Suite2Flags = RUN_TEST_NONE;
 }
 
-- (void)test_allTestsRunIfNoFilter
+- (void)test_AllTestsRun_IfNoFilter
 {
     [self assertFilters:@[] suite1Expected:all_tests() suite2Expected:all_tests()];
 }
 
-- (void)test_noTestsRunIfEmptyFilter
+- (void)test_NoTestsRun_IfEmptyFilter
 {
     [self assertFilters:@[@"--ct-include="] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_noTestsRunIfEmptyQuotedFilter
+- (void)test_NoTestsRun_IfEmptyQuotedFilter
 {
     [self assertFilters:@[@"--ct-include=''"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_noTestsRunIfEmptyDoubleQuotedFilter
+- (void)test_NoTestsRun_IfEmptyDoubleQuotedFilter
 {
     [self assertFilters:@[@"--ct-include=\"\""] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_allTestsRunIfWildcardFilter
+- (void)test_AllTestsRun_IfWildcardFilter
 {
     [self assertFilters:@[@"--ct-include=*"] suite1Expected:all_tests() suite2Expected:all_tests()];
 }
 
-- (void)test_allTestsRunIfQuotedWildcardFilter
+- (void)test_AllTestsRun_IfQuotedWildcardFilter
 {
     [self assertFilters:@[@"--ct-include='*'"] suite1Expected:all_tests() suite2Expected:all_tests()];
 }
 
-- (void)test_allTestsRunIfDoubleQuotedWildcardFilter
+- (void)test_AllTestsRun_IfDoubleQuotedWildcardFilter
 {
     [self assertFilters:@[@"--ct-include=\"*\""] suite1Expected:all_tests() suite2Expected:all_tests()];
 }
 
-- (void)test_runsSpecificSuiteAndTest
+- (void)test_SpecificSuiteAndTest
 {
     [self assertFilters:@[@"--ct-include=suite_foo:test_bort"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_ignoresSingleQuotes
+- (void)test_IgnoresSingleQuotes
 {
     [self assertFilters:@[@"--ct-include='suite_foo:test_bort'"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_ignoresDoubleQuotes
+- (void)test_IgnoresDoubleQuotes
 {
     [self assertFilters:@[@"--ct-include='\"suite_foo:test_bort\""] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_ignoresRandomSingleQuotes
+- (void)test_IgnoresInterleavedSingleQuotes
 {
     [self assertFilters:@[@"--ct-include=suite_'foo':test_bort'"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_ignoresRandomDoubleQuotes
+- (void)test_IgnoresInterleavedDoubleQuotes
 {
     [self assertFilters:@[@"--ct-include=suite_\"foo\":test_bort'"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_doesNotIgnoreWhitespace
+- (void)test_DoesNotIgnoreWhitespace
 {
     [self assertFilters:@[@"--ct-include=suite_foo:test_bort "] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include= suite_foo:test_bort"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include= suite_foo:test_bort "] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsAllTestsSpecificSuite
+- (void)test_AllTestsSpecificSuite
 {
     [self assertFilters:@[@"--ct-include=suite_foo:"] suite1Expected:all_tests() suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsSpecificTestAllSuites
+- (void)test_SpecificTestAllSuites
 {
     [self assertFilters:@[@"--ct-include=:test_bort"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BORT];
 }
 
-- (void)test_runWildcardLetterTests
+- (void)test_WildcardLetterTests
 {
     RUN_TEST_FLAGS expected = RUN_TEST_BORT | RUN_TEST_BART;
     [self assertFilters:@[@"--ct-include=:test_b?rt"] suite1Expected:expected suite2Expected:expected];
 }
 
-- (void)test_runWildcardLetterTestsWithSuite
+- (void)test_WildcardLetterTestsWithSuite
 {
     RUN_TEST_FLAGS expected = RUN_TEST_BORT | RUN_TEST_BART;
     [self assertFilters:@[@"--ct-include=suite_bar:test_b?rt"] suite1Expected:RUN_TEST_NONE suite2Expected:expected];
 }
 
-- (void)test_runWildcardLetterSuites
+- (void)test_WildcardLetterSuites
 {
     Suites[0] = make_suite("suite_far", suite1_setup);
     
     [self assertFilters:@[@"--ct-include=suite_?ar:"] suite1Expected:all_tests() suite2Expected:all_tests()];
 }
 
-- (void)test_runWildcardLetterSuitesWithTest
+- (void)test_WildcardLetterSuitesWithTest
 {
     Suites[0] = make_suite("suite_far", suite1_setup);
     
     [self assertFilters:@[@"--ct-include=suite_?ar:test_foobar"] suite1Expected:RUN_TEST_FOOBAR suite2Expected:RUN_TEST_FOOBAR];
 }
 
-- (void)test_runsNothingIfNoMatch
+- (void)test_RunsNothing_IfNoMatch
 {
     [self assertFilters:@[@"--ct-include=foo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsWildcardMatches
+- (void)test_WildcardMatches
 {
     [self assertFilters:@[@"--ct-include=*foo*"] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsEndWildcardMatches
+- (void)test_WildcardMatches_AtEnd
 {
     [self assertFilters:@[@"--ct-include=*foo"] suite1Expected:RUN_TEST_BARFOO suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsStartWildcardMatches
+- (void)test_WildcardMatches_AtStart
 {
     [self assertFilters:@[@"--ct-include=suite_f*"] suite1Expected:all_tests() suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsWildcardTestsOnly
+- (void)test_WildcardMatches_TestOnly
 {
     RUN_TEST_FLAGS expected = RUN_TEST_BARFOO | RUN_TEST_BART;
     [self assertFilters:@[@"--ct-include=:*bar*"] suite1Expected:expected suite2Expected:expected];
 }
 
-- (void)test_runsWildcardSuitesOnly
+- (void)test_WildcardMatches_SuiteOnly
 {
     [self assertFilters:@[@"--ct-include=*bar:"] suite1Expected:RUN_TEST_NONE suite2Expected:all_tests()];
 }
 
-- (void)test_runsMixWildcardLetterAndWildcard
+- (void)test_MixWildcardLetterAndWildcard
 {
     Suites[0] = make_suite("suite_far", suite1_setup);
     
@@ -264,50 +264,50 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=suite_?ar:*foo*"] suite1Expected:expected suite2Expected:expected];
 }
 
-- (void)test_extendedWildcard
+- (void)test_ExtendedWildcard
 {
     [self assertFilters:@[@"--ct-include=*æ*"] suite1Expected:RUN_TEST_EXTENDED suite2Expected:RUN_TEST_EXTENDED];
 }
 
-- (void)test_eastAsianWildcard
+- (void)test_EastAsianWildcard
 {
     [self assertFilters:@[@"--ct-include=*试*"] suite1Expected:RUN_TEST_EAST_ASIAN suite2Expected:RUN_TEST_EAST_ASIAN];
 }
 
-- (void)test_horseWildcard
+- (void)test_EmojiWildcard
 {
     [self assertFilters:@[@"--ct-include=*🐴*"] suite1Expected:RUN_TEST_HORSE suite2Expected:RUN_TEST_HORSE];
 }
 
-- (void)test_wildcardLetterSupportsSingleByteUnicode
+- (void)test_WildcardLetter_SupportsSingleByteUnicode
 {
     [self assertFilters:@[@"--ct-include=:test_?xtended_chærs"] suite1Expected:RUN_TEST_EXTENDED suite2Expected:RUN_TEST_EXTENDED];
 }
 
-- (void)test_wildcardLetterDoesNotSupportMultibyteUnicode
+- (void)test_WildcardLetter_DoesNotSupportMultibyteUnicode
 {
     [self assertFilters:@[@"--ct-include=:test_测试?"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:test_🐴?"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsMultipleExactMatches
+- (void)test_MultipleExactMatches
 {
     [self assertFilters:@[@"--ct-include=suite_foo:test_bort,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
 }
 
-- (void)test_doesNotIgnoreWhitespaceBetweenExpressions
+- (void)test_DoesNotIgnoreWhitespace_BetweenExpressions
 {
     [self assertFilters:@[@"--ct-include=suite_foo:test_bort, suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=suite_foo:test_bort ,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=suite_foo:test_bort , suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_runsMultipleWildcardExpressions
+- (void)test_MultipleWildcardExpressions
 {
     [self assertFilters:@[@"--ct-include=*foo*,suite_bar:test_b?rt"] suite1Expected:all_tests() suite2Expected:RUN_TEST_BART | RUN_TEST_BORT];
 }
 
-- (void)test_runsOverlappingWildcards
+- (void)test_OverlappingWildcards
 {
     [self assertFilters:@[@"--ct-include=*foo,:test_ba*,suite_bar:*rt"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_BORT];
 }

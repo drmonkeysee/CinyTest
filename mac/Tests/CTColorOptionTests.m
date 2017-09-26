@@ -33,22 +33,22 @@
     [self assertEnvDisabled:CTOutputContains value:@"1 passed,"];
 }
 
-- (void)test_colorizedEnabledForPositiveEnvValues
+- (void)test_colorizedEnabled_ForPositiveEnvValues
 {
     [self assertEnvEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
 
-- (void)test_colorizedEnabledWithArbitraryArgs
+- (void)test_colorizedEnabled_WithArbitraryArgs
 {
     [self assertArbitraryArgs:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
 
-- (void)test_colorizedDisabledWithCommandLineArg
+- (void)test_colorizedDisabled_WithCommandLineArg
 {
     [self assertArg:@"--ct-colorized" ifDisabled:CTOutputContains value:@"1 passed,"];
 }
 
-- (void)test_colorizedEnabledWithPositiveCommandLineArg
+- (void)test_colorizedEnabled_WithPositiveCommandLineArg
 {
     [self assertArg:@"--ct-colorized" ifEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
 }
