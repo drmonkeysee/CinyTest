@@ -354,13 +354,13 @@ do { \
  */
 #ifdef _WIN64
 #include <complex.h>                        // win types must be visible
-typedef _Fcomplex ct_fcomplex;               /**< Float complex number type. */
-typedef _Dcomplex ct_complex;                /**< Double complex number type. */
-typedef _Lcomplex ct_lcomplex;               /**< Long double complex number type. */
+typedef _Fcomplex ct_fcomplex;              /**< Float complex number type. */
+typedef _Dcomplex ct_complex;               /**< Double complex number type. */
+typedef _Lcomplex ct_lcomplex;              /**< Long double complex number type. */
 #else
-typedef float _Complex ct_fcomplex;          /**< Float complex number type. */
-typedef double _Complex ct_complex;          /**< Double complex number type. */
-typedef long double _Complex ct_lcomplex;    /**< Long double complex number type. */
+typedef float _Complex ct_fcomplex;         /**< Float complex number type. */
+typedef double _Complex ct_complex;         /**< Double complex number type. */
+typedef long double _Complex ct_lcomplex;   /**< Long double complex number type. */
 #endif
 /**
  @}
