@@ -8,6 +8,7 @@
 
 #import "CTTestBase.h"
 #include <stddef.h>
+#include <stdlib.h>
 #include "ciny.h"
 
 typedef NS_ENUM(NSUInteger, RUN_TEST_FLAGS) {
@@ -27,6 +28,7 @@ typedef NS_ENUM(NSUInteger, RUN_SUITE) {
     RUN_SUITE2
 };
 
+static const char * const restrict EnvVar = "CINYTEST_INCLUDE";
 static struct ct_testsuite Suites[2];
 static RUN_TEST_FLAGS Suite1Flags;
 static RUN_TEST_FLAGS Suite2Flags;
@@ -126,7 +128,15 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 {
     [super setUp];
 
+    unsetenv(EnvVar);
     Suite1Flags = Suite2Flags = RUN_TEST_NONE;
+}
+
+- (void)tearDown
+{
+    unsetenv(EnvVar);
+    
+    [super tearDown];
 }
 
 - (void)test_AllTestsRun_IfNoFilter
@@ -283,6 +293,45 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 - (void)test_UsesLastFilterFound
 {
     [self assertFilters:@[@"--ct-include=*foo*", @"--ct-include=*bar*"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:all_tests()];
+}
+
+- (void)test_EnvFilter
+{
+    setenv(EnvVar, "", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+    
+    setenv(EnvVar, "''", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+    
+    setenv(EnvVar, "\"\"", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+    
+    setenv(EnvVar, "*", 1);
+    [self assertFilters:@[] suite1Expected:all_tests() suite2Expected:all_tests()];
+    
+    setenv(EnvVar, "'*'", 1);
+    [self assertFilters:@[] suite1Expected:all_tests() suite2Expected:all_tests()];
+    
+    setenv(EnvVar, "\"*\"", 1);
+    [self assertFilters:@[] suite1Expected:all_tests() suite2Expected:all_tests()];
+    
+    setenv(EnvVar, "suite_far:test_bort", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
+    
+    setenv(EnvVar, "'suite_far:test_bort'", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
+    
+    setenv(EnvVar, "\"suite_far:test_bort\"", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
+    
+    setenv(EnvVar, "suite_?ar:test_?art", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART];
+
+    setenv(EnvVar, "*bar*", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:all_tests()];
+    
+    setenv(EnvVar, "suite_far:test_bort,suite_bar:test_barfoo", 1);
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
 }
 
 - (void)assertFilters:(NSArray *)filters suite1Expected:(RUN_TEST_FLAGS)suite1Expected suite2Expected:(RUN_TEST_FLAGS)suite2Expected
