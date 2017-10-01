@@ -53,7 +53,7 @@ static void test_case(void *context)
 
 - (void)assertEnvEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"1", @"'yes'", @"\"yes\""];
+    NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"1", @"'yes'", @"\"yes\""];
     for (NSString *value in randomValues) {
         setenv(self.envProperty.UTF8String, value.UTF8String, 1);
         [self assertSuite:compare value:expected forOption:value];
@@ -62,7 +62,7 @@ static void test_case(void *context)
 
 - (void)assertArbitraryArgs:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"--ct-somethingelse=NO"];
+    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"''", @"\"\"", @"--ct-somethingelse=NO"];
     [self assertSuite:compare value:expected forOption:nil withArgs:args];
 }
 
@@ -80,7 +80,7 @@ static void test_case(void *context)
 
 - (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *randomValues = @[@"%@=YES", @"%@=true", @"%@=blarg", @"%@=", @"%@", @"%@=1", @"%@='yes'", @"%@=\"yes\""];
+    NSArray *randomValues = @[@"%@=YES", @"%@=true", @"%@=blarg", @"%@=", @"%@=''", @"%@=\"\"", @"%@", @"%@=1", @"%@='yes'", @"%@=\"yes\""];
     for (NSString *value in randomValues) {
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
         const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
