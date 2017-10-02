@@ -51,6 +51,7 @@ static const char * const restrict VersionOption = "--ct-version";
 static const char * const restrict ColorizedOption = "--ct-colorized";
 static const char * const restrict SuiteBreaksOption = "--ct-suite-breaks";
 static const char * const restrict SuppressOutputOption = "--ct-suppress-output";
+static const char * const restrict IncludeFilterOption = "--ct-include";
 static const char * const restrict IgnoredTestSymbol = "?";
 
 #define COMPVALUE_STR_SIZE 75u
@@ -83,8 +84,20 @@ enum text_highlight {
     HIGHLIGHT_FAILURE,
     HIGHLIGHT_IGNORE
 };
+enum filter_target_flags {
+    FILTER_NONE = 0,
+    FILTER_SUITE = 1 << 0,
+    FILTER_CASE = 1 << 1,
+    FILTER_ANY = FILTER_SUITE | FILTER_CASE
+};
+struct testfilter {
+    const char *start, *end;
+    enum filter_target_flags apply;
+};
 static struct {
     FILE *out, *err;
+    struct testfilter *ifilters;
+    size_t ifilter_count;
     bool help;
     bool version;
     bool colorized;
@@ -114,7 +127,7 @@ static bool value_on(const char *value)
 {
     static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
     static const size_t flags_count = sizeof off_flags;
-    
+
     if (!value) return true;
     
     for (size_t i = 0; i < flags_count; ++i) {
@@ -137,13 +150,19 @@ static const char *arg_value(const char *arg)
     return NULL;
 }
 
+static size_t parse_filters(const char * restrict filter_option, struct testfilter **filters_ref)
+{
+    return 0;
+}
+
 static void runcontext_init(int argc, const char *argv[])
 {
     RunContext.help = RunContext.version = false;
     
     const char *color_option = NULL,
                 *breaks_option = NULL,
-                *output_option = NULL;
+                *suppress_output_option = NULL,
+                *include_filter_option = NULL;
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
@@ -159,7 +178,9 @@ static void runcontext_init(int argc, const char *argv[])
             } else if (strstr(arg, SuiteBreaksOption)) {
                 breaks_option = arg_value(arg);
             } else if (strstr(arg, SuppressOutputOption)) {
-                output_option = arg_value(arg);
+                suppress_output_option = arg_value(arg);
+            } else if (strstr(arg, IncludeFilterOption)) {
+                include_filter_option = arg_value(arg);
             }
         }
     }
@@ -170,28 +191,38 @@ static void runcontext_init(int argc, const char *argv[])
     if (!breaks_option) {
         breaks_option = getenv("CINYTEST_SUITE_BREAKS");
     }
-    if (!output_option) {
-        output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
+    if (!suppress_output_option) {
+        suppress_output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
     }
-    
+    if (!include_filter_option) {
+        include_filter_option = getenv("CINYTEST_INCLUDE");
+    }
+
     RunContext.colorized = value_on(color_option);
     RunContext.suite_breaks = value_on(breaks_option);
     
-    if (value_on(output_option)) {
+    if (value_on(suppress_output_option)) {
         RunContext.out = ct_replacestream(stdout);
         RunContext.err = ct_replacestream(stderr);
     } else {
         RunContext.out = stdout;
         RunContext.err = stderr;
     }
+
+    RunContext.ifilter_count = parse_filters(include_filter_option, &RunContext.ifilters);
 }
 
 static void runcontext_cleanup(void)
 {
     ct_restorestream(stdout, RunContext.out);
     RunContext.out = NULL;
+    
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
+
+    free(RunContext.ifilters);
+    RunContext.ifilters = NULL;
+    RunContext.ifilter_count = 0;
 }
 
 /////
@@ -500,6 +531,8 @@ static void testsuite_runcase(const struct ct_testsuite *self, size_t index, str
 {
     assertstate_reset();
     const struct ct_testcase * const current_test = self->tests + index;
+
+    // TODO: check test filters here
     
     void *test_context = NULL;
     if (self->setup) {
@@ -522,6 +555,7 @@ static void testsuite_run(const struct ct_testsuite *self)
     struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
+        // TODO: check suite filters here
         const uint64_t start_msecs = ct_get_currentmsecs();
         summary.test_count = self->count;
         if (RunContext.suite_breaks) {
