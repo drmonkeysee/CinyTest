@@ -206,6 +206,13 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=:test_f?rt"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
+- (void)test_NoTestsRun_IfTooManyTestDelimiters
+{
+    [self assertFilters:@[@"--ct-include=suite_foo:test_foobar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=suite_foo:suite_bar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=suite_foo:test*:*foo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+}
+
 - (void)test_MixWildcardLetterAndWildcard
 {
     [self assertFilters:@[@"--ct-include=suite_?ar:*foo*"] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO suite2Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO];
@@ -235,11 +242,15 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 - (void)test_MultipleExactMatches
 {
     [self assertFilters:@[@"--ct-include=suite_far:test_bort,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
+}
+
+- (void)test_NoTestsRun_IfEmptyMultipleExpressions
+{
     [self assertFilters:@[@"--ct-include=,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=suite_far:test_bort,"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_NoTestsRun_IfMultipleExactMatchesContainWhitespace
+- (void)test_MultipleExactMatchesContainingWhitespace
 {
     [self assertFilters:@[@"--ct-include=suite_far:test_bort, suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=suite_far:test_bort ,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BARFOO];
