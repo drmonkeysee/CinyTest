@@ -206,7 +206,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=:test_f?rt"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_NoTestsRun_IfTooManyTestDelimiters
+- (void)test_NoTestsRun_IfTooManyTargetDelimiters
 {
     [self assertFilters:@[@"--ct-include=suite_foo:test_foobar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=suite_foo:suite_bar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
@@ -250,11 +250,16 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=suite_far:test_bort,"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
 
-- (void)test_MultipleExactMatchesContainingWhitespace
+- (void)test_MultipleExactMatches_ContainingWhitespace
 {
     [self assertFilters:@[@"--ct-include=suite_far:test_bort, suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=suite_far:test_bort ,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BARFOO];
     [self assertFilters:@[@"--ct-include=suite_far:test_bort , suite_bar:test_barfoo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+}
+
+- (void)test_RejectTooManyTargetDelimiters_InMultiExpressionFilter
+{
+    [self assertFilters:@[@"--ct-include=suite_foo:test*:*foo,suite_bar:test_barfoo,suite_bar:test_foobar:test_bort"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BARFOO];
 }
 
 - (void)test_MultipleWildcardExpressions
