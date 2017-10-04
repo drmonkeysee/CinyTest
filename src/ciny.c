@@ -88,16 +88,17 @@ enum filter_target_flags {
     FILTER_NONE = 0,
     FILTER_SUITE = 1 << 0,
     FILTER_CASE = 1 << 1,
-    FILTER_ANY = FILTER_SUITE | FILTER_CASE
+    FILTER_ALL = FILTER_SUITE | FILTER_CASE
 };
 struct testfilter {
     const char *start, *end;
+    struct testfilter *next;
     enum filter_target_flags apply;
 };
+typedef struct testfilter filterlist;
 static struct {
     FILE *out, *err;
-    struct testfilter *ifilters;
-    size_t ifilter_count;
+    filterlist *include;
     bool help;
     bool version;
     bool colorized;
@@ -120,7 +121,7 @@ extern inline struct ct_comparable_value ct_makevalue_complex(int, ct_lcomplex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
 /////
-// Run Context
+// Arg Parsing
 /////
 
 static bool value_on(const char *value)
@@ -150,10 +151,96 @@ static const char *arg_value(const char *arg)
     return NULL;
 }
 
-static size_t parse_filters(const char * restrict filter_option, struct testfilter **filters_ref)
+/////
+// Test Filters
+/////
+
+static struct testfilter *testfilter_new(const char *start, const char *end)
 {
-    return 0;
+    struct testfilter * const filter = malloc(sizeof *filter);
+    filter->start = start;
+    filter->end = end;
+    filter->next = NULL;
+    filter->apply = FILTER_NONE;
+    return filter;
 }
+
+static filterlist *filterlist_new(void)
+{
+    return NULL;
+}
+
+static void filterlist_push(filterlist **self_ref, struct testfilter *filter)
+{
+    filter->next = *self_ref;
+    *self_ref = filter;
+}
+
+static void filterlist_free(filterlist *self)
+{
+    while (self) {
+        filterlist * const head = self;
+        self = self->next;
+        free(head);
+    }
+}
+
+static struct testfilter *parse_filter(const char **cursor_ref)
+{
+    static const char target_delimiter = ':';
+    static const char expr_delimiter = ',';
+
+    const char *cursor = *cursor_ref;
+    /* TODO:
+    MAKE FILTER
+
+    -- FILTER START
+    FILTER.START := CUR
+    IF C = : AND FILTER.APPLY = NONE
+        FILTER.APPLY := CASE
+        FILTER.START := ++CUR
+
+    -- FILTER END
+    FOR C IN CUR
+        IF C = , OR \0
+            FILTER.END := CUR
+            IF C = ,
+                ++CUR
+            BREAK
+        IF C = : AND FILTER.APPLY = NONE
+            -- CAN FOLD THIS UP INTO FIRST IF WITH A FLAG?
+            IF PEEK(CUR) = , OR \0
+                FILTER.APPLY := SUITE
+                FILTER.END := CUR
+                ++CUR
+                IF C IN CUR = ,
+                    ++CUR
+                BREAK
+            ELSE
+                FILTER.APPLY := ALL
+        ++CUR
+    END
+
+    CUR_REF := CUR
+    */
+}
+
+static filterlist *parse_filters(const char *filter_option)
+{
+    filterlist *fl = filterlist_new();
+
+    const char *cursor = filter_option;
+    while (cursor) {
+        struct testfilter * const f = parse_filter(&cursor);
+        filterlist_push(&fl, f);
+    }
+
+    return fl;
+}
+
+/////
+// Run Context
+/////
 
 static void runcontext_init(int argc, const char *argv[])
 {
@@ -209,7 +296,7 @@ static void runcontext_init(int argc, const char *argv[])
         RunContext.err = stderr;
     }
 
-    RunContext.ifilter_count = parse_filters(include_filter_option, &RunContext.ifilters);
+    RunContext.include = parse_filters(include_filter_option);
 }
 
 static void runcontext_cleanup(void)
@@ -220,9 +307,8 @@ static void runcontext_cleanup(void)
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
 
-    free(RunContext.ifilters);
-    RunContext.ifilters = NULL;
-    RunContext.ifilter_count = 0;
+    filterlist_free(RunContext.include)
+    RunContext.include = NULL;
 }
 
 /////
