@@ -302,7 +302,7 @@ static void runcontext_cleanup(void)
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
 
-    filterlist_free(RunContext.include)
+    filterlist_free(RunContext.include);
     RunContext.include = NULL;
 }
 
