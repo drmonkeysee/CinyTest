@@ -20,7 +20,8 @@ typedef NS_ENUM(NSUInteger, RUN_TEST_FLAGS) {
     RUN_TEST_TITLE_BART = 1 << 4,
     RUN_TEST_EXTENDED = 1 << 5,
     RUN_TEST_EAST_ASIAN = 1 << 6,
-    RUN_TEST_HORSE = 1 << 7
+    RUN_TEST_HORSE = 1 << 7,
+    RUN_TEST_ALL = RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EXTENDED | RUN_TEST_EAST_ASIAN | RUN_TEST_HORSE
 };
 
 typedef NS_ENUM(NSUInteger, RUN_SUITE) {
@@ -32,11 +33,6 @@ static const char * const restrict EnvVar = "CINYTEST_INCLUDE";
 static struct ct_testsuite Suites[2];
 static RUN_TEST_FLAGS Suite1Flags;
 static RUN_TEST_FLAGS Suite2Flags;
-
-static RUN_TEST_FLAGS all_tests(void)
-{
-    return RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EXTENDED | RUN_TEST_EAST_ASIAN | RUN_TEST_HORSE;
-}
 
 static void set_test_flag(const void *ctx, RUN_TEST_FLAGS flag)
 {
@@ -141,7 +137,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_AllTestsRun_IfNoFilter
 {
-    [self assertFilters:@[] suite1Expected:all_tests() suite2Expected:all_tests()];
+    [self assertFilters:@[] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
 }
 
 - (void)test_NoTestsRun_IfEmptyFilters
@@ -153,7 +149,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_AllTestsRun_IfWildcardFilters
 {
-    [self assertFilters:@[@"--ct-include=*"] suite1Expected:all_tests() suite2Expected:all_tests()];
+    [self assertFilters:@[@"--ct-include=*"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
 }
 
 - (void)test_ExactPatternMatch
@@ -170,8 +166,8 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_ExactSuiteMatchPattern
 {
-    [self assertFilters:@[@"--ct-include=suite_far:"] suite1Expected:all_tests() suite2Expected:RUN_TEST_NONE];
-    [self assertFilters:@[@"--ct-include=suite_far:*"] suite1Expected:all_tests() suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=suite_far:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=suite_far:*"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
 }
 
 - (void)test_ExactTestMatchPattern
@@ -185,17 +181,17 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=:test_b?rt"] suite1Expected:RUN_TEST_BORT | RUN_TEST_BART suite2Expected:RUN_TEST_BORT | RUN_TEST_BART];
     [self assertFilters:@[@"--ct-include=suite_bar:test_b?rt"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BORT | RUN_TEST_BART];
     [self assertFilters:@[@"--ct-include=suite_bar:test_?art"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART];
-    [self assertFilters:@[@"--ct-include=suite_?ar:"] suite1Expected:all_tests() suite2Expected:all_tests()];
+    [self assertFilters:@[@"--ct-include=suite_?ar:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     [self assertFilters:@[@"--ct-include=suite_?ar:test_foobar"] suite1Expected:RUN_TEST_FOOBAR suite2Expected:RUN_TEST_FOOBAR];
 }
 
 - (void)test_WildcardPatterns
 {
-    [self assertFilters:@[@"--ct-include=*bar*"] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:all_tests()];
+    [self assertFilters:@[@"--ct-include=*bar*"] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:RUN_TEST_ALL];
     [self assertFilters:@[@"--ct-include=*foo"] suite1Expected:RUN_TEST_BARFOO suite2Expected:RUN_TEST_NONE];
-    [self assertFilters:@[@"--ct-include=suite_f*"] suite1Expected:all_tests() suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=suite_f*"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:*foo*"] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO suite2Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO];
-    [self assertFilters:@[@"--ct-include=*far:"] suite1Expected:all_tests() suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=*far:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:test*b*rt"] suite1Expected:RUN_TEST_BORT | RUN_TEST_BART suite2Expected:RUN_TEST_BORT | RUN_TEST_BART];
     [self assertFilters:@[@"--ct-include=suite_bar:test_*t"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART];
 }
@@ -269,7 +265,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_MultipleWildcardExpressions
 {
-    [self assertFilters:@[@"--ct-include=*foo*,suite_bar:test_b?rt"] suite1Expected:all_tests() suite2Expected:RUN_TEST_BART | RUN_TEST_BORT];
+    [self assertFilters:@[@"--ct-include=*foo*,suite_bar:test_b?rt"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_BART | RUN_TEST_BORT];
 }
 
 - (void)test_OverlappingWildcards
@@ -279,7 +275,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_UsesLastFilterFound
 {
-    [self assertFilters:@[@"--ct-include=*foo*", @"--ct-include=*bar*"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:all_tests()];
+    [self assertFilters:@[@"--ct-include=*foo*", @"--ct-include=*bar*"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_ALL];
 }
 
 - (void)test_EnvFilter
@@ -288,7 +284,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     
     setenv(EnvVar, "*", 1);
-    [self assertFilters:@[] suite1Expected:all_tests() suite2Expected:all_tests()];
+    [self assertFilters:@[] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     
     setenv(EnvVar, "suite_far:test_bort", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
@@ -297,7 +293,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[] suite1Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART];
 
     setenv(EnvVar, "*bar*", 1);
-    [self assertFilters:@[] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:all_tests()];
+    [self assertFilters:@[] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:RUN_TEST_ALL];
     
     setenv(EnvVar, "suite_far:test_bort,suite_bar:test_barfoo", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];

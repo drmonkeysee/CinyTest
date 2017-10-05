@@ -203,21 +203,16 @@ static struct testfilter *parse_filter(const char **cursor_ref)
     -- FILTER END
     FOR C IN CUR
         IF C = , OR \0
-            FILTER.END := CUR
+            IF NOT FILTER.APPLY = SUITE
+                FILTER.END := CUR
             IF C = ,
                 ++CUR
             BREAK
-        IF C = : AND FILTER.APPLY = NONE
-            -- CAN FOLD THIS UP INTO FIRST IF WITH A FLAG?
-            IF PEEK(CUR) = , OR \0
-                FILTER.APPLY := SUITE
-                FILTER.END := CUR
-                ++CUR
-                IF C IN CUR = ,
-                    ++CUR
-                BREAK
-            ELSE
-                FILTER.APPLY := ALL
+        ELIF C = : AND FILTER.APPLY = NONE
+            FILTER.APPLY := SUITE
+            FILTER.END := CUR
+        ELIF FILTER.APPLY = SUITE
+            FILTER.APPLY := ALL
         ++CUR
     END
 
@@ -230,7 +225,7 @@ static filterlist *parse_filters(const char *filter_option)
     filterlist *fl = filterlist_new();
 
     const char *cursor = filter_option;
-    while (cursor) {
+    while (cursor && *cursor) {
         struct testfilter * const f = parse_filter(&cursor);
         filterlist_push(&fl, f);
     }
