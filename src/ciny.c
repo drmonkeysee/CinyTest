@@ -155,14 +155,9 @@ static const char *arg_value(const char *arg)
 // Test Filters
 /////
 
-static struct testfilter *testfilter_new(const char *start, const char *end)
+static struct testfilter *testfilter_new(void)
 {
-    struct testfilter * const filter = malloc(sizeof *filter);
-    filter->start = start;
-    filter->end = end;
-    filter->next = NULL;
-    filter->apply = FILTER_NONE;
-    return filter;
+    return calloc(1, sizeof(struct testfilter));
 }
 
 static filterlist *filterlist_new(void)
@@ -179,8 +174,8 @@ static void filterlist_push(filterlist **self_ref, struct testfilter *filter)
 static void filterlist_free(filterlist *self)
 {
     while (self) {
-        filterlist * const head = self;
-        self = self->next;
+        struct testfilter * const head = self;
+        self = head->next;
         free(head);
     }
 }
@@ -191,33 +186,58 @@ static struct testfilter *parse_filter(const char **cursor_ref)
     static const char expr_delimiter = ',';
 
     const char *cursor = *cursor_ref;
-    /* TODO:
-    MAKE FILTER
+    struct testfilter * const filter = testfilter_new();
 
-    -- FILTER START
-    FILTER.START := CUR
-    IF C = : AND FILTER.APPLY = NONE
-        FILTER.APPLY := CASE
-        FILTER.START := ++CUR
+    // Filter starts at initial cursor position.
+    // If expression begins with target delimiter this is
+    // a test-case filter so consume the delimiter and
+    // adjust filter start.
+    filter->start = cursor;
+    if (*cursor == target_delimiter) {
+        filter->apply = FILTER_CASE;
+        filter->start = ++cursor;
+    }
 
-    -- FILTER END
-    FOR C IN CUR
-        IF C = , OR \0
-            IF NOT FILTER.APPLY = SUITE
-                FILTER.END := CUR
-            IF C = ,
-                ++CUR
-            BREAK
-        ELIF C = : AND FILTER.APPLY = NONE
-            FILTER.APPLY := SUITE
-            FILTER.END := CUR
-        ELIF FILTER.APPLY = SUITE
-            FILTER.APPLY := ALL
-        ++CUR
-    END
+    // Determine filter end.
+    while (true) {
+        const char c = *cursor;
 
-    CUR_REF := CUR
-    */
+        if (c == expr_delimiter || !c) {
+            // If expression delimiter or end-of-string
+            // then expression has been parsed and loop is over.
+            filter->end = cursor;
+
+            // If filter targets have not been determined by now
+            // (because no target delimiters have been encountered)
+            // then this expression applies to all test targets.
+            if (filter->apply == FILTER_NONE) {
+                filter->apply = FILTER_ALL;
+            }
+            
+            // Consume expression delimiter.
+            // TODO: may not want to do this to avoid edge-cases for
+            // empty expressions on either side of a ',' and handle
+            // consuming comma on filter start instead.
+            if (c == expr_delimiter) {
+                ++cursor;
+            }
+            
+            break;
+        } else if (c == target_delimiter && filter->apply != FILTER_CASE) {
+            // If target delimiter and no earlier target delimiter has been seen
+            // then this is the suite-only part of the expression.
+            // End the filter and leave the rest of the expression for the next filter.
+            filter->apply = FILTER_SUITE;
+            filter->end = cursor;
+            break;
+        } else {
+            // Nothing special; add the character to the filter.
+            ++cursor;
+        }
+    }
+
+    *cursor_ref = cursor;
+    return filter;
 }
 
 static filterlist *parse_filters(const char *filter_option)
