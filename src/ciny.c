@@ -193,6 +193,11 @@ static struct testfilter *parse_filter(const char **cursor_ref)
     // a test-case filter so consume the delimiter and
     // adjust filter start.
     filter->start = cursor;
+    // TODO: this still results in an edge case for empty suite + case (":test_foo"),
+    // results in CASE(test_foo) -> NULL instead of CASE(test_foo) -> SUITE() -> NULL
+    // whereas "suite_bar:" => CASE() -> SUITE(suite_bar) -> NULL
+    // this might be a problem when considering empty strings vs implicit wildcards
+    // e.g. "" = 0 tests run while ":foo" = "*:foo" and "bar:" = "bar:*"
     if (*cursor == target_delimiter) {
         filter->apply = FILTER_CASE;
         filter->start = ++cursor;
