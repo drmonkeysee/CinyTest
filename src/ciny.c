@@ -214,11 +214,11 @@ static struct testfilter *parse_filter(const char **cursor_ref)
                 filter->apply = FILTER_ALL;
             }
             
-            // Consume expression delimiter.
-            // TODO: may not want to do this to avoid edge-cases for
-            // empty expressions on either side of a ',' and handle
-            // consuming comma on filter start instead.
-            if (c == expr_delimiter) {
+            if (!c) {
+                // If NUL then exhaust the cursor; the expression is finished.
+                cursor = NULL;
+            } else if (c == expr_delimiter) {
+                // Consume expression delimiter for the next filter.
                 ++cursor;
             }
             
@@ -245,7 +245,7 @@ static filterlist *parse_filters(const char *filter_option)
     filterlist *fl = filterlist_new();
 
     const char *cursor = filter_option;
-    while (cursor && *cursor) {
+    while (cursor) {
         struct testfilter * const f = parse_filter(&cursor);
         filterlist_push(&fl, f);
     }
