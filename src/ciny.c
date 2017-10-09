@@ -180,69 +180,48 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static struct testfilter *parse_filter(const char **cursor_ref)
+static const char *parse_filterexpr(const char * restrict cursor, filterlist **filters_ref)
 {
     static const char target_delimiter = ':';
     static const char expr_delimiter = ',';
 
-    const char *cursor = *cursor_ref;
-    struct testfilter * const filter = testfilter_new();
+    struct testfilter *filter = testfilter_new();
 
-    // Filter starts at initial cursor position.
-    // If expression begins with target delimiter this is
-    // a test-case filter so consume the delimiter and
-    // adjust filter start.
     filter->start = cursor;
-    // TODO: this still results in an edge case for empty suite + case (":test_foo"),
-    // results in CASE(test_foo) -> NULL instead of CASE(test_foo) -> SUITE() -> NULL
-    // whereas "suite_bar:" => CASE() -> SUITE(suite_bar) -> NULL
-    // this might be a problem when considering empty strings vs implicit wildcards
-    // e.g. "" = 0 tests run while ":foo" = "*:foo" and "bar:" = "bar:*"
-    if (*cursor == target_delimiter) {
-        filter->apply = FILTER_CASE;
-        filter->start = ++cursor;
-    }
-
-    // Determine filter end.
-    while (true) {
-        const char c = *cursor;
-
-        if (c == expr_delimiter || !c) {
-            // If expression delimiter or end-of-string
-            // then expression has been parsed and loop is over.
+    for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
+        // First target delimiter seen so this expression contains
+        // a suite-only filter and a test-only filter.
+        if (c == target_delimiter && filter->apply != FILTER_CASE) {
             filter->end = cursor;
-
-            // If filter targets have not been determined by now
-            // (because no target delimiters have been encountered)
-            // then this expression applies to all test targets.
-            if (filter->apply == FILTER_NONE) {
-                filter->apply = FILTER_ALL;
-            }
-            
-            if (!c) {
-                // If NUL then exhaust the cursor; the expression is finished.
-                cursor = NULL;
-            } else if (c == expr_delimiter) {
-                // Consume expression delimiter for the next filter.
-                ++cursor;
-            }
-            
-            break;
-        } else if (c == target_delimiter && filter->apply != FILTER_CASE) {
-            // If target delimiter and no earlier target delimiter has been seen
-            // then this is the suite-only part of the expression.
-            // End the filter and leave the rest of the expression for the next filter.
             filter->apply = FILTER_SUITE;
-            filter->end = cursor;
-            break;
-        } else {
-            // Nothing special; add the character to the filter.
-            ++cursor;
+            filterlist_push(filters_ref, filter);
+
+            filter = testfilter_new();
+            // start after the delimiter but let the for loop advance the cursor
+            filter->start = cursor + 1;
+            filter->apply = FILTER_CASE;
         }
     }
+    filter->end = cursor;
+    
+    // If filter target has not been determined by now
+    // then no target delimiters were encountered and
+    // this filter applies to all targets.
+    if (filter->apply == FILTER_NONE) {
+        filter->apply = FILTER_ALL;
+    }
+    
+    filterlist_push(filters_ref, filter);
+    
+    // Finish the expression either by consuming the
+    // delimiter or clearing the cursor.
+    if (*cursor == expr_delimiter) {
+        ++cursor;
+    } else {
+        cursor = NULL;
+    }
 
-    *cursor_ref = cursor;
-    return filter;
+    return cursor;
 }
 
 static filterlist *parse_filters(const char *filter_option)
@@ -251,8 +230,7 @@ static filterlist *parse_filters(const char *filter_option)
 
     const char *cursor = filter_option;
     while (cursor) {
-        struct testfilter * const f = parse_filter(&cursor);
-        filterlist_push(&fl, f);
+        cursor = parse_filterexpr(cursor, &fl);
     }
 
     return fl;
