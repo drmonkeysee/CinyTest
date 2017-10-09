@@ -180,7 +180,7 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static const char *parse_filterexpr(const char * restrict cursor, filterlist **filters_ref)
+static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
     static const char target_delimiter = ':';
     static const char expr_delimiter = ',';
@@ -194,7 +194,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
         if (c == target_delimiter && filter->apply != FILTER_CASE) {
             filter->end = cursor;
             filter->apply = FILTER_SUITE;
-            filterlist_push(filters_ref, filter);
+            filterlist_push(fl_ref, filter);
 
             filter = testfilter_new();
             // start after the delimiter but let the for loop advance the cursor
@@ -211,7 +211,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
         filter->apply = FILTER_ALL;
     }
     
-    filterlist_push(filters_ref, filter);
+    filterlist_push(fl_ref, filter);
     
     // Finish the expression either by consuming the
     // delimiter or clearing the cursor.
