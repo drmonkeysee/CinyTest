@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C8376AF31F74DD27005FE3C7 /* CTIncludeOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */; };
 		C84D9C451DEBE74D004605F3 /* CTColorOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */; };
+		C855EC291FA6AC5400615D4A /* CTVerboseOptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C855EC281FA6AC5400615D4A /* CTVerboseOptionTests.m */; };
 		C85B4A4E1E220B950031C1BB /* CTTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A4D1E220B950031C1BB /* CTTestBase.m */; };
 		C85B4A511E35B59B0031C1BB /* CTNoRunOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */; };
 		C85F39371E385A6100BE4219 /* CTOutputAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F39361E385A6100BE4219 /* CTOutputAssertionTestBase.m */; };
@@ -86,6 +87,7 @@
 /* Begin PBXFileReference section */
 		C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTIncludeOptionTests.m; sourceTree = "<group>"; };
 		C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTColorOptionTests.m; sourceTree = "<group>"; };
+		C855EC281FA6AC5400615D4A /* CTVerboseOptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTVerboseOptionTests.m; sourceTree = "<group>"; };
 		C85B4A4D1E220B950031C1BB /* CTTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTTestBase.m; sourceTree = "<group>"; };
 		C85B4A4F1E220BBE0031C1BB /* CTTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTTestBase.h; sourceTree = "<group>"; };
 		C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTNoRunOptionsTests.m; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */,
 				C85F39391E3B0C8A00BE4219 /* CTSuiteBreakOptionTests.m */,
 				C88873C11F5CF60A002CDE3B /* CTSuppressOutputOptionTests.m */,
+				C855EC281FA6AC5400615D4A /* CTVerboseOptionTests.m */,
 				C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */,
 				C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */,
 				C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */,
@@ -470,6 +473,7 @@
 				C88059EF1D2E177F002ECC5E /* CTAssertionTestBase.m in Sources */,
 				C88059EE1D2E177F002ECC5E /* CTAssertFalseTests.m in Sources */,
 				C88059E91D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m in Sources */,
+				C855EC291FA6AC5400615D4A /* CTVerboseOptionTests.m in Sources */,
 				C8805A011D2E177F002ECC5E /* CTStringAssertionTestBase.m in Sources */,
 				C88059F61D2E177F002ECC5E /* CTAssertSameTests.m in Sources */,
 				C88059EA1D2E177F002ECC5E /* CTAssertAboutEqualTests.m in Sources */,
