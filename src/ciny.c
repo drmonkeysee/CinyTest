@@ -123,6 +123,99 @@ extern inline struct ct_comparable_value ct_makevalue_complex(int, ct_lcomplex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
 
 /////
+// Printing and Text Manipulation
+/////
+
+static void print_title(const char * restrict format, ...)
+{
+    fprintf(RunContext.out, "---=== ");
+    
+    va_list format_args;
+    va_start(format_args, format);
+    vfprintf(RunContext.out, format, format_args);
+    va_end(format_args);
+
+    fprintf(RunContext.out, " ===---\n");
+}
+
+static void print_usage(void)
+{
+    print_title("CinyTest Usage");
+    fprintf(RunContext.out, "This program contains CinyTest tests and can accept the following command line options:\n\n");
+    fprintf(RunContext.out, "  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
+    fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
+    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
+    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
+    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
+}
+
+static void print_version(void)
+{
+    const struct ct_version v = ct_getversion();
+    fprintf(RunContext.out, "CinyTest %u.%u.%u", v.major, v.minor, v.patch);
+#ifdef __VERSION__
+    fprintf(RunContext.out, " (" __VERSION__ ")");
+#endif
+    fprintf(RunContext.out, "\n");
+}
+
+static void print_highlighted(enum text_highlight style, const char * restrict format, ...)
+{
+    if (RunContext.colorized) {
+        ct_startcolor(RunContext.out, style);
+    }
+    
+    va_list format_args;
+    va_start(format_args, format);
+    vfprintf(RunContext.out, format, format_args);
+    va_end(format_args);
+    
+    if (RunContext.colorized) {
+        ct_endcolor(RunContext.out);
+    }
+}
+
+static void print_resultlabel(enum text_highlight style, const char * restrict result_label)
+{
+    fprintf(RunContext.out, "[ ");
+    print_highlighted(style, result_label);
+    fprintf(RunContext.out, " ] - ");
+}
+
+static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict result_message, ...)
+{
+    print_resultlabel(style, result_label);
+    
+    va_list format_args;
+    va_start(format_args, result_message);
+    vfprintf(RunContext.out, result_message, format_args);
+    va_end(format_args);
+    
+    fprintf(RunContext.out, "\n");
+}
+
+static void print_linemessage(const char *message)
+{
+    if (fprintf(RunContext.out, "%s", message) > 0) {
+        fprintf(RunContext.out, "\n");
+    }
+}
+
+static bool pretty_truncate(char *str, size_t size)
+{
+    const size_t ellipsis_length = strlen(Ellipsis);
+    const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
+    
+    const bool can_fit_ellipsis = truncation_index >= 0;
+    if (can_fit_ellipsis) {
+        str[truncation_index] = '\0';
+        strcat(str, Ellipsis);
+    }
+    
+    return can_fit_ellipsis;
+}
+
+/////
 // Arg Parsing
 /////
 
@@ -314,7 +407,7 @@ static bool runcontext_suppressoutput(void)
 static void runcontext_print(void)
 {
     const struct ct_version v = ct_getversion();
-    fprintf(RunContext.out, "---=== CinyTest v%u.%u.%u ===---\n", v.major, v.minor, v.patch);
+    print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
     fprintf(RunContext.out, "Colorized: %s\n", argvalue_tostring(RunContext.colorized));
     fprintf(RunContext.out, "Suite Breaks: %s\n", argvalue_tostring(RunContext.suite_breaks));
     fprintf(RunContext.out, "Suppress Output: %s\n", argvalue_tostring(runcontext_suppressoutput()));
@@ -331,87 +424,6 @@ static void runcontext_cleanup(void)
 
     filterlist_free(RunContext.include);
     RunContext.include = NULL;
-}
-
-/////
-// Printing and Text Manipulation
-/////
-
-static void print_usage(void)
-{
-    fprintf(RunContext.out, "---=== CinyTest Usage ===---\n");
-    fprintf(RunContext.out, "This program contains CinyTest tests and can accept the following command line options:\n\n");
-    fprintf(RunContext.out, "  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
-    fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
-    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
-    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
-    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
-}
-
-static void print_version(void)
-{
-    const struct ct_version v = ct_getversion();
-    fprintf(RunContext.out, "CinyTest %u.%u.%u", v.major, v.minor, v.patch);
-#ifdef __VERSION__
-    fprintf(RunContext.out, " (" __VERSION__ ")");
-#endif
-    fprintf(RunContext.out, "\n");
-}
-
-static void print_highlighted(enum text_highlight style, const char * restrict format, ...)
-{
-    if (RunContext.colorized) {
-        ct_startcolor(RunContext.out, style);
-    }
-    
-    va_list format_args;
-    va_start(format_args, format);
-    vfprintf(RunContext.out, format, format_args);
-    va_end(format_args);
-    
-    if (RunContext.colorized) {
-        ct_endcolor(RunContext.out);
-    }
-}
-
-static void print_resultlabel(enum text_highlight style, const char * restrict result_label)
-{
-    fprintf(RunContext.out, "[ ");
-    print_highlighted(style, result_label);
-    fprintf(RunContext.out, " ] - ");
-}
-
-static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict result_message, ...)
-{
-    print_resultlabel(style, result_label);
-    
-    va_list format_args;
-    va_start(format_args, result_message);
-    vfprintf(RunContext.out, result_message, format_args);
-    va_end(format_args);
-    
-    fprintf(RunContext.out, "\n");
-}
-
-static void print_linemessage(const char *message)
-{
-    if (fprintf(RunContext.out, "%s", message) > 0) {
-        fprintf(RunContext.out, "\n");
-    }
-}
-
-static bool pretty_truncate(char *str, size_t size)
-{
-    const size_t ellipsis_length = strlen(Ellipsis);
-    const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
-    
-    const bool can_fit_ellipsis = truncation_index >= 0;
-    if (can_fit_ellipsis) {
-        str[truncation_index] = '\0';
-        strcat(str, Ellipsis);
-    }
-    
-    return can_fit_ellipsis;
 }
 
 /////
