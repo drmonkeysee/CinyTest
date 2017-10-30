@@ -48,6 +48,7 @@ static const char * const restrict FailedTestSymbol = "\u2717";
 /////
 static const char * const restrict HelpOption = "--ct-help";
 static const char * const restrict VersionOption = "--ct-version";
+static const char * const restrict VerboseOption = "--ct-verbose";
 static const char * const restrict ColorizedOption = "--ct-colorized";
 static const char * const restrict SuiteBreaksOption = "--ct-suite-breaks";
 static const char * const restrict SuppressOutputOption = "--ct-suppress-output";
@@ -101,6 +102,7 @@ static struct {
     filterlist *include;
     bool help;
     bool version;
+    bool verbose;
     bool colorized;
     bool suite_breaks;
 } RunContext;
@@ -138,6 +140,11 @@ static bool value_on(const char *value)
     }
 
     return true;
+}
+
+static const char *argvalue_tostring(bool value)
+{
+    return value ? "Yes" : "No";
 }
 
 static const char *arg_value(const char *arg)
@@ -242,7 +249,7 @@ static filterlist *parse_filters(const char *filter_option)
 
 static void runcontext_init(int argc, const char *argv[])
 {
-    RunContext.help = RunContext.version = false;
+    RunContext.help = RunContext.version = RunContext.verbose = false;
     
     const char *color_option = NULL,
                 *breaks_option = NULL,
@@ -258,6 +265,8 @@ static void runcontext_init(int argc, const char *argv[])
                 RunContext.help = true;
             } else if (strstr(arg, VersionOption)) {
                 RunContext.version = true;
+            } else if (strstr(arg, VerboseOption)) {
+                RunContext.verbose = true;
             } else if (strstr(arg, ColorizedOption)) {
                 color_option = arg_value(arg);
             } else if (strstr(arg, SuiteBreaksOption)) {
@@ -295,6 +304,21 @@ static void runcontext_init(int argc, const char *argv[])
     }
 
     RunContext.include = parse_filters(include_filter_option);
+}
+
+static bool runcontext_suppressoutput(void)
+{
+    return RunContext.out != stdout;
+}
+
+static void runcontext_print(void)
+{
+    const struct ct_version v = ct_getversion();
+    fprintf(RunContext.out, "---=== CinyTest v%u.%u.%u ===---\n", v.major, v.minor, v.patch);
+    fprintf(RunContext.out, "Colorized: %s\n", argvalue_tostring(RunContext.colorized));
+    fprintf(RunContext.out, "Suite Breaks: %s\n", argvalue_tostring(RunContext.suite_breaks));
+    fprintf(RunContext.out, "Suppress Output: %s\n", argvalue_tostring(runcontext_suppressoutput()));
+    fprintf(RunContext.out, "\n");
 }
 
 static void runcontext_cleanup(void)
@@ -676,6 +700,10 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
     } else if (RunContext.version) {
         print_version();
     } else {
+        if (RunContext.verbose) {
+            runcontext_print();
+        }
+
         if (suites) {
             for (size_t i = 0; i < count; ++i) {
                 const struct ct_testsuite * const suite = suites + i;
