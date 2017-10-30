@@ -271,6 +271,35 @@ static void filterlist_push(filterlist **self_ref, struct testfilter *filter)
     *self_ref = filter;
 }
 
+static bool filterlist_any(filterlist *self, enum filter_target_flags predicate)
+{
+    for (; self; self = self->next) {
+        if (self->apply == predicate) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void filterlist_print(filterlist *self, enum filter_target_flags predicate, enum text_highlight highlight)
+{
+    for (; self; self = self->next) {
+        if (self->apply != predicate) continue;
+
+        if (RunContext.colorized) {
+            ct_startcolor(RunContext.out, highlight);
+        }
+        fprintf(RunContext.out, "%.*s", (int)(self->end - self->start), self->start);
+        if (RunContext.colorized) {
+            ct_endcolor(RunContext.out);
+        }
+        // TODO: what to do with empty filters?
+        // revisit after filter application has been written
+        fprintf(RunContext.out, ", ");
+    }
+}
+
 static void filterlist_free(filterlist *self)
 {
     while (self) {
@@ -404,6 +433,29 @@ static bool runcontext_suppressoutput(void)
     return RunContext.out != stdout;
 }
 
+static void runcontext_printfilters(void)
+{
+    if (!RunContext.include) return;
+
+    fprintf(RunContext.out, "Filters: ");
+    if (filterlist_any(RunContext.include, FILTER_ALL)) {
+        filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
+    }
+    fprintf(RunContext.out, "\n");
+
+    if (filterlist_any(RunContext.include, FILTER_SUITE)) {
+        fprintf(RunContext.out, "  Suites: ");
+        filterlist_print(RunContext.include, FILTER_SUITE, HIGHLIGHT_SUCCESS);
+        fprintf(RunContext.out, "\n");
+    }
+
+    if (filterlist_any(RunContext.include, FILTER_CASE)) {
+        fprintf(RunContext.out, "  Cases: ");
+        filterlist_print(RunContext.include, FILTER_CASE, HIGHLIGHT_SUCCESS);
+        fprintf(RunContext.out, "\n");
+    }
+}
+
 static void runcontext_print(void)
 {
     const struct ct_version v = ct_getversion();
@@ -411,6 +463,7 @@ static void runcontext_print(void)
     fprintf(RunContext.out, "Colorized: %s\n", argvalue_tostring(RunContext.colorized));
     fprintf(RunContext.out, "Suite Breaks: %s\n", argvalue_tostring(RunContext.suite_breaks));
     fprintf(RunContext.out, "Suppress Output: %s\n", argvalue_tostring(runcontext_suppressoutput()));
+    runcontext_printfilters();
     fprintf(RunContext.out, "\n");
 }
 
@@ -544,7 +597,7 @@ do { \
     AssertState.line = test_line; \
     assertstate_setmessage(format); \
     longjmp(AssertSignal, AssertState.type); \
-} while(false)
+} while (false)
 
 /////
 // Comparable Value
