@@ -55,7 +55,7 @@ static const char * const restrict SuppressOutputOption = "--ct-suppress-output"
 static const char * const restrict IncludeFilterOption = "--ct-include";
 static const char * const restrict IgnoredTestSymbol = "?";
 
-#define COMPVALUE_STR_SIZE 75u
+#define COMPVALUE_STR_SIZE 75
 enum assert_type {
     ASSERT_UNKNOWN,
     ASSERT_FAILURE,
@@ -85,6 +85,7 @@ enum text_highlight {
     HIGHLIGHT_FAILURE,
     HIGHLIGHT_IGNORE
 };
+
 enum filter_target_flags {
     FILTER_NONE = 0,
     FILTER_SUITE = 1 << 0,
@@ -97,9 +98,11 @@ struct testfilter {
     enum filter_target_flags apply;
 };
 typedef struct testfilter filterlist;
+#define ENV_COPY_COUNT 2
 static struct {
     FILE *out, *err;
     filterlist *include;
+    char *env_copies[ENV_COPY_COUNT];
     bool help;
     bool version;
     bool verbose;
@@ -404,19 +407,16 @@ static void runcontext_init(int argc, const char *argv[])
     if (!color_option) {
         color_option = getenv("CINYTEST_COLORIZED");
     }
+    RunContext.colorized = value_on(color_option);
+    
     if (!breaks_option) {
         breaks_option = getenv("CINYTEST_SUITE_BREAKS");
     }
+    RunContext.suite_breaks = value_on(breaks_option);
+    
     if (!suppress_output_option) {
         suppress_output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
     }
-    if (!include_filter_option) {
-        include_filter_option = getenv("CINYTEST_INCLUDE");
-    }
-
-    RunContext.colorized = value_on(color_option);
-    RunContext.suite_breaks = value_on(breaks_option);
-    
     if (value_on(suppress_output_option)) {
         RunContext.out = ct_replacestream(stdout);
         RunContext.err = ct_replacestream(stderr);
@@ -425,6 +425,15 @@ static void runcontext_init(int argc, const char *argv[])
         RunContext.err = stderr;
     }
 
+    if (!include_filter_option) {
+        include_filter_option = getenv("CINYTEST_INCLUDE");
+        if (include_filter_option) {
+            // copy env value for persistent storage
+            RunContext.env_copies[0] = malloc(strlen(include_filter_option) + 1);
+            strcpy(RunContext.env_copies[0], include_filter_option);
+            include_filter_option = RunContext.env_copies[0];
+        }
+    }
     RunContext.include = parse_filters(include_filter_option);
 }
 
@@ -477,6 +486,11 @@ static void runcontext_cleanup(void)
 
     filterlist_free(RunContext.include);
     RunContext.include = NULL;
+
+    for (size_t i = 0; i < ENV_COPY_COUNT; ++i) {
+        free(RunContext.env_copies[i]);
+        RunContext.env_copies[i] = NULL;
+    }
 }
 
 /////
