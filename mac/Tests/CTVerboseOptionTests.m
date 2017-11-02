@@ -65,26 +65,33 @@
 
 - (void)test_verbosityFull
 {
-    [self assertArg:@"--ct-verbose" inputs:@[@"2"] compare:CTOutputContains value:@"Colorized:"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"2"] compare:CTOutputContains value:@"Test suite '"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"2"] compare:CTOutputContains value:@"[ ✓ ]"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"2"] compare:CTOutputContains value:@"[ SUCCESS ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"3"] compare:CTOutputContains value:@"Colorized:"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"3"] compare:CTOutputContains value:@"Test suite '"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"3"] compare:CTOutputContains value:@"[ ✓ ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"3"] compare:CTOutputContains value:@"[ SUCCESS ]"];
 }
 
 - (void)test_verbosityClampsLessThanMinimal
 {
-    [self assertArg:@"--ct-verbose" inputs:@[@"-1"] compare:CTOutputDoesNotContain value:@"Colorized:"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"-23"] compare:CTOutputDoesNotContain value:@"Test suite '"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"-1"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"-23"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
     [self assertArg:@"--ct-verbose" inputs:@[@"-334"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"-2"] compare:CTOutputContains value:@"[ SUCCESS ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"-2"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
 }
 
 - (void)test_verbosityClampsGreaterThanFull
 {
     [self assertArg:@"--ct-verbose" inputs:@[@"8"] compare:CTOutputContains value:@"Colorized:"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"3"] compare:CTOutputContains value:@"Test suite '"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"10"] compare:CTOutputContains value:@"[ ✓ ]"];
-    [self assertArg:@"--ct-verbose" inputs:@[@"324"] compare:CTOutputContains value:@"[ SUCCESS ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"4"] compare:CTOutputContains value:@"Colorized:"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"10"] compare:CTOutputContains value:@"Colorized:"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"324"] compare:CTOutputContains value:@"Colorized:"];
+}
+
+- (void)test_verbositySetsMinimal_IfMalformed
+{
+    [self assertArg:@"--ct-verbose" inputs:@[@"foo"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"%4"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
+    [self assertArg:@"--ct-verbose" inputs:@[@"**"] compare:CTOutputDoesNotContain value:@"[ ✓ ]"];
 }
 
 - (void)test_verbosityEnvVar

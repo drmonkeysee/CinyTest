@@ -75,14 +75,16 @@ static void test_case(void *context)
 
 - (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *disableValues = @[@"%@=NO", @"%@=no", @"%@=FALSE", @"%@=false", @"%@=0", @"%@=N", @"%@=f"];
+    NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"N", @"f"];
     [self assertArg:optionArgument inputs:disableValues compare:compare value:expected];
 }
 
 - (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *randomValues = @[@"%@=YES", @"%@=true", @"%@=blarg", @"%@=", @"%@=''", @"%@=\"\"", @"%@", @"%@=1"];
+    NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"%@", @"1"];
     [self assertArg:optionArgument inputs:randomValues compare:compare value:expected];
+    // verify form "--optionArgument" with no value specified
+    [self assertSuite:compare value:expected forOption:optionArgument withArgs:@[optionArgument]];
 }
 
 - (void)assertDuplicateArg:(NSString *)optionArgument isDisabled:(CTOutputComparison)compare value:(NSString *)expected
@@ -96,7 +98,7 @@ static void test_case(void *context)
     for (NSString *value in inputs) {
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
         const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
-        NSString *argValue = [NSString stringWithFormat:value, optionArgument];
+        NSString *argValue = [NSString stringWithFormat:@"%@=%@", optionArgument, value];
         [args insertObject:argValue atIndex:insertIndex];
         [self assertSuite:compare value:expected forOption:value withArgs:args];
     }

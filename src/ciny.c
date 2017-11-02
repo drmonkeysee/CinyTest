@@ -112,9 +112,7 @@ static struct {
     enum verbosity_level verbosity;
     bool help;
     bool version;
-    bool verbose;   // TODO: remove
     bool colorized;
-    bool suite_breaks;  // TODO: remove
 } RunContext;
 
 /////
@@ -154,7 +152,7 @@ static void print_usage(void)
     fprintf(RunContext.out, "This program contains CinyTest tests and can accept the following command line options:\n\n");
     fprintf(RunContext.out, "  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
     fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
-    fprintf(RunContext.out, "  %s=[0,3]\n\t\t\tOutput verbosity (default: 2).\n", VerboseOption);
+    fprintf(RunContext.out, "  %s=[0,3]\tOutput verbosity (default: 2).\n", VerboseOption);
     fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
     fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
 }
@@ -245,10 +243,12 @@ static bool argflag_on(const char *value)
     return true;
 }
 
-static int argint(const char *value, int clamp_min, int clamp_max)
+static int argverbose(const char *value)
 {
-    // TODO: write this
-    return 0;
+    if (!value) return VERBOSITY_DEFAULT;
+
+    const int arg = atoi(value);
+    return arg < VERBOSITY_MINIMAL ? VERBOSITY_MINIMAL : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
 }
 
 static const char *argflag_tostring(bool value)
@@ -388,7 +388,7 @@ static filterlist *parse_filters(const char *filter_option)
 
 static void runcontext_init(int argc, const char *argv[])
 {
-    RunContext.help = RunContext.version = RunContext.verbose = false;
+    RunContext.help = RunContext.version = false;
     RunContext.verbosity = VERBOSITY_DEFAULT;
 
     const char *color_option = NULL,
@@ -425,7 +425,7 @@ static void runcontext_init(int argc, const char *argv[])
     if (!verbosity_option) {
         verbosity_option = getenv("CINYTEST_VERBOSE");
     }
-    RunContext.verbosity = argint(verbosity_option, VERBOSITY_MINIMAL, VERBOSITY_FULL);
+    RunContext.verbosity = argverbose(verbosity_option);
     
     if (!suppress_output_option) {
         suppress_output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
@@ -757,7 +757,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         // TODO: check suite filters here
         const uint64_t start_msecs = ct_get_currentmsecs();
         summary.test_count = self->count;
-        if (RunContext.suite_breaks) {
+        if (RunContext.verbosity >= VERBOSITY_DEFAULT) {
             testsuite_printheader(self, time(NULL));
         }
         
@@ -766,7 +766,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
-        if (RunContext.suite_breaks) {
+        if (RunContext.verbosity >= VERBOSITY_DEFAULT) {
             runsummary_print(&summary);
         }
     } else {
@@ -791,7 +791,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
     } else if (RunContext.version) {
         print_version();
     } else {
-        if (RunContext.verbose) {
+        if (RunContext.verbosity == VERBOSITY_FULL) {
             runcontext_print();
         }
 
