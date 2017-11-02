@@ -50,7 +50,6 @@ static const char * const restrict HelpOption = "--ct-help";
 static const char * const restrict VersionOption = "--ct-version";
 static const char * const restrict VerboseOption = "--ct-verbose";
 static const char * const restrict ColorizedOption = "--ct-colorized";
-static const char * const restrict SuiteBreaksOption = "--ct-suite-breaks";
 static const char * const restrict SuppressOutputOption = "--ct-suppress-output";
 static const char * const restrict IncludeFilterOption = "--ct-include";
 static const char * const restrict IgnoredTestSymbol = "?";
@@ -98,16 +97,24 @@ struct testfilter {
     enum filter_target_flags apply;
 };
 typedef struct testfilter filterlist;
+
 #define ENV_COPY_COUNT 2
+enum verbosity_level {
+    VERBOSITY_MINIMAL,
+    VERBOSITY_UNIFORM,
+    VERBOSITY_DEFAULT,
+    VERBOSITY_FULL
+};
 static struct {
     FILE *out, *err;
     filterlist *include;
     char *env_copies[ENV_COPY_COUNT];
+    enum verbosity_level verbosity;
     bool help;
     bool version;
-    bool verbose;
+    bool verbose;   // TODO: remove
     bool colorized;
-    bool suite_breaks;
+    bool suite_breaks;  // TODO: remove
 } RunContext;
 
 /////
@@ -147,8 +154,8 @@ static void print_usage(void)
     fprintf(RunContext.out, "This program contains CinyTest tests and can accept the following command line options:\n\n");
     fprintf(RunContext.out, "  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
     fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
+    fprintf(RunContext.out, "  %s=[0,3]\n\t\t\tOutput verbosity (default: 2).\n", VerboseOption);
     fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
-    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tPrint per-suite result summaries (default: yes).\n", SuiteBreaksOption);
     fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
 }
 
@@ -222,7 +229,7 @@ static bool pretty_truncate(char *str, size_t size)
 // Arg Parsing
 /////
 
-static bool value_on(const char *value)
+static bool argflag_on(const char *value)
 {
     static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
     static const size_t flags_count = sizeof off_flags;
@@ -238,7 +245,12 @@ static bool value_on(const char *value)
     return true;
 }
 
-static const char *argvalue_tostring(bool value)
+static int argint(const char *value, int clamp_min, int clamp_max)
+{
+    // TODO: write this
+}
+
+static const char *argflag_tostring(bool value)
 {
     return value ? "Yes" : "No";
 }
@@ -312,6 +324,7 @@ static void filterlist_free(filterlist *self)
     }
 }
 
+// TODO: rework to drop empty filter expressions
 static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
     static const char target_delimiter = ':';
@@ -375,9 +388,10 @@ static filterlist *parse_filters(const char *filter_option)
 static void runcontext_init(int argc, const char *argv[])
 {
     RunContext.help = RunContext.version = RunContext.verbose = false;
-    
+    RunContext.verbosity = VERBOSITY_DEFAULT;
+
     const char *color_option = NULL,
-                *breaks_option = NULL,
+                *verbosity_option = NULL,
                 *suppress_output_option = NULL,
                 *include_filter_option = NULL;
     
@@ -391,11 +405,9 @@ static void runcontext_init(int argc, const char *argv[])
             } else if (strstr(arg, VersionOption)) {
                 RunContext.version = true;
             } else if (strstr(arg, VerboseOption)) {
-                RunContext.verbose = true;
+                verbosity_option = arg_value(arg);
             } else if (strstr(arg, ColorizedOption)) {
                 color_option = arg_value(arg);
-            } else if (strstr(arg, SuiteBreaksOption)) {
-                breaks_option = arg_value(arg);
             } else if (strstr(arg, SuppressOutputOption)) {
                 suppress_output_option = arg_value(arg);
             } else if (strstr(arg, IncludeFilterOption)) {
@@ -407,17 +419,17 @@ static void runcontext_init(int argc, const char *argv[])
     if (!color_option) {
         color_option = getenv("CINYTEST_COLORIZED");
     }
-    RunContext.colorized = value_on(color_option);
-    
-    if (!breaks_option) {
-        breaks_option = getenv("CINYTEST_SUITE_BREAKS");
+    RunContext.colorized = argflag_on(color_option);
+
+    if (!verbosity_option) {
+        verbosity_option = getenv("CINYTEST_VERBOSE");
     }
-    RunContext.suite_breaks = value_on(breaks_option);
+    RunContext.verbosity = argint(verbosity_option, VERBOSITY_MINIMAL, VERBOSITY_FULL);
     
     if (!suppress_output_option) {
         suppress_output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
     }
-    if (value_on(suppress_output_option)) {
+    if (argflag_on(suppress_output_option)) {
         RunContext.out = ct_replacestream(stdout);
         RunContext.err = ct_replacestream(stderr);
     } else {
@@ -469,9 +481,8 @@ static void runcontext_print(void)
 {
     const struct ct_version v = ct_getversion();
     print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
-    fprintf(RunContext.out, "Colorized: %s\n", argvalue_tostring(RunContext.colorized));
-    fprintf(RunContext.out, "Suite Breaks: %s\n", argvalue_tostring(RunContext.suite_breaks));
-    fprintf(RunContext.out, "Suppress Output: %s\n", argvalue_tostring(runcontext_suppressoutput()));
+    fprintf(RunContext.out, "Colorized: %s\n", argflag_tostring(RunContext.colorized));
+    fprintf(RunContext.out, "Suppress Output: %s\n", argflag_tostring(runcontext_suppressoutput()));
     runcontext_printfilters();
     fprintf(RunContext.out, "\n");
 }

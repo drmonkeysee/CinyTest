@@ -6,6 +6,7 @@
 //  Copyright © 2017 Brandon Stansbury. All rights reserved.
 //
 
+// TODO: replace with verbose tests
 #import "CTOutputAssertionTestBase.h"
 
 @interface CTSuiteBreakOptionTests : CTOutputAssertionTestBase
