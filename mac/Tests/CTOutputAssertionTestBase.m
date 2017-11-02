@@ -45,16 +45,18 @@ static void test_case(void *context)
 - (void)assertEnvDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"n", @"F"];
-    for (NSString *value in disableValues) {
-        setenv(self.envProperty.UTF8String, value.UTF8String, 1);
-        [self assertSuite:compare value:expected forOption:value];
-    }
+    [self assertEnvInputs:disableValues compare:compare value:expected];
 }
 
 - (void)assertEnvEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"1"];
-    for (NSString *value in randomValues) {
+    [self assertEnvInputs:randomValues compare:compare value:expected];
+}
+
+- (void)assertEnvInputs:(NSArray *)inputs compare:(CTOutputComparison)compare value:(NSString *)expected
+{
+    for (NSString *value in inputs) {
         setenv(self.envProperty.UTF8String, value.UTF8String, 1);
         [self assertSuite:compare value:expected forOption:value];
     }
@@ -74,31 +76,30 @@ static void test_case(void *context)
 - (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *disableValues = @[@"%@=NO", @"%@=no", @"%@=FALSE", @"%@=false", @"%@=0", @"%@=N", @"%@=f"];
-    for (NSString *value in disableValues) {
-        NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
-        const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
-        NSString *argValue = [NSString stringWithFormat:value, optionArgument];
-        [args insertObject:argValue atIndex:insertIndex];
-        [self assertSuite:compare value:expected forOption:value withArgs:args];
-    }
+    [self assertArg:optionArgument inputs:disableValues compare:compare value:expected];
 }
 
 - (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *randomValues = @[@"%@=YES", @"%@=true", @"%@=blarg", @"%@=", @"%@=''", @"%@=\"\"", @"%@", @"%@=1"];
-    for (NSString *value in randomValues) {
-        NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
-        const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
-        NSString *argValue = [NSString stringWithFormat:value, optionArgument];
-        [args insertObject:argValue atIndex:insertIndex];
-        [self assertSuite:compare value:expected forOption:value withArgs:args];
-    }
+    [self assertArg:optionArgument inputs:randomValues compare:compare value:expected];
 }
 
 - (void)assertDuplicateArg:(NSString *)optionArgument isDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *args = @[[optionArgument stringByAppendingString:@"=YES"], [optionArgument stringByAppendingString:@"=NO"]];
     [self assertSuite:compare value:expected forOption:@"NO" withArgs:args];
+}
+
+- (void)assertArg:(NSString *)optionArgument inputs:(NSArray *)inputs compare:(CTOutputComparison)compare value:(NSString *)expected
+{
+    for (NSString *value in inputs) {
+        NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
+        const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
+        NSString *argValue = [NSString stringWithFormat:value, optionArgument];
+        [args insertObject:argValue atIndex:insertIndex];
+        [self assertSuite:compare value:expected forOption:value withArgs:args];
+    }
 }
 
 - (void)assertSuite:(CTOutputComparison)compare value:(NSString *)expected forOption:(NSString *)optionFlag

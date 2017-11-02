@@ -248,6 +248,7 @@ static bool argflag_on(const char *value)
 static int argint(const char *value, int clamp_min, int clamp_max)
 {
     // TODO: write this
+    return 0;
 }
 
 static const char *argflag_tostring(bool value)
