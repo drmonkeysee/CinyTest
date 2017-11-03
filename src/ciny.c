@@ -101,7 +101,7 @@ typedef struct testfilter filterlist;
 #define ENV_COPY_COUNT 2
 enum verbosity_level {
     VERBOSITY_MINIMAL,
-    VERBOSITY_UNIFORM,
+    VERBOSITY_LIST,
     VERBOSITY_DEFAULT,
     VERBOSITY_FULL
 };
@@ -183,22 +183,42 @@ static void print_highlighted(enum text_highlight style, const char * restrict f
     }
 }
 
-static void print_resultlabel(enum text_highlight style, const char * restrict result_label)
+static void print_labelbox(enum text_highlight style, const char * restrict result_label)
 {
     fprintf(RunContext.out, "[ ");
     print_highlighted(style, result_label);
     fprintf(RunContext.out, " ] - ");
 }
 
-static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict result_message, ...)
+static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict name)
 {
-    print_resultlabel(style, result_label);
-    
-    va_list format_args;
-    va_start(format_args, result_message);
-    vfprintf(RunContext.out, result_message, format_args);
-    va_end(format_args);
-    
+    if (RunContext.verbosity == VERBOSITY_MINIMAL) {
+        print_highlighted(style, "%s ", result_label);
+        return;
+    }
+
+    print_labelbox(style, result_label);
+    fprintf(RunContext.out, "'%s'", name);
+
+    if (RunContext.verbosity > VERBOSITY_LIST) {
+        const char *status;
+        switch (style) {
+            case HIGHLIGHT_SUCCESS:
+                status = "success";
+                break;
+            case HIGHLIGHT_FAILURE:
+                status = "failure";
+                break;
+            case HIGHLIGHT_IGNORE:
+                status = "ignored";
+                break;
+            default:
+                status = "unknown";
+                break;
+        }
+        fprintf(RunContext.out, " %s", status);
+    }
+
     fprintf(RunContext.out, "\n");
 }
 
@@ -298,18 +318,13 @@ static bool filterlist_any(filterlist *self, enum filter_target_flags predicate)
     return false;
 }
 
-static void filterlist_print(filterlist *self, enum filter_target_flags predicate, enum text_highlight highlight)
+static void filterlist_print(filterlist *self, enum filter_target_flags predicate, enum text_highlight style)
 {
     for (; self; self = self->next) {
         if (self->apply != predicate) continue;
 
-        if (RunContext.colorized) {
-            ct_startcolor(RunContext.out, highlight);
-        }
-        fprintf(RunContext.out, "%.*s", (int)(self->end - self->start), self->start);
-        if (RunContext.colorized) {
-            ct_endcolor(RunContext.out);
-        }
+        // TODO: differentiate filters by +- if colorized off
+        print_highlighted(style, "%.*s", (int)(self->end - self->start), self->start);
         // TODO: what to do with empty filters?
         // revisit after filter application has been written
         fprintf(RunContext.out, ", ");
@@ -441,7 +456,7 @@ static void runcontext_init(int argc, const char *argv[])
     if (!include_filter_option) {
         include_filter_option = getenv("CINYTEST_INCLUDE");
         if (include_filter_option) {
-            // copy env value for persistent storage
+            // copy env value to prevent invalidated pointers
             RunContext.env_copies[0] = malloc(strlen(include_filter_option) + 1);
             strcpy(RunContext.env_copies[0], include_filter_option);
             include_filter_option = RunContext.env_copies[0];
@@ -537,9 +552,9 @@ static void runtotals_add(const struct runsummary *summary)
 static void runtotals_print(void)
 {
     if (RunTotals.ledger.failed > 0) {
-        print_resultlabel(HIGHLIGHT_FAILURE, "FAILED");
+        print_labelbox(HIGHLIGHT_FAILURE, "FAILED");
     } else {
-        print_resultlabel(HIGHLIGHT_SUCCESS, "SUCCESS");
+        print_labelbox(HIGHLIGHT_SUCCESS, "SUCCESS");
     }
     runsummary_print(&RunTotals);
 }
@@ -559,16 +574,24 @@ static void assertstate_reset(void)
 static void assertstate_handlefailure(const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->failed;
-    print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, "'%s' failure", test_name);
-    fprintf(RunContext.out, "%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
-    print_linemessage(AssertState.message);
+
+    print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, test_name);
+
+    if (RunContext.verbosity > VERBOSITY_MINIMAL) {
+        fprintf(RunContext.out, "%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
+        print_linemessage(AssertState.message);
+    }
 }
 
 static void assertstate_handleignore(const char * restrict test_name, struct runledger *ledger)
 {
     ++ledger->ignored;
-    print_testresult(HIGHLIGHT_IGNORE, IgnoredTestSymbol, "'%s' ignored", test_name);
-    print_linemessage(AssertState.message);
+    
+    print_testresult(HIGHLIGHT_IGNORE, IgnoredTestSymbol, test_name);
+
+    if (RunContext.verbosity > VERBOSITY_MINIMAL) {
+        print_linemessage(AssertState.message);
+    }
 }
 
 static void assertstate_handle(const char * restrict test_name, struct runledger *ledger)
@@ -707,15 +730,14 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 static void testcase_run(const struct ct_testcase *self, void * restrict test_context, size_t index, struct runledger *ledger)
 {
     if (!self->test) {
-        ++ledger->ignored;
-        print_testresult(HIGHLIGHT_IGNORE, IgnoredTestSymbol, "ignored test at index %zu (NULL function pointer found)", index);
+        fprintf(RunContext.err, "WARNING: Test case at index %zu skipped, NULL function pointer found!\n", index);
         return;
     }
     
     self->test(test_context);
     
     ++ledger->passed;
-    print_testresult(HIGHLIGHT_SUCCESS, PassedTestSymbol, "'%s' success", self->name);
+    print_testresult(HIGHLIGHT_SUCCESS, PassedTestSymbol, self->name);
 }
 
 static void testsuite_printheader(const struct ct_testsuite *self, time_t start_time)
@@ -757,7 +779,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         // TODO: check suite filters here
         const uint64_t start_msecs = ct_get_currentmsecs();
         summary.test_count = self->count;
-        if (RunContext.verbosity >= VERBOSITY_DEFAULT) {
+        if (RunContext.verbosity > VERBOSITY_LIST) {
             testsuite_printheader(self, time(NULL));
         }
         
@@ -766,11 +788,11 @@ static void testsuite_run(const struct ct_testsuite *self)
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
-        if (RunContext.verbosity >= VERBOSITY_DEFAULT) {
+        if (RunContext.verbosity > VERBOSITY_LIST) {
             runsummary_print(&summary);
         }
     } else {
-        fprintf(RunContext.err, "NULL test suite or NULL test list detected! No tests run.\n");
+        fprintf(RunContext.err, "WARNING: NULL test suite or NULL test list detected, no tests run!\n");
         summary.ledger.failed = InvalidSuite;
     }
     
@@ -796,13 +818,19 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
         }
 
         if (suites) {
+            if (RunContext.verbosity == VERBOSITY_MINIMAL) {
+                fprintf(RunContext.out, "[ ");
+            }
             for (size_t i = 0; i < count; ++i) {
                 const struct ct_testsuite * const suite = suites + i;
                 testsuite_run(suite);
             }
+            if (RunContext.verbosity == VERBOSITY_MINIMAL) {
+                fprintf(RunContext.out, "]\n");
+            }
             runtotals_print();
         } else {
-            fprintf(RunContext.err, "NULL test suite collection detected! No test suites run.\n");
+            fprintf(RunContext.err, "WARNING: NULL test suite collection detected, no test suites run!\n");
             RunTotals.ledger.failed = InvalidSuite;
         }
     }
