@@ -31,12 +31,12 @@
     [self assertDefault:CTOutputContains value:@"[ SUCCESS ]"];
 }
 
-- (void)test_VerbosityWithArbitraryArgs
+- (void)test_verbosityWithArbitraryArgs
 {
-    [self assertDefault:CTOutputDoesNotContain value:@"Colorized:"];
-    [self assertDefault:CTOutputContains value:@"Test suite '"];
-    [self assertDefault:CTOutputContains value:@"[ ✓ ] - "];
-    [self assertDefault:CTOutputContains value:@"[ SUCCESS ]"];
+    [self assertArbitraryArgs:CTOutputDoesNotContain value:@"Colorized:"];
+    [self assertArbitraryArgs:CTOutputContains value:@"Test suite '"];
+    [self assertArbitraryArgs:CTOutputContains value:@"[ ✓ ] - "];
+    [self assertArbitraryArgs:CTOutputContains value:@"[ SUCCESS ]"];
 }
 
 - (void)test_verbosityMinimal

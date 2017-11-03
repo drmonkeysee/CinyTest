@@ -255,9 +255,7 @@ static bool argflag_on(const char *value)
     if (!value) return true;
     
     for (size_t i = 0; i < flags_count; ++i) {
-        if (value[0] == off_flags[i]) {
-            return false;
-        }
+        if (value[0] == off_flags[i]) return false;
     }
 
     return true;
@@ -280,9 +278,7 @@ static const char *arg_value(const char *arg)
 {
     const char *delimiter = strrchr(arg, '=');
     
-    if (delimiter) {
-        return ++delimiter;
-    }
+    if (delimiter) return ++delimiter;
     
     return NULL;
 }
@@ -310,9 +306,7 @@ static void filterlist_push(filterlist **self_ref, struct testfilter *filter)
 static bool filterlist_any(filterlist *self, enum filter_target_flags predicate)
 {
     for (; self; self = self->next) {
-        if (self->apply == predicate) {
-            return true;
-        }
+        if (self->apply == predicate) return true;
     }
 
     return false;

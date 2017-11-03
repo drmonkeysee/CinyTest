@@ -24,7 +24,6 @@ typedef NS_ENUM(NSUInteger, CTOutputComparison) {
 - (void)assertEnvEnabled:(CTOutputComparison)compare value:(NSString *)expected;
 - (void)assertEnvInputs:(NSArray *)inputs compare:(CTOutputComparison)compare value:(NSString *)expected;
 - (void)assertArbitraryArgs:(CTOutputComparison)compare value:(NSString *)expected;
-- (void)assertArg:(NSString *)optionArgument ifPresent:(CTOutputComparison)compare value:(NSString *)expected;
 - (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected;
 - (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected;
 - (void)assertDuplicateArg:(NSString *)optionArgument isDisabled:(CTOutputComparison)compare value:(NSString *)expected;

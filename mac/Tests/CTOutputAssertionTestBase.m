@@ -68,11 +68,6 @@ static void test_case(void *context)
     [self assertSuite:compare value:expected forOption:nil withArgs:args];
 }
 
-- (void)assertArg:(NSString *)optionArgument ifPresent:(CTOutputComparison)compare value:(NSString *)expected
-{
-    [self assertSuite:compare value:expected forOption:nil withArgs:@[optionArgument]];
-}
-
 - (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
     NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"N", @"f"];
