@@ -139,7 +139,6 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 {
     [self assertFilters:@[] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     [self assertFilters:@[@"--ct-include="] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
-    [self assertFilters:@[@"--ct-include= "] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     [self assertFilters:@[@"--ct-include=:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
 }
 
@@ -194,6 +193,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_NoTestsRun_IfNoPatternMatch
 {
+    [self assertFilters:@[@"--ct-include= "] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=foo"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=*blarg*"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:test_f?rt"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];

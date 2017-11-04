@@ -287,9 +287,9 @@ static const char *arg_value(const char *arg)
 // Test Filters
 /////
 
-static struct testfilter *testfilter_new(void)
+static struct testfilter testfilter_make(void)
 {
-    return calloc(1, sizeof(struct testfilter));
+    return (struct testfilter){ .apply = FILTER_NONE };
 }
 
 static filterlist *filterlist_new(void)
@@ -297,31 +297,33 @@ static filterlist *filterlist_new(void)
     return NULL;
 }
 
-static void filterlist_push(filterlist **self_ref, struct testfilter *filter)
+static void filterlist_push(filterlist **self_ref, struct testfilter filter)
 {
-    filter->next = *self_ref;
-    *self_ref = filter;
+    struct testfilter * const filter_node = malloc(sizeof *filter_node);
+    *filter_node = filter;
+    filter_node->next = *self_ref;
+    *self_ref = filter_node;
 }
 
-static bool filterlist_any(filterlist *self, enum filter_target_flags predicate)
+static bool filterlist_any(filterlist *self, enum filter_target_flags match)
 {
     for (; self; self = self->next) {
-        if (self->apply == predicate) return true;
+        if (self->apply == match) return true;
     }
 
     return false;
 }
 
-static void filterlist_print(filterlist *self, enum filter_target_flags predicate, enum text_highlight style)
+static void filterlist_print(filterlist *self, enum filter_target_flags match, enum text_highlight style)
 {
     for (; self; self = self->next) {
-        if (self->apply != predicate) continue;
+        if (self->apply != match) continue;
 
-        // TODO: differentiate filters by +- if colorized off
-        print_highlighted(style, "%.*s", (int)(self->end - self->start), self->start);
-        // TODO: what to do with empty filters?
-        // revisit after filter application has been written
-        fprintf(RunContext.out, ", ");
+        print_highlighted(style, "%s%.*s", RunContext.colorized ? "" : "+", (int)(self->end - self->start), self->start);
+        
+        if (filterlist_any(self->next, match)) {
+            fprintf(RunContext.out, ", ");
+        }
     }
 }
 
@@ -334,39 +336,45 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-// TODO: rework to drop empty filter expressions
 static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
     static const char target_delimiter = ':';
     static const char expr_delimiter = ',';
 
-    struct testfilter *filter = testfilter_new();
+    struct testfilter filter = testfilter_make();
 
-    filter->start = cursor;
+    filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
         // First target delimiter seen so this expression contains
         // a suite-only filter and a test-only filter.
-        if (c == target_delimiter && filter->apply != FILTER_CASE) {
-            filter->end = cursor;
-            filter->apply = FILTER_SUITE;
-            filterlist_push(fl_ref, filter);
+        if (c == target_delimiter && filter.apply != FILTER_CASE) {
+            filter.end = cursor;
+            filter.apply = FILTER_SUITE;
 
-            filter = testfilter_new();
+            // only add the filter if it's not empty
+            if (filter.start < filter.end) {
+                filterlist_push(fl_ref, filter);
+            }
+
+            filter = testfilter_make();
             // start after the delimiter but let the for loop advance the cursor
-            filter->start = cursor + 1;
-            filter->apply = FILTER_CASE;
+            filter.start = cursor + 1;
+            filter.apply = FILTER_CASE;
         }
     }
-    filter->end = cursor;
+    filter.end = cursor;
     
     // If filter target has not been determined by now
     // then no target delimiters were encountered and
     // this filter applies to all targets.
-    if (filter->apply == FILTER_NONE) {
-        filter->apply = FILTER_ALL;
+    if (filter.apply == FILTER_NONE) {
+        filter.apply = FILTER_ALL;
     }
     
-    filterlist_push(fl_ref, filter);
+    // only add the filter if it's not empty
+    if (filter.start < filter.end) {
+        filterlist_push(fl_ref, filter);
+    }
     
     // Finish the expression either by consuming the
     // delimiter or clearing the cursor.
@@ -469,9 +477,7 @@ static void runcontext_printfilters(void)
     if (!RunContext.include) return;
 
     fprintf(RunContext.out, "Filters: ");
-    if (filterlist_any(RunContext.include, FILTER_ALL)) {
-        filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
-    }
+    filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
     fprintf(RunContext.out, "\n");
 
     if (filterlist_any(RunContext.include, FILTER_SUITE)) {
