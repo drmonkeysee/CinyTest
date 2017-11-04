@@ -292,6 +292,21 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){ .apply = FILTER_NONE };
 }
 
+static bool testfilter_apply(const struct testfilter *self, const char * restrict name)
+{
+    if (!self || !self->start || !self->end || !name) return false;
+
+    const char *fcursor = self->start, *ncursor = name;
+    while (fcursor < self->end && *ncursor) {
+        if (*fcursor == *ncursor) {
+            ++fcursor, ++ncursor;
+        } else {
+            break;
+        }
+    }
+    return fcursor == self->end && !(*ncursor);
+}
+
 static filterlist *filterlist_new(void)
 {
     return NULL;
@@ -312,6 +327,16 @@ static bool filterlist_any(filterlist *self, enum filter_target_flags match)
     }
 
     return false;
+}
+
+static struct testfilter *filterlist_apply(filterlist *self, enum filter_target_flags target, const char * restrict name)
+{
+    for (; self; self = self->next) {
+        if ((self->apply & target) != target) continue;
+
+        if (testfilter_apply(self, name)) return self;
+    }
+    return NULL;
 }
 
 static void filterlist_print(filterlist *self, enum filter_target_flags match, enum text_highlight style)
@@ -748,12 +773,18 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
+static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runsummary *summary)
 {
     assertstate_reset();
     const struct ct_testcase * const current_test = self->tests + index;
 
-    // TODO: check test filters here
+    if (RunContext.include) {
+        const struct testfilter * const applied_include = filterlist_apply(RunContext.include, FILTER_CASE, current_test->name);
+        if (!applied_include) {
+            --summary->test_count;
+            return;
+        }
+    }
     
     void *test_context = NULL;
     if (self->setup) {
@@ -761,9 +792,9 @@ static void testsuite_runcase(const struct ct_testsuite *self, size_t index, str
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(current_test->name, ledger);
+        assertstate_handle(current_test->name, &summary->ledger);
     } else {
-        testcase_run(current_test, test_context, index, ledger);
+        testcase_run(current_test, test_context, index, &summary->ledger);
     }
     
     if (self->teardown) {
@@ -776,7 +807,11 @@ static void testsuite_run(const struct ct_testsuite *self)
     struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
-        // TODO: check suite filters here
+        if (RunContext.include) {
+            const struct testfilter * const applied_include = filterlist_apply(RunContext.include, FILTER_SUITE, self->name);
+            if (!applied_include) return;
+        }
+
         const uint64_t start_msecs = ct_get_currentmsecs();
         summary.test_count = self->count;
         if (RunContext.verbosity > VERBOSITY_LIST) {
@@ -784,7 +819,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         }
         
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, i, &summary.ledger);
+            testsuite_runcase(self, i, &summary);
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
