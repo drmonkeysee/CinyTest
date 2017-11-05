@@ -300,7 +300,7 @@ static struct testfilter testfilter_make(void)
 
 static bool testfilter_match(const struct testfilter *self, const char * restrict name)
 {
-    if (!self || !self->start || !self->end || !name) return false;
+    if (!name) return false;
 
     const char *fcursor = self->start, *ncursor = name;
     while (fcursor < self->end && *ncursor) {
