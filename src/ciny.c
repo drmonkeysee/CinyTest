@@ -849,6 +849,18 @@ static void testsuite_run(const struct ct_testsuite *self)
             }
         }
 
+        // TODO:
+        // - retain current filter parsing
+        // - combine include/exclude filters into one list, parse exclude first so they run second
+        // - run all filters against tests in the case loop, print header if necessary once a test runs
+        // - no additional allocation necessary
+        // - BOTH filters are two-node cases
+        // - filterlist_apply runs switch statement on target/testfilter_match:
+        //      - ANY: suite OR case
+        //      - SUITE: suite
+        //      - CASE: case
+        //      - BOTH: suite AND case
+        // - on verbose print all tests either (filtered) or (no match), suite headers as before
         const uint64_t start_msecs = ct_get_currentmsecs();
         summary.test_count = self->count;
         if (RunContext.verbosity > VERBOSITY_LIST) {
