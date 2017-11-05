@@ -305,7 +305,8 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
     const char *fcursor = self->start, *ncursor = name;
     while (fcursor < self->end && *ncursor) {
         if (*fcursor == *ncursor) {
-            (void)++fcursor, (void)++ncursor;
+            ++fcursor;
+            ++ncursor;
         } else {
             break;
         }
@@ -793,6 +794,15 @@ static void testsuite_runcase(const struct ct_testsuite *self, size_t index, str
 
     if (RunContext.include) {
         const struct testfilter *matched;
+        // TODO: cases
+        // - ALL bar
+        // - CASE :bar
+        // - CASE->SUITE foo:bar ONLY if current suite matched foo
+        // entire expression = 1 filter
+        // apply to all suites and cases, include suite name when checking case
+        // if suite-only: match if ends in : or *
+        // if case: skip suite if starts with :, skip case if ends in :, switch if found :
+        // alternate: only apply to test cases and defer suite header until at least one test is run?
         if (filterlist_apply(RunContext.include, FILTER_CASE, current_test->name, &matched)) {
             if (!matched) {
                 --summary->test_count;
@@ -824,6 +834,12 @@ static void testsuite_run(const struct ct_testsuite *self)
     if (self && self->tests) {
         if (RunContext.include) {
             const struct testfilter *matched;
+            // TODO: cases
+            // - ALL foo
+            // - SUITE foo:
+            // - SUITE foo:bar presence of bar doesn't matter
+            // foo:bar => CASE:bar -> SUITE:foo
+            // foo:,:bar => CASE:bar -> SUITE:foo
             if (filterlist_apply(RunContext.include, FILTER_SUITE, self->name, &matched)) {
                 if (!matched) return;
             }

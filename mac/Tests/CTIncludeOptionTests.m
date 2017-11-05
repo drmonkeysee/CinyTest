@@ -231,10 +231,11 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=*🐴*"] suite1Expected:RUN_TEST_HORSE suite2Expected:RUN_TEST_HORSE];
 }
 
-- (void)test_MultipleExactMatches
+- (void)test_MultipleMatchedExpressions
 {
     // TODO: test_bort and test_barfoo are applying to both suites
     [self assertFilters:@[@"--ct-include=suite_far:test_bort,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
+    [self assertFilters:@[@"--ct-include=suite_far:,:test_bort"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_BORT];
 }
 
 - (void)test_FiltersIgnored_IfEmptyMultipleExpressions
