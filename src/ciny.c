@@ -235,15 +235,15 @@ static void print_linemessage(const char *message)
     }
 }
 
-static bool pretty_truncate(char *str, size_t size)
+static bool pretty_truncate(char buffer[], size_t size)
 {
     const size_t ellipsis_length = strlen(Ellipsis);
     const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
     
     const bool can_fit_ellipsis = truncation_index >= 0;
     if (can_fit_ellipsis) {
-        str[truncation_index] = '\0';
-        strcat(str, Ellipsis);
+        buffer[truncation_index] = '\0';
+        strcat(buffer, Ellipsis);
     }
     
     return can_fit_ellipsis;
@@ -261,7 +261,7 @@ static bool argflag_on(const char *value)
     if (!value) return true;
     
     for (size_t i = 0; i < flags_count; ++i) {
-        if (value[0] == off_flags[i]) return false;
+        if (*value == off_flags[i]) return false;
     }
 
     return true;
@@ -331,7 +331,6 @@ static bool filterlist_any(filterlist *self, enum filter_target_flags match)
     for (; self; self = self->next) {
         if (self->apply == match) return true;
     }
-
     return false;
 }
 
@@ -728,7 +727,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value *expec
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value *value, char * restrict buffer, size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value *value, char buffer[restrict], size_t size)
 {
     int write_count = 0;
     
