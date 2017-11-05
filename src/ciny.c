@@ -668,7 +668,7 @@ do { \
     assertstate_setvmessage(format, format_args); \
     va_end(format_args); \
 } while (false)
-static void assertstate_setvmessage(const char *format, va_list format_args)
+static void assertstate_setvmessage(const char * restrict format, va_list format_args)
 {
     const size_t message_size = sizeof AssertState.message;
     const int write_count = vsnprintf(AssertState.message, message_size, format, format_args);
@@ -840,6 +840,10 @@ static void testsuite_run(const struct ct_testsuite *self)
             // - SUITE foo:bar presence of bar doesn't matter
             // foo:bar => CASE:bar -> SUITE:foo
             // foo:,:bar => CASE:bar -> SUITE:foo
+            // if *bar* matches nothing here does not guarantee it won't match tests in suite
+            // alternate: run all filters here and filter the cases before execution
+            // e.g. build secondary array of filtered tests (using NULLs, altered count, or list?)
+            // pass to testsuite_runcases(new_array_or_list) or use a boolean map
             if (filterlist_apply(RunContext.include, FILTER_SUITE, self->name, &matched)) {
                 if (!matched) return;
             }
