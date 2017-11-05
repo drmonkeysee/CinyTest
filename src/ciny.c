@@ -86,10 +86,10 @@ enum text_highlight {
 };
 
 enum filter_target_flags {
-    FILTER_NONE = 0,
+    FILTER_NONE = 0,    // TODO: make this ANY instead to designate non-delimited expressions
     FILTER_SUITE = 1 << 0,
     FILTER_CASE = 1 << 1,
-    FILTER_ALL = FILTER_SUITE | FILTER_CASE
+    FILTER_ALL = FILTER_SUITE | FILTER_CASE     // TODO: make this BOTH to designate suite:case format
 };
 struct testfilter {
     const char *start, *end;

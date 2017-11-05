@@ -89,6 +89,10 @@ While I hope CinyTest is useful to others it is also a hobby exercise of mine. I
 
 That original goal has been left behind at this point as I've expanded the library's scope and target platforms. However the majority of platform-specific code is nicely sequestered behind a common API and compiler targets. As of this writing there are POSIX and Windows compatibility source files.
 
+### Memory Usage
+
+TODO: Describe under what conditions dynamic memory is used.
+
 #### Windows Support
 
 CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards. Specifically the [Universal CRT](https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/) provides headers and libraries bridging the gap to C99. Combined with clang, a C11 codebase like CinyTest can be compiled and deployed on Windows.
@@ -99,7 +103,7 @@ To build CinyTest on Windows install the following tools:
 
 - [Visual C++ 2015 Build Tools](http://landinghub.visualstudio.com/visual-cpp-build-tools) (as of this writing LLVM 3.9.1 does not work with Visual Studio 2017 Build Tools)
 - clang
-- Doxygen (set the _WIN64 preprocessor macro in the Predefined section to select the right documentation)
+- Doxygen (set the `_WIN64` preprocessor macro in the Predefined section to select the right documentation)
 
 Use the x64 Native Build Tools Command Prompt in order to get the correct environment.
 
