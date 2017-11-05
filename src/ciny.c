@@ -193,7 +193,13 @@ static void print_labelbox(enum text_highlight style, const char * restrict resu
 static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict name)
 {
     if (RunContext.verbosity == VERBOSITY_MINIMAL) {
-        print_highlighted(style, "%s ", result_label);
+        static bool first_call = true;
+        if (first_call) {
+            first_call = false;
+        } else {
+            fprintf(RunContext.out, " ");
+        }
+        print_highlighted(style, result_label);
         return;
     }
 
@@ -853,15 +859,12 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
         }
 
         if (suites) {
-            if (RunContext.verbosity == VERBOSITY_MINIMAL) {
-                fprintf(RunContext.out, "[ ");
-            }
             for (size_t i = 0; i < count; ++i) {
                 const struct ct_testsuite * const suite = suites + i;
                 testsuite_run(suite);
             }
-            if (RunContext.verbosity == VERBOSITY_MINIMAL) {
-                fprintf(RunContext.out, "]\n");
+            if (RunContext.verbosity == VERBOSITY_MINIMAL && RunTotals.test_count) {
+                fprintf(RunContext.out, "\n");
             }
             runtotals_print();
         } else {
