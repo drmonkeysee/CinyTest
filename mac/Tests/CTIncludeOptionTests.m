@@ -125,7 +125,6 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [super setUp];
 
     unsetenv(EnvVar);
-    Suite1Flags = Suite2Flags = RUN_TEST_NONE;
 }
 
 - (void)tearDown
@@ -234,6 +233,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_MultipleExactMatches
 {
+    // TODO: test_bort and test_barfoo are applying to both suites
     [self assertFilters:@[@"--ct-include=suite_far:test_bort,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
 }
 
@@ -297,6 +297,8 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)assertFilters:(NSArray *)filters suite1Expected:(RUN_TEST_FLAGS)suite1Expected suite2Expected:(RUN_TEST_FLAGS)suite2Expected
 {
+    Suite1Flags = Suite2Flags = RUN_TEST_NONE;
+    
     const int argc = (int)filters.count;
     const char *argv[argc];
     for (int i = 0; i < argc; ++i) {

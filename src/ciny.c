@@ -298,7 +298,7 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){ .apply = FILTER_NONE };
 }
 
-static bool testfilter_apply(const struct testfilter *self, const char * restrict name)
+static bool testfilter_match(const struct testfilter *self, const char * restrict name)
 {
     if (!self || !self->start || !self->end || !name) return false;
 
@@ -335,14 +335,22 @@ static bool filterlist_any(filterlist *self, enum filter_target_flags match)
     return false;
 }
 
-static struct testfilter *filterlist_apply(filterlist *self, enum filter_target_flags target, const char * restrict name)
+// Returns true if the filter list contains filters for the specified target, otherwise false;
+// if a matching filter is found for the given name it will be returned in "matched", otherwise "matched" is set to NULL.
+static bool filterlist_apply(filterlist *self, enum filter_target_flags target, const char * restrict name, const struct testfilter **matched)
 {
+    bool has_targets = false;
+    *matched = NULL;
     for (; self; self = self->next) {
         if ((self->apply & target) != target) continue;
 
-        if (testfilter_apply(self, name)) return self;
+        has_targets = true;
+        if (testfilter_match(self, name)) {
+            *matched = self;
+            break;
+        }
     }
-    return NULL;
+    return has_targets;
 }
 
 static void filterlist_print(filterlist *self, enum filter_target_flags match, enum text_highlight style)
@@ -785,10 +793,12 @@ static void testsuite_runcase(const struct ct_testsuite *self, size_t index, str
     const struct ct_testcase * const current_test = self->tests + index;
 
     if (RunContext.include) {
-        const struct testfilter * const applied_include = filterlist_apply(RunContext.include, FILTER_CASE, current_test->name);
-        if (!applied_include) {
-            --summary->test_count;
-            return;
+        const struct testfilter *matched;
+        if (filterlist_apply(RunContext.include, FILTER_CASE, current_test->name, &matched)) {
+            if (!matched) {
+                --summary->test_count;
+                return;
+            }
         }
     }
     
@@ -814,8 +824,10 @@ static void testsuite_run(const struct ct_testsuite *self)
     
     if (self && self->tests) {
         if (RunContext.include) {
-            const struct testfilter * const applied_include = filterlist_apply(RunContext.include, FILTER_SUITE, self->name);
-            if (!applied_include) return;
+            const struct testfilter *matched;
+            if (filterlist_apply(RunContext.include, FILTER_SUITE, self->name, &matched)) {
+                if (!matched) return;
+            }
         }
 
         const uint64_t start_msecs = ct_get_currentmsecs();
