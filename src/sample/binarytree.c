@@ -30,9 +30,9 @@ static struct bt_node *create_node(int value)
 static struct bt_node **find_childref(struct bt_node *self, int value)
 {
     struct bt_node ** const child_ref = self->value > value ? &self->left : &self->right;
-    if (!(*child_ref) || (*child_ref)->value == value) {
-        return child_ref;
-    }
+    
+    if (!(*child_ref) || (*child_ref)->value == value) return child_ref;
+    
     return find_childref(*child_ref, value);
 }
 

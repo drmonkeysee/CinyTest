@@ -64,8 +64,8 @@ static struct {
     const char *file;
     int line;
     enum assert_type type;
-    char description[200 + (COMPVALUE_STR_SIZE * 2)];
-    char message[1002];
+    char description[200 + (COMPVALUE_STR_SIZE * 2)],
+         message[1002];
 } AssertState;
 static jmp_buf AssertSignal;
 
@@ -110,9 +110,9 @@ static struct {
     filterlist *include;
     char *env_copies[ENV_COPY_COUNT];
     enum verbosity_level verbosity;
-    bool help;
-    bool version;
-    bool colorized;
+    bool help,
+         version,
+         colorized;
 } RunContext;
 
 /////
@@ -299,7 +299,7 @@ static bool testfilter_apply(const struct testfilter *self, const char * restric
     const char *fcursor = self->start, *ncursor = name;
     while (fcursor < self->end && *ncursor) {
         if (*fcursor == *ncursor) {
-            ++fcursor, ++ncursor;
+            (void)++fcursor, (void)++ncursor;
         } else {
             break;
         }
