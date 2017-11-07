@@ -30,7 +30,7 @@
     
     const uint32_t vhex = ct_versionhex(&v);
     
-    const uint32_t expected = 0u | v.major << 16 | v.minor << 8 | v.patch;
+    const uint32_t expected = 0 | v.major << 16 | v.minor << 8 | v.patch;
     XCTAssertEqual(expected, vhex);
 }
 

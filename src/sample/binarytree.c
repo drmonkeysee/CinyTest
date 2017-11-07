@@ -167,7 +167,7 @@ void bt_insert(binarytree **selfref, int value)
 {
     if (!selfref) return;
     
-    if (!*selfref) {
+    if (!(*selfref)) {
         *selfref = create_node(value);
     } else if ((*selfref)->value > value) {
         bt_insert(&(*selfref)->left, value);
@@ -178,7 +178,7 @@ void bt_insert(binarytree **selfref, int value)
 
 void bt_remove(binarytree **selfref, int value)
 {
-    if (!selfref || !*selfref) return;
+    if (!selfref || !(*selfref)) return;
     
     if ((*selfref)->value == value) {
         bt_free(*selfref);
@@ -209,7 +209,7 @@ bool bt_isbalanced(binarytree *self)
 
 void bt_rebalance(binarytree **selfref)
 {
-    if (!selfref || !*selfref) return;
+    if (!selfref || !(*selfref)) return;
     
     const size_t size = bt_size(*selfref);
     struct bt_node *sorted_nodes[size];
