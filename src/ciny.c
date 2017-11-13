@@ -85,16 +85,21 @@ enum text_highlight {
     HIGHLIGHT_IGNORE
 };
 
-enum filter_target_flags {
-    FILTER_NONE = 0,    // TODO: make this ANY instead to designate non-delimited expressions
-    FILTER_SUITE = 1 << 0,
-    FILTER_CASE = 1 << 1,
-    FILTER_ALL = FILTER_SUITE | FILTER_CASE     // TODO: make this BOTH to designate suite:case format
+enum filter_target {
+    FILTER_ANY,
+    FILTER_SUITE,
+    FILTER_CASE,
+    FILTER_BOTH
+};
+enum filter_rule {
+    FILTER_INCLUDE,
+    FILTER_EXCLUDE
 };
 struct testfilter {
     const char *start, *end;
     struct testfilter *next;
-    enum filter_target_flags apply;
+    enum filter_rule rule;
+    enum filter_target apply;
 };
 typedef struct testfilter filterlist;
 
@@ -107,7 +112,7 @@ enum verbosity_level {
 };
 static struct {
     FILE *out, *err;
-    filterlist *include;
+    filterlist *filters;
     char *env_copies[ENV_COPY_COUNT];
     enum verbosity_level verbosity;
     bool help,
@@ -293,9 +298,9 @@ static const char *arg_value(const char *arg)
 // Test Filters
 /////
 
-static struct testfilter testfilter_make(void)
+static struct testfilter testfilter_make(enum filter_rule rule)
 {
-    return (struct testfilter){ .apply = FILTER_NONE };
+    return (struct testfilter){ .rule = rule };
 }
 
 static bool testfilter_match(const struct testfilter *self, const char * restrict name)
@@ -327,33 +332,33 @@ static void filterlist_push(filterlist **self_ref, struct testfilter filter)
     *self_ref = filter_node;
 }
 
-static bool filterlist_any(filterlist *self, enum filter_target_flags match)
+static bool filterlist_any(filterlist *self, enum filter_target target)
 {
     for (; self; self = self->next) {
-        if (self->apply == match) return true;
+        if (self->apply == target) return true;
     }
     return false;
 }
 
 // Returns true if the filter list contains filters for the specified target, otherwise false;
-// if a matching filter is found for the given name it will be returned in "matched", otherwise "matched" is set to NULL.
-static bool filterlist_apply(filterlist *self, enum filter_target_flags target, const char * restrict name, const struct testfilter **matched)
+// if a matching filter is found for the given name it will be returned in "matched_out", otherwise "matched_out" is set to NULL.
+static bool filterlist_apply(filterlist *self, enum filter_target target, const char * restrict name, const struct testfilter **matched_out)
 {
     bool has_targets = false;
-    *matched = NULL;
+    *matched_out = NULL;
     for (; self; self = self->next) {
         if ((self->apply & target) != target) continue;
 
         has_targets = true;
         if (testfilter_match(self, name)) {
-            *matched = self;
+            *matched_out = self;
             break;
         }
     }
     return has_targets;
 }
 
-static void filterlist_print(filterlist *self, enum filter_target_flags match, enum text_highlight style)
+static void filterlist_print(filterlist *self, enum filter_target match, enum text_highlight style)
 {
     for (; self; self = self->next) {
         if (self->apply != match) continue;
@@ -375,13 +380,14 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
+static const char *parse_filterexpr(const char * restrict cursor, enum filter_rule rule, filterlist **fl_ref)
 {
     static const char target_delimiter = ':';
     static const char expr_delimiter = ',';
 
-    struct testfilter filter = testfilter_make();
+    struct testfilter filter = testfilter_make(rule);
 
+    // TODO: rework this to reflect ANY and BOTH logic
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
         // First target delimiter seen so this expression contains
@@ -395,7 +401,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
                 filterlist_push(fl_ref, filter);
             }
 
-            filter = testfilter_make();
+            filter = testfilter_make(rule);
             // start after the delimiter but let the for loop advance the cursor
             filter.start = cursor + 1;
             filter.apply = FILTER_CASE;
@@ -406,8 +412,8 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
     // If filter target has not been determined by now
     // then no target delimiters were encountered and
     // this filter applies to all targets.
-    if (filter.apply == FILTER_NONE) {
-        filter.apply = FILTER_ALL;
+    if (filter.apply == FILTER_ANY) {
+        filter.apply = FILTER_BOTH;
     }
     
     // only add the filter if it's not empty
@@ -426,14 +432,20 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
     return cursor;
 }
 
-static filterlist *parse_filters(const char *filter_option)
+static void parse_filteroption(const char * restrict filter_option, enum filter_rule rule, filterlist **fl_ref)
+{
+    const char *cursor = filter_option;
+    while (cursor) {
+        cursor = parse_filterexpr(cursor, rule, fl_ref);
+    }
+}
+
+static filterlist *parse_filters(const char * restrict exclude_option, const char * restrict include_option)
 {
     filterlist *fl = filterlist_new();
 
-    const char *cursor = filter_option;
-    while (cursor) {
-        cursor = parse_filterexpr(cursor, &fl);
-    }
+    parse_filteroption(exclude_option, FILTER_EXCLUDE, &fl);
+    parse_filteroption(include_option, FILTER_INCLUDE, &fl);
 
     return fl;
 }
@@ -441,6 +453,13 @@ static filterlist *parse_filters(const char *filter_option)
 /////
 // Run Context
 /////
+
+static const char *runcontext_capturevar(const char * restrict env_var, char * restrict *slot)
+{
+    *slot = malloc(strlen(env_var) + 1);
+    strcpy(*slot, env_var);
+    return *slot;
+}
 
 static void runcontext_init(int argc, const char *argv[])
 {
@@ -498,12 +517,10 @@ static void runcontext_init(int argc, const char *argv[])
         include_filter_option = getenv("CINYTEST_INCLUDE");
         if (include_filter_option) {
             // copy env value to prevent invalidated pointers
-            RunContext.env_copies[0] = malloc(strlen(include_filter_option) + 1);
-            strcpy(RunContext.env_copies[0], include_filter_option);
-            include_filter_option = RunContext.env_copies[0];
+            include_filter_option = runcontext_capturevar(include_filter_option, RunContext.env_copies + 1);
         }
     }
-    RunContext.include = parse_filters(include_filter_option);
+    RunContext.filters = parse_filters(NULL, include_filter_option);
 }
 
 static bool runcontext_suppressoutput(void)
@@ -513,21 +530,27 @@ static bool runcontext_suppressoutput(void)
 
 static void runcontext_printfilters(void)
 {
-    if (!RunContext.include) return;
+    if (!RunContext.filters) return;
 
     fprintf(RunContext.out, "Filters: ");
-    filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
+    filterlist_print(RunContext.filters, FILTER_ANY, HIGHLIGHT_SUCCESS);
     fprintf(RunContext.out, "\n");
 
-    if (filterlist_any(RunContext.include, FILTER_SUITE)) {
+    if (filterlist_any(RunContext.filters, FILTER_SUITE)) {
         fprintf(RunContext.out, "  Suites: ");
-        filterlist_print(RunContext.include, FILTER_SUITE, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.filters, FILTER_SUITE, HIGHLIGHT_SUCCESS);
         fprintf(RunContext.out, "\n");
     }
 
-    if (filterlist_any(RunContext.include, FILTER_CASE)) {
+    if (filterlist_any(RunContext.filters, FILTER_CASE)) {
         fprintf(RunContext.out, "  Cases: ");
-        filterlist_print(RunContext.include, FILTER_CASE, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.filters, FILTER_CASE, HIGHLIGHT_SUCCESS);
+        fprintf(RunContext.out, "\n");
+    }
+
+    if (filterlist_any(RunContext.filters, FILTER_BOTH)) {
+        fprintf(RunContext.out, "  Both: ");
+        filterlist_print(RunContext.filters, FILTER_BOTH, HIGHLIGHT_SUCCESS);
         fprintf(RunContext.out, "\n");
     }
 }
@@ -550,8 +573,8 @@ static void runcontext_cleanup(void)
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
 
-    filterlist_free(RunContext.include);
-    RunContext.include = NULL;
+    filterlist_free(RunContext.filters);
+    RunContext.filters = NULL;
 
     for (size_t i = 0; i < ENV_COPY_COUNT; ++i) {
         free(RunContext.env_copies[i]);
@@ -787,39 +810,20 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runsummary *summary)
+static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
 {
     assertstate_reset();
     const struct ct_testcase * const current_test = self->tests + index;
 
-    if (RunContext.include) {
-        const struct testfilter *matched;
-        // TODO: cases
-        // - ALL bar
-        // - CASE :bar
-        // - CASE->SUITE foo:bar ONLY if current suite matched foo
-        // entire expression = 1 filter
-        // apply to all suites and cases, include suite name when checking case
-        // if suite-only: match if ends in : or *
-        // if case: skip suite if starts with :, skip case if ends in :, switch if found :
-        // alternate: only apply to test cases and defer suite header until at least one test is run?
-        if (filterlist_apply(RunContext.include, FILTER_CASE, current_test->name, &matched)) {
-            if (!matched) {
-                --summary->test_count;
-                return;
-            }
-        }
-    }
-    
     void *test_context = NULL;
     if (self->setup) {
         self->setup(&test_context);
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(current_test->name, &summary->ledger);
+        assertstate_handle(current_test->name, ledger);
     } else {
-        testcase_run(current_test, test_context, index, &summary->ledger);
+        testcase_run(current_test, test_context, index, ledger);
     }
     
     if (self->teardown) {
@@ -832,23 +836,6 @@ static void testsuite_run(const struct ct_testsuite *self)
     struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
-        if (RunContext.include) {
-            const struct testfilter *matched;
-            // TODO: cases
-            // - ALL foo
-            // - SUITE foo:
-            // - SUITE foo:bar presence of bar doesn't matter
-            // foo:bar => CASE:bar -> SUITE:foo
-            // foo:,:bar => CASE:bar -> SUITE:foo
-            // if *bar* matches nothing here does not guarantee it won't match tests in suite
-            // alternate: run all filters here and filter the cases before execution
-            // e.g. build secondary array of filtered tests (using NULLs, altered count, or list?)
-            // pass to testsuite_runcases(new_array_or_list) or use a boolean map
-            if (filterlist_apply(RunContext.include, FILTER_SUITE, self->name, &matched)) {
-                if (!matched) return;
-            }
-        }
-
         // TODO:
         // - retain current filter parsing
         // - combine include/exclude filters into one list, parse exclude first so they run second
@@ -862,17 +849,27 @@ static void testsuite_run(const struct ct_testsuite *self)
         //      - BOTH: suite AND case
         // - on verbose print all tests either (filtered) or (no match), suite headers as before
         const uint64_t start_msecs = ct_get_currentmsecs();
+        bool need_header = RunContext.verbosity > VERBOSITY_LIST,
+             need_summary = need_header;
         summary.test_count = self->count;
-        if (RunContext.verbosity > VERBOSITY_LIST) {
-            testsuite_printheader(self, time(NULL));
-        }
-        
+
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, i, &summary);
+            const struct testfilter *matched;
+            if (filterlist_apply(RunContext.filters, FILTER_SUITE, self->name, &matched)) {
+                if (!matched) {
+                    --summary.test_count;
+                    continue;
+                }
+            }
+            if (need_header) {
+                testsuite_printheader(self, time(NULL));
+                need_header = false;
+            }
+            testsuite_runcase(self, i, &summary.ledger);
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
-        if (RunContext.verbosity > VERBOSITY_LIST) {
+        if (need_summary) {
             runsummary_print(&summary);
         }
     } else {
