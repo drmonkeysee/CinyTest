@@ -233,8 +233,11 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_MultipleMatchedExpressions
 {
-    [self assertFilters:@[@"--ct-include=suite_far:test_bort,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
+    [self assertFilters:@[@"--ct-include=suite_far:,suite_bar:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
+    [self assertFilters:@[@"--ct-include=:test_barfoo,:test_bort"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO | RUN_TEST_BORT];
     [self assertFilters:@[@"--ct-include=suite_far:,:test_bort"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_BORT];
+    [self assertFilters:@[@"--ct-include=:test_bort,suite_far:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_BORT];
+    [self assertFilters:@[@"--ct-include=suite_far:test_bort,suite_bar:test_barfoo"] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
 }
 
 - (void)test_FiltersIgnored_IfEmptyMultipleExpressions

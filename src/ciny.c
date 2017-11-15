@@ -387,36 +387,33 @@ static const char *parse_filterexpr(const char * restrict cursor, enum filter_ru
 
     struct testfilter filter = testfilter_make(rule);
 
-    // TODO: rework this to reflect ANY and BOTH logic
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
-        // First target delimiter seen so this expression contains
-        // a suite-only filter and a test-only filter.
-        if (c == target_delimiter && filter.apply != FILTER_CASE) {
+        if (c == target_delimiter && filter.apply == FILTER_ANY) {
+            // first target delimiter seen so this is a (possibly empty) suite filter
             filter.end = cursor;
             filter.apply = FILTER_SUITE;
+        } else if (filter.apply == FILTER_SUITE) {
+            // Suite filter followed by something other than end-of-expression,
+            // so next filter is a case filter if current filter is empty
+            // or this is a pair of both filters.
+            enum filter_target next_target = FILTER_CASE;
 
-            // only add the filter if it's not empty
             if (filter.start < filter.end) {
+                next_target = filter.apply = FILTER_BOTH;
                 filterlist_push(fl_ref, filter);
             }
 
             filter = testfilter_make(rule);
-            // start after the delimiter but let the for loop advance the cursor
-            filter.start = cursor + 1;
-            filter.apply = FILTER_CASE;
+            filter.start = cursor;
+            filter.apply = next_target;
         }
     }
-    filter.end = cursor;
-    
-    // If filter target has not been determined by now
-    // then no target delimiters were encountered and
-    // this filter applies to all targets.
-    if (filter.apply == FILTER_ANY) {
-        filter.apply = FILTER_BOTH;
+
+    if (filter.apply != FILTER_SUITE) {
+        filter.end = cursor;
     }
     
-    // only add the filter if it's not empty
     if (filter.start < filter.end) {
         filterlist_push(fl_ref, filter);
     }
