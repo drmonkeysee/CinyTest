@@ -89,7 +89,7 @@ enum filter_target {
     FILTER_ANY,
     FILTER_SUITE,
     FILTER_CASE,
-    FILTER_BOTH
+    FILTER_ALL
 };
 enum filter_rule {
     FILTER_INCLUDE,
@@ -396,11 +396,11 @@ static const char *parse_filterexpr(const char * restrict cursor, enum filter_ru
         } else if (filter.apply == FILTER_SUITE) {
             // Suite filter followed by something other than end-of-expression,
             // so next filter is a case filter if current filter is empty
-            // or this is a pair of both filters.
+            // or this is a pair of all filters.
             enum filter_target next_target = FILTER_CASE;
 
             if (filter.start < filter.end) {
-                next_target = filter.apply = FILTER_BOTH;
+                next_target = filter.apply = FILTER_ALL;
                 filterlist_push(fl_ref, filter);
             }
 
@@ -545,9 +545,9 @@ static void runcontext_printfilters(void)
         fprintf(RunContext.out, "\n");
     }
 
-    if (filterlist_any(RunContext.filters, FILTER_BOTH)) {
-        fprintf(RunContext.out, "  Both: ");
-        filterlist_print(RunContext.filters, FILTER_BOTH, HIGHLIGHT_SUCCESS);
+    if (filterlist_any(RunContext.filters, FILTER_ALL)) {
+        fprintf(RunContext.out, "  All: ");
+        filterlist_print(RunContext.filters, FILTER_ALL, HIGHLIGHT_SUCCESS);
         fprintf(RunContext.out, "\n");
     }
 }
