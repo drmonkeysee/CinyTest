@@ -342,7 +342,7 @@ static bool filterlist_any(filterlist *self, enum filter_target target)
 
 // Returns true if the filter list contains filters for the specified target, otherwise false;
 // if a matching filter is found for the given name it will be returned in "matched_out", otherwise "matched_out" is set to NULL.
-static bool filterlist_apply(filterlist *self, enum filter_target target, const char * restrict name, const struct testfilter **matched_out)
+static bool filterlist_apply(filterlist *self, const char * restrict suite_name, const char * restrict case_name, const struct testfilter **matched_out)
 {
     bool has_targets = false;
     *matched_out = NULL;
@@ -786,10 +786,10 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *self, void * restrict test_context, size_t index, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase *self, void * restrict test_context, struct runledger *ledger)
 {
     if (!self->test) {
-        fprintf(RunContext.err, "WARNING: Test case at index %zu skipped, NULL function pointer found!\n", index);
+        fprintf(RunContext.err, "WARNING: Test case '%s' skipped, NULL function pointer found!\n", self->name);
         return;
     }
     
@@ -807,10 +807,9 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, size_t index, struct runledger *ledger)
+static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_testcase *current_case, struct runledger *ledger)
 {
     assertstate_reset();
-    const struct ct_testcase * const current_test = self->tests + index;
 
     void *test_context = NULL;
     if (self->setup) {
@@ -818,9 +817,9 @@ static void testsuite_runcase(const struct ct_testsuite *self, size_t index, str
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(current_test->name, ledger);
+        assertstate_handle(current_case->name, ledger);
     } else {
-        testcase_run(current_test, test_context, index, ledger);
+        testcase_run(current_case, test_context, ledger);
     }
     
     if (self->teardown) {
@@ -834,10 +833,6 @@ static void testsuite_run(const struct ct_testsuite *self)
     
     if (self && self->tests) {
         // TODO:
-        // - retain current filter parsing
-        // - combine include/exclude filters into one list, parse exclude first so they run second
-        // - run all filters against tests in the case loop, print header if necessary once a test runs
-        // - no additional allocation necessary
         // - BOTH filters are two-node cases
         // - filterlist_apply runs switch statement on target/testfilter_match:
         //      - ANY: suite OR case
@@ -851,8 +846,14 @@ static void testsuite_run(const struct ct_testsuite *self)
         summary.test_count = self->count;
 
         for (size_t i = 0; i < self->count; ++i) {
+            const struct ct_testcase * const current_case = self->tests + i;
             const struct testfilter *matched;
-            if (filterlist_apply(RunContext.filters, FILTER_SUITE, self->name, &matched)) {
+            // TODO:
+            // if no filters, matched = NULL means no include
+            // if include only, matched = NULL means exclude
+            // if exclude only, matched = NULL means include
+            // if include + exclude, matched = NULL means exclude
+            if (filterlist_apply(RunContext.filters, self->name, current_case->name, &matched)) {
                 if (!matched) {
                     --summary.test_count;
                     continue;
@@ -862,7 +863,7 @@ static void testsuite_run(const struct ct_testsuite *self)
                 testsuite_printheader(self, time(NULL));
                 need_header = false;
             }
-            testsuite_runcase(self, i, &summary.ledger);
+            testsuite_runcase(self, current_case, &summary.ledger);
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
