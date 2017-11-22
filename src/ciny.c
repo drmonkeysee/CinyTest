@@ -36,11 +36,13 @@ static const char * const restrict Ellipsis = "...";
 static const char * const restrict PlusMinus = "+/-";
 static const char * const restrict PassedTestSymbol = "+";
 static const char * const restrict FailedTestSymbol = "x";
+static const char * const restrict SkippedTestSymbol = "/";
 #else
 static const char * const restrict Ellipsis = "\u2026";
 static const char * const restrict PlusMinus = "\u00B1";
 static const char * const restrict PassedTestSymbol = "\u2713";
 static const char * const restrict FailedTestSymbol = "\u2717";
+static const char * const restrict SkippedTestSymbol = "\u2205";
 #endif
 
 /////
@@ -67,14 +69,9 @@ enum filter_target {
     FILTER_CASE,
     FILTER_ALL
 };
-enum filter_rule {
-    FILTER_INCLUDE,
-    FILTER_EXCLUDE
-};
 struct testfilter {
     const char *start, *end;
     struct testfilter *next;
-    enum filter_rule rule;
     enum filter_target apply;
 };
 typedef struct testfilter filterlist;
@@ -197,6 +194,25 @@ static void print_labelbox(enum text_highlight style, const char * restrict resu
     fprintf(RunContext.out, " ] - ");
 }
 
+// this is intertwined with other print functions so can't live with its testfilter siblings
+static void testfilter_print(const struct testfilter *self, enum text_highlight style)
+{
+    const char *prefix = "";
+    if (!RunContext.colorized) {
+        switch (style) {
+            case HIGHLIGHT_SUCCESS:
+                prefix = "+";
+                break;
+            case HIGHLIGHT_FAILURE:
+                prefix = "-";
+                break;
+            default:
+                break;
+        }
+    }
+    print_highlighted(style, "%s%.*s", prefix, (int)(self->end - self->start), self->start);
+}
+
 static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict name)
 {
     if (RunContext.verbosity == VERBOSITY_MINIMAL) {
@@ -215,6 +231,8 @@ static void print_testresult(enum text_highlight style, const char * restrict re
 
     if (RunContext.verbosity > VERBOSITY_LIST) {
         const char *status;
+        // if printing a filter it's an include filter...
+        enum text_highlight filter_style = HIGHLIGHT_SUCCESS;
         switch (style) {
             case HIGHLIGHT_SUCCESS:
                 status = "success";
@@ -225,11 +243,26 @@ static void print_testresult(enum text_highlight style, const char * restrict re
             case HIGHLIGHT_IGNORE:
                 status = "ignored";
                 break;
+            case HIGHLIGHT_SKIPPED:
+                status = "skipped";
+                // ...unless test is skipped
+                filter_style = HIGHLIGHT_FAILURE;
+                break;
             default:
                 status = "unknown";
                 break;
         }
         fprintf(RunContext.out, " %s", status);
+
+        if (RunContext.verbosity == VERBOSITY_FULL) {
+            fprintf(RunContext.out, " (filtered: ");
+            if (AssertState.matched) {
+                testfilter_print(AssertState.matched, filter_style);
+            } else {
+                print_highlighted(filter_style, "no match");
+            }
+            fprintf(RunContext.out, ")");
+        }
     }
 
     fprintf(RunContext.out, "\n");
@@ -363,7 +396,7 @@ static void filterlist_print(filterlist *self, enum filter_target match, enum te
     for (; self; self = self->next) {
         if (self->apply != match) continue;
 
-        print_highlighted(style, "%s%.*s", RunContext.colorized ? "" : "+", (int)(self->end - self->start), self->start);
+        testfilter_print(self, style);
         
         if (filterlist_any(self->next, match)) {
             fprintf(RunContext.out, ", ");
@@ -808,9 +841,42 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_testcase *current_case, struct runledger *ledger)
+static void testsuite_maybe_printheader(const struct ct_testsuite *self, bool *print_header_ref)
+{
+    if (*print_header_ref) {
+        testsuite_printheader(self, time(NULL));
+        *print_header_ref = false;
+    }
+}
+
+static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_testcase *current_case, struct runsummary *summary, bool *print_header_ref)
 {
     assertstate_reset();
+
+    if (RunContext.include) {
+        AssertState.matched = filterlist_apply(RunContext.include, self->name, current_case->name);
+        if (!AssertState.matched) {
+            --summary->test_count;
+            if (RunContext.verbosity == VERBOSITY_FULL) {
+                testsuite_maybe_printheader(self, print_header_ref);
+                print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
+            }
+            return;
+        }
+    }
+    if (RunContext.exclude) {
+        AssertState.matched = filterlist_apply(RunContext.exclude, self->name, current_case->name);
+        if (AssertState.matched) {
+            --summary->test_count;
+            if (RunContext.verbosity == VERBOSITY_FULL) {
+                testsuite_maybe_printheader(self, print_header_ref);
+                print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
+            }
+            return;
+        }
+    }
+    
+    testsuite_maybe_printheader(self, print_header_ref);
 
     void *test_context = NULL;
     if (self->setup) {
@@ -818,9 +884,9 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_t
     }
     
     if (setjmp(AssertSignal)) {
-        assertstate_handle(current_case->name, ledger);
+        assertstate_handle(current_case->name, &summary->ledger);
     } else {
-        testcase_run(current_case, test_context, ledger);
+        testcase_run(current_case, test_context, &summary->ledger);
     }
     
     if (self->teardown) {
@@ -833,42 +899,18 @@ static void testsuite_run(const struct ct_testsuite *self)
     struct runsummary summary = runsummary_make();
     
     if (self && self->tests) {
-        // TODO:
-        // - BOTH filters are two-node cases
-        // - filterlist_apply runs switch statement on target/testfilter_match:
-        //      - ANY: suite OR case
-        //      - SUITE: suite
-        //      - CASE: case
-        //      - BOTH: suite AND case
-        // - on verbose print all tests either (filtered) or (no match), suite headers as before
         const uint64_t start_msecs = ct_get_currentmsecs();
-        bool need_header = RunContext.verbosity > VERBOSITY_LIST,
-             need_summary = need_header;
+        bool print_header = RunContext.verbosity > VERBOSITY_LIST,
+             print_summary = print_header;
         summary.test_count = self->count;
 
         for (size_t i = 0; i < self->count; ++i) {
-            const struct ct_testcase * const current_case = self->tests + i;
-            const struct testfilter *matched;
-            // TODO:
-            // if no filters, matched = NULL means no include
-            // if include only, matched = NULL means exclude
-            // if exclude only, matched = NULL means include
-            // if include + exclude, matched = NULL means exclude
-            if (filterlist_apply(RunContext.filters, self->name, current_case->name, &matched)) {
-                if (!matched) {
-                    --summary.test_count;
-                    continue;
-                }
-            }
-            if (need_header) {
-                testsuite_printheader(self, time(NULL));
-                need_header = false;
-            }
-            testsuite_runcase(self, current_case, &summary.ledger);
+            // TODO: i don't like this print_header flag
+            testsuite_runcase(self, self->tests + i, &summary, &print_header);
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
-        if (need_summary) {
+        if (print_summary) {
             runsummary_print(&summary);
         }
     } else {

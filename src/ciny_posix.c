@@ -15,6 +15,7 @@
 #define RED "\033[0;31m"
 #define GREEN "\033[0;32m"
 #define CYAN "\033[0;36m"
+#define MAGENTA "\033[0;35m"
 static const uint64_t MillisecondFactor = 1000;
 
 // macOS has not implemented timespec_get() so
@@ -29,7 +30,7 @@ uint64_t ct_get_currentmsecs(void)
 
 void ct_startcolor(FILE *stream, size_t color_index)
 {
-    static const char * const restrict colors[] = { GREEN, RED, CYAN };
+    static const char * const restrict colors[] = { GREEN, RED, CYAN, MAGENTA };
     static const size_t color_count = sizeof colors / sizeof colors[0];
     
     if (color_index < color_count) {
