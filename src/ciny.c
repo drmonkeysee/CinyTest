@@ -559,7 +559,7 @@ static void runcontext_printfilters(void)
 {
     if (!RunContext.include) return;
 
-    fprintf(RunContext.out, "include: ");
+    fprintf(RunContext.out, "Filters: ");
     filterlist_print(RunContext.include, FILTER_ANY, HIGHLIGHT_SUCCESS);
     fprintf(RunContext.out, "\n");
 
@@ -575,6 +575,7 @@ static void runcontext_printfilters(void)
         fprintf(RunContext.out, "\n");
     }
 
+    // TODO: print all filters properly (currently printing "case, suite" instead of "suite:case")
     if (filterlist_any(RunContext.include, FILTER_ALL)) {
         fprintf(RunContext.out, "  All: ");
         filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
@@ -910,7 +911,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
-        if (print_summary) {
+        if (print_summary && (summary.test_count || RunContext.verbosity == VERBOSITY_FULL)) {
             runsummary_print(&summary);
         }
     } else {
