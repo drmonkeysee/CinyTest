@@ -906,7 +906,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         summary.test_count = self->count;
 
         for (size_t i = 0; i < self->count; ++i) {
-            // TODO: i don't like this print_header flag
+            // TODO: rework print_header into a suite-break state machine
             testsuite_runcase(self, self->tests + i, &summary, &print_header);
         }
         
