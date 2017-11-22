@@ -54,35 +54,11 @@ static const char * const restrict SuppressOutputOption = "--ct-suppress-output"
 static const char * const restrict IncludeFilterOption = "--ct-include";
 static const char * const restrict IgnoredTestSymbol = "?";
 
-#define COMPVALUE_STR_SIZE 75
-enum assert_type {
-    ASSERT_UNKNOWN,
-    ASSERT_FAILURE,
-    ASSERT_IGNORE
-};
-static struct {
-    const char *file;
-    int line;
-    enum assert_type type;
-    char description[200 + (COMPVALUE_STR_SIZE * 2)],
-         message[1002];
-} AssertState;
-static jmp_buf AssertSignal;
-
-static const size_t InvalidSuite = 0;
-struct runledger {
-    size_t passed, failed, ignored;
-};
-static struct runsummary {
-    size_t test_count;
-    uint64_t total_time;
-    struct runledger ledger;
-} RunTotals;
-
 enum text_highlight {
     HIGHLIGHT_SUCCESS,
     HIGHLIGHT_FAILURE,
-    HIGHLIGHT_IGNORE
+    HIGHLIGHT_IGNORE,
+    HIGHLIGHT_SKIPPED
 };
 
 enum filter_target {
@@ -112,13 +88,39 @@ enum verbosity_level {
 };
 static struct {
     FILE *out, *err;
-    filterlist *filters;
+    filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
     enum verbosity_level verbosity;
     bool help,
          version,
          colorized;
 } RunContext;
+
+#define COMPVALUE_STR_SIZE 75
+enum assert_type {
+    ASSERT_UNKNOWN,
+    ASSERT_FAILURE,
+    ASSERT_IGNORE
+};
+static struct {
+    const struct testfilter *matched;
+    const char *file;
+    int line;
+    enum assert_type type;
+    char description[200 + (COMPVALUE_STR_SIZE * 2)],
+         message[1002];
+} AssertState;
+static jmp_buf AssertSignal;
+
+static const size_t InvalidSuite = 0;
+struct runledger {
+    size_t passed, failed, ignored;
+};
+static struct runsummary {
+    size_t test_count;
+    uint64_t total_time;
+    struct runledger ledger;
+} RunTotals;
 
 /////
 // Inline Function Call Sites
@@ -517,7 +519,10 @@ static void runcontext_init(int argc, const char *argv[])
             include_filter_option = runcontext_capturevar(include_filter_option, RunContext.env_copies + 1);
         }
     }
-    RunContext.filters = parse_filters(NULL, include_filter_option);
+    RunContext.include = parse_filters(include_filter_option);
+
+    // TODO: add parsing for exclude
+    //RunContext.exclude = parse_filters(exclude_filter_option);
 }
 
 static bool runcontext_suppressoutput(void)
@@ -527,27 +532,27 @@ static bool runcontext_suppressoutput(void)
 
 static void runcontext_printfilters(void)
 {
-    if (!RunContext.filters) return;
+    if (!RunContext.include) return;
 
-    fprintf(RunContext.out, "Filters: ");
-    filterlist_print(RunContext.filters, FILTER_ANY, HIGHLIGHT_SUCCESS);
+    fprintf(RunContext.out, "include: ");
+    filterlist_print(RunContext.include, FILTER_ANY, HIGHLIGHT_SUCCESS);
     fprintf(RunContext.out, "\n");
 
-    if (filterlist_any(RunContext.filters, FILTER_SUITE)) {
+    if (filterlist_any(RunContext.include, FILTER_SUITE)) {
         fprintf(RunContext.out, "  Suites: ");
-        filterlist_print(RunContext.filters, FILTER_SUITE, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.include, FILTER_SUITE, HIGHLIGHT_SUCCESS);
         fprintf(RunContext.out, "\n");
     }
 
-    if (filterlist_any(RunContext.filters, FILTER_CASE)) {
+    if (filterlist_any(RunContext.include, FILTER_CASE)) {
         fprintf(RunContext.out, "  Cases: ");
-        filterlist_print(RunContext.filters, FILTER_CASE, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.include, FILTER_CASE, HIGHLIGHT_SUCCESS);
         fprintf(RunContext.out, "\n");
     }
 
-    if (filterlist_any(RunContext.filters, FILTER_ALL)) {
+    if (filterlist_any(RunContext.include, FILTER_ALL)) {
         fprintf(RunContext.out, "  All: ");
-        filterlist_print(RunContext.filters, FILTER_ALL, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
         fprintf(RunContext.out, "\n");
     }
 }
@@ -570,8 +575,11 @@ static void runcontext_cleanup(void)
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
 
-    filterlist_free(RunContext.filters);
-    RunContext.filters = NULL;
+    filterlist_free(RunContext.include);
+    RunContext.include = NULL;
+
+    filterlist_free(RunContext.exclude);
+    RunContext.exclude = NULL;
 
     for (size_t i = 0; i < ENV_COPY_COUNT; ++i) {
         free(RunContext.env_copies[i]);
@@ -625,6 +633,7 @@ static void runtotals_print(void)
 static void assertstate_reset(void)
 {
     AssertState.type = ASSERT_UNKNOWN;
+    AssertState.matched = NULL;
     AssertState.file = NULL;
     AssertState.line = 0;
     AssertState.description[0] = AssertState.message[0] = '\0';
