@@ -300,9 +300,9 @@ static const char *arg_value(const char *arg)
 // Test Filters
 /////
 
-static struct testfilter testfilter_make(enum filter_rule rule)
+static struct testfilter testfilter_make(void)
 {
-    return (struct testfilter){ .rule = rule };
+    return (struct testfilter){ .apply = FILTER_ANY };
 }
 
 static bool testfilter_match(const struct testfilter *self, const char * restrict name)
@@ -342,22 +342,20 @@ static bool filterlist_any(filterlist *self, enum filter_target target)
     return false;
 }
 
-// Returns true if the filter list contains filters for the specified target, otherwise false;
-// if a matching filter is found for the given name it will be returned in "matched_out", otherwise "matched_out" is set to NULL.
-static bool filterlist_apply(filterlist *self, const char * restrict suite_name, const char * restrict case_name, const struct testfilter **matched_out)
+static struct testfilter *filterlist_apply(filterlist *self, const char * restrict suite_name, const char * restrict case_name)
 {
-    bool has_targets = false;
-    *matched_out = NULL;
+    (void)case_name;
     for (; self; self = self->next) {
-        if ((self->apply & target) != target) continue;
-
-        has_targets = true;
-        if (testfilter_match(self, name)) {
-            *matched_out = self;
-            break;
-        }
+        // TODO:
+        // - BOTH filters are two-node cases
+        // - filterlist_apply runs switch statement on target/testfilter_match:
+        //      - ANY: suite OR case
+        //      - SUITE: suite
+        //      - CASE: case
+        //      - BOTH: suite AND case 
+        if (testfilter_match(self, suite_name)) return self;
     }
-    return has_targets;
+    return NULL;
 }
 
 static void filterlist_print(filterlist *self, enum filter_target match, enum text_highlight style)
@@ -382,12 +380,12 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static const char *parse_filterexpr(const char * restrict cursor, enum filter_rule rule, filterlist **fl_ref)
+static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
     static const char target_delimiter = ':';
     static const char expr_delimiter = ',';
 
-    struct testfilter filter = testfilter_make(rule);
+    struct testfilter filter = testfilter_make();
 
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
@@ -406,7 +404,7 @@ static const char *parse_filterexpr(const char * restrict cursor, enum filter_ru
                 filterlist_push(fl_ref, filter);
             }
 
-            filter = testfilter_make(rule);
+            filter = testfilter_make();
             filter.start = cursor;
             filter.apply = next_target;
         }
@@ -431,20 +429,14 @@ static const char *parse_filterexpr(const char * restrict cursor, enum filter_ru
     return cursor;
 }
 
-static void parse_filteroption(const char * restrict filter_option, enum filter_rule rule, filterlist **fl_ref)
-{
-    const char *cursor = filter_option;
-    while (cursor) {
-        cursor = parse_filterexpr(cursor, rule, fl_ref);
-    }
-}
-
-static filterlist *parse_filters(const char * restrict exclude_option, const char * restrict include_option)
+static filterlist *parse_filters(const char *filter_option)
 {
     filterlist *fl = filterlist_new();
 
-    parse_filteroption(exclude_option, FILTER_EXCLUDE, &fl);
-    parse_filteroption(include_option, FILTER_INCLUDE, &fl);
+    const char *cursor = filter_option;
+    while (cursor) {
+        cursor = parse_filterexpr(cursor, &fl);
+    }
 
     return fl;
 }
