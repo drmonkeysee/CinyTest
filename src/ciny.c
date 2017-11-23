@@ -546,7 +546,7 @@ static void runcontext_init(int argc, const char *argv[])
         include_filter_option = getenv("CINYTEST_INCLUDE");
         if (include_filter_option) {
             // copy env value to prevent invalidated pointers
-            include_filter_option = runcontext_capturevar(include_filter_option, RunContext.env_copies + 1);
+            include_filter_option = runcontext_capturevar(include_filter_option, RunContext.env_copies);
         }
     }
     RunContext.include = parse_filters(include_filter_option);
