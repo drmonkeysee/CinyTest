@@ -63,7 +63,7 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED
 };
 
-enum filter_target {
+enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
     FILTER_CASE,
@@ -72,12 +72,12 @@ enum filter_target {
 struct testfilter {
     const char *start, *end;
     struct testfilter *next;
-    enum filter_target apply;
+    enum filtertarget apply;
 };
 typedef struct testfilter filterlist;
 
 #define ENV_COPY_COUNT 2
-enum verbosity_level {
+enum verbositylevel {
     VERBOSITY_MINIMAL,
     VERBOSITY_LIST,
     VERBOSITY_DEFAULT,
@@ -87,7 +87,7 @@ static struct {
     FILE *out, *err;
     filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
-    enum verbosity_level verbosity;
+    enum verbositylevel verbosity;
     bool help,
          version,
          colorized;
@@ -110,6 +110,11 @@ static struct {
 static jmp_buf AssertSignal;
 
 static const size_t InvalidSuite = 0;
+enum suitebreak {
+    SUITEBREAK_END,
+    SUITEBREAK_OPEN,
+    SUITEBREAK_CLOSE
+};
 struct runledger {
     size_t passed, failed, ignored;
 };
@@ -367,7 +372,7 @@ static void filterlist_push(filterlist **self_ref, struct testfilter filter)
     *self_ref = filter_node;
 }
 
-static bool filterlist_any(filterlist *self, enum filter_target target)
+static bool filterlist_any(filterlist *self, enum filtertarget target)
 {
     for (; self; self = self->next) {
         if (self->apply == target) return true;
@@ -391,7 +396,7 @@ static struct testfilter *filterlist_apply(filterlist *self, const char * restri
     return NULL;
 }
 
-static void filterlist_print(filterlist *self, enum filter_target match, enum text_highlight style)
+static void filterlist_print(filterlist *self, enum filtertarget match, enum text_highlight style)
 {
     for (; self; self = self->next) {
         if (self->apply != match) continue;
@@ -430,7 +435,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
             // Suite filter followed by something other than end-of-expression,
             // so next filter is a case filter if current filter is empty
             // or this is a pair of all filters.
-            enum filter_target next_target = FILTER_CASE;
+            enum filtertarget next_target = FILTER_CASE;
 
             if (filter.start < filter.end) {
                 next_target = filter.apply = FILTER_ALL;
@@ -842,15 +847,28 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
-static void testsuite_maybe_printheader(const struct ct_testsuite *self, bool *print_header_ref)
+static enum suitebreak suitebreak_make(void)
 {
-    if (*print_header_ref) {
-        testsuite_printheader(self, time(NULL));
-        *print_header_ref = false;
+    return RunContext.verbosity > VERBOSITY_LIST ? SUITEBREAK_OPEN : SUITEBREAK_END;
+}
+
+static void suitebreak_open(enum suitebreak *state, const struct ct_testsuite *suite)
+{
+    if (*state == SUITEBREAK_OPEN) {
+        testsuite_printheader(suite, time(NULL));
+        *state = SUITEBREAK_CLOSE;
     }
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_testcase *current_case, struct runsummary *summary, bool *print_header_ref)
+static void suitebreak_close(enum suitebreak *state, const struct runsummary *summary)
+{
+    if (*state == SUITEBREAK_CLOSE) {
+        runsummary_print(summary);
+        *state = SUITEBREAK_END;
+    }
+}
+
+static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_testcase *current_case, struct runsummary *summary, enum suitebreak *sb_ref)
 {
     assertstate_reset();
 
@@ -859,7 +877,7 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_t
         if (!AssertState.matched) {
             --summary->test_count;
             if (RunContext.verbosity == VERBOSITY_FULL) {
-                testsuite_maybe_printheader(self, print_header_ref);
+                suitebreak_open(sb_ref, self);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
             }
             return;
@@ -870,14 +888,14 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_t
         if (AssertState.matched) {
             --summary->test_count;
             if (RunContext.verbosity == VERBOSITY_FULL) {
-                testsuite_maybe_printheader(self, print_header_ref);
+                suitebreak_open(sb_ref, self);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
             }
             return;
         }
     }
     
-    testsuite_maybe_printheader(self, print_header_ref);
+    suitebreak_open(sb_ref, self);
 
     void *test_context = NULL;
     if (self->setup) {
@@ -901,19 +919,15 @@ static void testsuite_run(const struct ct_testsuite *self)
     
     if (self && self->tests) {
         const uint64_t start_msecs = ct_get_currentmsecs();
-        bool print_header = RunContext.verbosity > VERBOSITY_LIST,
-             print_summary = print_header;
+        enum suitebreak sb = suitebreak_make();
         summary.test_count = self->count;
 
         for (size_t i = 0; i < self->count; ++i) {
-            // TODO: rework print_header into a suite-break state machine
-            testsuite_runcase(self, self->tests + i, &summary, &print_header);
+            testsuite_runcase(self, self->tests + i, &summary, &sb);
         }
         
         summary.total_time = ct_get_currentmsecs() - start_msecs;
-        if (print_summary && (summary.test_count || RunContext.verbosity == VERBOSITY_FULL)) {
-            runsummary_print(&summary);
-        }
+        suitebreak_close(&sb, &summary);
     } else {
         fprintf(RunContext.err, "WARNING: NULL test suite or NULL test list detected, no tests run!\n");
         summary.ledger.failed = InvalidSuite;
