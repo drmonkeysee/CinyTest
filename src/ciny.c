@@ -391,16 +391,28 @@ static bool filterlist_any(filterlist *self, enum filtertarget target)
 
 static struct testfilter *filterlist_apply(filterlist *self, const char * restrict suite_name, const char * restrict case_name)
 {
-    (void)case_name;
     for (; self; self = self->next) {
-        // TODO:
-        // - BOTH filters are two-node cases
-        // - filterlist_apply runs switch statement on target/testfilter_match:
-        //      - ANY: suite OR case
-        //      - SUITE: suite
-        //      - CASE: case
-        //      - BOTH: suite AND case 
-        if (testfilter_match(self, suite_name)) return self;
+        switch (self->apply) {
+            case FILTER_ANY:
+                if (testfilter_match(self, suite_name) || testfilter_match(self, case_name)) return self;
+                break;
+            case FILTER_SUITE:
+                if (testfilter_match(self, suite_name)) return self;
+                break;
+            case FILTER_CASE:
+                if (testfilter_match(self, case_name)) return self;
+                break;
+            case FILTER_ALL: {
+                // target ALL filters come in case, suite pairs; consume both filters here
+                struct testfilter * const case_filter = self,
+                                  * const suite_filter = self = self->next;
+                if (testfilter_match(suite_filter, suite_name) && testfilter_match(case_filter, case_name)) return case_filter;
+                break;
+            }
+            default:
+                printerr("WARNING: unknown test filter target encountered!\n");
+                break;
+        }
     }
     return NULL;
 }
