@@ -105,42 +105,42 @@ static void ignored_testB(void *context)
     ct_ignore();
 }
 
-static void test_setupA(void **context)
+static void test_setupA(void **context_ref)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.setupInvocationsA;
     
     FakeContextA = malloc(sizeof *FakeContextA);
     *FakeContextA = FakeContextAValue;
-    *context = FakeContextA;
+    *context_ref = FakeContextA;
 }
 
-static void test_setupB(void **context)
+static void test_setupB(void **context_ref)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.setupInvocationsB;
     
     FakeContextB = malloc(sizeof *FakeContextB);
     *FakeContextB = FakeContextBValue;
-    *context = FakeContextB;
+    *context_ref = FakeContextB;
 }
 
-static void test_teardownA(void **context)
+static void test_teardownA(void **context_ref)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     
-    if (*context && *((int *)*context) == FakeContextAValue) {
+    if (*context_ref && *((int *)*context_ref) == FakeContextAValue) {
         ++testObject.teardownSawContextA;
     } else {
         --testObject.teardownSawContextA;
     }
 }
 
-static void test_teardownB(void **context)
+static void test_teardownB(void **context_ref)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     
-    if (*context && *((int *)*context) == FakeContextBValue) {
+    if (*context_ref && *((int *)*context_ref) == FakeContextBValue) {
         ++testObject.teardownSawContextB;
     } else {
         --testObject.teardownSawContextB;

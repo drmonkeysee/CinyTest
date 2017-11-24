@@ -163,30 +163,30 @@ bool bt_isempty(binarytree *self)
     return self == BT_EMPTY;
 }
 
-void bt_insert(binarytree **selfref, int value)
+void bt_insert(binarytree **self_ref, int value)
 {
-    if (!selfref) return;
+    if (!self_ref) return;
     
-    if (!(*selfref)) {
-        *selfref = create_node(value);
-    } else if ((*selfref)->value > value) {
-        bt_insert(&(*selfref)->left, value);
-    } else if ((*selfref)->value < value) {
-        bt_insert(&(*selfref)->right, value);
+    if (!(*self_ref)) {
+        *self_ref = create_node(value);
+    } else if ((*self_ref)->value > value) {
+        bt_insert(&(*self_ref)->left, value);
+    } else if ((*self_ref)->value < value) {
+        bt_insert(&(*self_ref)->right, value);
     }
 }
 
-void bt_remove(binarytree **selfref, int value)
+void bt_remove(binarytree **self_ref, int value)
 {
-    if (!selfref || !(*selfref)) return;
+    if (!self_ref || !(*self_ref)) return;
     
-    if ((*selfref)->value == value) {
-        bt_free(*selfref);
-        *selfref = BT_EMPTY;
+    if ((*self_ref)->value == value) {
+        bt_free(*self_ref);
+        *self_ref = BT_EMPTY;
         return;
     }
     
-    remove_node(*selfref, value);
+    remove_node(*self_ref, value);
 }
 
 bool bt_contains(binarytree *self, int value)
@@ -195,7 +195,7 @@ bool bt_contains(binarytree *self, int value)
     
     if (self->value == value) return true;
     
-    struct bt_node * const * const child_ref = find_childref(self, value);
+    struct bt_node ** const child_ref = find_childref(self, value);
     return *child_ref != BT_EMPTY;
 }
 
@@ -207,18 +207,18 @@ bool bt_isbalanced(binarytree *self)
     return balanced_tree(self, &depth);
 }
 
-void bt_rebalance(binarytree **selfref)
+void bt_rebalance(binarytree **self_ref)
 {
-    if (!selfref || !(*selfref)) return;
+    if (!self_ref || !(*self_ref)) return;
     
-    const size_t size = bt_size(*selfref);
+    const size_t size = bt_size(*self_ref);
     struct bt_node *sorted_nodes[size];
     
     const ptrdiff_t start = 0, end = size - 1;
     ptrdiff_t current_index = start;
-    inline_tree(*selfref, sorted_nodes, &current_index);
+    inline_tree(*self_ref, sorted_nodes, &current_index);
     
-    *selfref = rebalance_node(sorted_nodes, start, end);
+    *self_ref = rebalance_node(sorted_nodes, start, end);
 }
 
 size_t bt_size(binarytree *self)

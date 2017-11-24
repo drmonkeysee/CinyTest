@@ -20,18 +20,18 @@ struct bt_testcontext {
     binarytree *tree;
 };
 
-static void setup(void **contextref)
+static void setup(void **context_ref)
 {
     struct bt_testcontext * const bt_context = malloc(sizeof *bt_context);
     bt_context->tree = bt_new();
-    *contextref = bt_context;
+    *context_ref = bt_context;
 }
 
-static void teardown(void **contextref)
+static void teardown(void **context_ref)
 {
-    bt_free(((struct bt_testcontext *)*contextref)->tree);
-    free(*contextref);
-    *contextref = NULL;
+    bt_free(((struct bt_testcontext *)*context_ref)->tree);
+    free(*context_ref);
+    *context_ref = NULL;
 }
 
 /////

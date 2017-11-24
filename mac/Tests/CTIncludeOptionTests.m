@@ -80,14 +80,14 @@ static void test_🐴🐎(void *context)
     set_test_flag(context, RUN_TEST_HORSE);
 }
 
-static void suite1_setup(void **contextref)
+static void suite1_setup(void **context_ref)
 {
-    *contextref = (void *)RUN_SUITE1;
+    *context_ref = (void *)RUN_SUITE1;
 }
 
-static void suite2_setup(void **contextref)
+static void suite2_setup(void **context_ref)
 {
-    *contextref = (void *)RUN_SUITE2;
+    *context_ref = (void *)RUN_SUITE2;
 }
 
 static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardown_function setup)

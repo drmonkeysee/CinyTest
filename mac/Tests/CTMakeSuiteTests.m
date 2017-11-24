@@ -10,12 +10,12 @@
 #include <stddef.h>
 #include "ciny.h"
 
-static void makesuite_fakesetup(void **context)
+static void makesuite_fakesetup(void **context_ref)
 {
     // do nothing
 }
 
-static void makesuite_faketeardown(void **context)
+static void makesuite_faketeardown(void **context_ref)
 {
     // do nothing
 }
