@@ -48,6 +48,7 @@ static const char * const restrict SkippedTestSymbol = "\u2205";
 /////
 // Type and Data Definitions
 /////
+
 static const char * const restrict HelpOption = "--ct-help";
 static const char * const restrict VersionOption = "--ct-version";
 static const char * const restrict VerboseOption = "--ct-verbose";
@@ -119,9 +120,9 @@ struct runledger {
     size_t passed, failed, ignored;
 };
 static struct runsummary {
+    struct runledger ledger;
     size_t test_count;
     uint64_t total_time;
-    struct runledger ledger;
 } RunTotals;
 
 /////
@@ -138,6 +139,12 @@ extern inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t);
 extern inline struct ct_comparable_value ct_makevalue_floatingpoint(int, long double);
 extern inline struct ct_comparable_value ct_makevalue_complex(int, ct_lcomplex);
 extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
+
+/////
+// Function Declarations
+/////
+
+static void testfilter_print(const struct testfilter *, enum text_highlight);
 
 /////
 // Printing and Text Manipulation
@@ -197,25 +204,6 @@ static void print_labelbox(enum text_highlight style, const char * restrict resu
     fprintf(RunContext.out, "[ ");
     print_highlighted(style, result_label);
     fprintf(RunContext.out, " ] - ");
-}
-
-// this is intertwined with other print functions so can't live with its testfilter siblings
-static void testfilter_print(const struct testfilter *self, enum text_highlight style)
-{
-    const char *prefix = "";
-    if (!RunContext.colorized) {
-        switch (style) {
-            case HIGHLIGHT_SUCCESS:
-                prefix = "+";
-                break;
-            case HIGHLIGHT_FAILURE:
-                prefix = "-";
-                break;
-            default:
-                break;
-        }
-    }
-    print_highlighted(style, "%s%.*s", prefix, (int)(self->end - self->start), self->start);
 }
 
 static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict name)
@@ -357,6 +345,24 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
         }
     }
     return fcursor == self->end && !(*ncursor);
+}
+
+static void testfilter_print(const struct testfilter *self, enum text_highlight style)
+{
+    const char *prefix = "";
+    if (!RunContext.colorized) {
+        switch (style) {
+            case HIGHLIGHT_SUCCESS:
+                prefix = "+";
+                break;
+            case HIGHLIGHT_FAILURE:
+                prefix = "-";
+                break;
+            default:
+                break;
+        }
+    }
+    print_highlighted(style, "%s%.*s", prefix, (int)(self->end - self->start), self->start);
 }
 
 static filterlist *filterlist_new(void)
@@ -876,21 +882,26 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_t
         AssertState.matched = filterlist_apply(RunContext.include, self->name, current_case->name);
         if (!AssertState.matched) {
             --summary->test_count;
+
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb_ref, self);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
             }
+            
             return;
         }
     }
+    
     if (RunContext.exclude) {
         AssertState.matched = filterlist_apply(RunContext.exclude, self->name, current_case->name);
         if (AssertState.matched) {
             --summary->test_count;
+
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb_ref, self);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
             }
+            
             return;
         }
     }
@@ -956,8 +967,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
 
         if (suites) {
             for (size_t i = 0; i < count; ++i) {
-                const struct ct_testsuite * const suite = suites + i;
-                testsuite_run(suite);
+                testsuite_run(suites + i);
             }
             if (RunContext.verbosity == VERBOSITY_MINIMAL && RunTotals.test_count) {
                 fprintf(RunContext.out, "\n");
