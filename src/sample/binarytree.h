@@ -25,15 +25,15 @@ void bt_free(binarytree *self);
 
 _Bool bt_isempty(binarytree *self);
 
-void bt_insert(binarytree **selfref, int value);
+void bt_insert(binarytree **self_ref, int value);
 
-void bt_remove(binarytree **selfref, int value);
+void bt_remove(binarytree **self_ref, int value);
 
 _Bool bt_contains(binarytree *self, int value);
 
 _Bool bt_isbalanced(binarytree *self);
 
-void bt_rebalance(binarytree **selfref);
+void bt_rebalance(binarytree **self_ref);
 
 size_t bt_size(binarytree *self);
 
