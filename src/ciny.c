@@ -150,37 +150,40 @@ static void testfilter_print(const struct testfilter *, enum text_highlight);
 // Printing and Text Manipulation
 /////
 
+#define printout(...) fprintf(RunContext.out, __VA_ARGS__)
+#define printerr(...) fprintf(RunContext.err, __VA_ARGS__)
+
 static void print_title(const char * restrict format, ...)
 {
-    fprintf(RunContext.out, "---=== ");
+    printout("---=== ");
     
     va_list format_args;
     va_start(format_args, format);
     vfprintf(RunContext.out, format, format_args);
     va_end(format_args);
 
-    fprintf(RunContext.out, " ===---\n");
+    printout(" ===---\n");
 }
 
 static void print_usage(void)
 {
     print_title("CinyTest Usage");
-    fprintf(RunContext.out, "This program contains CinyTest tests and can accept the following command line options:\n\n");
-    fprintf(RunContext.out, "  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
-    fprintf(RunContext.out, "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
-    fprintf(RunContext.out, "  %s=[0,3]\tOutput verbosity (default: 2).\n", VerboseOption);
-    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
-    fprintf(RunContext.out, "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
+    printout("This program contains CinyTest tests and can accept the following command line options:\n\n");
+    printout("  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
+    printout("  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
+    printout("  %s=[0,3]\tOutput verbosity (default: 2).\n", VerboseOption);
+    printout("  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
+    printout("  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
 }
 
 static void print_version(void)
 {
     const struct ct_version v = ct_getversion();
-    fprintf(RunContext.out, "CinyTest %u.%u.%u", v.major, v.minor, v.patch);
+    printout("CinyTest %u.%u.%u", v.major, v.minor, v.patch);
 #ifdef __VERSION__
-    fprintf(RunContext.out, " (" __VERSION__ ")");
+    printout(" (" __VERSION__ ")");
 #endif
-    fprintf(RunContext.out, "\n");
+    printout("\n");
 }
 
 static void print_highlighted(enum text_highlight style, const char * restrict format, ...)
@@ -201,9 +204,9 @@ static void print_highlighted(enum text_highlight style, const char * restrict f
 
 static void print_labelbox(enum text_highlight style, const char * restrict result_label)
 {
-    fprintf(RunContext.out, "[ ");
+    printout("[ ");
     print_highlighted(style, result_label);
-    fprintf(RunContext.out, " ] - ");
+    printout(" ] - ");
 }
 
 static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict name)
@@ -213,14 +216,14 @@ static void print_testresult(enum text_highlight style, const char * restrict re
         if (first_call) {
             first_call = false;
         } else {
-            fprintf(RunContext.out, " ");
+            printout(" ");
         }
         print_highlighted(style, result_label);
         return;
     }
 
     print_labelbox(style, result_label);
-    fprintf(RunContext.out, "'%s'", name);
+    printout("'%s'", name);
 
     if (RunContext.verbosity > VERBOSITY_LIST) {
         const char *status;
@@ -245,26 +248,26 @@ static void print_testresult(enum text_highlight style, const char * restrict re
                 status = "unknown";
                 break;
         }
-        fprintf(RunContext.out, " %s", status);
+        printout(" %s", status);
 
         if (RunContext.verbosity == VERBOSITY_FULL) {
-            fprintf(RunContext.out, " (filtered: ");
+            printout(" (filtered: ");
             if (AssertState.matched) {
                 testfilter_print(AssertState.matched, filter_style);
             } else {
                 print_highlighted(filter_style, "no match");
             }
-            fprintf(RunContext.out, ")");
+            printout(")");
         }
     }
 
-    fprintf(RunContext.out, "\n");
+    printout("\n");
 }
 
 static void print_linemessage(const char *message)
 {
-    if (fprintf(RunContext.out, "%s", message) > 0) {
-        fprintf(RunContext.out, "\n");
+    if (printout("%s", message) > 0) {
+        printout("\n");
     }
 }
 
@@ -410,7 +413,7 @@ static void filterlist_print(filterlist *self, enum filtertarget match, enum tex
         testfilter_print(self, style);
         
         if (filterlist_any(self->next, match)) {
-            fprintf(RunContext.out, ", ");
+            printout(", ");
         }
     }
 }
@@ -570,27 +573,27 @@ static void runcontext_printfilters(void)
 {
     if (!RunContext.include) return;
 
-    fprintf(RunContext.out, "Filters: ");
+    printout("Filters: ");
     filterlist_print(RunContext.include, FILTER_ANY, HIGHLIGHT_SUCCESS);
-    fprintf(RunContext.out, "\n");
+    printout("\n");
 
     if (filterlist_any(RunContext.include, FILTER_SUITE)) {
-        fprintf(RunContext.out, "  Suites: ");
+        printout("  Suites: ");
         filterlist_print(RunContext.include, FILTER_SUITE, HIGHLIGHT_SUCCESS);
-        fprintf(RunContext.out, "\n");
+        printout("\n");
     }
 
     if (filterlist_any(RunContext.include, FILTER_CASE)) {
-        fprintf(RunContext.out, "  Cases: ");
+        printout("  Cases: ");
         filterlist_print(RunContext.include, FILTER_CASE, HIGHLIGHT_SUCCESS);
-        fprintf(RunContext.out, "\n");
+        printout("\n");
     }
 
     // TODO: print all filters properly (currently printing "case, suite" instead of "suite:case")
     if (filterlist_any(RunContext.include, FILTER_ALL)) {
-        fprintf(RunContext.out, "  All: ");
+        printout("  All: ");
         filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
-        fprintf(RunContext.out, "\n");
+        printout("\n");
     }
 }
 
@@ -598,10 +601,10 @@ static void runcontext_print(void)
 {
     const struct ct_version v = ct_getversion();
     print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
-    fprintf(RunContext.out, "Colorized: %s\n", argflag_tostring(RunContext.colorized));
-    fprintf(RunContext.out, "Suppress Output: %s\n", argflag_tostring(runcontext_suppressoutput()));
+    printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
+    printout("Suppress Output: %s\n", argflag_tostring(runcontext_suppressoutput()));
     runcontext_printfilters();
-    fprintf(RunContext.out, "\n");
+    printout("\n");
 }
 
 static void runcontext_cleanup(void)
@@ -635,13 +638,13 @@ static struct runsummary runsummary_make(void)
 
 static void runsummary_print(const struct runsummary *self)
 {
-    fprintf(RunContext.out, "Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
+    printout("Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
     print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed);
-    fprintf(RunContext.out, ", ");
+    printout(", ");
     print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed);
-    fprintf(RunContext.out, ", ");
+    printout(", ");
     print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", self->ledger.ignored);
-    fprintf(RunContext.out, ".\n");
+    printout(".\n");
 }
 
 static void runtotals_add(const struct runsummary *summary)
@@ -683,7 +686,7 @@ static void assertstate_handlefailure(const char * restrict test_name, struct ru
     print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, test_name);
 
     if (RunContext.verbosity > VERBOSITY_MINIMAL) {
-        fprintf(RunContext.out, "%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
+        printout("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
         print_linemessage(AssertState.message);
     }
 }
@@ -709,7 +712,7 @@ static void assertstate_handle(const char * restrict test_name, struct runledger
             assertstate_handleignore(test_name, ledger);
             break;
         default:
-            fprintf(RunContext.err, "WARNING: unknown assertion type encountered!\n");
+            printerr("WARNING: unknown assertion type encountered!\n");
             break;
     }
 }
@@ -835,7 +838,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 static void testcase_run(const struct ct_testcase *self, void * restrict test_context, struct runledger *ledger)
 {
     if (!self->test) {
-        fprintf(RunContext.err, "WARNING: Test case '%s' skipped, NULL function pointer found!\n", self->name);
+        printerr("WARNING: Test case '%s' skipped, NULL function pointer found!\n", self->name);
         return;
     }
     
@@ -849,7 +852,7 @@ static void testsuite_printheader(const struct ct_testsuite *self, time_t start_
 {
     char formatted_datetime[30];
     const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
-    fprintf(RunContext.out, "Test suite '%s' started at %s\n", self->name,
+    printout("Test suite '%s' started at %s\n", self->name,
            format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
 }
 
@@ -940,7 +943,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         summary.total_time = ct_get_currentmsecs() - start_msecs;
         suitebreak_close(&sb, &summary);
     } else {
-        fprintf(RunContext.err, "WARNING: NULL test suite or NULL test list detected, no tests run!\n");
+        printerr("WARNING: NULL test suite or NULL test list detected, no tests run!\n");
         summary.ledger.failed = InvalidSuite;
     }
     
@@ -970,11 +973,11 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
                 testsuite_run(suites + i);
             }
             if (RunContext.verbosity == VERBOSITY_MINIMAL && RunTotals.test_count) {
-                fprintf(RunContext.out, "\n");
+                printout("\n");
             }
             runtotals_print();
         } else {
-            fprintf(RunContext.err, "WARNING: NULL test suite collection detected, no test suites run!\n");
+            printerr("WARNING: NULL test suite collection detected, no test suites run!\n");
             RunTotals.ledger.failed = InvalidSuite;
         }
     }
