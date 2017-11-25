@@ -334,11 +334,13 @@ static struct testfilter testfilter_make(void)
 
 static bool testfilter_match(const struct testfilter *self, const char * restrict name)
 {
+    static const char char_wildcard = '?';
+
     if (!name) return false;
 
     const char *fcursor = self->start, *ncursor = name;
     while (fcursor < self->end && *ncursor) {
-        if (*fcursor == *ncursor) {
+        if (*fcursor == *ncursor || *fcursor == char_wildcard) {
             ++fcursor;
             ++ncursor;
         } else {
