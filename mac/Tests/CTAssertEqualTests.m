@@ -183,8 +183,7 @@ static void equality_test_withformatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    int e = -9;
-    int i = 5;
+    int e = -9, i = 5;
     
     ct_assertequal(e, i, "Turns out %d is not equal to %d", e, i);
     

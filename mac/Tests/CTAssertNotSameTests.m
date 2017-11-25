@@ -58,9 +58,7 @@ static void identity_test_pointerstopointers(void *context)
     
     testObject.invokedTest = YES;
     
-    int value = 10;
-    int *pvalue = &value;
-    int **ppvalue = &pvalue;
+    int value = 10, *pvalue = &value, **ppvalue = &pvalue;
     
     ct_assertnotsame(&pvalue, ppvalue);
     
@@ -73,9 +71,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     testObject.invokedTest = YES;
     
-    int value = 10;
-    int *pvalue = &value;
-    int **ppvalue = &pvalue;
+    int value = 10, *pvalue = &value, **ppvalue = &pvalue;
     
     ct_assertnotsame(pvalue, ppvalue);
     
@@ -137,8 +133,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 
 - (void)test_ctassertnotsame_ComparesNotSame_IfPointingAtDifferentObjects
 {
-    int expectedTestValue = 10;
-    int actualTestValue = 10;
+    int expectedTestValue = 10, actualTestValue = 10;
     self.expectedPointer = &expectedTestValue;
     self.actualPointer = &actualTestValue;
     const struct ct_testcase tests[] = { ct_maketest(identity_test) };
@@ -164,8 +159,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 
 - (void)test_ctassertnotsame_ComparesSame_IfExpectedIsAliasedVersionOfActual
 {
-    int testValue = 10;
-    int *aliasedPointer = &testValue;
+    int testValue = 10, *aliasedPointer = &testValue;
     self.expectedPointer = aliasedPointer;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = { ct_maketest(identity_test) };
@@ -178,8 +172,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 
 - (void)test_ctassertnotsame_ComparesSame_IfActualIsAliasedVersionOfExpected
 {
-    int testValue = 10;
-    int *aliasedPointer = &testValue;
+    int testValue = 10, *aliasedPointer = &testValue;
     self.expectedPointer = &testValue;
     self.actualPointer = aliasedPointer;
     const struct ct_testcase tests[] = { ct_maketest(identity_test) };

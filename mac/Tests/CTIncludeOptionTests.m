@@ -31,8 +31,7 @@ typedef NS_ENUM(NSUInteger, RUN_SUITE) {
 
 static const char * const restrict EnvVar = "CINYTEST_INCLUDE";
 static struct ct_testsuite Suites[2];
-static RUN_TEST_FLAGS Suite1Flags;
-static RUN_TEST_FLAGS Suite2Flags;
+static RUN_TEST_FLAGS Suite1Flags, Suite2Flags;
 
 static void set_test_flag(const void *ctx, RUN_TEST_FLAGS flag)
 {

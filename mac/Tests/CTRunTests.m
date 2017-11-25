@@ -31,11 +31,8 @@
 
 static void *TestClass;
 
-static int *FakeContextA;
-static const int FakeContextAValue = 8;
-
-static int *FakeContextB;
-static const int FakeContextBValue = -5;
+static int *FakeContextA, *FakeContextB;
+static const int FakeContextAValue = 8, FakeContextBValue = -5;
 
 static void record_testcontext_occurrenceA(void *context, CTRunTests *testObject)
 {
@@ -196,8 +193,8 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
         ct_maketest(ignored_testA)
-    };
-    const struct ct_testcase casesB[] = {
+    },
+    casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)
@@ -226,8 +223,8 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
         ct_maketest(ignored_testA)
-    };
-    const struct ct_testcase casesB[] = {
+    },
+    casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)
@@ -255,8 +252,8 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
         ct_maketest(ignored_testA)
-    };
-    const struct ct_testcase casesB[] = {
+    },
+    casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)
@@ -286,8 +283,8 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testA),
         ct_maketest(failing_testA),
         ct_maketest(failing_testA)
-    };
-    const struct ct_testcase casesB[] = {
+    },
+    casesB[] = {
         ct_maketest(failing_testB),
         ct_maketest(failing_testB),
         ct_maketest(failing_testB)
@@ -312,8 +309,8 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
         ct_maketest(ignored_testA)
-    };
-    const struct ct_testcase casesB[] = {
+    },
+    casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)
@@ -344,8 +341,8 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
         ct_maketest(ignored_testA)
-    };
-    const struct ct_testcase casesB[] = {
+    },
+    casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)

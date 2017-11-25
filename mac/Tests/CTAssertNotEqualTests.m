@@ -183,8 +183,7 @@ static void inequality_test_withformatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    int e = -9;
-    int i = -9;
+    int e = -9, i = -9;
     
     ct_assertnotequal(e, i, "Turns out %d is equal to %d", e, i);
     

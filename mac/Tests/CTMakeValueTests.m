@@ -127,8 +127,7 @@
 
 - (void)test_ctmakevalue_CreatesInvalidTypes
 {
-    int i = 40;
-    int *ip = &i;
+    int i = 40, *ip = &i;
     assert_invalidvaluetype(ip);
     
     struct {

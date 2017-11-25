@@ -25,8 +25,8 @@
 /////
 
 uint64_t ct_get_currentmsecs(void);
-void ct_startcolor(FILE *, size_t);
-void ct_endcolor(FILE *);
+void ct_startcolor(FILE *, size_t),
+     ct_endcolor(FILE *);
 FILE *ct_replacestream(FILE *);
 void ct_restorestream(FILE *, FILE *);
 
