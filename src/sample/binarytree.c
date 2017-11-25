@@ -47,8 +47,8 @@ static struct bt_node *minimum_child(struct bt_node *self)
 
 static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node ** const node_ref = find_childref(self, value);
-    struct bt_node * const node = *node_ref;
+    struct bt_node ** const node_ref = find_childref(self, value),
+                    * const node = *node_ref;
     
     if (!node) return;
     
@@ -116,8 +116,8 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t sta
 {
     if (start_index > end_index) return BT_EMPTY;
     
-    const ptrdiff_t distance = end_index - start_index;
-    const ptrdiff_t middle_index = start_index + (distance / 2);
+    const ptrdiff_t distance = end_index - start_index,
+                    middle_index = start_index + (distance / 2);
     struct bt_node * const node = node_list[middle_index];
     
     node->left = rebalance_node(node_list, start_index, middle_index - 1);

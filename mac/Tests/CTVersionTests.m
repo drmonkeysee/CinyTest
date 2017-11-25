@@ -39,8 +39,8 @@
     const struct ct_version smaller = { 2, 1, 1 };
     const struct ct_version bigger = { 3, 1, 1 };
     
-    const uint32_t shex = ct_versionhex(&smaller);
-    const uint32_t bhex = ct_versionhex(&bigger);
+    const uint32_t shex = ct_versionhex(&smaller),
+                   bhex = ct_versionhex(&bigger);
     
     XCTAssertLessThan(shex, bhex);
 }
@@ -50,8 +50,8 @@
     const struct ct_version smaller = { 2, 9, 1 };
     const struct ct_version bigger = { 2, 12, 1 };
     
-    const uint32_t shex = ct_versionhex(&smaller);
-    const uint32_t bhex = ct_versionhex(&bigger);
+    const uint32_t shex = ct_versionhex(&smaller),
+                   bhex = ct_versionhex(&bigger);
     
     XCTAssertLessThan(shex, bhex);
 }
@@ -61,8 +61,8 @@
     const struct ct_version smaller = { 2, 5, 23 };
     const struct ct_version bigger = { 2, 5, 154 };
     
-    const uint32_t shex = ct_versionhex(&smaller);
-    const uint32_t bhex = ct_versionhex(&bigger);
+    const uint32_t shex = ct_versionhex(&smaller),
+                   bhex = ct_versionhex(&bigger);
     
     XCTAssertLessThan(shex, bhex);
 }

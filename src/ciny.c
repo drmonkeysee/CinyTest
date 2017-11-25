@@ -32,30 +32,30 @@ void ct_restorestream(FILE *, FILE *);
 
 #ifdef _WIN64
 // windows console doesn't support utf-8 nicely
-static const char * const restrict Ellipsis = "...";
-static const char * const restrict PlusMinus = "+/-";
-static const char * const restrict PassedTestSymbol = "+";
-static const char * const restrict FailedTestSymbol = "x";
-static const char * const restrict SkippedTestSymbol = "/";
+static const char * const restrict Ellipsis = "...",
+                  * const restrict PlusMinus = "+/-",
+                  * const restrict PassedTestSymbol = "+",
+                  * const restrict FailedTestSymbol = "x",
+                  * const restrict SkippedTestSymbol = "/";
 #else
-static const char * const restrict Ellipsis = "\u2026";
-static const char * const restrict PlusMinus = "\u00B1";
-static const char * const restrict PassedTestSymbol = "\u2713";
-static const char * const restrict FailedTestSymbol = "\u2717";
-static const char * const restrict SkippedTestSymbol = "\u2205";
+static const char * const restrict Ellipsis = "\u2026",
+                  * const restrict PlusMinus = "\u00B1",
+                  * const restrict PassedTestSymbol = "\u2713",
+                  * const restrict FailedTestSymbol = "\u2717",
+                  * const restrict SkippedTestSymbol = "\u2205";
 #endif
 
 /////
 // Type and Data Definitions
 /////
 
-static const char * const restrict HelpOption = "--ct-help";
-static const char * const restrict VersionOption = "--ct-version";
-static const char * const restrict VerboseOption = "--ct-verbose";
-static const char * const restrict ColorizedOption = "--ct-colorized";
-static const char * const restrict SuppressOutputOption = "--ct-suppress-output";
-static const char * const restrict IncludeFilterOption = "--ct-include";
-static const char * const restrict IgnoredTestSymbol = "?";
+static const char * const restrict HelpOption = "--ct-help",
+                  * const restrict VersionOption = "--ct-version",
+                  * const restrict VerboseOption = "--ct-verbose",
+                  * const restrict ColorizedOption = "--ct-colorized",
+                  * const restrict SuppressOutputOption = "--ct-suppress-output",
+                  * const restrict IncludeFilterOption = "--ct-include",
+                  * const restrict IgnoredTestSymbol = "?";
 
 enum text_highlight {
     HIGHLIGHT_SUCCESS,
@@ -89,9 +89,7 @@ static struct {
     filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
     enum verbositylevel verbosity;
-    bool help,
-         version,
-         colorized;
+    bool help, version, colorized;
 } RunContext;
 
 #define COMPVALUE_STR_SIZE 75
@@ -132,13 +130,13 @@ static struct runsummary {
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version *);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
-extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]);
-extern inline size_t ct_runsuite(const struct ct_testsuite *);
-extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t);
-extern inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t);
-extern inline struct ct_comparable_value ct_makevalue_floatingpoint(int, long double);
-extern inline struct ct_comparable_value ct_makevalue_complex(int, ct_lcomplex);
-extern inline struct ct_comparable_value ct_makevalue_invalid(int, ...);
+extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]),
+                     ct_runsuite(const struct ct_testsuite *);
+extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
+                                         ct_makevalue_uinteger(int, uintmax_t),
+                                         ct_makevalue_floatingpoint(int, long double),
+                                         ct_makevalue_complex(int, ct_lcomplex),
+                                         ct_makevalue_invalid(int, ...);
 
 /////
 // Function Declarations
@@ -441,8 +439,7 @@ static void filterlist_free(filterlist *self)
 
 static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
-    static const char target_delimiter = ':';
-    static const char expr_delimiter = ',';
+    static const char target_delimiter = ':', expr_delimiter = ',';
 
     struct testfilter filter = testfilter_make();
 
@@ -811,7 +808,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value *expec
 
 static void comparable_value_valuedescription(const struct ct_comparable_value *value, char buffer[restrict], size_t size)
 {
-    int write_count = 0;
+    int write_count;
     
     switch (value->type) {
         case CT_ANNOTATE_INTEGER:
