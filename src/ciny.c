@@ -173,6 +173,10 @@ static void print_usage(void)
     printout("  %s=[0,3]\tOutput verbosity (default: 2).\n", VerboseOption);
     printout("  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
     printout("  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
+    printout("  %s=[suite:case,suite:case,...]\n", IncludeFilterOption);
+    // TODO: add exclude to usage
+    //printout("  %s=[suite:case,suite:case,...]\n", ExcludeFilterOption);
+    printout("\t\t\tRun only tests matching include filters and not matching exclude filters;\n\t\t\t'?' matches any character, '*' matches any substring;\n\t\t\t'suite:' and ':case' are shorthand for 'suite:*' and '*:case'.\n");
 }
 
 static void print_version(void)
@@ -552,16 +556,16 @@ static void runcontext_init(int argc, const char *argv[])
         }
     }
     
-    if (!color_option) {
-        color_option = getenv("CINYTEST_COLORIZED");
-    }
-    RunContext.colorized = argflag_on(color_option);
-
     if (!verbosity_option) {
         verbosity_option = getenv("CINYTEST_VERBOSE");
     }
     RunContext.verbosity = argverbose(verbosity_option);
     
+    if (!color_option) {
+        color_option = getenv("CINYTEST_COLORIZED");
+    }
+    RunContext.colorized = argflag_on(color_option);
+
     if (!suppress_output_option) {
         suppress_output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
     }

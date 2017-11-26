@@ -6,7 +6,8 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 - unit test and suite creation
 - unit suite execution, including setup and teardown support
-- detailed test run output to stdout
+- configurable test run output to stdout
+- include and exclude test filtering
 - test assertions including:
 	- value equality, including approximate equality for floating point
 	- pointer equality and NULL testing
@@ -17,7 +18,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). On macOS the Xcode project and Makefile will give you identical libraries so pick whichever build method is more convenient.
 
-For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx). See **Constraints and Assumptions** below for more detail on Windows support.
+For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx). See [Constraints and Assumptions](#constraints-and-assumptions) below for more detail on Windows support.
 
 The Makefile has the following build targets:
 
@@ -67,14 +68,33 @@ Any program that CinyTest is compiled into will support a set of command-line op
 | ------ | ------- | ----------- |
 | `--ct-help` | N/A | Print CinyTest usage |
 | `--ct-version` | N/A | Print CinyTest version |
+| `--ct-verbose` | `CINYTEST_VERBOSE` | Set output verbosity |
 | `--ct-colorized` | `CINYTEST_COLORIZED` | Toggle colorized output in test results |
-| `--ct-suite-breaks` | `CINYTEST_SUITE_BREAKS` | Toggle test suite headers and result summaries |
 | `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | Toggle standard stream output |
+| `--ct-include` | `CINYTEST_INCLUDE` | Include test filters; see [Test Filters](#test-filters) section below for more details |
+| `--ct-exclude` | `CINYTEST_EXCLUDE` | Exclude test filters; see [Test Filters](#test-filters) section below for more details |
 
 ### Test Filters
 
-- explain wildcards
-- caveats to wildcards regarding multi-byte characters
+Test filters provide a way to select a subset of the total tests in a test run. Filters are split into two types: include and exclude filters. Include filters select tests to run and tests not matching any include filter will be skipped. Exclude filters select tests to skip and tests not matching any exclude filter will be run. Include filters are checked before exclude filters so if both types of filters are specified then the set of tests run will be tests that match any include filters and did not subsequently match any exclude filters.
+
+Test filters can target individual test cases or an entire test suite using a simple format. A filter expression consists of a suite-pattern followed by a case-pattern separated by a `':'`. Either the suite-pattern or the case-pattern are optional and specifying one, the other, or both will result in different matching behavior. Both patterns can use `'?'` to match any single character and `'*'` to match any string of characters. Multiple filter expressions of the same type are separated by `','`.
+
+Examples:
+
+- `./mytests`: no filters, all tests are run; equivalent to `--ct-include=*`
+- `./mytests --ct-include=foo_tests:frob_returns_true`: run only the `frob_returns_true` test in the `foo_tests` suite
+- `./mytests --ct-include=foo_tests:`: run all tests in `foo_tests` suite; this is shorthand for `--ct-include=foo_tests:*`
+- `./mytests --ct-include=:verify_returns_null`: run any test named `verify_returns_null` across all suites; this is shorthand for `--ct-include=*:verify_returns_null`
+- `./mytests --ct-include=*foo`: run any case or suite (and therefore all of its cases) that ends with `foo`
+- `./mytests --ct-include=bar?:`: run any suite starting with `bar` and is four characters long
+- `./mytests --ct-include=*foo*,*bar*`: run all tests with `foo` or `bar` somewhere in the suite or case name
+- `./mytests --ct-exclude=bar_tests:`: run all tests except the cases in the `bar_tests` suite
+- `./mytests --ct-include=*foo* --ct-exclude=*bar*`: run all tests with `foo` in the name except those tests that also have `bar` in the name (the order of the options does not matter; include is always checked before exclude)
+
+A note of caution regarding wildcards: the filters treat suite and case names as UTF-8 byte strings so multi-byte characters in test names (such as high Basic Multilingual Plane characters or emojis) may interact strangely with wildcards. The single character wildcard `'?'` will never match a multi-byte character while the multi-character wildcard `'*'` may unexpectedly match part or all of other multi-byte characters. Assuming non-ASCII characters are an unusual occurrence in C function names it is unlikely this will be a problem for most code bases.
+
+Nevertheless this case may arise or you may find your filters applying in other unexpected ways. Test filters can be debugged by turning up the output to its highest verbosity (`--ct-verbose=3`). At this output level all tests are printed unconditionally along with their result (success, failure, ignored, or skipped) and either the filter that matched the test or `no match`. In addition, all filter expressions are listed along with the rest of CinyTest's options at the start of the output.
 
 ## Why CinyTest?
 
