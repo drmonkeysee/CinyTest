@@ -71,6 +71,11 @@ Any program that CinyTest is compiled into will support a set of command-line op
 | `--ct-suite-breaks` | `CINYTEST_SUITE_BREAKS` | Toggle test suite headers and result summaries |
 | `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | Toggle standard stream output |
 
+### Test Filters
+
+- explain wildcards
+- caveats to wildcards regarding multi-byte characters
+
 ## Why CinyTest?
 
 The idea for CinyTest arose out of an exploration of the current landscape of C unit testing frameworks. I was looking for a test library that specifically targeted C instead of C++ and did not require standalone executables or linker tricks. I wanted a library that could be used within an IDE for red-green-refactor test-driven development.
