@@ -64,6 +64,7 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED
 };
 
+static const char filterexpr_delimiter = ',';
 enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
@@ -334,7 +335,7 @@ static struct testfilter testfilter_make(void)
 
 static bool testfilter_match(const struct testfilter *self, const char * restrict name)
 {
-    static const char char_wildcard = '?';
+    static const char char_wildcard = '?', str_wildcard = '*';
 
     if (!name) return false;
 
@@ -343,11 +344,21 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
         if (*fcursor == *ncursor || *fcursor == char_wildcard) {
             ++fcursor;
             ++ncursor;
+        } else if (*fcursor == str_wildcard) {
+            ++fcursor;
+            if (fcursor < self->end) {
+                // wildcard consumes name up to next exact match or end of string
+                for (; *ncursor && *ncursor != *fcursor; ++ncursor);
+            } else {
+                // wildcard at end of filter so it automatically matches rest of name
+                return true;
+            }
         } else {
             break;
         }
     }
-    return fcursor == self->end && !(*ncursor);
+    bool const eof = fcursor == self->end || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
+    return eof && !(*ncursor);
 }
 
 static void testfilter_print(const struct testfilter *self, enum text_highlight style)
@@ -441,12 +452,12 @@ static void filterlist_free(filterlist *self)
 
 static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
-    static const char target_delimiter = ':', expr_delimiter = ',';
+    static const char target_delimiter = ':';
 
     struct testfilter filter = testfilter_make();
 
     filter.start = cursor;
-    for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
+    for (char c = *cursor; c && c != filterexpr_delimiter; c = *(++cursor)) {
         if (c == target_delimiter && filter.apply == FILTER_ANY) {
             // first target delimiter seen so this is a (possibly empty) suite filter
             filter.end = cursor;
@@ -478,7 +489,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
     
     // Finish the expression either by consuming the
     // delimiter or clearing the cursor.
-    if (*cursor == expr_delimiter) {
+    if (*cursor == filterexpr_delimiter) {
         ++cursor;
     } else {
         cursor = NULL;
