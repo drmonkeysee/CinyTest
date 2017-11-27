@@ -33,8 +33,8 @@ The Windows batch file emulates a simplified version of the Makefile, building a
 
 The Xcode project consists of the following targets:
 
-- **CinyTest** main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
-- **Sample** additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
+- **CinyTest**: main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
+- **Sample**: additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
 
 Finally, there are precompiled zip files under the releases tab on GitHub. The zip files include documentation generated from the [Doxygen](http://www.doxygen.org) configuration file.
 
