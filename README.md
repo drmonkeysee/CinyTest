@@ -22,10 +22,10 @@ For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tool
 
 The Makefile has the following build targets:
 
-- `release`: the default target; build CinyTest library and binary tree sample executables with full optimizations
-- `debug`: build CinyTest library and binary tree sample executables with debug symbols and no optimizations
-- `check`: verify CinyTest by running the sample tests
-- `clean`: delete all build artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
+- `release` the default target; build CinyTest library and binary tree sample executables with full optimizations
+- `debug` build CinyTest library and binary tree sample executables with debug symbols and no optimizations
+- `check` verify CinyTest by running the sample tests
+- `clean` delete all build artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
 
 All of the Makefile artifacts are placed in a folder named **build**.
 
@@ -33,8 +33,8 @@ The Windows batch file emulates a simplified version of the Makefile, building a
 
 The Xcode project consists of the following targets:
 
-- **CinyTest**: main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
-- **Sample**: additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
+- **CinyTest** main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
+- **Sample** additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
 
 Finally, there are precompiled zip files under the releases tab on GitHub. The zip files include documentation generated from the [Doxygen](http://www.doxygen.org) configuration file.
 
@@ -64,33 +64,33 @@ This example runs two test suites of four test cases each.
 
 Any program that CinyTest is compiled into will support a set of command-line options and environment variables that control CinyTest behavior. Command-line options take precedence over environment variables if both are specified.
 
-| CLI Option | Environment Variable | Description |
-| ------ | ------- | ----------- |
-| `--ct-help` | N/A | Print CinyTest usage |
-| `--ct-version` | N/A | Print CinyTest version |
-| `--ct-verbose` | `CINYTEST_VERBOSE` | Set output verbosity |
-| `--ct-colorized` | `CINYTEST_COLORIZED` | Toggle colorized output in test results |
-| `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | Toggle standard stream output |
-| `--ct-include` | `CINYTEST_INCLUDE` | Include test filters; see [Test Filters](#test-filters) section below for more details |
-| `--ct-exclude` | `CINYTEST_EXCLUDE` | Exclude test filters; see [Test Filters](#test-filters) section below for more details |
+CLI Option             | Environment Variable       | Description
+---------------------- | -------------------------- | -----------
+`--ct-help`            | N/A                        | Print CinyTest usage
+`--ct-version`         | N/A                        | Print CinyTest version
+`--ct-verbose`         | `CINYTEST_VERBOSE`         | Set output verbosity
+`--ct-colorized`       | `CINYTEST_COLORIZED`       | Toggle colorized output in test results
+`--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | Toggle standard stream output
+`--ct-include`         | `CINYTEST_INCLUDE`         | Include test filters; see [Test Filters](#test-filters) section below for more details
+`--ct-exclude`         | `CINYTEST_EXCLUDE`         | Exclude test filters; see [Test Filters](#test-filters) section below for more details
 
 ### Test Filters
 
-Test filters provide a way to select a subset of the total tests in a test run. Filters are split into two types: include and exclude filters. Include filters select tests to run and tests not matching any include filter will be skipped. Exclude filters select tests to skip and tests not matching any exclude filter will be run. Include filters are checked before exclude filters so if both types of filters are specified then the set of tests run will be tests that match any include filters and did not subsequently match any exclude filters.
+Test filters provide a way to select a subset of all the tests in a test run and come in two types: include and exclude. Tests matching include filters will be run while non-matched tests are skipped. Tests matching exclude filters will be skipped while non-matched tests will run. Include filters are checked before exclude filters so if both types are specified then tests that match any include filters and do not subsequently match any exclude filters will run.
 
 Test filters can target individual test cases or an entire test suite using a simple format. A filter expression consists of a suite-pattern followed by a case-pattern separated by a `':'`. Either the suite-pattern or the case-pattern are optional and specifying one, the other, or both will result in different matching behavior. Both patterns can use `'?'` to match any single character and `'*'` to match any string of characters. Multiple filter expressions of the same type are separated by `','`.
 
 Examples:
 
-- `./mytests`: no filters, all tests are run; equivalent to `--ct-include=*`
-- `./mytests --ct-include=foo_tests:frob_returns_true`: run only the `frob_returns_true` test in the `foo_tests` suite
-- `./mytests --ct-include=foo_tests:`: run all tests in `foo_tests` suite; this is shorthand for `--ct-include=foo_tests:*`
-- `./mytests --ct-include=:verify_returns_null`: run any test named `verify_returns_null` across all suites; this is shorthand for `--ct-include=*:verify_returns_null`
-- `./mytests --ct-include=*foo`: run any case or suite (and therefore all of its cases) that ends with `foo`
-- `./mytests --ct-include=bar?:`: run any suite starting with `bar` and is four characters long
-- `./mytests --ct-include=*foo*,*bar*`: run all tests with `foo` or `bar` somewhere in the suite or case name
-- `./mytests --ct-exclude=bar_tests:`: run all tests except the cases in the `bar_tests` suite
-- `./mytests --ct-include=*foo* --ct-exclude=*bar*`: run all tests with `foo` in the name except those tests that also have `bar` in the name (the order of the options does not matter; include is always checked before exclude)
+- `./mytests` no filters, all tests are run; equivalent to `--ct-include=*`
+- `./mytests --ct-include=foo_tests:frob_returns_true` run only the `frob_returns_true` test in the `foo_tests` suite
+- `./mytests --ct-include=foo_tests:` run all tests in `foo_tests` suite; this is shorthand for `--ct-include=foo_tests:*`
+- `./mytests --ct-include=:verify_returns_null` run any test named `verify_returns_null` across all suites; this is shorthand for `--ct-include=*:verify_returns_null`
+- `./mytests --ct-include=*foo` run any case or suite (and therefore all of its cases) that ends with `foo`
+- `./mytests --ct-include=bar?:` run any suite starting with `bar` and is four characters long
+- `./mytests --ct-include=*foo*,*bar*` run all tests with `foo` or `bar` somewhere in the suite or case name
+- `./mytests --ct-exclude=bar_tests:` run all tests except the cases in the `bar_tests` suite
+- `./mytests --ct-include=*foo* --ct-exclude=*bar*` run all tests with `foo` in the name except those tests that also have `bar` in the name (the order of the options does not matter; include is always checked before exclude)
 
 A note of caution regarding wildcards: the filters treat suite and case names as UTF-8 byte strings so multi-byte characters in test names (such as high Basic Multilingual Plane characters or emojis) may interact strangely with wildcards. The single character wildcard `'?'` will never match a multi-byte character while the multi-character wildcard `'*'` may unexpectedly match part or all of other multi-byte characters. Assuming non-ASCII characters are an unusual occurrence in C function names it is unlikely this will be a problem for most code bases.
 
@@ -126,6 +126,7 @@ It is possible to develop CinyTest in Visual Studio by installing the [Clang wit
 
 To build CinyTest on Windows install the following tools:
 
+TODO: update these instructions
 - [Visual C++ 2015 Build Tools](http://landinghub.visualstudio.com/visual-cpp-build-tools) (as of this writing LLVM 3.9.1 does not work with Visual Studio 2017 Build Tools)
 - clang
 - Doxygen (set the `_WIN64` preprocessor macro in the Predefined section to select the right documentation)
