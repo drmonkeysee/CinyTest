@@ -64,7 +64,6 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED
 };
 
-static const char filterexpr_delimiter = ',';
 enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
@@ -456,12 +455,12 @@ static void filterlist_free(filterlist *self)
 
 static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
-    static const char target_delimiter = ':';
+    static const char target_delimiter = ':', expr_delimiter = ',';
 
     struct testfilter filter = testfilter_make();
 
     filter.start = cursor;
-    for (char c = *cursor; c && c != filterexpr_delimiter; c = *(++cursor)) {
+    for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
         if (c == target_delimiter && filter.apply == FILTER_ANY) {
             // first target delimiter seen so this is a (possibly empty) suite filter
             filter.end = cursor;
@@ -493,7 +492,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
     
     // Finish the expression either by consuming the
     // delimiter or clearing the cursor.
-    if (*cursor == filterexpr_delimiter) {
+    if (*cursor == expr_delimiter) {
         ++cursor;
     } else {
         cursor = NULL;
