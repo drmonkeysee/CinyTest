@@ -18,10 +18,11 @@ typedef NS_ENUM(NSUInteger, RUN_TEST_FLAGS) {
     RUN_TEST_BORT = 1 << 2,
     RUN_TEST_BART = 1 << 3,
     RUN_TEST_TITLE_BART = 1 << 4,
-    RUN_TEST_EXTENDED = 1 << 5,
-    RUN_TEST_EAST_ASIAN = 1 << 6,
-    RUN_TEST_HORSE = 1 << 7,
-    RUN_TEST_ALL = RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EXTENDED | RUN_TEST_EAST_ASIAN | RUN_TEST_HORSE
+    RUN_TEST_EBERT = 1 << 5,
+    RUN_TEST_EXTENDED = 1 << 6,
+    RUN_TEST_EAST_ASIAN = 1 << 7,
+    RUN_TEST_HORSE = 1 << 8,
+    RUN_TEST_ALL = RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EBERT | RUN_TEST_EXTENDED | RUN_TEST_EAST_ASIAN | RUN_TEST_HORSE
 };
 
 typedef NS_ENUM(NSUInteger, RUN_SUITE) {
@@ -64,6 +65,11 @@ static void test_Bart(void *context)
     set_test_flag(context, RUN_TEST_TITLE_BART);
 }
 
+static void test_ebert(void *context)
+{
+    set_test_flag(context, RUN_TEST_EBERT);
+}
+
 static void test_èxtended_chærs(void *context)
 {
     set_test_flag(context, RUN_TEST_EXTENDED);
@@ -97,6 +103,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
         ct_maketest(test_bort),
         ct_maketest(test_bart),
         ct_maketest(test_Bart),
+        ct_maketest(test_ebert),
         ct_maketest(test_èxtended_chærs),
         ct_maketest(test_测试漢),
         ct_maketest(test_🐴🐎)
@@ -176,10 +183,17 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=suite_f*"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:*foo*"] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO suite2Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO];
     [self assertFilters:@[@"--ct-include=*far:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
-    [self assertFilters:@[@"--ct-include=:test*b*rt"] suite1Expected:RUN_TEST_BORT | RUN_TEST_BART suite2Expected:RUN_TEST_BORT | RUN_TEST_BART];
-    [self assertFilters:@[@"--ct-include=suite_bar:test_*t"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART];
-    // verify wildcard does not prematurely fail when partial match is found earlier in test name (the two e's in test_ext in this case)
-    [self assertFilters:@[@"--ct-include=*ended*"] suite1Expected:RUN_TEST_EXTENDED suite2Expected:RUN_TEST_EXTENDED];
+    [self assertFilters:@[@"--ct-include=:test*b*rt"] suite1Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_EBERT suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_EBERT];
+    [self assertFilters:@[@"--ct-include=suite_bar:test_*t"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EBERT];
+}
+
+// verify wildcards do not prematurely fail when partial match is found earlier in test name
+- (void)test_WildcardPatterns_WithPartialMatches
+{
+    // partial match on two e's in test_eb
+    [self assertFilters:@[@"--ct-include=*ert*"] suite1Expected:RUN_TEST_EBERT suite2Expected:RUN_TEST_EBERT];
+    // partial match on e in eb following test_
+    [self assertFilters:@[@"--ct-include=:test_*ert*"] suite1Expected:RUN_TEST_EBERT suite2Expected:RUN_TEST_EBERT];
 }
 
 - (void)test_WildcardLetterPatterns
@@ -276,7 +290,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_OverlappingWildcards
 {
-    [self assertFilters:@[@"--ct-include=*foo,*:test_ba*,suite_bar:*rt"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_BORT | RUN_TEST_TITLE_BART];
+    [self assertFilters:@[@"--ct-include=*foo,*:test_ba*,suite_bar:*rt"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_BORT | RUN_TEST_TITLE_BART | RUN_TEST_EBERT];
 }
 
 - (void)test_UsesLastFilterFound
