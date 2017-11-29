@@ -77,7 +77,7 @@ struct testfilter {
 };
 typedef struct testfilter filterlist;
 
-#define ENV_COPY_COUNT 2
+#define ENV_COPY_COUNT 2u
 enum verbositylevel {
     VERBOSITY_MINIMAL,
     VERBOSITY_LIST,
@@ -92,7 +92,7 @@ static struct {
     bool help, version, colorized;
 } RunContext;
 
-#define COMPVALUE_STR_SIZE 75
+#define COMPVALUE_STR_SIZE 75u
 enum assert_type {
     ASSERT_UNKNOWN,
     ASSERT_FAILURE,
