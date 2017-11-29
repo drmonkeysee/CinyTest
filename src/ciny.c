@@ -366,7 +366,7 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
 
 static void testfilter_print(const struct testfilter *self, enum text_highlight style)
 {
-    const char *prefix = "";
+    const char *prefix;
     if (!RunContext.colorized) {
         switch (style) {
             case HIGHLIGHT_SUCCESS:
@@ -376,6 +376,7 @@ static void testfilter_print(const struct testfilter *self, enum text_highlight 
                 prefix = "-";
                 break;
             default:
+                prefix = "";
                 break;
         }
     }
