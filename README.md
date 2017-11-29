@@ -76,7 +76,7 @@ CLI Option             | Environment Variable       | Description
 
 ### Test Filters
 
-Test filters are used to select a subset of all the tests in a test run. Include filters run matched tests and skip everything else. Exclude filters skip matched tests and run everything else. Include filters are checked before exclude filters so if both types are specified then tests that match any include filters and do not match any exclude filters will run.
+Test filters are used to select a subset of all the tests in a test run. Include filters run matched tests and skip everything else. Exclude filters skip matched tests and run everything else. Include filters are checked before exclude filters, so if both options are specified then tests that match any include filters and do not match any exclude filters will run.
 
 Test filters can target individual test cases or an entire test suite using a simple format. A filter expression consists of a suite-pattern followed by a case-pattern separated by a `':'`. Either the suite-pattern or the case-pattern are optional and specifying one, the other, or both will result in different matching behavior. Both patterns can use `'?'` to match any single character and `'*'` to match any string of characters. Multiple filter expressions of the same type are separated by `','`.
 
