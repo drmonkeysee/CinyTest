@@ -301,7 +301,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_OverlappingWildcards
 {
-    [self assertFilters:@[@"--ct-include=*foo,*:test_ba*,suite_bar:*rt"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_BORT | RUN_TEST_TITLE_BART | RUN_TEST_EBERT | RUN_TEST_REPETITIVE];
+    [self assertFilters:@[@"--ct-include=*foo,*:test_ba*,suite_bar:*rt"] suite1Expected:RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_BARFOO | RUN_TEST_BART | RUN_TEST_BORT | RUN_TEST_TITLE_BART | RUN_TEST_EBERT];
 }
 
 - (void)test_UsesLastFilterFound

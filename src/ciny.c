@@ -342,7 +342,8 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
 
     if (!name) return false;
 
-    const char *fcursor = self->start, *ncursor = name;
+    const char *fcursor = self->start, *ncursor = name,
+               *wc_fmarker = NULL, *wc_nmarker = NULL;
     while (fcursor < self->end && *ncursor) {
         if (*fcursor == *ncursor || *fcursor == char_wildcard) {
             ++fcursor;
@@ -350,12 +351,18 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
         } else if (*fcursor == str_wildcard) {
             ++fcursor;
             if (fcursor < self->end) {
-                // wildcard consumes name up to next exact match or end of string
-                for (; *ncursor && *ncursor != *fcursor; ++ncursor);
+                // mark start of wildcard pattern and current name position
+                wc_fmarker = fcursor;
+                wc_nmarker = ncursor;
             } else {
                 // wildcard at end of filter so it automatically matches rest of name
                 return true;
             }
+        } else if (wc_fmarker) {
+            // Wildcard match failed; reset to beginning of wildcard pattern
+            // and advance name marker one character to retry match.
+            fcursor = wc_fmarker;
+            ncursor = ++wc_nmarker;
         } else {
             break;
         }
