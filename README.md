@@ -6,7 +6,7 @@ CinyTest is a lightweight library for defining and running unit tests in C.
 
 - unit test and suite creation
 - unit suite execution, including setup and teardown support
-- configurable test run output to stdout
+- configurable test output to stdout
 - include and exclude test filtering
 - test assertions including:
 	- value equality, including approximate equality for floating point
