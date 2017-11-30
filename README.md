@@ -92,9 +92,9 @@ Examples:
 - `./mytests --ct-exclude=bar_tests:` run all tests except the cases in the `bar_tests` suite
 - `./mytests --ct-include=*foo* --ct-exclude=*bar*` run all tests with `foo` in the name except those tests that also have `bar` in the name (the order of the options does not matter; include is always checked before exclude)
 
-A note of caution regarding wildcards: the filters treat suite and case names as UTF-8 byte strings so multi-byte characters in test names (such as high Basic Multilingual Plane characters or emojis) may interact strangely with wildcards. The single character wildcard `'?'` will never match a multi-byte character while the multi-character wildcard `'*'` may unexpectedly match part or all of other multi-byte characters. Assuming non-ASCII characters are an unusual occurrence in C function names it is unlikely this will be a problem for most code bases.
+A note of caution regarding wildcards: filters treat suite and case names as UTF-8 byte strings so multi-byte characters (such as high Basic Multilingual Plane characters or emojis) may be seen as more than one "character". This means the single character wildcard `'?'` will never match a multi-byte character. Instead use the substring wildcard `'*'`, as it will properly match the sequence of bytes that comprise the multi-byte character.
 
-Nevertheless this case may arise or you may find your filters applying in other unexpected ways. Test filters can be debugged by turning up the output to its highest verbosity (`--ct-verbose=3`). At this output level all tests are printed along with their result (success, failure, ignored, or skipped) and either the matched filter or `no match`. In addition, all filter expressions are listed along with the rest of CinyTest's options at the start of the output.
+It is possible you may find your filters applying in unexpected ways, particularly when combining multiple filters in a single test run. Test filters can be debugged by turning up the output to its highest verbosity (`--ct-verbose=3`). At this output level all tests are printed along with their matched filter (or `no match`) and their result (success, failure, ignored, or skipped). In addition, all filter expressions are listed along with the rest of CinyTest's options at the start of the output.
 
 ## Why CinyTest?
 

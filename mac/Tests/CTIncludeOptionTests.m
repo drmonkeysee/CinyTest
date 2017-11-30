@@ -239,26 +239,24 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 - (void)test_ExtendedCharacters
 {
     [self assertFilters:@[@"--ct-include=suite_far:test_èxtended_chærs"] suite1Expected:RUN_TEST_EXTENDED suite2Expected:RUN_TEST_NONE];
+    [self assertFilters:@[@"--ct-include=*æ*"] suite1Expected:RUN_TEST_EXTENDED suite2Expected:RUN_TEST_EXTENDED];
 }
 
 - (void)test_HighBMPCharacters
 {
     [self assertFilters:@[@"--ct-include=suite_far:test_测试漢"] suite1Expected:RUN_TEST_EAST_ASIAN suite2Expected:RUN_TEST_NONE];
-    // this *happens* to work because the bytes don't match any other tests
     [self assertFilters:@[@"--ct-include=*试*"] suite1Expected:RUN_TEST_EAST_ASIAN suite2Expected:RUN_TEST_EAST_ASIAN];
 }
 
 - (void)test_EmojiCharacters
 {
     [self assertFilters:@[@"--ct-include=suite_far:test_🐴🐎"] suite1Expected:RUN_TEST_HORSE suite2Expected:RUN_TEST_NONE];
-    // this *happens* to work because the bytes don't match any other tests
     [self assertFilters:@[@"--ct-include=*🐴*"] suite1Expected:RUN_TEST_HORSE suite2Expected:RUN_TEST_HORSE];
 }
 
 - (void)test_Wildcards_DoNotMatch_ExtendedCharacters
 {
     [self assertFilters:@[@"--ct-include=:test_?xtended_chærs"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
-    [self assertFilters:@[@"--ct-include=*æ*"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:test_测试?"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:test_🐴?"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
 }
