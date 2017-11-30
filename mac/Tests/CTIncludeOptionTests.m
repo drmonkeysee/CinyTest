@@ -192,6 +192,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=*far:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_NONE];
     [self assertFilters:@[@"--ct-include=:test*b*rt"] suite1Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_EBERT suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_EBERT];
     [self assertFilters:@[@"--ct-include=suite_bar:test_*t"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EBERT];
+    [self assertFilters:@[@"--ct-include=suite_bar:test_**bar"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_FOOBAR];
 }
 
 // verify wildcards do not prematurely fail when partial match is found earlier in test name
@@ -212,6 +213,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
     [self assertFilters:@[@"--ct-include=suite_bar:test_?art"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART];
     [self assertFilters:@[@"--ct-include=suite_?ar:"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     [self assertFilters:@[@"--ct-include=suite_?ar:test_foobar"] suite1Expected:RUN_TEST_FOOBAR suite2Expected:RUN_TEST_FOOBAR];
+    [self assertFilters:@[@"--ct-include=:test_??rt"] suite1Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART];
 }
 
 - (void)test_NoTestsRun_IfNoPatternMatch
