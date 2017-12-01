@@ -116,7 +116,9 @@ That original goal has been left behind at this point as I've expanded the libra
 
 ### Memory Usage
 
-TODO: Describe under what conditions dynamic memory is used.
+CinyTest is designed to be a small and simple library. To that point, it uses no dynamic memory in any of its default behaviors. However there are some advanced features that do require memory allocations. If your environment is sensitive to unexpected memory usage then take care when invoking the following options:
+
+- include and exclude test filters
 
 #### Windows Support
 
