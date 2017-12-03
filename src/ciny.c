@@ -55,6 +55,7 @@ static const char * const restrict HelpOption = "--ct-help",
                   * const restrict ColorizedOption = "--ct-colorized",
                   * const restrict SuppressOutputOption = "--ct-suppress-output",
                   * const restrict IncludeFilterOption = "--ct-include",
+                  * const restrict ExcludeFilterOption = "--ct-exclude",
                   * const restrict IgnoredTestSymbol = "?";
 
 enum text_highlight {
@@ -173,8 +174,7 @@ static void print_usage(void)
     printout("  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
     printout("  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
     printout("  %s=[suite:case,suite:case,...]\n", IncludeFilterOption);
-    // TODO: add exclude to usage
-    //printout("  %s=[suite:case,suite:case,...]\n", ExcludeFilterOption);
+    printout("  %s=[suite:case,suite:case,...]\n", ExcludeFilterOption);
     printout("\t\t\tRun only tests matching include filters and not matching exclude filters;\n\t\t\t'?' matches any character, '*' matches any substring;\n\t\t\t'suite:' and ':case' are shorthand for 'suite:*' and '*:case'.\n");
 }
 
@@ -539,7 +539,8 @@ static void runcontext_init(int argc, const char *argv[])
     const char *color_option = NULL,
                 *verbosity_option = NULL,
                 *suppress_output_option = NULL,
-                *include_filter_option = NULL;
+                *include_filter_option = NULL,
+                *exclude_filter_option = NULL;
     
     if (argv) {
         for (int i = 0; i < argc; ++i) {
@@ -558,6 +559,8 @@ static void runcontext_init(int argc, const char *argv[])
                 suppress_output_option = arg_value(arg);
             } else if (strstr(arg, IncludeFilterOption)) {
                 include_filter_option = arg_value(arg);
+            } else if (strstr(arg, ExcludeFilterOption)) {
+                exclude_filter_option = arg_value(arg);
             }
         }
     }
@@ -592,8 +595,14 @@ static void runcontext_init(int argc, const char *argv[])
     }
     RunContext.include = parse_filters(include_filter_option);
 
-    // TODO: add parsing for exclude
-    //RunContext.exclude = parse_filters(exclude_filter_option);
+    if (!exclude_filter_option) {
+        exclude_filter_option = getenv("CINYTEST_EXCLUDE");
+        if (exclude_filter_option) {
+            // copy env value to prevent invalidated pointers
+            exclude_filter_option = runcontext_capturevar(exclude_filter_option, RunContext.env_copies + 1);
+        }
+    }
+    RunContext.exclude = parse_filters(exclude_filter_option);
 }
 
 static bool runcontext_suppressoutput(void)
@@ -607,17 +616,20 @@ static void runcontext_printfilters(void)
 
     printout("Filters: ");
     filterlist_print(RunContext.include, FILTER_ANY, HIGHLIGHT_SUCCESS);
+    filterlist_print(RunContext.exclude, FILTER_ANY, HIGHLIGHT_FAILURE);
     printout("\n");
 
     if (filterlist_any(RunContext.include, FILTER_SUITE)) {
         printout("  Suites: ");
         filterlist_print(RunContext.include, FILTER_SUITE, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.exclude, FILTER_SUITE, HIGHLIGHT_FAILURE);
         printout("\n");
     }
 
     if (filterlist_any(RunContext.include, FILTER_CASE)) {
         printout("  Cases: ");
         filterlist_print(RunContext.include, FILTER_CASE, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.exclude, FILTER_CASE, HIGHLIGHT_FAILURE);
         printout("\n");
     }
 
@@ -625,6 +637,7 @@ static void runcontext_printfilters(void)
     if (filterlist_any(RunContext.include, FILTER_ALL)) {
         printout("  All: ");
         filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
+        filterlist_print(RunContext.exclude, FILTER_ALL, HIGHLIGHT_FAILURE);
         printout("\n");
     }
 }
