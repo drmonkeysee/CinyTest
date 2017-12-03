@@ -6,145 +6,22 @@
 //  Copyright © 2017 Brandon Stansbury. All rights reserved.
 //
 
-#import "CTTestBase.h"
-#include <stddef.h>
+#import "CTFilterOptionTestBase.h"
 #include <stdlib.h>
-#include "ciny.h"
 
-typedef NS_ENUM(NSUInteger, RUN_TEST_FLAGS) {
-    RUN_TEST_NONE = 0,
-    RUN_TEST_FOOBAR = 1 << 0,
-    RUN_TEST_BARFOO = 1 << 1,
-    RUN_TEST_BORT = 1 << 2,
-    RUN_TEST_BART = 1 << 3,
-    RUN_TEST_TITLE_BART = 1 << 4,
-    RUN_TEST_EBERT = 1 << 5,
-    RUN_TEST_REPETITIVE = 1 << 6,
-    RUN_TEST_EXTENDED = 1 << 7,
-    RUN_TEST_EAST_ASIAN = 1 << 8,
-    RUN_TEST_HORSE = 1 << 9,
-    RUN_TEST_ALL = RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BORT | RUN_TEST_BART | RUN_TEST_TITLE_BART | RUN_TEST_EBERT | RUN_TEST_REPETITIVE | RUN_TEST_EXTENDED | RUN_TEST_EAST_ASIAN | RUN_TEST_HORSE
-};
-
-typedef NS_ENUM(NSUInteger, RUN_SUITE) {
-    RUN_SUITE1,
-    RUN_SUITE2
-};
-
-static const char * const restrict EnvVar = "CINYTEST_INCLUDE";
-static struct ct_testsuite Suites[2];
-static RUN_TEST_FLAGS Suite1Flags, Suite2Flags;
-
-static void set_test_flag(const void *ctx, RUN_TEST_FLAGS flag)
-{
-    RUN_TEST_FLAGS * const testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2 ? &Suite2Flags : &Suite1Flags;
-    *testvar |= flag;
-}
-
-static void test_foobar(void *context)
-{
-    set_test_flag(context, RUN_TEST_FOOBAR);
-}
-
-static void test_barfoo(void *context)
-{
-    set_test_flag(context, RUN_TEST_BARFOO);
-}
-
-static void test_bort(void *context)
-{
-    set_test_flag(context, RUN_TEST_BORT);
-}
-
-static void test_bart(void *context)
-{
-    set_test_flag(context, RUN_TEST_BART);
-}
-
-static void test_Bart(void *context)
-{
-    set_test_flag(context, RUN_TEST_TITLE_BART);
-}
-
-static void test_ebert(void *context)
-{
-    set_test_flag(context, RUN_TEST_EBERT);
-}
-
-static void test_ededeededered(void *context)
-{
-    set_test_flag(context, RUN_TEST_REPETITIVE);
-}
-
-static void test_èxtended_chærs(void *context)
-{
-    set_test_flag(context, RUN_TEST_EXTENDED);
-}
-
-static void test_测试漢(void *context)
-{
-    set_test_flag(context, RUN_TEST_EAST_ASIAN);
-}
-
-static void test_🐴🐎(void *context)
-{
-    set_test_flag(context, RUN_TEST_HORSE);
-}
-
-static void suite1_setup(void **context_ref)
-{
-    *context_ref = (void *)RUN_SUITE1;
-}
-
-static void suite2_setup(void **context_ref)
-{
-    *context_ref = (void *)RUN_SUITE2;
-}
-
-static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardown_function setup)
-{
-    static const struct ct_testcase tests[] = {
-        ct_maketest(test_foobar),
-        ct_maketest(test_barfoo),
-        ct_maketest(test_bort),
-        ct_maketest(test_bart),
-        ct_maketest(test_Bart),
-        ct_maketest(test_ebert),
-        ct_maketest(test_ededeededered),
-        ct_maketest(test_èxtended_chærs),
-        ct_maketest(test_测试漢),
-        ct_maketest(test_🐴🐎)
-    };
-    
-    return ct_makesuite_setup_teardown_named(name, tests, sizeof tests / sizeof tests[0], setup, NULL);
-}
-
-@interface CTIncludeOptionTests : CTTestBase
+@interface CTIncludeOptionTests : CTFilterOptionTestBase
 
 @end
 
 @implementation CTIncludeOptionTests
 
-+ (void)setUp
+- (instancetype)initWithInvocation:(NSInvocation *)invocation
 {
-    [super setUp];
-    
-    Suites[0] = make_suite("suite_far", suite1_setup);
-    Suites[1] = make_suite("suite_bar", suite2_setup);
-}
-
-- (void)setUp
-{
-    [super setUp];
-
-    unsetenv(EnvVar);
-}
-
-- (void)tearDown
-{
-    unsetenv(EnvVar);
-    
-    [super tearDown];
+    if (self = [super initWithInvocation:invocation]) {
+        self.envProperty = @"CINYTEST_INCLUDE";
+        return self;
+    }
+    return nil;
 }
 
 - (void)test_AllTestsRun_IfNoFilter
@@ -309,39 +186,23 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
 
 - (void)test_EnvFilter
 {
-    setenv(EnvVar, "", 1);
+    setenv(self.envProperty.UTF8String, "", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     
-    setenv(EnvVar, "*", 1);
+    setenv(self.envProperty.UTF8String, "*", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     
-    setenv(EnvVar, "suite_far:test_bort", 1);
+    setenv(self.envProperty.UTF8String, "suite_far:test_bort", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_NONE];
     
-    setenv(EnvVar, "suite_?ar:test_?art", 1);
+    setenv(self.envProperty.UTF8String, "suite_?ar:test_?art", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART suite2Expected:RUN_TEST_BART | RUN_TEST_TITLE_BART];
 
-    setenv(EnvVar, "*bar*", 1);
+    setenv(self.envProperty.UTF8String, "*bar*", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_FOOBAR | RUN_TEST_BARFOO | RUN_TEST_BART suite2Expected:RUN_TEST_ALL];
     
-    setenv(EnvVar, "suite_far:test_bort,suite_bar:test_barfoo", 1);
+    setenv(self.envProperty.UTF8String, "suite_far:test_bort,suite_bar:test_barfoo", 1);
     [self assertFilters:@[] suite1Expected:RUN_TEST_BORT suite2Expected:RUN_TEST_BARFOO];
-}
-
-- (void)assertFilters:(NSArray *)filters suite1Expected:(RUN_TEST_FLAGS)suite1Expected suite2Expected:(RUN_TEST_FLAGS)suite2Expected
-{
-    Suite1Flags = Suite2Flags = RUN_TEST_NONE;
-    
-    const int argc = (int)filters.count;
-    const char *argv[argc];
-    for (int i = 0; i < argc; ++i) {
-        argv[i] = [filters[i] UTF8String];
-    }
-    
-    ct_run_withargs(Suites, sizeof Suites / sizeof Suites[0], argc, argv);
-    
-    XCTAssertEqual(suite1Expected, Suite1Flags);
-    XCTAssertEqual(suite2Expected, Suite2Flags);
 }
 
 @end

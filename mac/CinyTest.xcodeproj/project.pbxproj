@@ -14,6 +14,7 @@
 		C85B4A511E35B59B0031C1BB /* CTNoRunOptionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */; };
 		C85F39371E385A6100BE4219 /* CTOutputAssertionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C85F39361E385A6100BE4219 /* CTOutputAssertionTestBase.m */; };
 		C86EFC3E1E6BE09D007B5FF9 /* CTVersionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C86EFC3D1E6BE09D007B5FF9 /* CTVersionTests.m */; };
+		C87AEAAA1FD391E7001C31B8 /* CTFilterOptionTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C87AEAA91FD391E7001C31B8 /* CTFilterOptionTestBase.m */; };
 		C88059B71D2E15B8002ECC5E /* ciny_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B41D2E15B8002ECC5E /* ciny_posix.c */; };
 		C88059B81D2E15B8002ECC5E /* ciny.c in Sources */ = {isa = PBXBuildFile; fileRef = C88059B51D2E15B8002ECC5E /* ciny.c */; };
 		C88059B91D2E15B8002ECC5E /* ciny.h in Headers */ = {isa = PBXBuildFile; fileRef = C88059B61D2E15B8002ECC5E /* ciny.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,6 +94,8 @@
 		C85F39361E385A6100BE4219 /* CTOutputAssertionTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTOutputAssertionTestBase.m; sourceTree = "<group>"; };
 		C85F39381E385A8E00BE4219 /* CTOutputAssertionTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTOutputAssertionTestBase.h; sourceTree = "<group>"; };
 		C86EFC3D1E6BE09D007B5FF9 /* CTVersionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTVersionTests.m; sourceTree = "<group>"; };
+		C87AEAA91FD391E7001C31B8 /* CTFilterOptionTestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTFilterOptionTestBase.m; sourceTree = "<group>"; };
+		C87AEAAB1FD39202001C31B8 /* CTFilterOptionTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTFilterOptionTestBase.h; sourceTree = "<group>"; };
 		C88059951D2E11A0002ECC5E /* libcinytest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcinytest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88059B41D2E15B8002ECC5E /* ciny_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny_posix.c; sourceTree = "<group>"; };
 		C88059B51D2E15B8002ECC5E /* ciny.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ciny.c; sourceTree = "<group>"; };
@@ -231,6 +234,8 @@
 				C84D9C441DEBE74D004605F3 /* CTColorOptionTests.m */,
 				C88873C11F5CF60A002CDE3B /* CTSuppressOutputOptionTests.m */,
 				C855EC281FA6AC5400615D4A /* CTVerboseOptionTests.m */,
+				C87AEAAB1FD39202001C31B8 /* CTFilterOptionTestBase.h */,
+				C87AEAA91FD391E7001C31B8 /* CTFilterOptionTestBase.m */,
 				C8376AF21F74DD27005FE3C7 /* CTIncludeOptionTests.m */,
 				C85B4A501E35B59B0031C1BB /* CTNoRunOptionsTests.m */,
 				C88059D01D2E177F002ECC5E /* CTAssertionTestBase.h */,
@@ -467,6 +472,7 @@
 			files = (
 				C88059FF1D2E177F002ECC5E /* CTRunSuiteTests.m in Sources */,
 				C88059F51D2E177F002ECC5E /* CTAssertNullTests.m in Sources */,
+				C87AEAAA1FD391E7001C31B8 /* CTFilterOptionTestBase.m in Sources */,
 				C88059EF1D2E177F002ECC5E /* CTAssertionTestBase.m in Sources */,
 				C88059EE1D2E177F002ECC5E /* CTAssertFalseTests.m in Sources */,
 				C88059E91D2E177F002ECC5E /* CTAboutEqualAssertionTestBase.m in Sources */,
