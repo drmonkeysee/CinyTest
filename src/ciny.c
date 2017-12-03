@@ -257,7 +257,7 @@ static void print_testresult(enum text_highlight style, const char * restrict re
             if (AssertState.matched) {
                 testfilter_print(AssertState.matched, filter_style);
             } else {
-                print_highlighted(filter_style, "no match");
+                print_highlighted(HIGHLIGHT_SKIPPED, "no match");
             }
             printout(")");
         }
@@ -610,36 +610,62 @@ static bool runcontext_suppressoutput(void)
     return RunContext.out != stdout;
 }
 
+static void runcontext_printtargetedfilters(enum filtertarget target)
+{
+    const bool any_include = filterlist_any(RunContext.include, target),
+               any_exclude = filterlist_any(RunContext.exclude, target),
+               has_output = target == FILTER_ANY || any_include || any_exclude;
+
+    const char *label;
+    switch (target) {
+        case FILTER_ANY:
+            label = "Filters";
+            break;
+        case FILTER_SUITE:
+            label = "Suites";
+            break;
+        case FILTER_CASE:
+            label = "Cases";
+            break;
+        case FILTER_ALL:
+            label = "All";
+            break;
+        default:
+            label = "Unknown filter target";
+            break;
+    }
+    if (has_output) {
+        printout("%s: ", label);
+    }
+
+    if (any_include) {
+        filterlist_print(RunContext.include, target, HIGHLIGHT_SUCCESS);
+        if (any_exclude) {
+            printout(", ");
+        }
+    }
+
+    if (any_exclude) {
+        filterlist_print(RunContext.exclude, target, HIGHLIGHT_FAILURE);
+    }
+
+    if (has_output) {
+        printout("\n");
+    }
+}
+
 static void runcontext_printfilters(void)
 {
-    if (!RunContext.include) return;
+    if (!RunContext.include && !RunContext.exclude) return;
 
-    printout("Filters: ");
-    filterlist_print(RunContext.include, FILTER_ANY, HIGHLIGHT_SUCCESS);
-    filterlist_print(RunContext.exclude, FILTER_ANY, HIGHLIGHT_FAILURE);
-    printout("\n");
-
-    if (filterlist_any(RunContext.include, FILTER_SUITE)) {
-        printout("  Suites: ");
-        filterlist_print(RunContext.include, FILTER_SUITE, HIGHLIGHT_SUCCESS);
-        filterlist_print(RunContext.exclude, FILTER_SUITE, HIGHLIGHT_FAILURE);
-        printout("\n");
-    }
-
-    if (filterlist_any(RunContext.include, FILTER_CASE)) {
-        printout("  Cases: ");
-        filterlist_print(RunContext.include, FILTER_CASE, HIGHLIGHT_SUCCESS);
-        filterlist_print(RunContext.exclude, FILTER_CASE, HIGHLIGHT_FAILURE);
-        printout("\n");
-    }
-
+    runcontext_printtargetedfilters(FILTER_ANY);
+    printout(" ");
+    runcontext_printtargetedfilters(FILTER_SUITE);
+    printout(" ");
+    runcontext_printtargetedfilters(FILTER_CASE);
     // TODO: print all filters properly (currently printing "case, suite" instead of "suite:case")
-    if (filterlist_any(RunContext.include, FILTER_ALL)) {
-        printout("  All: ");
-        filterlist_print(RunContext.include, FILTER_ALL, HIGHLIGHT_SUCCESS);
-        filterlist_print(RunContext.exclude, FILTER_ALL, HIGHLIGHT_FAILURE);
-        printout("\n");
-    }
+    printout(" ");
+    runcontext_printtargetedfilters(FILTER_ALL);
 }
 
 static void runcontext_print(void)
@@ -927,8 +953,10 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_t
     assertstate_reset();
 
     if (RunContext.include) {
-        AssertState.matched = filterlist_apply(RunContext.include, self->name, current_case->name);
-        if (!AssertState.matched) {
+        const struct testfilter * const match = filterlist_apply(RunContext.include, self->name, current_case->name);
+        if (match) {
+            AssertState.matched = match;
+        } else {
             --summary->test_count;
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
@@ -941,8 +969,9 @@ static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_t
     }
     
     if (RunContext.exclude) {
-        AssertState.matched = filterlist_apply(RunContext.exclude, self->name, current_case->name);
-        if (AssertState.matched) {
+        const struct testfilter * const match = filterlist_apply(RunContext.exclude, self->name, current_case->name);
+        if (match) {
+            AssertState.matched = match;
             --summary->test_count;
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
