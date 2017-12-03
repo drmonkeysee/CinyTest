@@ -81,6 +81,12 @@
     [self assertFilters:@[@"--ct-include=:test_*ert*"] suite1Expected:RUN_TEST_EBERT suite2Expected:RUN_TEST_EBERT];
     // many partial matches on ed throughout the name
     [self assertFilters:@[@"--ct-include=:*eder*"] suite1Expected:RUN_TEST_REPETITIVE suite2Expected:RUN_TEST_REPETITIVE];
+    // many partial matches on ed but only the end of string matters
+    [self assertFilters:@[@"--ct-include=:*ed"] suite1Expected:RUN_TEST_REPETITIVE suite2Expected:RUN_TEST_REPETITIVE];
+    // many partial matches on ed but requiring beginning and end
+    [self assertFilters:@[@"--ct-include=:ed*ed"] suite1Expected:RUN_TEST_REPETITIVE suite2Expected:RUN_TEST_REPETITIVE];
+    // many partial matches on ed including the end
+    [self assertFilters:@[@"--ct-include=:*ed*ed"] suite1Expected:RUN_TEST_REPETITIVE suite2Expected:RUN_TEST_REPETITIVE];
 }
 
 - (void)test_WildcardLetterPatterns
