@@ -94,7 +94,7 @@ Examples:
 
 A note of caution regarding wildcards: filters treat suite and case names as UTF-8 byte strings so multi-byte characters (such as high Basic Multilingual Plane characters or emojis) may be seen as more than one "character". This means the single character wildcard `'?'` will never match a multi-byte character. Instead use the substring wildcard `'*'`, as it will properly match the sequence of bytes that comprise the multi-byte character.
 
-It is possible you may find your filters applying in unexpected ways, particularly when combining multiple filters in a single test run. Test filters can be debugged by turning up the output to its highest verbosity (`--ct-verbose=3`). At this output level all tests are printed along with their matched filter (or `no match`) and their result (success, failure, ignored, or skipped). In addition, all filter expressions are listed along with the rest of CinyTest's options at the start of the output.
+It is possible you may find your filters applying in unexpected ways, particularly when combining multiple filters in a single test run. Test filters can be debugged by turning up the output to its highest verbosity (`--ct-verbose=3`). At this output level all tests are printed, including the skipped tests, and annotated with their matched filter (or `no match`). In addition, all filter expressions are listed along with the rest of CinyTest's options at the start of the output.
 
 ## Why CinyTest?
 
