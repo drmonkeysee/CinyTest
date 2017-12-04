@@ -230,7 +230,8 @@ static void print_testresult(enum text_highlight style, const char * restrict re
     if (RunContext.verbosity > VERBOSITY_LIST) {
         const char *status;
         // if printing a filter it's an include filter...
-        enum text_highlight filter_style = HIGHLIGHT_SUCCESS;
+        enum text_highlight filter_style = HIGHLIGHT_SUCCESS,
+                            nomatch_style = filter_style;
         switch (style) {
             case HIGHLIGHT_SUCCESS:
                 status = "success";
@@ -245,6 +246,7 @@ static void print_testresult(enum text_highlight style, const char * restrict re
                 status = "skipped";
                 // ...unless test is skipped
                 filter_style = HIGHLIGHT_FAILURE;
+                nomatch_style = HIGHLIGHT_SKIPPED;
                 break;
             default:
                 status = "unknown";
@@ -252,12 +254,13 @@ static void print_testresult(enum text_highlight style, const char * restrict re
         }
         printout(" %s", status);
 
-        if (RunContext.verbosity == VERBOSITY_FULL) {
+        if (RunContext.verbosity == VERBOSITY_FULL
+            && (RunContext.include || RunContext.exclude)) {
             printout(" (filtered: ");
             if (AssertState.matched) {
                 testfilter_print(AssertState.matched, filter_style);
             } else {
-                print_highlighted(HIGHLIGHT_SKIPPED, "no match");
+                print_highlighted(nomatch_style, "no match");
             }
             printout(")");
         }
