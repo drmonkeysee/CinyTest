@@ -55,7 +55,7 @@ static void test_ebert(void *context)
     set_test_flag(context, RUN_TEST_EBERT);
 }
 
-static void test_ededeededered(void *context)
+static void test_ededeedtedered(void *context)
 {
     set_test_flag(context, RUN_TEST_REPETITIVE);
 }
@@ -94,7 +94,7 @@ static struct ct_testsuite make_suite(const char * restrict name, ct_setupteardo
         ct_maketest(test_bart),
         ct_maketest(test_Bart),
         ct_maketest(test_ebert),
-        ct_maketest(test_ededeededered),
+        ct_maketest(test_ededeedtedered),
         ct_maketest(test_èxtended_chærs),
         ct_maketest(test_测试漢),
         ct_maketest(test_🐴🐎)

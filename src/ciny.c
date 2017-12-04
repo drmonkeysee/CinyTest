@@ -344,7 +344,7 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
 
     const char *fcursor = self->start, *ncursor = name,
                *wc_fmarker = NULL, *wc_nmarker = NULL;
-    while (fcursor < self->end && *ncursor) {
+    while (*ncursor) {
         if (*fcursor == *ncursor || *fcursor == char_wildcard) {
             ++fcursor;
             ++ncursor;

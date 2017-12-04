@@ -81,11 +81,13 @@
     // many partial matches on ed throughout the name
     [self assertFilters:@[@"--ct-exclude=:*eder*"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
     // many partial matches on ed but only the end of string matters
-    [self assertFilters:@[@"--ct-include=:*ed"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
-    // many partial matches on ed but requiring beginning and end
-    [self assertFilters:@[@"--ct-include=:ed*ed"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
+    [self assertFilters:@[@"--ct-exclude=:*ed"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
+    // two matches on te but only the beginning of string matters
+    [self assertFilters:@[@"--ct-exclude=:te*"] suite1Expected:RUN_TEST_NONE suite2Expected:RUN_TEST_NONE];
+    // many partial matches on te and ed but requiring beginning and end
+    [self assertFilters:@[@"--ct-exclude=:te*ed"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
     // many partial matches on ed including the end
-    [self assertFilters:@[@"--ct-include=:*ed*ed"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
+    [self assertFilters:@[@"--ct-exclude=:*ed*ed"] suite1Expected:[self except:RUN_TEST_REPETITIVE] suite2Expected:[self except:RUN_TEST_REPETITIVE]];
 }
 
 - (void)test_WildcardLetterPatterns
