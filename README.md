@@ -25,6 +25,8 @@ The Makefile has the following build targets:
 - `release` the default target; build CinyTest library and binary tree sample executables with full optimizations
 - `debug` build CinyTest library and binary tree sample executables with debug symbols and no optimizations
 - `check` verify CinyTest by running the sample tests
+- `install` add CinyTest artifacts to **/usr/local**
+- `uninstall` remove CinyTest artifacts from **/usr/local**
 - `clean` delete all build artifacts; run this when switching between debug and release builds to make sure all artifacts are rebuilt
 
 All of the Makefile artifacts are placed in a folder named **build**.
