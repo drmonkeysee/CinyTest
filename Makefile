@@ -6,6 +6,11 @@ BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
 INC_DIR := $(BUILD_DIR)/include
+DOC_DIR := doc/html
+INST_DIR := /usr/local
+INST_INC := $(INST_DIR)/include
+INST_LIB := $(INST_DIR)/lib
+INST_DOC := $(INST_DIR)/share/doc/cinytest
 
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror -pedantic -std=c11
@@ -13,7 +18,8 @@ SP := strip
 SPFLAGS := -s
 ARFLAGS := -rsv
 
-HEADER_FILES := $(addprefix $(SRC_DIR)/,ciny.h)
+PUB_HEADER := ciny.h
+HEADER_FILES := $(addprefix $(SRC_DIR)/,$(PUB_HEADER))
 SRC_FILES := $(addprefix $(SRC_DIR)/,ciny.c ciny_posix.c)
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,ciny.o ciny_posix.o)
 SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c
@@ -30,7 +36,7 @@ ifdef XCFLAGS
 CFLAGS += $(XCFLAGS)
 endif
 
-.PHONY: release debug buildall build buildsample buildsampletests check clean
+.PHONY: release debug buildall build buildsample buildsampletests check install uninstall clean
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -iquote$(SRC_DIR) -c $< -o $@
@@ -73,6 +79,16 @@ $(OBJ_DIR):
 
 check:
 	$(BUILD_DIR)/$(SAMPT_TARGET)
+
+install:
+	cp $(INC_DIR)/$(PUB_HEADER) $(INST_INC)
+	cp $(LIB_DIR)/$(LIB_TARGET) $(INST_LIB)
+	if [ -d $(DOC_DIR) ] ; then cp -R $(DOC_DIR)/ $(INST_DOC) ; fi
+
+uninstall:
+	rm $(INST_INC)/$(PUB_HEADER)
+	rm $(INST_LIB)/$(LIB_TARGET)
+	if [ -d $(DOC_DIR) ] ; then rm -r $(INST_DOC) ; fi
 
 clean:
 	$(RM) -r $(BUILD_DIR)
