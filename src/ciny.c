@@ -65,6 +65,7 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED
 };
 
+static const char filter_target_delimiter = ':';
 enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
@@ -374,10 +375,10 @@ static bool testfilter_match(const struct testfilter *self, const char * restric
     return eof && !(*ncursor);
 }
 
-static void testfilter_print(const struct testfilter *self, enum text_highlight style)
+static void testfilter_print_prefixed(const struct testfilter *self, enum text_highlight style, bool include_prefix)
 {
     const char *prefix = "";
-    if (!RunContext.colorized) {
+    if (!RunContext.colorized && include_prefix) {
         switch (style) {
             case HIGHLIGHT_SUCCESS:
                 prefix = "+";
@@ -390,6 +391,16 @@ static void testfilter_print(const struct testfilter *self, enum text_highlight 
         }
     }
     print_highlighted(style, "%s%.*s", prefix, (int)(self->end - self->start), self->start);
+}
+
+static void testfilter_print_noprefix(const struct testfilter *self, enum text_highlight style)
+{
+    testfilter_print_prefixed(self, style, false);
+}
+
+static void testfilter_print(const struct testfilter *self, enum text_highlight style)
+{
+    testfilter_print_prefixed(self, style, true);
 }
 
 static filterlist *filterlist_new(void)
@@ -446,7 +457,15 @@ static void filterlist_print(filterlist *self, enum filtertarget match, enum tex
     for (; self; self = self->next) {
         if (self->apply != match) continue;
 
-        testfilter_print(self, style);
+        if (self->apply == FILTER_ALL) {
+            const struct testfilter * const fcase = self,
+                                    * const fsuite = self = self->next;
+            testfilter_print(fsuite, style);
+            print_highlighted(style, "%c", filter_target_delimiter);
+            testfilter_print_noprefix(fcase, style);
+        } else {
+            testfilter_print(self, style);
+        }
         
         if (filterlist_any(self->next, match)) {
             printout(", ");
@@ -465,13 +484,13 @@ static void filterlist_free(filterlist *self)
 
 static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
 {
-    static const char target_delimiter = ':', expr_delimiter = ',';
+    static const char expr_delimiter = ',';
 
     struct testfilter filter = testfilter_make();
 
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
-        if (c == target_delimiter && filter.apply == FILTER_ANY) {
+        if (c == filter_target_delimiter && filter.apply == FILTER_ANY) {
             // first target delimiter seen so this is a (possibly empty) suite filter
             filter.end = cursor;
             filter.apply = FILTER_SUITE;
