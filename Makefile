@@ -83,12 +83,16 @@ check:
 install:
 	cp $(INC_DIR)/$(PUB_HEADER) $(INST_INC)
 	cp $(LIB_DIR)/$(LIB_TARGET) $(INST_LIB)
-	if [ -d $(DOC_DIR) ] ; then cp -R $(DOC_DIR)/ $(INST_DOC) ; fi
+ifneq ($(wildcard $(DOC_DIR)),)
+	cp -R $(DOC_DIR)/ $(INST_DOC)
+endif
 
 uninstall:
 	rm $(INST_INC)/$(PUB_HEADER)
 	rm $(INST_LIB)/$(LIB_TARGET)
-	if [ -d $(DOC_DIR) ] ; then rm -r $(INST_DOC) ; fi
+ifneq ($(wildcard $(INST_DOC)),)
+	rm -r $(INST_DOC)
+endif
 
 clean:
 	$(RM) -r $(BUILD_DIR)
