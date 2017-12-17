@@ -685,7 +685,6 @@ static void runcontext_printfilters(void)
     runcontext_printtargetedfilters(FILTER_SUITE);
     printout(" ");
     runcontext_printtargetedfilters(FILTER_CASE);
-    // TODO: print all filters properly (currently printing "case, suite" instead of "suite:case")
     printout(" ");
     runcontext_printtargetedfilters(FILTER_ALL);
 }

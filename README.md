@@ -130,8 +130,9 @@ It is possible to develop CinyTest in Visual Studio by installing the [Clang wit
 
 To build CinyTest on Windows install the following tools:
 
-TODO: update these instructions
-- [Visual C++ 2015 Build Tools](http://landinghub.visualstudio.com/visual-cpp-build-tools) (as of this writing LLVM 3.9.1 does not work with Visual Studio 2017 Build Tools)
+- [Build Tools for Visual Studio 2017](https://www.visualstudio.com/downloads/)
+	- Visual C++ build tools
+	- VC++ 2015.3 v140 toolset for desktop (x86,x64) (as of this writing clang 5.0 does not support the 2017 C++ toolset)
 - clang
 - Doxygen (set the `_WIN64` preprocessor macro in the Predefined section to select the right documentation)
 

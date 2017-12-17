@@ -212,7 +212,10 @@
     [self assertFilters:@[] suite1Expected:[self except:RUN_TEST_BORT] suite2Expected:[self except:RUN_TEST_BARFOO]];
 }
 
-// TODO: add combination include/exclude tests
+- (void)test_IncludeAndExcludeFilters
+{
+    [self assertFilters:@[@"--ct-include=*b?rt", @"--ct-exclude=*bort"] suite1Expected:RUN_TEST_BART | RUN_TEST_EBERT suite2Expected:RUN_TEST_BART | RUN_TEST_EBERT];
+}
 
 - (RUN_TEST_FLAGS)except:(RUN_TEST_FLAGS)flags
 {
