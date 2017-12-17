@@ -10,8 +10,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <errno.h>
-#include <string.h>
 #include <io.h>
 #include <Windows.h>
 
@@ -66,13 +64,9 @@ FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
     
-    const int new_fd = _dup(_fileno(stream));
-    if (freopen("NUL", "w", stream)) {
-        return _fdopen(new_fd, "w");
-    } else {
-        fprintf(stderr, "WARNING: unable to replace standard stream! (%d:%s)\n", errno, strerror(errno));
-        return stream;
-    }
+    const int new_stream = _dup(_fileno(stream));
+    freopen("NUL", "w", stream);
+    return _fdopen(new_stream, "w");
 }
 
 void ct_restorestream(FILE *to, FILE *from)

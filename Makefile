@@ -51,10 +51,6 @@ debug: buildall
 
 buildall: build buildsample buildsampletests
 
-# gcc requires feature test for file descriptor functions
-ifneq ($(CC), clang)
-build: CFLAGS += -D_POSIX_C_SOURCE=1
-endif
 build: $(OBJ_FILES)
 	mkdir -p $(LIB_DIR)
 	$(AR) $(ARFLAGS) $(LIB_DIR)/$(LIB_TARGET) $(OBJ_FILES)
