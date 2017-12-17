@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
 
@@ -47,9 +49,13 @@ FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
     
-    const int new_stream = dup(fileno(stream));
-    freopen("/dev/null", "w", stream);
-    return fdopen(new_stream, "w");
+    const int new_fd = dup(fileno(stream));
+    if (freopen("/dev/null", "w", stream)) {
+        return fdopen(new_fd, "w");
+    } else {
+        fprintf(stderr, "WARNING: unable to replace standard stream! (%d:%s)\n", errno, strerror(errno));
+        return stream;
+    }
 }
 
 void ct_restorestream(FILE *to, FILE *from)
