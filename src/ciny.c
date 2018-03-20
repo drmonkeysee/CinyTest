@@ -205,7 +205,7 @@ static void print_highlighted(enum text_highlight style, const char * restrict f
     }
 }
 
-static void print_labelbox(enum text_highlight style, const char * restrict result_label)
+static void print_labelbox(enum text_highlight style, const char *result_label)
 {
     printout("[ ");
     print_highlighted(style, result_label);
@@ -340,7 +340,7 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){ .apply = FILTER_ANY };
 }
 
-static bool testfilter_match(const struct testfilter *self, const char * restrict name)
+static bool testfilter_match(const struct testfilter * restrict self, const char * restrict name)
 {
     static const char char_wildcard = '?', str_wildcard = '*';
 
@@ -424,7 +424,7 @@ static bool filterlist_any(filterlist *self, enum filtertarget target)
     return false;
 }
 
-static struct testfilter *filterlist_apply(filterlist *self, const char * restrict suite_name, const char * restrict case_name)
+static struct testfilter *filterlist_apply(filterlist * restrict self, const char * restrict suite_name, const char * restrict case_name)
 {
     for (; self; self = self->next) {
         switch (self->apply) {
@@ -771,7 +771,7 @@ static void assertstate_reset(void)
     AssertState.description[0] = AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const char * restrict test_name, struct runledger *ledger)
+static void assertstate_handlefailure(const char * restrict test_name, struct runledger * restrict ledger)
 {
     ++ledger->failed;
 
@@ -783,7 +783,7 @@ static void assertstate_handlefailure(const char * restrict test_name, struct ru
     }
 }
 
-static void assertstate_handleignore(const char * restrict test_name, struct runledger *ledger)
+static void assertstate_handleignore(const char * restrict test_name, struct runledger * restrict ledger)
 {
     ++ledger->ignored;
     
@@ -794,7 +794,7 @@ static void assertstate_handleignore(const char * restrict test_name, struct run
     }
 }
 
-static void assertstate_handle(const char * restrict test_name, struct runledger *ledger)
+static void assertstate_handle(const char * restrict test_name, struct runledger * restrict ledger)
 {
     switch (AssertState.type) {
         case ASSERT_FAILURE:
@@ -927,7 +927,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase *self, void * restrict test_context, struct runledger *ledger)
+static void testcase_run(const struct ct_testcase * restrict self, void * restrict test_context, struct runledger * restrict ledger)
 {
     if (!self->test) {
         printerr("WARNING: Test case '%s' skipped, NULL function pointer found!\n", self->name);
