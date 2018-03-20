@@ -131,8 +131,8 @@ static struct runsummary {
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version *);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
-extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]),
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[restrict], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline size_t ct_runsuite_withargs(const struct ct_testsuite * restrict, int, const char *[]),
                      ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ct_makevalue_uinteger(int, uintmax_t),
@@ -1049,7 +1049,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+size_t ct_run_withargs(const struct ct_testsuite suites[restrict], size_t count, int argc, const char *argv[])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();

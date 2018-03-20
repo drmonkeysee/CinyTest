@@ -144,7 +144,7 @@ ct_makesuite_setup_teardown_named(__func__, \
  @return A test suite.
  */
 inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict name,
-                                             const struct ct_testcase tests[],
+                                             const struct ct_testcase tests[restrict],
                                              size_t count,
                                              ct_setupteardown_function setup,
                                              ct_setupteardown_function teardown)
@@ -168,7 +168,7 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restri
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[]);
+size_t ct_run_withargs(const struct ct_testsuite suites[restrict], size_t count, int argc, const char *argv[]);
 
 /**
  Run a unit test suite with command line arguments.
@@ -177,7 +177,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
  @param argv The command line argument strings.
  @return The number of failed tests.
  */
-inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
+inline size_t ct_runsuite_withargs(const struct ct_testsuite * restrict suite, int argc, const char *argv[])
 {
     return ct_run_withargs(suite, 1, argc, argv);
 }
