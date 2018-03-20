@@ -12,18 +12,17 @@
 #include <stdbool.h>
 #include "binarytree.h"
 
-#define BT_EMPTY NULL
-
 struct bt_node {
     struct bt_node *left, *right;
     int value;
 };
+static struct bt_node * const EmptyTree = NULL;
 
 static struct bt_node *create_node(int value)
 {
     struct bt_node * const new_node = malloc(sizeof *new_node);
     new_node->value = value;
-    new_node->left = new_node->right = BT_EMPTY;
+    new_node->left = new_node->right = EmptyTree;
     return new_node;
 }
 
@@ -58,14 +57,14 @@ static void remove_node(struct bt_node *self, int value)
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
         *node_ref = node->left;
-        node->left = BT_EMPTY;
+        node->left = EmptyTree;
         bt_free(node);
     } else if (node->right) {
         *node_ref = node->right;
-        node->right = BT_EMPTY;
+        node->right = EmptyTree;
         bt_free(node);
     } else {
-        *node_ref = BT_EMPTY;
+        *node_ref = EmptyTree;
         bt_free(node);
     }
 }
@@ -114,7 +113,7 @@ static void inline_tree(struct bt_node *self, struct bt_node *nodes[], ptrdiff_t
 
 static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t start_index, ptrdiff_t end_index)
 {
-    if (start_index > end_index) return BT_EMPTY;
+    if (start_index > end_index) return EmptyTree;
     
     const ptrdiff_t distance = end_index - start_index,
                     middle_index = start_index + (distance / 2);
@@ -132,7 +131,7 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t sta
 
 binarytree *bt_new(void)
 {
-    return BT_EMPTY;
+    return EmptyTree;
 }
 
 binarytree *bt_new_withvalues(size_t n, ...)
@@ -160,7 +159,7 @@ void bt_free(binarytree *self)
 
 bool bt_isempty(binarytree *self)
 {
-    return self == BT_EMPTY;
+    return self == EmptyTree;
 }
 
 void bt_insert(binarytree **self_ref, int value)
@@ -182,7 +181,7 @@ void bt_remove(binarytree **self_ref, int value)
     
     if ((*self_ref)->value == value) {
         bt_free(*self_ref);
-        *self_ref = BT_EMPTY;
+        *self_ref = EmptyTree;
         return;
     }
     
@@ -196,7 +195,7 @@ bool bt_contains(binarytree *self, int value)
     if (self->value == value) return true;
     
     struct bt_node ** const child_ref = find_childref(self, value);
-    return *child_ref != BT_EMPTY;
+    return *child_ref != EmptyTree;
 }
 
 bool bt_isbalanced(binarytree *self)
