@@ -546,7 +546,7 @@ static filterlist *parse_filters(const char *filter_option)
 // Run Context
 /////
 
-static const char *runcontext_capturevar(const char * restrict env_var, char * restrict *slot)
+static const char *runcontext_capturevar(const char * restrict env_var, char **slot)
 {
     *slot = malloc(strlen(env_var) + 1);
     strcpy(*slot, env_var);
@@ -889,7 +889,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value *expec
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value *value, char buffer[restrict], size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value * restrict value, char buffer[restrict], size_t size)
 {
     int write_count;
     
