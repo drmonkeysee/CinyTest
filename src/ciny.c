@@ -953,7 +953,7 @@ static enum suitebreak suitebreak_make(void)
     return RunContext.verbosity > VERBOSITY_LIST ? SUITEBREAK_OPEN : SUITEBREAK_END;
 }
 
-static void suitebreak_open(enum suitebreak *state, const struct ct_testsuite *suite)
+static void suitebreak_open(enum suitebreak * restrict state, const struct ct_testsuite * restrict suite)
 {
     if (*state == SUITEBREAK_OPEN) {
         testsuite_printheader(suite, time(NULL));
@@ -961,7 +961,7 @@ static void suitebreak_open(enum suitebreak *state, const struct ct_testsuite *s
     }
 }
 
-static void suitebreak_close(enum suitebreak *state, const struct runsummary *summary)
+static void suitebreak_close(enum suitebreak * restrict state, const struct runsummary * restrict summary)
 {
     if (*state == SUITEBREAK_CLOSE) {
         runsummary_print(summary);
@@ -969,7 +969,7 @@ static void suitebreak_close(enum suitebreak *state, const struct runsummary *su
     }
 }
 
-static void testsuite_runcase(const struct ct_testsuite *self, const struct ct_testcase *current_case, struct runsummary *summary, enum suitebreak *sb_ref)
+static void testsuite_runcase(const struct ct_testsuite * restrict self, const struct ct_testcase * restrict current_case, struct runsummary * restrict summary, enum suitebreak * restrict sb_ref)
 {
     assertstate_reset();
 
