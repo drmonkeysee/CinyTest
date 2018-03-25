@@ -143,8 +143,8 @@ ct_makesuite_setup_teardown_named(__func__, \
  @param teardown The teardown function. Runs after each test case. Can be NULL.
  @return A test suite.
  */
-inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict name,
-                                             const struct ct_testcase tests[restrict],
+inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
+                                             const struct ct_testcase tests[],
                                              size_t count,
                                              ct_setupteardown_function setup,
                                              ct_setupteardown_function teardown)
@@ -168,7 +168,7 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restri
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-size_t ct_run_withargs(const struct ct_testsuite suites[restrict], size_t count, int argc, const char *argv[]);
+size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[]);
 
 /**
  Run a unit test suite with command line arguments.
@@ -177,7 +177,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[restrict], size_t count,
  @param argv The command line argument strings.
  @return The number of failed tests.
  */
-inline size_t ct_runsuite_withargs(const struct ct_testsuite * restrict suite, int argc, const char *argv[])
+inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
 {
     return ct_run_withargs(suite, 1, argc, argv);
 }
@@ -524,7 +524,7 @@ _Noreturn void ct_internal_assertfail(const char * restrict, int, const char * r
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_asserttrue(_Bool, const char * restrict, const char * restrict, int, const char * restrict, ...);
+void ct_internal_asserttrue(_Bool, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is false, with contextual details and message.
@@ -536,7 +536,7 @@ void ct_internal_asserttrue(_Bool, const char * restrict, const char * restrict,
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertfalse(_Bool, const char * restrict, const char * restrict, int, const char * restrict, ...);
+void ct_internal_assertfalse(_Bool, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is NULL, with contextual details and message.
@@ -548,7 +548,7 @@ void ct_internal_assertfalse(_Bool, const char * restrict, const char * restrict
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnull(const void * restrict, const char * restrict, const char * restrict, int, const char * restrict, ...);
+void ct_internal_assertnull(const void * restrict, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether the expression is not NULL, with contextual details and message.
@@ -560,7 +560,7 @@ void ct_internal_assertnull(const void * restrict, const char * restrict, const 
  @param format The printf-style format string to display when the assertion fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotnull(const void * restrict, const char * restrict, const char * restrict, int, const char * restrict, ...);
+void ct_internal_assertnotnull(const void * restrict, const char *, const char * restrict, int, const char * restrict, ...);
 
 /**
  Assert whether two values are equal, with contextual details and message.
