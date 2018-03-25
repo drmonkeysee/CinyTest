@@ -11,7 +11,7 @@
 #include <stddef.h>
 #include "binarytree.h"
 
-static void tree_output(binarytree *tree)
+static void tree_output(const binarytree *tree)
 {
     if (bt_isbalanced(tree)) {
         printf("This tree has been dewackified:\n");
