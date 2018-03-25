@@ -131,8 +131,8 @@ static struct runsummary {
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version *);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char * restrict, const struct ct_testcase[restrict], size_t, ct_setupteardown_function, ct_setupteardown_function);
-extern inline size_t ct_runsuite_withargs(const struct ct_testsuite * restrict, int, const char *[]),
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]),
                      ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ct_makevalue_uinteger(int, uintmax_t),
@@ -212,7 +212,7 @@ static void print_labelbox(enum text_highlight style, const char *result_label)
     printout(" ] - ");
 }
 
-static void print_testresult(enum text_highlight style, const char * restrict result_label, const char * restrict name)
+static void print_testresult(enum text_highlight style, const char *result_label, const char *name)
 {
     if (RunContext.verbosity == VERBOSITY_MINIMAL) {
         static bool first_call = true;
@@ -340,7 +340,7 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){ .apply = FILTER_ANY };
 }
 
-static bool testfilter_match(const struct testfilter * restrict self, const char * restrict name)
+static bool testfilter_match(const struct testfilter *self, const char *name)
 {
     static const char char_wildcard = '?', str_wildcard = '*';
 
@@ -416,7 +416,7 @@ static void filterlist_push(filterlist **self_ref, struct testfilter filter)
     *self_ref = filter_node;
 }
 
-static bool filterlist_any(filterlist *self, enum filtertarget target)
+static bool filterlist_any(const filterlist *self, enum filtertarget target)
 {
     for (; self; self = self->next) {
         if (self->apply == target) return true;
@@ -452,7 +452,7 @@ static struct testfilter *filterlist_apply(filterlist * restrict self, const cha
     return NULL;
 }
 
-static void filterlist_print(filterlist *self, enum filtertarget match, enum text_highlight style)
+static void filterlist_print(const filterlist *self, enum filtertarget match, enum text_highlight style)
 {
     for (; self; self = self->next) {
         if (self->apply != match) continue;
@@ -1049,7 +1049,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_run_withargs(const struct ct_testsuite suites[restrict], size_t count, int argc, const char *argv[])
+size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();
@@ -1092,7 +1092,7 @@ noreturn void ct_internal_assertfail(const char * restrict file, int line, const
     assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
 }
 
-void ct_internal_asserttrue(bool expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_asserttrue(bool expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (!expression) {
         assertstate_setdescription("(%s) is true failed", stringized_expression);
@@ -1100,7 +1100,7 @@ void ct_internal_asserttrue(bool expression, const char * restrict stringized_ex
     }
 }
 
-void ct_internal_assertfalse(bool expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertfalse(bool expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (expression) {
         assertstate_setdescription("(%s) is false failed", stringized_expression);
@@ -1108,7 +1108,7 @@ void ct_internal_assertfalse(bool expression, const char * restrict stringized_e
     }
 }
 
-void ct_internal_assertnull(const void * restrict expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnull(const void * restrict expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (expression) {
         assertstate_setdescription("(%s) is NULL failed: (%p)", stringized_expression, expression);
@@ -1116,7 +1116,7 @@ void ct_internal_assertnull(const void * restrict expression, const char * restr
     }
 }
 
-void ct_internal_assertnotnull(const void * restrict expression, const char * restrict stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnotnull(const void * restrict expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
 {
     if (!expression) {
         assertstate_setdescription("(%s) is not NULL failed", stringized_expression);
