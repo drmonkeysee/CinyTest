@@ -121,8 +121,7 @@
     
     assert_invalidvaluetype(((int[]){ 1, 2, 3 }));
     
-    struct t { int a; int b; };
-    assert_invalidvaluetype(((struct t){ 1, 2 }));
+    assert_invalidvaluetype(((struct { int a; int b; }){ 1, 2 }));
 }
 
 - (void)test_ctmakevalue_CreatesInvalidTypes
