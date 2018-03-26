@@ -65,7 +65,7 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED
 };
 
-static const char filter_target_delimiter = ':';
+static const char FilterTargetDelimiter = ':';
 enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
@@ -110,7 +110,7 @@ static struct {
 } AssertState;
 static jmp_buf AssertSignal;
 
-static const size_t InvalidSuite = 0;
+static const size_t InvalidSuite;
 enum suitebreak {
     SUITEBREAK_END,
     SUITEBREAK_OPEN,
@@ -461,7 +461,7 @@ static void filterlist_print(const filterlist *self, enum filtertarget match, en
             const struct testfilter * const fcase = self,
                                     * const fsuite = self = self->next;
             testfilter_print(fsuite, style);
-            print_highlighted(style, "%c", filter_target_delimiter);
+            print_highlighted(style, "%c", FilterTargetDelimiter);
             testfilter_print_noprefix(fcase, style);
         } else {
             testfilter_print(self, style);
@@ -490,7 +490,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
 
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
-        if (c == filter_target_delimiter && filter.apply == FILTER_ANY) {
+        if (c == FilterTargetDelimiter && filter.apply == FILTER_ANY) {
             // first target delimiter seen so this is a (possibly empty) suite filter
             filter.end = cursor;
             filter.apply = FILTER_SUITE;
