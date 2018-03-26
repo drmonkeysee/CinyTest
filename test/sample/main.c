@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Brandon Stansbury. All rights reserved.
 //
 
-#include <stdlib.h>
+#include <stddef.h>
 
 size_t binarytree_tests(int argc, const char *argv[]);
 
