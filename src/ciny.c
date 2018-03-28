@@ -1049,7 +1049,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();

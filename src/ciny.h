@@ -158,17 +158,25 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
  The size of the test suites array is calculated inline so suites must be an array lvalue.
  @return The total number of failed tests.
  */
-#define ct_run(suites) ct_run_withargs(suites, sizeof (suites) / sizeof (suites)[0], 0, NULL)
-
+#define ct_run(suites) ct_run_withargs(suites, 0, NULL)
 /**
  Run multiple unit test suites with command line arguments.
+ @param suites The test suites to run.
+ The size of the test suites array is calculated inline so suites must be an array lvalue.
+ @param argc The command line argument count.
+ @param argv The command line argument strings.
+ @return The total number of failed tests.
+ */
+#define ct_run_withargs(suites, argc, argv) ct_runcount_withargs(suites, sizeof (suites) / sizeof (suites)[0], argc, argv)
+/**
+ Run unit test suites with count and command line arguments.
  @param suites The test suites to run.
  @param count The number of test suites.
  @param argc The command line argument count.
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[]);
+size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[]);
 
 /**
  Run a unit test suite with command line arguments.
@@ -179,7 +187,7 @@ size_t ct_run_withargs(const struct ct_testsuite suites[], size_t count, int arg
  */
 inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite, int argc, const char *argv[])
 {
-    return ct_run_withargs(suite, 1, argc, argv);
+    return ct_runcount_withargs(suite, 1, argc, argv);
 }
 
 /**

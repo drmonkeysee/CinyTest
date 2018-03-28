@@ -137,7 +137,7 @@ static struct ct_testsuite make_suite(const char *name, ct_setupteardown_functio
         argv[i] = [filters[i] UTF8String];
     }
     
-    ct_run_withargs(Suites, sizeof Suites / sizeof Suites[0], argc, argv);
+    ct_run_withargs(Suites, argc, argv);
     
     XCTAssertEqual(suite1Expected, Suite1Flags);
     XCTAssertEqual(suite2Expected, Suite2Flags);
