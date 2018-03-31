@@ -182,6 +182,19 @@ static void test_teardown(void **context_ref)
     XCTAssertEqual(-3, self.teardownSawContext);
 }
 
+- (void)test_ctrunsuite_InvokesPassingTests_UpToCount
+{
+    const struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test) };
+    const struct ct_testsuite suite = ct_makesuite_setup_teardown_named("foobar", cases, 2, NULL, NULL);
+    
+    const size_t run_result = ct_runsuite(&suite);
+    
+    XCTAssertEqual(0u, run_result);
+    XCTAssertEqual(2u, self.passingTestInvocations);
+    XCTAssertEqual(0u, self.failingTestInvocations);
+    XCTAssertEqual(0u, self.ignoredTestInvocations);
+}
+
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcase
 {
     const struct ct_testcase cases[] = { ct_maketest(passing_test), ct_maketest(NULL), ct_maketest(passing_test) };

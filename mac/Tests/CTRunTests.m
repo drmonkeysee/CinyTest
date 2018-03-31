@@ -398,7 +398,7 @@ static void test_teardownB(void **context_ref)
     XCTAssertEqual(3, self.testSawContextB);
 }
 
-- (void)test_ctruncount_withargs_Handles_NullAndEmpty_Arguments
+- (void)test_ctruncount_withargs_Runs_Count_Suites
 {
     const struct ct_testcase casesA[] = {
         ct_maketest(passing_testA),
@@ -417,17 +417,17 @@ static void test_teardownB(void **context_ref)
     };
     const char *args[] = { "foo", NULL, "bar", "" };
     
-    const size_t run_result = ct_runcount_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
+    const size_t run_result = ct_runcount_withargs(suites, 1, sizeof args / sizeof args[0], args);
     
-    XCTAssertEqual(2u, run_result);
+    XCTAssertEqual(1u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
     XCTAssertEqual(1u, self.ignoredTestInvocationsA);
-    XCTAssertEqual(1u, self.passingTestInvocationsB);
-    XCTAssertEqual(1u, self.failingTestInvocationsB);
-    XCTAssertEqual(1u, self.ignoredTestInvocationsB);
+    XCTAssertEqual(0u, self.passingTestInvocationsB);
+    XCTAssertEqual(0u, self.failingTestInvocationsB);
+    XCTAssertEqual(0u, self.ignoredTestInvocationsB);
     XCTAssertEqual(4, self.testSawContextA);
-    XCTAssertEqual(3, self.testSawContextB);
+    XCTAssertEqual(0, self.testSawContextB);
 }
 
 @end
