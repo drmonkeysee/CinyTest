@@ -7,7 +7,6 @@
 //
 
 #import "CTTestBase.h"
-#include <stddef.h>
 
 // these are macros instead of objc methods so the
 // XCTest exceptions are still raised at the unit test call site,

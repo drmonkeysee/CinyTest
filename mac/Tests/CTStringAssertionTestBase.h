@@ -7,6 +7,7 @@
 //
 
 #import "CTAssertionTestBase.h"
+#include <stddef.h>
 
 @interface CTStringAssertionTestBase : CTAssertionTestBase
 

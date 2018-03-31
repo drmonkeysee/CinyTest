@@ -9,6 +9,7 @@
 #import "CTEqualAssertionTestBase.h"
 #include <float.h>
 #include <complex.h>
+#include <stddef.h>
 #include "ciny.h"
 
 @interface CTAssertNotEqualTests : CTEqualAssertionTestBase
