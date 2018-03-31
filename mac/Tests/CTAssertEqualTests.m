@@ -10,6 +10,7 @@
 #include <float.h>
 #include <complex.h>
 #include <stddef.h>
+#include <limits.h>
 #include "ciny.h"
 
 @interface CTAssertEqualTests : CTEqualAssertionTestBase
@@ -295,8 +296,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestIntegerValue
 {
-    ll_values[ARG_EXPECTED] = LONG_LONG_MAX;
-    ll_values[ARG_ACTUAL] = LONG_LONG_MAX;
+    ll_values[ARG_EXPECTED] = LLONG_MAX;
+    ll_values[ARG_ACTUAL] = LLONG_MAX;
     self.expectedType = TAT_LONG_LONG;
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -323,8 +324,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfSmallestIntegerValue
 {
-    ll_values[ARG_EXPECTED] = LONG_LONG_MIN;
-    ll_values[ARG_ACTUAL] = LONG_LONG_MIN;
+    ll_values[ARG_EXPECTED] = LLONG_MIN;
+    ll_values[ARG_ACTUAL] = LLONG_MIN;
     self.expectedType = TAT_LONG_LONG;
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = { ct_maketest(equality_test) };
@@ -451,8 +452,8 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesEqual_IfLargestUnsignedIntegerValue
 {
-    ull_values[ARG_EXPECTED] = ULONG_LONG_MAX;
-    ull_values[ARG_ACTUAL] = ULONG_LONG_MAX;
+    ull_values[ARG_EXPECTED] = ULLONG_MAX;
+    ull_values[ARG_ACTUAL] = ULLONG_MAX;
     self.expectedType = TAT_ULONG_LONG;
     self.actualType = TAT_ULONG_LONG;
     const struct ct_testcase tests[] = { ct_maketest(equality_test) };

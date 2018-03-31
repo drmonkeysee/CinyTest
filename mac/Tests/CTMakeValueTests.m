@@ -60,7 +60,7 @@
     
     assert_valuetype(long, LONG_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
-    assert_valuetype(long long, LONG_LONG_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
+    assert_valuetype(long long, LLONG_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
     
 #if CHAR_MIN < 0
     assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_INTEGER, get_integer_value);
@@ -82,7 +82,7 @@
     
     assert_valuetype(unsigned long, ULONG_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
-    assert_valuetype(unsigned long long, ULONG_LONG_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
+    assert_valuetype(unsigned long long, ULLONG_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
     
 #if CHAR_MIN == 0
     assert_valuetype(char, CHAR_MAX, CT_ANNOTATE_UINTEGER, get_uinteger_value);
