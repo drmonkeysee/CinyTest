@@ -20,8 +20,9 @@ ARFLAGS := -rsv
 
 PUB_HEADER := ciny.h
 HEADER_FILES := $(addprefix $(SRC_DIR)/,$(PUB_HEADER))
-SRC_FILES := $(addprefix $(SRC_DIR)/,ciny.c ciny_posix.c)
-OBJ_FILES := $(addprefix $(OBJ_DIR)/,ciny.o ciny_posix.o)
+SOURCES := ciny.c ciny_posix.c
+SRC_FILES := $(addprefix $(SRC_DIR)/,$(SOURCES))
+OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(SOURCES:.c=.o))
 SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c
 LIB_TARGET := libcinytest.a
 SAMP_TARGET := sample
