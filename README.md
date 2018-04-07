@@ -132,7 +132,7 @@ To build CinyTest on Windows install the following tools:
 
 - [Build Tools for Visual Studio 2017](https://www.visualstudio.com/downloads/)
 	- Visual C++ build tools
-	- VC++ 2015.3 v140 toolset for desktop (x86,x64) (as of this writing clang 5.0 does not support the 2017 C++ toolset)
+	- VC++ 2015.3 v140 toolset for desktop (x86,x64) (as of this writing clang does not support the 2017 C++ toolset)
 - clang
 - Doxygen (set the `_WIN64` preprocessor macro in the Predefined section to select the right documentation)
 
