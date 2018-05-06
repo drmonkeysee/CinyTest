@@ -40,7 +40,7 @@ endif
 .PHONY: release debug buildall build buildsample buildsampletests check install uninstall clean
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -iquote$(SRC_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 release: CFLAGS += -Os
 release: buildall
@@ -93,10 +93,10 @@ ifneq ($(wildcard $(DOC_DIR)),)
 endif
 
 uninstall:
-	rm $(INST_INC)/$(PUB_HEADER)
-	rm $(INST_LIB)/$(LIB_TARGET)
+	$(RM) $(INST_INC)/$(PUB_HEADER)
+	$(RM) $(INST_LIB)/$(LIB_TARGET)
 ifneq ($(wildcard $(INST_DOC)),)
-	rm -r $(INST_DOC)
+	$(RM) -r $(INST_DOC)
 endif
 
 clean:
