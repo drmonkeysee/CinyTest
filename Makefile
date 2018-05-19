@@ -39,9 +39,6 @@ endif
 
 .PHONY: release debug buildall build buildsample buildsampletests check install uninstall clean
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
 release: CFLAGS += -Os
 release: buildall
 	$(SP) $(SPFLAGS) $(BUILD_DIR)/$(SAMP_TARGET)
@@ -78,6 +75,9 @@ buildsampletests: LDLIBS := -lcinytest
 buildsampletests: SAMP_SRC_FILES += $(SAMP_TESTSRC_DIR)/main.c $(SAMP_TESTSRC_DIR)/binarytree_tests.c
 buildsampletests:
 	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) $(LDFLAGS) $(LDLIBS) -o $(BUILD_DIR)/$(SAMPT_TARGET)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER_FILES) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
