@@ -11,7 +11,7 @@
 #include <stddef.h>
 #include "ciny.h"
 
-typedef NS_ENUM(NSUInteger, RUN_SUITE) {
+enum {
     RUN_SUITE1,
     RUN_SUITE2
 };
