@@ -371,7 +371,7 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
             break;
         }
     }
-    bool const eof = fcursor == self->end || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
+    const bool eof = fcursor == self->end || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
     return eof && !(*ncursor);
 }
 
