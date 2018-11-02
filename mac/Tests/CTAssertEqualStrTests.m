@@ -413,8 +413,8 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfUnicodeCharIsComparedToComparableISOSequence
 {
-    self.expectedString = "’"; // 0xE2 0x80 0x99 (\u2019)
-    self.actualString = "â€™"; // 0xE2 0x80 0x99 in ISO-8859-1
+    self.expectedString = "’"; // 0xe2 0x80 0x99 (\u2019)
+    self.actualString = "â€™"; // 0xe2 0x80 0x99 in ISO-8859-1
     self.compareCount = sizeof "’";
     const struct ct_testcase tests[] = { ct_maketest(test_equality_stringn) };
     const struct ct_testsuite suite = ct_makesuite(tests);

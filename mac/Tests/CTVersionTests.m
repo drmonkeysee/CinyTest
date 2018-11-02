@@ -21,7 +21,7 @@
     
     const uint32_t vhex = ct_versionhex(&v);
     
-    XCTAssertEqual(0x000515CDu, vhex);
+    XCTAssertEqual(0x000515cdu, vhex);
 }
 
 - (void)test_ctversionhex_Matches_Current_Version

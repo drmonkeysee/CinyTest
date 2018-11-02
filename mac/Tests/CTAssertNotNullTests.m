@@ -53,7 +53,7 @@ static void literal_notnull_test(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertnotnull((void *)0xFFFF);
+    ct_assertnotnull((void *)0xffff);
     
     testObject.sawPostAssertCode = YES;
 }
