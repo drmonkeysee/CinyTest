@@ -39,7 +39,7 @@ struct ct_version {
  */
 inline struct ct_version ct_getversion(void)
 {
-    return (struct ct_version){ 5, 0, 0 };
+    return (struct ct_version){5, 0, 0};
 }
 /**
  Convert a semantic verson to hexadecimal form for easy numeric comparisons.
@@ -88,7 +88,7 @@ struct ct_testcase {
  @param test The unit test function for the test case.
  @return A test case.
  */
-#define ct_maketest_named(name, test) (struct ct_testcase){ name, test }
+#define ct_maketest_named(name, test) (struct ct_testcase){name, test}
 
 /**
  A test suite.
@@ -149,7 +149,7 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
                                              ct_setupteardown_function setup,
                                              ct_setupteardown_function teardown)
 {
-    return (struct ct_testsuite){ name, tests, count, setup, teardown };
+    return (struct ct_testsuite){name, tests, count, setup, teardown};
 }
 
 /**

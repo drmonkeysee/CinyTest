@@ -17,7 +17,7 @@
 
 - (void)test_ctversionhex_Generates_Expected_Value
 {
-    const struct ct_version v = { 5, 21, 205 };
+    const struct ct_version v = {5, 21, 205};
     
     const uint32_t vhex = ct_versionhex(&v);
     
@@ -36,8 +36,8 @@
 
 - (void)test_ctversionhex_Compares_Major_Properly
 {
-    const struct ct_version smaller = { 2, 1, 1 };
-    const struct ct_version bigger = { 3, 1, 1 };
+    const struct ct_version smaller = {2, 1, 1};
+    const struct ct_version bigger = {3, 1, 1};
     
     const uint32_t shex = ct_versionhex(&smaller),
                    bhex = ct_versionhex(&bigger);
@@ -47,8 +47,8 @@
 
 - (void)test_ctversionhex_Compares_Minor_Properly
 {
-    const struct ct_version smaller = { 2, 9, 1 };
-    const struct ct_version bigger = { 2, 12, 1 };
+    const struct ct_version smaller = {2, 9, 1};
+    const struct ct_version bigger = {2, 12, 1};
     
     const uint32_t shex = ct_versionhex(&smaller),
                    bhex = ct_versionhex(&bigger);
@@ -58,8 +58,8 @@
 
 - (void)test_ctversionhex_Compares_Patch_Properly
 {
-    const struct ct_version smaller = { 2, 5, 23 };
-    const struct ct_version bigger = { 2, 5, 154 };
+    const struct ct_version smaller = {2, 5, 23};
+    const struct ct_version bigger = {2, 5, 154};
     
     const uint32_t shex = ct_versionhex(&smaller),
                    bhex = ct_versionhex(&bigger);

@@ -68,7 +68,7 @@ static void ignore_test_formatmessage(void *context)
 
 - (void)test_ctignore_TerminatesTest_IfGivenNoMessage
 {
-    const struct ct_testcase cases[] = { ct_maketest(ignore_test_nomessage) };
+    const struct ct_testcase cases[] = {ct_maketest(ignore_test_nomessage)};
     const struct ct_testsuite suite = ct_makesuite(cases);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -78,7 +78,7 @@ static void ignore_test_formatmessage(void *context)
 
 - (void)test_ctignore_TerminatesTest_IfGivenMessage
 {
-    const struct ct_testcase cases[] = { ct_maketest(ignore_test_message) };
+    const struct ct_testcase cases[] = {ct_maketest(ignore_test_message)};
     const struct ct_testsuite suite = ct_makesuite(cases);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -88,7 +88,7 @@ static void ignore_test_formatmessage(void *context)
 
 - (void)test_ctignore_TerminatesTest_IfGivenFormattedMessage
 {
-    const struct ct_testcase cases[] = { ct_maketest(ignore_test_formatmessage) };
+    const struct ct_testcase cases[] = {ct_maketest(ignore_test_formatmessage)};
     const struct ct_testsuite suite = ct_makesuite(cases);
     
     const size_t run_result = ct_runsuite(&suite);

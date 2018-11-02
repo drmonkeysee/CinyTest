@@ -119,9 +119,9 @@
     
     assert_invalidvaluetype("bad value");
     
-    assert_invalidvaluetype(((int[]){ 1, 2, 3 }));
+    assert_invalidvaluetype(((int[]){1, 2, 3}));
     
-    assert_invalidvaluetype(((struct { int a; int b; }){ 1, 2 }));
+    assert_invalidvaluetype(((struct { int a; int b; }){1, 2}));
 }
 
 - (void)test_ctmakevalue_CreatesInvalidTypes
@@ -132,7 +132,7 @@
     struct {
         int i_v;
         float f_v;
-    } s = { 10, 5.0 };
+    } s = {10, 5.0};
     assert_invalidvaluetype(s);
     
     char str[5];

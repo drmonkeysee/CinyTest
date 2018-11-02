@@ -179,7 +179,7 @@ static void test_teardownB(void **context_ref)
 - (void)test_ctrun_ReturnsZero_IfSuitesHaveNullTestLists
 {
     const struct ct_testcase * const cases = NULL;
-    const struct ct_testsuite suites[] = { ct_makesuite(cases), ct_makesuite(cases) };
+    const struct ct_testsuite suites[] = {ct_makesuite(cases), ct_makesuite(cases)};
     
     const size_t run_result = ct_run(suites);
     
@@ -199,7 +199,7 @@ static void test_teardownB(void **context_ref)
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)
     };
-    const struct ct_testsuite suites[] = { ct_makesuite(casesA), ct_makesuite(casesB) };
+    const struct ct_testsuite suites[] = {ct_makesuite(casesA), ct_makesuite(casesB)};
     
     const size_t run_result = ct_run(suites);
     
@@ -229,7 +229,7 @@ static void test_teardownB(void **context_ref)
         ct_maketest(ignored_testB),
         ct_maketest(failing_testB)
     };
-    const struct ct_testsuite suites[] = { ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA), ct_makesuite(casesB) };
+    const struct ct_testsuite suites[] = {ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA), ct_makesuite(casesB)};
     
     const size_t run_result = ct_run(suites);
     
@@ -289,7 +289,7 @@ static void test_teardownB(void **context_ref)
         ct_maketest(failing_testB),
         ct_maketest(failing_testB)
     };
-    const struct ct_testsuite suites[] = { ct_makesuite(casesA), ct_makesuite(casesB) };
+    const struct ct_testsuite suites[] = {ct_makesuite(casesA), ct_makesuite(casesB)};
     
     const size_t run_result = ct_run(suites);
     

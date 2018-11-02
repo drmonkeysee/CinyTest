@@ -115,7 +115,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = NULL;
     self.actualString = NULL;
     self.compareCount = 0;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -128,7 +128,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = NULL;
     self.actualString = NULL;
     self.compareCount = 8;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -141,7 +141,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "";
     self.actualString = "";
     self.compareCount = sizeof "";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -154,7 +154,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "f";
     self.actualString = "f";
     self.compareCount = sizeof "f";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -167,7 +167,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "foobar";
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -180,7 +180,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "fooroo";
     self.compareCount = 3;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -193,7 +193,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "测试";
     self.actualString = "测试";
     self.compareCount = sizeof "测试";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -206,7 +206,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "💩";
     self.actualString = "💩";
     self.compareCount = sizeof "💩";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -219,7 +219,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "⌘";
     self.actualString = "\u2318";
     self.compareCount = sizeof "⌘";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -232,7 +232,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "🐴";
     self.actualString = "\U0001F434";
     self.compareCount = sizeof "🐴";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -247,7 +247,7 @@ static void test_inequality_string_withformatmessage(void *context)
     NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
     self.compareCount = longString.length + 1;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -260,7 +260,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "FOOBAR";
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -273,7 +273,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "fooba";
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -286,7 +286,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "foobars";
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -299,7 +299,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = NULL;
     self.actualString = "foobar";
     self.compareCount = 0;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -312,7 +312,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = NULL;
     self.actualString = "foobar";
     self.compareCount = 45;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -325,7 +325,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "";
     self.actualString = "foobar";
     self.compareCount = 1;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -338,7 +338,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = NULL;
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -351,7 +351,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = NULL;
     self.compareCount = 100;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -364,7 +364,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "";
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -377,7 +377,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "foobar";
     self.actualString = "blarg";
     self.compareCount = sizeof "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -390,7 +390,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "例子";
     self.actualString = "مثال.إختبار";
     self.compareCount = sizeof "例子";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -403,7 +403,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "🐵";
     self.actualString = "🐒";
     self.compareCount = sizeof "🐵";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -416,7 +416,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.expectedString = "’"; // 0xe2 0x80 0x99 (\u2019)
     self.actualString = "â€™"; // 0xe2 0x80 0x99 in ISO-8859-1
     self.compareCount = sizeof "’";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -432,7 +432,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.actualString = (char *)[copiedString UTF8String];
     ++self.actualString[0];
     self.compareCount = longString.length + 1;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -448,7 +448,7 @@ static void test_inequality_string_withformatmessage(void *context)
     self.actualString = (char *)[copiedString UTF8String];
     ++self.actualString[longString.length];
     self.compareCount = longString.length + 1;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -461,7 +461,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrEmpty_ComparesNotEqual_IfNull
 {
     self.actualString = NULL;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedempty) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedempty)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -472,7 +472,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrEmpty_ComparesEqual_IfEmpty
 {
     self.actualString = "";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedempty) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedempty)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -483,7 +483,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrEmpty_ComparesNotEqual_IfSingleChar
 {
     self.actualString = "f";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedempty) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedempty)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -494,7 +494,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrEmpty_ComparesNotEqual_IfNonEmptyString
 {
     self.actualString = "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedempty) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedempty)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -505,7 +505,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrOneChar_ComparesNotEqual_IfNull
 {
     self.actualString = NULL;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedonechar) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedonechar)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -516,7 +516,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrOneChar_ComparesNotEqual_IfEmpty
 {
     self.actualString = "";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedonechar) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedonechar)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -527,7 +527,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrOneChar_ComparesEqual_IfSingleChar
 {
     self.actualString = "b";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedonechar) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedonechar)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -538,7 +538,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrOneChar_ComparesNotEqual_IfNonEqualSingleChar
 {
     self.actualString = "d";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedonechar) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedonechar)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -549,7 +549,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrOneChar_ComparesNotEqual_IfNonEmptyString
 {
     self.actualString = "booz";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expectedonechar) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expectedonechar)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -560,7 +560,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrFullStr_ComparesNotEqual_IfNull
 {
     self.actualString = NULL;
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expected) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expected)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -571,7 +571,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrFullStr_ComparesNotEqual_IfEmpty
 {
     self.actualString = "";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expected) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expected)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -582,7 +582,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrFullStr_ComparesNotEqual_IfSingleChar
 {
     self.actualString = "f";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expected) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expected)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -593,7 +593,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrFullStr_ComparesEqual_IfSameString
 {
     self.actualString = "foobar";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expected) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expected)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -604,7 +604,7 @@ static void test_inequality_string_withformatmessage(void *context)
 - (void)test_ctassertnotequalstrFullStr_ComparesNotEqual_IfSuperstring
 {
     self.actualString = "foobars";
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_expected) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_expected)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -616,7 +616,7 @@ static void test_inequality_string_withformatmessage(void *context)
 
 - (void)test_ctassertnotequalstrn_FailsAssertion_WithMessage
 {
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn_withmessage) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn_withmessage)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -626,7 +626,7 @@ static void test_inequality_string_withformatmessage(void *context)
 
 - (void)test_ctassertnotequalstrn_FailsAssertion_WithFormattedMessage
 {
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_stringn_withformatmessage) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_stringn_withformatmessage)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -636,7 +636,7 @@ static void test_inequality_string_withformatmessage(void *context)
 
 - (void)test_ctassertnotequalstr_FailsAssertion_WithMessage
 {
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_withmessage) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_withmessage)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -646,7 +646,7 @@ static void test_inequality_string_withformatmessage(void *context)
 
 - (void)test_ctassertnotequalstr_FailsAssertion_WithFormattedMessage
 {
-    const struct ct_testcase tests[] = { ct_maketest(test_inequality_string_withformatmessage) };
+    const struct ct_testcase tests[] = {ct_maketest(test_inequality_string_withformatmessage)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);

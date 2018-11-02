@@ -61,7 +61,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -77,7 +77,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -93,7 +93,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -109,7 +109,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -125,7 +125,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -141,7 +141,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -157,7 +157,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -173,7 +173,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -189,7 +189,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -205,7 +205,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -221,7 +221,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -237,7 +237,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -254,7 +254,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -271,7 +271,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -289,7 +289,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -307,7 +307,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -324,7 +324,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -341,7 +341,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -359,7 +359,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -377,7 +377,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -394,7 +394,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -411,7 +411,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -429,7 +429,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -447,7 +447,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -464,7 +464,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -481,7 +481,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -499,7 +499,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -517,7 +517,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -534,7 +534,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -551,7 +551,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -569,7 +569,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -587,7 +587,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -604,7 +604,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -621,7 +621,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -639,7 +639,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -657,7 +657,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -673,7 +673,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -691,7 +691,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -707,7 +707,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -723,7 +723,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -739,7 +739,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -755,7 +755,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -771,7 +771,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -787,7 +787,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -803,7 +803,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -819,7 +819,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -836,7 +836,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -853,7 +853,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -871,7 +871,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -889,7 +889,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -906,7 +906,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -923,7 +923,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -941,7 +941,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -959,7 +959,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -976,7 +976,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -993,7 +993,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1011,7 +1011,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1029,7 +1029,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1047,7 +1047,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1063,7 +1063,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1079,7 +1079,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1095,7 +1095,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1111,7 +1111,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1127,7 +1127,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1144,7 +1144,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1161,7 +1161,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1179,7 +1179,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1197,7 +1197,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1214,7 +1214,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1231,7 +1231,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1249,7 +1249,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1267,7 +1267,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1284,7 +1284,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1301,7 +1301,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1319,7 +1319,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1337,7 +1337,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1353,7 +1353,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1369,7 +1369,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1385,7 +1385,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1401,7 +1401,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1417,7 +1417,7 @@ static void about_equality_test_withformatmessage(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1429,7 +1429,7 @@ static void about_equality_test_withformatmessage(void *context)
 
 - (void)test_ctaboutequal_FiresAssertion_WithMessage
 {
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test_withmessage) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test_withmessage)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);
@@ -1439,7 +1439,7 @@ static void about_equality_test_withformatmessage(void *context)
 
 - (void)test_ctaboutequal_FiresAssertion_WithFormatMessage
 {
-    const struct ct_testcase tests[] = { ct_maketest(about_equality_test_withformatmessage) };
+    const struct ct_testcase tests[] = {ct_maketest(about_equality_test_withformatmessage)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
     const size_t run_result = ct_runsuite(&suite);

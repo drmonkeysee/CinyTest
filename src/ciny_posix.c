@@ -30,7 +30,7 @@ uint64_t ct_get_currentmsecs(void)
 
 void ct_startcolor(FILE *stream, size_t color_index)
 {
-    static const char * const colors[] = { GREEN, RED, CYAN, MAGENTA };
+    static const char * const colors[] = {GREEN, RED, CYAN, MAGENTA};
     static const size_t color_count = sizeof colors / sizeof colors[0];
     
     if (color_index < color_count) {

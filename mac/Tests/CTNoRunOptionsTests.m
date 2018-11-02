@@ -26,7 +26,7 @@ static void test_case(void *context)
 
 - (void)test_noTestsRun_IfVersionOptionSet
 {
-    const struct ct_testcase cases[] = { ct_maketest(test_case) };
+    const struct ct_testcase cases[] = {ct_maketest(test_case)};
     const struct ct_testsuite suite = ct_makesuite(cases);
     const char *args[] = { "--ct-version" };
     
@@ -38,7 +38,7 @@ static void test_case(void *context)
 
 - (void)test_noTestsRun_IfHelpOptionSet
 {
-    const struct ct_testcase cases[] = { ct_maketest(test_case) };
+    const struct ct_testcase cases[] = {ct_maketest(test_case)};
     const struct ct_testsuite suite = ct_makesuite(cases);
     const char *args[] = { "--ct-help" };
     
