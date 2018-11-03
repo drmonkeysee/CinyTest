@@ -319,7 +319,7 @@ static void test_teardownB(void **context_ref)
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
     };
-    const char *args[] = { "foo", "bar" };
+    const char *args[] = {"foo", "bar"};
     
     const size_t run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
     
@@ -351,7 +351,7 @@ static void test_teardownB(void **context_ref)
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
     };
-    const char *args[] = { "foo", NULL, "bar", "" };
+    const char *args[] = {"foo", NULL, "bar", ""};
     
     const size_t run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
     
@@ -383,7 +383,7 @@ static void test_teardownB(void **context_ref)
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
     };
-    const char *args[] = { "foo", "bar" };
+    const char *args[] = {"foo", "bar"};
     
     const size_t run_result = ct_runcount_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
     
@@ -415,7 +415,7 @@ static void test_teardownB(void **context_ref)
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
     };
-    const char *args[] = { "foo", NULL, "bar", "" };
+    const char *args[] = {"foo", NULL, "bar", ""};
     
     const size_t run_result = ct_runcount_withargs(suites, 1, sizeof args / sizeof args[0], args);
     

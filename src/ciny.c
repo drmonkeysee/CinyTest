@@ -297,7 +297,7 @@ static bool pretty_truncate(char buffer[], size_t size)
 
 static bool argflag_on(const char *value)
 {
-    static const char off_flags[] = { 'n', 'N', 'f', 'F', '0' };
+    static const char off_flags[] = {'n', 'N', 'f', 'F', '0'};
     static const size_t flags_count = sizeof off_flags;
 
     if (!value) return true;
@@ -337,7 +337,7 @@ static const char *arg_value(const char *arg)
 
 static struct testfilter testfilter_make(void)
 {
-    return (struct testfilter){ .apply = FILTER_ANY };
+    return (struct testfilter){.apply = FILTER_ANY};
 }
 
 static bool testfilter_match(const struct testfilter *self, const char *name)
@@ -725,7 +725,7 @@ static void runcontext_cleanup(void)
 
 static struct runsummary runsummary_make(void)
 {
-    return (struct runsummary){ .test_count = 0 };
+    return (struct runsummary){.test_count = 0};
 }
 
 static void runsummary_print(const struct runsummary *self)

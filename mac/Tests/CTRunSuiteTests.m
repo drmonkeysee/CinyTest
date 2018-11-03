@@ -404,7 +404,7 @@ static void test_teardown(void **context_ref)
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
     const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
-    const char *args[] = { "foo", "bar" };
+    const char *args[] = {"foo", "bar"};
     
     const size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     
@@ -418,7 +418,7 @@ static void test_teardown(void **context_ref)
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
     const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
-    const char *args[] = { "foo", NULL, "bar", "" };
+    const char *args[] = {"foo", NULL, "bar", ""};
     
     const size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     

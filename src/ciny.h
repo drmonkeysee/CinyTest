@@ -449,7 +449,7 @@ _Generic(v, \
 inline struct ct_comparable_value ct_makevalue_integer(int placeholder, intmax_t value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .integer_value = value, .type = CT_ANNOTATE_INTEGER };
+    return (struct ct_comparable_value){.integer_value = value, .type = CT_ANNOTATE_INTEGER};
 }
 /**
  Create an unsigned integer comparable value structure.
@@ -460,7 +460,7 @@ inline struct ct_comparable_value ct_makevalue_integer(int placeholder, intmax_t
 inline struct ct_comparable_value ct_makevalue_uinteger(int placeholder, uintmax_t value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .uinteger_value = value, .type = CT_ANNOTATE_UINTEGER };
+    return (struct ct_comparable_value){.uinteger_value = value, .type = CT_ANNOTATE_UINTEGER};
 }
 /**
  Create a floating point comparable value structure.
@@ -471,7 +471,7 @@ inline struct ct_comparable_value ct_makevalue_uinteger(int placeholder, uintmax
 inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder, long double value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .floatingpoint_value = value, .type = CT_ANNOTATE_FLOATINGPOINT };
+    return (struct ct_comparable_value){.floatingpoint_value = value, .type = CT_ANNOTATE_FLOATINGPOINT};
 }
 /**
  Create a complex number comparable value structure.
@@ -482,7 +482,7 @@ inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder, lo
 inline struct ct_comparable_value ct_makevalue_complex(int placeholder, ct_lcomplex value)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .complex_value = value, .type = CT_ANNOTATE_COMPLEX };
+    return (struct ct_comparable_value){.complex_value = value, .type = CT_ANNOTATE_COMPLEX};
 }
 /**
  Create a comparable value structure for an expression that cannot be converted into a simple value type.
@@ -493,7 +493,7 @@ inline struct ct_comparable_value ct_makevalue_complex(int placeholder, ct_lcomp
 inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
 {
     (void)placeholder;
-    return (struct ct_comparable_value){ .type = CT_ANNOTATE_INVALID };
+    return (struct ct_comparable_value){.type = CT_ANNOTATE_INVALID};
 }
 
 /**

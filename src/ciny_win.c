@@ -27,7 +27,7 @@ uint64_t ct_get_currentmsecs(void)
     FILETIME vtime;
     GetSystemTimeAsFileTime(&vtime);
     
-    const ULARGE_INTEGER ntime = { .LowPart = vtime.dwLowDateTime, .HighPart = vtime.dwHighDateTime };
+    const ULARGE_INTEGER ntime = {.LowPart = vtime.dwLowDateTime, .HighPart = vtime.dwHighDateTime};
     return ntime.QuadPart / MillisecondFactor;
 }
 
