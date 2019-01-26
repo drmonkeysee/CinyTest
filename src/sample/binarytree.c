@@ -162,30 +162,28 @@ bool bt_isempty(const binarytree *self)
     return self == EmptyTree;
 }
 
-void bt_insert(binarytree **self_ref, int value)
+void bt_insert(binarytree *self[static 1], int value)
 {
-    if (!self_ref) return;
-    
-    if (!(*self_ref)) {
-        *self_ref = create_node(value);
-    } else if ((*self_ref)->value > value) {
-        bt_insert(&(*self_ref)->left, value);
-    } else if ((*self_ref)->value < value) {
-        bt_insert(&(*self_ref)->right, value);
+    if (!(*self)) {
+        *self = create_node(value);
+    } else if ((*self)->value > value) {
+        bt_insert(&(*self)->left, value);
+    } else if ((*self)->value < value) {
+        bt_insert(&(*self)->right, value);
     }
 }
 
-void bt_remove(binarytree **self_ref, int value)
+void bt_remove(binarytree *self[static 1], int value)
 {
-    if (!self_ref || !(*self_ref)) return;
+    if (!(*self)) return;
     
-    if ((*self_ref)->value == value) {
-        bt_free(*self_ref);
-        *self_ref = EmptyTree;
+    if ((*self)->value == value) {
+        bt_free(*self);
+        *self = EmptyTree;
         return;
     }
     
-    remove_node(*self_ref, value);
+    remove_node(*self, value);
 }
 
 bool bt_contains(const binarytree *self, int value)
@@ -207,18 +205,18 @@ bool bt_isbalanced(const binarytree *self)
     return balanced_tree(self, &depth);
 }
 
-void bt_rebalance(binarytree **self_ref)
+void bt_rebalance(binarytree *self[static 1])
 {
-    if (!self_ref || !(*self_ref)) return;
+    if (!(*self)) return;
     
-    const size_t size = bt_size(*self_ref);
+    const size_t size = bt_size(*self);
     struct bt_node *sorted_nodes[size];
     
     const ptrdiff_t start = 0, end = size - 1;
     ptrdiff_t current_index = start;
-    inline_tree(*self_ref, sorted_nodes, &current_index);
+    inline_tree(*self, sorted_nodes, &current_index);
     
-    *self_ref = rebalance_node(sorted_nodes, start, end);
+    *self = rebalance_node(sorted_nodes, start, end);
 }
 
 size_t bt_size(const binarytree *self)

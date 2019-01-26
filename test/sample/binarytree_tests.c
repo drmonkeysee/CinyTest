@@ -65,16 +65,6 @@ static void btdepth_returnszero_ifemptytree(void *context)
     ct_assertequal(0u, depth);
 }
 
-static void btinsert_doesnothing_iftreeisnull(void *context)
-{
-    binarytree ** const ref = NULL;
-    
-    bt_insert(ref, 4);
-    
-    // nothing to assert so this is merely illustrative
-    ct_assertnull(ref);
-}
-
 static void btinsert_insertsvalue(void *context)
 {
     struct bt_testcontext * const ctx = context;
@@ -175,16 +165,6 @@ static void btcontains_returnsfalse_ifemptytree(void *context)
     const bool contains = bt_contains(ctx->tree, expected_value);
     
     ct_assertfalse(contains);
-}
-
-static void btremove_doesnothing_iftreeisnull(void *context)
-{
-    binarytree ** const ref = NULL;
-    
-    bt_remove(ref, 8);
-    
-    // nothing to assert so this is merely illustrative
-    ct_assertnull(ref);
 }
 
 static void btremove_doesnothing_iftreeisempty(void *context)
@@ -404,16 +384,6 @@ static void btisbalanced_isfalse_if_forkedtree(void *context)
     ct_assertfalse(balanced);
 }
 
-static void btrebalance_doesnothing_iftreeisnull(void *context)
-{
-    binarytree ** const ref = NULL;
-    
-    bt_rebalance(ref);
-    
-    // nothing to assert so this is merely illustrative
-    ct_assertnull(ref);
-}
-
 static void btrebalance_rebalancestree(void *context)
 {
     struct bt_testcontext * const ctx = context;
@@ -470,7 +440,6 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btsize_returnszero_ifemptytree),
         ct_maketest(btdepth_returnszero_ifemptytree),
         
-        ct_maketest(btinsert_doesnothing_iftreeisnull),
         ct_maketest(btinsert_insertsvalue),
         ct_maketest(btinsert_allowszero_ifinserted),
         ct_maketest(btinsert_createstreestructure),
@@ -482,7 +451,6 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btcontains_returnsfalse_ifvaluenotpresent),
         ct_maketest(btcontains_returnsfalse_ifemptytree),
         
-        ct_maketest(btremove_doesnothing_iftreeisnull),
         ct_maketest(btremove_doesnothing_iftreeisempty),
         ct_maketest(btremove_removesvalue),
         ct_maketest(btremove_removesvalue_if_among_othervalues),
@@ -502,7 +470,6 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btisbalanced_isfalse_if_lopsidedunevensubtrees),
         ct_maketest(btisbalanced_isfalse_if_forkedtree),
         
-        ct_maketest(btrebalance_doesnothing_iftreeisnull),
         ct_maketest(btrebalance_rebalancestree),
         ct_maketest(btrebalance_doesnothing_ifemptytree),
         ct_maketest(btrebalance_doesnothing_ifoneelementtree),
