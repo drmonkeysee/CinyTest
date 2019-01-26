@@ -408,12 +408,12 @@ static filterlist *filterlist_new(void)
     return NULL;
 }
 
-static void filterlist_push(filterlist **self_ref, struct testfilter filter)
+static void filterlist_push(filterlist *self[static 1], struct testfilter filter)
 {
     struct testfilter * const filter_node = malloc(sizeof *filter_node);
     *filter_node = filter;
-    filter_node->next = *self_ref;
-    *self_ref = filter_node;
+    filter_node->next = *self;
+    *self = filter_node;
 }
 
 static bool filterlist_any(const filterlist *self, enum filtertarget target)
@@ -482,7 +482,7 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static const char *parse_filterexpr(const char * restrict cursor, filterlist **fl_ref)
+static const char *parse_filterexpr(const char * restrict cursor, filterlist *fl[static 1])
 {
     static const char expr_delimiter = ',';
 
@@ -502,7 +502,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
 
             if (filter.start < filter.end) {
                 next_target = filter.apply = FILTER_ALL;
-                filterlist_push(fl_ref, filter);
+                filterlist_push(fl, filter);
             }
 
             filter = testfilter_make();
@@ -516,7 +516,7 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist **f
     }
     
     if (filter.start < filter.end) {
-        filterlist_push(fl_ref, filter);
+        filterlist_push(fl, filter);
     }
     
     // Finish the expression either by consuming the
@@ -546,7 +546,7 @@ static filterlist *parse_filters(const char *filter_option)
 // Run Context
 /////
 
-static const char *runcontext_capturevar(const char * restrict env_var, char **slot)
+static const char *runcontext_capturevar(const char * restrict env_var, char *slot[static 1])
 {
     *slot = malloc(strlen(env_var) + 1);
     strcpy(*slot, env_var);
