@@ -56,14 +56,14 @@ inline uint32_t ct_versionhex(const struct ct_version *version)
  Type definition for a unit test function.
  @param context Test context created in a suite's setup function.
  */
-typedef void (*ct_test_function)(void *);
+typedef void ct_test_function(void *);
 
 /**
  Type definition for a unit test setup or teardown function.
- @param context_ref Pointer to a test context for initialization or destruction.
+ @param context Non-null pointer to a test context for initialization or destruction.
  The test context will be passed to all unit tests for a given suite.
  */
-typedef void (*ct_setupteardown_function)(void **);
+typedef void ct_setupteardown_function(void *[static 1]);
 
 /**
  A test case.
@@ -71,7 +71,7 @@ typedef void (*ct_setupteardown_function)(void **);
  */
 struct ct_testcase {
     const char *name;       /**< The function name of the test. */
-    ct_test_function test;  /**< The test function. */
+    ct_test_function *test; /**< The test function. */
 };
 
 /**
@@ -95,11 +95,11 @@ struct ct_testcase {
  A named collection of test cases with optional setup and teardown functions.
  */
 struct ct_testsuite {
-    const char *name;                   /**< The name of the test suite. */
-    const struct ct_testcase *tests;    /**< The collection of tests to run. */
-    size_t count;                       /**< The number of tests to be run. */
-    ct_setupteardown_function setup,    /**< The test setup function. Run before each test case. May be NULL. */
-                              teardown; /**< The test teardown function. Runs after each test case. May be NULL. */
+    const char *name;                       /**< The name of the test suite. */
+    const struct ct_testcase *tests;        /**< The collection of tests to run. */
+    size_t count;                           /**< The number of tests to be run. */
+    ct_setupteardown_function *setup,       /**< The test setup function. Run before each test case. May be NULL. */
+                              *teardown;    /**< The test teardown function. Runs after each test case. May be NULL. */
 };
 
 /**
@@ -146,8 +146,8 @@ ct_makesuite_setup_teardown_named(__func__, \
 inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
                                              const struct ct_testcase tests[],
                                              size_t count,
-                                             ct_setupteardown_function setup,
-                                             ct_setupteardown_function teardown)
+                                             ct_setupteardown_function *setup,
+                                             ct_setupteardown_function *teardown)
 {
     return (struct ct_testsuite){name, tests, count, setup, teardown};
 }

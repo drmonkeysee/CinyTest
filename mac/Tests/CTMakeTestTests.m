@@ -23,7 +23,7 @@ static void maketest_faketest(void *context)
 
 - (void)test_ctmaketest_CreatesTestCase
 {
-    const ct_test_function expected_function = maketest_faketest;
+    ct_test_function * const expected_function = maketest_faketest;
     
     const struct ct_testcase testcase = ct_maketest(maketest_faketest);
     
@@ -41,7 +41,7 @@ static void maketest_faketest(void *context)
 
 - (void)test_ctmaketestnamed_CreatesTestCaseWithName
 {
-    const ct_test_function expected_function = maketest_faketest;
+    ct_test_function * const expected_function = maketest_faketest;
     
     const struct ct_testcase testcase = ct_maketest_named("fake name", expected_function);
     

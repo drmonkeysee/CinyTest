@@ -10,12 +10,12 @@
 #include <stddef.h>
 #include "ciny.h"
 
-static void makesuite_fakesetup(void **context_ref)
+static void makesuite_fakesetup(void *context[static 1])
 {
     // do nothing
 }
 
-static void makesuite_faketeardown(void **context_ref)
+static void makesuite_faketeardown(void *context[static 1])
 {
     // do nothing
 }
@@ -74,7 +74,7 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              * const expected_tests = faketests;
-    const ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    ct_setupteardown_function * const expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
@@ -91,7 +91,7 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              * const expected_tests = faketests;
-    const ct_setupteardown_function expected_setup = makesuite_fakesetup;
+    ct_setupteardown_function * const expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
@@ -122,8 +122,8 @@ static struct ct_testsuite fakesuite_function(void)
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", NULL), ct_maketest_named("bar", NULL)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              * const expected_tests = faketests;
-    const ct_setupteardown_function expected_setup = makesuite_fakesetup,
-                                    expected_teardown = makesuite_faketeardown;
+    ct_setupteardown_function * const expected_setup = makesuite_fakesetup,
+                                * const expected_teardown = makesuite_faketeardown;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
@@ -155,8 +155,8 @@ static struct ct_testsuite fakesuite_function(void)
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              * const expected_tests = faketests;
     size_t expected_count = 10;
-    const ct_setupteardown_function expected_setup = makesuite_fakesetup,
-                                    expected_teardown = makesuite_faketeardown;
+    ct_setupteardown_function * const expected_setup = makesuite_fakesetup,
+                                * const expected_teardown = makesuite_faketeardown;
     
     const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", faketests, expected_count, expected_setup, expected_teardown);
     

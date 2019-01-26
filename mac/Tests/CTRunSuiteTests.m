@@ -60,21 +60,21 @@ static void ignored_test(void *context)
     ct_ignore();
 }
 
-static void test_setup(void **context_ref)
+static void test_setup(void *context[static 1])
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.setupInvocations;
     
     FakeContext = malloc(sizeof *FakeContext);
     *FakeContext = FakeContextValue;
-    *context_ref = FakeContext;
+    *context = FakeContext;
 }
 
-static void test_teardown(void **context_ref)
+static void test_teardown(void *context[static 1])
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     
-    if (*context_ref && *((int *)*context_ref) == FakeContextValue) {
+    if (*context && *((int *)*context) == FakeContextValue) {
         ++testObject.teardownSawContext;
     } else {
         --testObject.teardownSawContext;

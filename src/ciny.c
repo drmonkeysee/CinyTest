@@ -131,7 +131,7 @@ static struct runsummary {
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version *);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, const struct ct_testcase[], size_t, ct_setupteardown_function, ct_setupteardown_function);
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, const struct ct_testcase[], size_t, ct_setupteardown_function *, ct_setupteardown_function *);
 extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]),
                      ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
