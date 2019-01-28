@@ -408,7 +408,7 @@ static filterlist *filterlist_new(void)
     return NULL;
 }
 
-static void filterlist_push(filterlist *self[static 1], struct testfilter filter)
+static void filterlist_push(filterlist * restrict self[static 1], struct testfilter filter)
 {
     struct testfilter * const filter_node = malloc(sizeof *filter_node);
     *filter_node = filter;
@@ -482,7 +482,7 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static const char *parse_filterexpr(const char * restrict cursor, filterlist *fl[static 1])
+static const char *parse_filterexpr(const char * restrict cursor, filterlist * restrict fl[static 1])
 {
     static const char expr_delimiter = ',';
 
@@ -546,7 +546,7 @@ static filterlist *parse_filters(const char *filter_option)
 // Run Context
 /////
 
-static const char *runcontext_capturevar(const char * restrict env_var, char *slot[static 1])
+static const char *runcontext_capturevar(const char * restrict env_var, char * restrict slot[static 1])
 {
     *slot = malloc(strlen(env_var) + 1);
     strcpy(*slot, env_var);
