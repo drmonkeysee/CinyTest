@@ -310,7 +310,7 @@ do { \
  @param actual The actual string.
  @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
-#define ct_assertequalstr(expected, actual, ...) ct_internal_assertequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__));
+#define ct_assertequalstr(expected, actual, ...) ct_internal_assertequalstrn("" expected "", #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__));
 /**
  Assert whether two strings are equal.
  Compares up to n characters for equality.
@@ -328,7 +328,7 @@ do { \
  @param actual The actual string.
  @param message A printf-style format string literal with optional arguments to display when the assertion fails.
  */
-#define ct_assertnotequalstr(expected, actual, ...) ct_internal_assertnotequalstrn("" expected, #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__));
+#define ct_assertnotequalstr(expected, actual, ...) ct_internal_assertnotequalstrn("" expected "", #expected, actual, #actual, sizeof (expected), __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__));
 /**
  Assert whether two strings are not equal.
  Compares up to n characters for inequality.
