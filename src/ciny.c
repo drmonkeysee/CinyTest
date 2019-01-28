@@ -130,10 +130,10 @@ static struct runsummary {
 /////
 
 extern inline struct ct_version ct_getversion(void);
-extern inline uint32_t ct_versionhex(const struct ct_version *);
+extern inline uint32_t ct_versionhex(const struct ct_version[static 1]);
 extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, const struct ct_testcase[], size_t, ct_setupteardown_function *, ct_setupteardown_function *);
-extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *, int, const char *[]),
-                     ct_runsuite(const struct ct_testsuite *);
+extern inline size_t ct_runsuite_withargs(const struct ct_testsuite[static 1], int, const char *[]),
+                     ct_runsuite(const struct ct_testsuite[static 1]);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ct_makevalue_uinteger(int, uintmax_t),
                                          ct_makevalue_floatingpoint(int, long double),
@@ -340,7 +340,7 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){.apply = FILTER_ANY};
 }
 
-static bool testfilter_match(const struct testfilter *self, const char *name)
+static bool testfilter_match(const struct testfilter self[static 1], const char *name)
 {
     static const char char_wildcard = '?', str_wildcard = '*';
 
@@ -375,7 +375,7 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
     return eof && !(*ncursor);
 }
 
-static void testfilter_print_prefixed(const struct testfilter *self, enum text_highlight style, bool include_prefix)
+static void testfilter_print_prefixed(const struct testfilter self[static 1], enum text_highlight style, bool include_prefix)
 {
     const char *prefix = "";
     if (!RunContext.colorized && include_prefix) {
@@ -393,12 +393,12 @@ static void testfilter_print_prefixed(const struct testfilter *self, enum text_h
     print_highlighted(style, "%s%.*s", prefix, (int)(self->end - self->start), self->start);
 }
 
-static void testfilter_print_noprefix(const struct testfilter *self, enum text_highlight style)
+static void testfilter_print_noprefix(const struct testfilter self[static 1], enum text_highlight style)
 {
     testfilter_print_prefixed(self, style, false);
 }
 
-static void testfilter_print(const struct testfilter *self, enum text_highlight style)
+static void testfilter_print(const struct testfilter self[static 1], enum text_highlight style)
 {
     testfilter_print_prefixed(self, style, true);
 }
@@ -728,7 +728,7 @@ static struct runsummary runsummary_make(void)
     return (struct runsummary){.test_count = 0};
 }
 
-static void runsummary_print(const struct runsummary *self)
+static void runsummary_print(const struct runsummary self[static 1])
 {
     printout("Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
     print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed);
@@ -739,7 +739,7 @@ static void runsummary_print(const struct runsummary *self)
     printout(".\n");
 }
 
-static void runtotals_add(const struct runsummary *summary)
+static void runtotals_add(const struct runsummary summary[static 1])
 {
     RunTotals.test_count += summary->test_count;
     RunTotals.total_time += summary->total_time;
@@ -771,7 +771,7 @@ static void assertstate_reset(void)
     AssertState.description[0] = AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const char * restrict test_name, struct runledger * restrict ledger)
+static void assertstate_handlefailure(const char * restrict test_name, struct runledger ledger[restrict static 1])
 {
     ++ledger->failed;
 
@@ -783,7 +783,7 @@ static void assertstate_handlefailure(const char * restrict test_name, struct ru
     }
 }
 
-static void assertstate_handleignore(const char * restrict test_name, struct runledger * restrict ledger)
+static void assertstate_handleignore(const char * restrict test_name, struct runledger ledger[restrict static 1])
 {
     ++ledger->ignored;
     
@@ -794,7 +794,7 @@ static void assertstate_handleignore(const char * restrict test_name, struct run
     }
 }
 
-static void assertstate_handle(const char * restrict test_name, struct runledger * restrict ledger)
+static void assertstate_handle(const char * restrict test_name, struct runledger ledger[restrict static 1])
 {
     switch (AssertState.type) {
         case ASSERT_FAILURE:
@@ -852,12 +852,12 @@ do { \
 // Comparable Value
 /////
 
-static bool comparable_value_equaltypes(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual)
+static bool comparable_value_equaltypes(const struct ct_comparable_value expected[static 1], const struct ct_comparable_value actual[static 1])
 {
     return expected->type == actual->type;
 }
 
-static const char *comparable_value_typedescription(const struct ct_comparable_value *value)
+static const char *comparable_value_typedescription(const struct ct_comparable_value value[static 1])
 {
     switch (value->type) {
         case CT_ANNOTATE_INTEGER:
@@ -873,7 +873,7 @@ static const char *comparable_value_typedescription(const struct ct_comparable_v
     }
 }
 
-static bool comparable_value_equalvalues(const struct ct_comparable_value *expected, const struct ct_comparable_value *actual, enum ct_valuetype_annotation type)
+static bool comparable_value_equalvalues(const struct ct_comparable_value expected[static 1], const struct ct_comparable_value actual[static 1], enum ct_valuetype_annotation type)
 {
     switch (type) {
         case CT_ANNOTATE_INTEGER:
@@ -889,7 +889,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value *expec
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value * restrict value, char buffer[restrict], size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value value[restrict static 1], char buffer[restrict], size_t size)
 {
     int write_count;
     
@@ -927,7 +927,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value *
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase * restrict self, void * restrict test_context, struct runledger * restrict ledger)
+static void testcase_run(const struct ct_testcase self[restrict static 1], void * restrict test_context, struct runledger ledger[restrict static 1])
 {
     if (!self->test) {
         printerr("WARNING: Test case '%s' skipped, NULL function pointer found!\n", self->name);
@@ -940,7 +940,7 @@ static void testcase_run(const struct ct_testcase * restrict self, void * restri
     print_testresult(HIGHLIGHT_SUCCESS, PassedTestSymbol, self->name);
 }
 
-static void testsuite_printheader(const struct ct_testsuite *self, time_t start_time)
+static void testsuite_printheader(const struct ct_testsuite self[static 1], time_t start_time)
 {
     char formatted_datetime[30];
     const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
@@ -953,7 +953,7 @@ static enum suitebreak suitebreak_make(void)
     return RunContext.verbosity > VERBOSITY_LIST ? SUITEBREAK_OPEN : SUITEBREAK_END;
 }
 
-static void suitebreak_open(enum suitebreak * restrict state, const struct ct_testsuite * restrict suite)
+static void suitebreak_open(enum suitebreak state[restrict static 1], const struct ct_testsuite suite[restrict static 1])
 {
     if (*state == SUITEBREAK_OPEN) {
         testsuite_printheader(suite, time(NULL));
@@ -961,7 +961,7 @@ static void suitebreak_open(enum suitebreak * restrict state, const struct ct_te
     }
 }
 
-static void suitebreak_close(enum suitebreak * restrict state, const struct runsummary * restrict summary)
+static void suitebreak_close(enum suitebreak state[restrict static 1], const struct runsummary summary[restrict static 1])
 {
     if (*state == SUITEBREAK_CLOSE) {
         runsummary_print(summary);
@@ -969,7 +969,7 @@ static void suitebreak_close(enum suitebreak * restrict state, const struct runs
     }
 }
 
-static void testsuite_runcase(const struct ct_testsuite * restrict self, const struct ct_testcase * restrict current_case, struct runsummary * restrict summary, enum suitebreak * restrict sb_ref)
+static void testsuite_runcase(const struct ct_testsuite self[restrict static 1], const struct ct_testcase current_case[restrict static 1], struct runsummary summary[restrict static 1], enum suitebreak sb_ref[restrict static 1])
 {
     assertstate_reset();
 

@@ -100,13 +100,6 @@ static void test_teardown(void *context[static 1])
     [super tearDown];
 }
 
-- (void)test_ctrunsuite_ReturnsZero_IfNullSuite
-{
-    const size_t run_result = ct_runsuite(NULL);
-    
-    XCTAssertEqual(0u, run_result);
-}
-
 - (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
 {
     const struct ct_testcase * const cases = NULL;
