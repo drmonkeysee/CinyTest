@@ -40,12 +40,12 @@ typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     
     TAT_FCOMPLEX,
     TAT_COMPLEX,
-    TAT_LCOMPLEX
+    TAT_LCOMPLEX,
 };
 
 enum {
     ARG_EXPECTED,
-    ARG_ACTUAL
+    ARG_ACTUAL,
 };
 
 #define get_integer_test_arg(T, i) ((T) == TAT_SCHAR ? sc_values[i] \

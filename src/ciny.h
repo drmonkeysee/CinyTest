@@ -383,7 +383,7 @@ enum ct_valuetype_annotation {
     CT_ANNOTATE_INTEGER,            /**< Value is a signed integer type. */
     CT_ANNOTATE_UINTEGER,           /**< Value is an unsigned integer type. */
     CT_ANNOTATE_FLOATINGPOINT,      /**< Value is a floating point type. */
-    CT_ANNOTATE_COMPLEX             /**< Value is a complex number type. */
+    CT_ANNOTATE_COMPLEX,            /**< Value is a complex number type. */
 };
 /**
  A comparable value.
@@ -430,7 +430,8 @@ _Generic(v, \
             ct_fcomplex:            ct_makevalue_complex, \
             ct_complex:             ct_makevalue_complex, \
             ct_lcomplex:            ct_makevalue_complex, \
-            default:                ct_makevalue_invalid)
+            default:                ct_makevalue_invalid \
+)
 
 /**
  Create a char comparable value structure based on whether char is signed or unsigned.

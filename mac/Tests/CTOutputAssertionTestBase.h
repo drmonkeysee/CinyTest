@@ -12,7 +12,7 @@
 
 typedef NS_ENUM(NSUInteger, CTOutputComparison) {
     CTOutputContains,
-    CTOutputDoesNotContain
+    CTOutputDoesNotContain,
 };
 
 @interface CTOutputAssertionTestBase : CTTestBase

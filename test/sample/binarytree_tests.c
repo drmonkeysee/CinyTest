@@ -475,7 +475,7 @@ size_t binarytree_tests(int argc, const char *argv[])
         ct_maketest(btrebalance_doesnothing_ifemptytree),
         ct_maketest(btrebalance_doesnothing_ifoneelementtree),
 
-        ct_maketest(btprint_test)
+        ct_maketest(btprint_test),
     };
     const struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup, teardown);
     

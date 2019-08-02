@@ -15,7 +15,7 @@
 
 enum {
     RUN_SUITE1,
-    RUN_SUITE2
+    RUN_SUITE2,
 };
 
 static struct ct_testsuite Suites[2];
@@ -99,7 +99,7 @@ static struct ct_testsuite make_suite(const char *name, ct_setupteardown_functio
         ct_maketest(test_ededeedtedered),
         ct_maketest(test_èxtended_chærs),
         ct_maketest(test_测试漢),
-        ct_maketest(test_🐴🐎)
+        ct_maketest(test_🐴🐎),
     };
     
     return ct_makesuite_setup_teardown_named(name, tests, sizeof tests / sizeof tests[0], setup, NULL);

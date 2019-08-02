@@ -194,12 +194,12 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {ct_makesuite(casesA), ct_makesuite(casesB)};
     
@@ -224,12 +224,12 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA), ct_makesuite(casesB)};
     
@@ -253,12 +253,12 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
@@ -284,12 +284,12 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(failing_testA),
         ct_maketest(failing_testA),
         ct_maketest(failing_testA),
-        ct_maketest(failing_testA)
+        ct_maketest(failing_testA),
     },
     casesB[] = {
         ct_maketest(failing_testB),
         ct_maketest(failing_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {ct_makesuite(casesA), ct_makesuite(casesB)};
     
@@ -310,16 +310,16 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
-        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
+        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB),
     };
     const char *args[] = {"foo", "bar"};
     
@@ -342,16 +342,16 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
-        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
+        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB),
     };
     const char *args[] = {"foo", NULL, "bar", ""};
     
@@ -374,16 +374,16 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
-        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
+        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB),
     };
     const char *args[] = {"foo", "bar"};
     
@@ -406,16 +406,16 @@ static void test_teardownB(void *context[static 1])
         ct_maketest(passing_testA),
         ct_maketest(failing_testA),
         ct_maketest(passing_testA),
-        ct_maketest(ignored_testA)
+        ct_maketest(ignored_testA),
     },
     casesB[] = {
         ct_maketest(passing_testB),
         ct_maketest(ignored_testB),
-        ct_maketest(failing_testB)
+        ct_maketest(failing_testB),
     };
     const struct ct_testsuite suites[] = {
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
-        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
+        ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB),
     };
     const char *args[] = {"foo", NULL, "bar", ""};
     

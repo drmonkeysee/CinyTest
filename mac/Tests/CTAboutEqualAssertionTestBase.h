@@ -11,13 +11,13 @@
 typedef NS_ENUM(NSUInteger, TEST_ARG_TYPE) {
     TAT_FLOAT,
     TAT_DOUBLE,
-    TAT_LDOUBLE
+    TAT_LDOUBLE,
 };
 
 enum {
     ARG_EXPECTED,
     ARG_ACTUAL,
-    ARG_PRECISION
+    ARG_PRECISION,
 };
 
 #define get_test_arg(T, i) ((T) == TAT_FLOAT ? af_values[i] \

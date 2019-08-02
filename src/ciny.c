@@ -63,7 +63,7 @@ enum text_highlight {
     HIGHLIGHT_SUCCESS,
     HIGHLIGHT_FAILURE,
     HIGHLIGHT_IGNORE,
-    HIGHLIGHT_SKIPPED
+    HIGHLIGHT_SKIPPED,
 };
 
 static const char FilterTargetDelimiter = ':';
@@ -71,7 +71,7 @@ enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
     FILTER_CASE,
-    FILTER_ALL
+    FILTER_ALL,
 };
 struct testfilter {
     const char *start, *end;
@@ -85,7 +85,7 @@ enum verbositylevel {
     VERBOSITY_MINIMAL,
     VERBOSITY_LIST,
     VERBOSITY_DEFAULT,
-    VERBOSITY_FULL
+    VERBOSITY_FULL,
 };
 static struct {
     FILE *out, *err;
@@ -99,7 +99,7 @@ static struct {
 enum assert_type {
     ASSERT_UNKNOWN,
     ASSERT_FAILURE,
-    ASSERT_IGNORE
+    ASSERT_IGNORE,
 };
 static struct {
     const struct testfilter *matched;
@@ -115,7 +115,7 @@ static const size_t InvalidSuite;
 enum suitebreak {
     SUITEBREAK_END,
     SUITEBREAK_OPEN,
-    SUITEBREAK_CLOSE
+    SUITEBREAK_CLOSE,
 };
 struct runledger {
     size_t passed, failed, ignored;
