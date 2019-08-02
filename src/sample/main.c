@@ -15,9 +15,9 @@
 static void tree_output(const binarytree *tree)
 {
     if (bt_isbalanced(tree)) {
-        printf("This tree has been dewackified:\n");
+        puts("This tree has been dewackified:");
     } else {
-        printf("This tree is wack:\n");
+        puts("This tree is wack:");
     }
     bt_print(tree);
 }

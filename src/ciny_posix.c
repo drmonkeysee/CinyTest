@@ -41,7 +41,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
 
 void ct_endcolor(FILE *stream)
 {
-    fprintf(stream, "\033[0m");
+    fputs("\033[0m", stream);
 }
 
 FILE *ct_replacestream(FILE *stream)

@@ -12,7 +12,7 @@
 
 static void io_testcase(void *context)
 {
-    printf("stdout message\n");
+    puts("stdout message");
     ct_asserttrue(true, "true test");
 }
 
