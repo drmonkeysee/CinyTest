@@ -7,9 +7,11 @@
 //
 
 #import "CTTestBase.h"
+
+#include "ciny.h"
+
 #include <stddef.h>
 #include <stdlib.h>
-#include "ciny.h"
 
 @interface CTRunTests : CTTestBase
 

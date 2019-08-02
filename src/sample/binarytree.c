@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdbool.h>
 #include "binarytree.h"
+
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 struct bt_node {
     struct bt_node *left, *right;

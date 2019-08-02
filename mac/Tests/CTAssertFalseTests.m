@@ -7,8 +7,10 @@
 //
 
 #import "CTBoolAssertionTestBase.h"
-#include <stddef.h>
+
 #include "ciny.h"
+
+#include <stddef.h>
 
 @interface CTAssertFalseTests : CTBoolAssertionTestBase
 

@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#include "binarytree.h"
+#include "ciny.h"
+
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include "ciny.h"
-#include "binarytree.h"
 
 /////
 // Setup / Teardown

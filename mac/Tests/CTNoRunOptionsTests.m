@@ -7,6 +7,7 @@
 //
 
 #import "CTAssertionTestBase.h"
+
 #include "ciny.h"
 
 @interface CTNoRunOptionsTests : CTAssertionTestBase

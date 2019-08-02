@@ -7,6 +7,7 @@
 //
 
 #import "CTOutputAssertionTestBase.h"
+
 #include <stdio.h>
 
 static void io_testcase(void *context)

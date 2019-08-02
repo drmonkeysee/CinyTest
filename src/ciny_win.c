@@ -7,11 +7,13 @@
 //
 
 #define WIN32_LEAN_AND_MEAN
-#include <stdint.h>
-#include <stddef.h>
-#include <stdio.h>
+
 #include <io.h>
 #include <Windows.h>
+
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 
 // sys time returns 100s of nanoseconds
 static const uint64_t MillisecondFactor = 10000;

@@ -7,8 +7,10 @@
 //
 
 #import "CTAssertionTestBase.h"
-#include <stddef.h>
+
 #include "ciny.h"
+
+#include <stddef.h>
 
 #undef failed_assertion_expected
 #define failed_assertion_expected(test_result) \

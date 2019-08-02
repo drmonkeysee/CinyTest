@@ -7,6 +7,7 @@
 //
 
 #import "CTFilterOptionTestBase.h"
+
 #include <stdlib.h>
 
 @interface CTIncludeOptionTests : CTFilterOptionTestBase

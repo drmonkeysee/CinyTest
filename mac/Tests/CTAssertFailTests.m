@@ -7,8 +7,10 @@
 //
 
 #import "CTAssertionTestBase.h"
-#include <stddef.h>
+
 #include "ciny.h"
+
+#include <stddef.h>
 
 @interface CTAssertFailTests : CTAssertionTestBase
 

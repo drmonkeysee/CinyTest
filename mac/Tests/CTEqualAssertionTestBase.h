@@ -7,6 +7,7 @@
 //
 
 #import "CTAssertionTestBase.h"
+
 #include <limits.h>
 
 #if CHAR_MIN < 0

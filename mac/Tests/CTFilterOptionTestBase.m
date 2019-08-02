@@ -7,9 +7,11 @@
 //
 
 #import "CTFilterOptionTestBase.h"
-#include <stdlib.h>
-#include <stddef.h>
+
 #include "ciny.h"
+
+#include <stddef.h>
+#include <stdlib.h>
 
 enum {
     RUN_SUITE1,

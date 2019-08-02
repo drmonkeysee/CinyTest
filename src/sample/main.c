@@ -6,10 +6,11 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
+#include "binarytree.h"
+
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
-#include "binarytree.h"
 
 static void tree_output(const binarytree *tree)
 {

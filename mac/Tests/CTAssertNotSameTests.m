@@ -7,8 +7,10 @@
 //
 
 #import "CTSameAssertionTestBase.h"
-#include <stddef.h>
+
 #include "ciny.h"
+
+#include <stddef.h>
 
 @interface CTAssertNotSameTests : CTSameAssertionTestBase
 

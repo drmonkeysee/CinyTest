@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <stdint.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <sys/time.h>
+#include <unistd.h>
+
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 
 #define RED "\033[0;31m"
 #define GREEN "\033[0;32m"

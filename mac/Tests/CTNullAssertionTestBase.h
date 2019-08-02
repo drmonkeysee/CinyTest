@@ -7,6 +7,7 @@
 //
 
 #import "CTAssertionTestBase.h"
+
 #include <stdbool.h>
 
 void *generate_pointer(bool);

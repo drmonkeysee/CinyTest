@@ -9,8 +9,8 @@
 #ifndef CinyTest_ciny_h
 #define CinyTest_ciny_h
 
-#include <stddef.h>
 #include <limits.h>
+#include <stddef.h>
 #include <stdint.h>
 
 /**

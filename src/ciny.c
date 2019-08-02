@@ -6,19 +6,20 @@
 //  Copyright (c) 2014 Brandon Stansbury. All rights reserved.
 //
 
-#include <time.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
-#include <setjmp.h>
+#include "ciny.h"
+
 #include <complex.h>
-#include <stdbool.h>
 #include <float.h>
-#include <math.h>
 #include <inttypes.h>
+#include <math.h>
+#include <setjmp.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdnoreturn.h>
-#include "ciny.h"
+#include <string.h>
+#include <time.h>
 
 /////
 // Platform-specific Definitions

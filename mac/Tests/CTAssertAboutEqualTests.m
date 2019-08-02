@@ -7,10 +7,12 @@
 //
 
 #import "CTAboutEqualAssertionTestBase.h"
+
+#include "ciny.h"
+
 #include <float.h>
 #include <math.h>
 #include <stddef.h>
-#include "ciny.h"
 
 @interface CTAssertAboutEqualTests : CTAboutEqualAssertionTestBase
 

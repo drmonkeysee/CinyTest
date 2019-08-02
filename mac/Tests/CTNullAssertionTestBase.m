@@ -7,6 +7,7 @@
 //
 
 #import "CTNullAssertionTestBase.h"
+
 #include <stddef.h>
 
 void *generate_pointer(bool real_pointer)

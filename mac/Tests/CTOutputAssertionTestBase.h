@@ -7,6 +7,7 @@
 //
 
 #import "CTTestBase.h"
+
 #include "ciny.h"
 
 typedef NS_ENUM(NSUInteger, CTOutputComparison) {

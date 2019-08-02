@@ -7,8 +7,9 @@
 //
 
 #import "CTTestBase.h"
-#include <stddef.h>
+
 #include "ciny.h"
+#include <stddef.h>
 
 static void makesuite_fakesetup(void *context[static 1])
 {
