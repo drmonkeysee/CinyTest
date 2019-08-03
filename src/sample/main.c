@@ -22,7 +22,7 @@ static void tree_output(const binarytree *tree)
     bt_print(tree);
 }
 
-int main(int argc, const char *argv[static argc + 1])
+int main(int argc, const char *argv[])
 {
     (void)argc, (void)argv;
 
