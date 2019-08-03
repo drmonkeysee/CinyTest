@@ -127,8 +127,10 @@ static struct runsummary {
 } RunTotals;
 
 /////
-// Inline Function Call Sites
+// External Definitions
 /////
+
+const char *ct_EmptyArgv;
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version[static 1]);
@@ -554,7 +556,7 @@ static const char *runcontext_capturevar(const char * restrict env_var, char * r
     return *slot;
 }
 
-static void runcontext_init(int argc, const char *argv[])
+static void runcontext_init(int argc, const char *argv[static argc + 1])
 {
     RunContext.help = RunContext.version = false;
     RunContext.verbosity = VERBOSITY_DEFAULT;
@@ -565,26 +567,24 @@ static void runcontext_init(int argc, const char *argv[])
                 *include_filter_option = NULL,
                 *exclude_filter_option = NULL;
     
-    if (argv) {
-        for (int i = 0; i < argc; ++i) {
-            const char * const arg = argv[i];
-            if (!arg) {
-                continue;
-            } else if (strstr(arg, HelpOption)) {
-                RunContext.help = true;
-            } else if (strstr(arg, VersionOption)) {
-                RunContext.version = true;
-            } else if (strstr(arg, VerboseOption)) {
-                verbosity_option = arg_value(arg);
-            } else if (strstr(arg, ColorizedOption)) {
-                color_option = arg_value(arg);
-            } else if (strstr(arg, SuppressOutputOption)) {
-                suppress_output_option = arg_value(arg);
-            } else if (strstr(arg, IncludeFilterOption)) {
-                include_filter_option = arg_value(arg);
-            } else if (strstr(arg, ExcludeFilterOption)) {
-                exclude_filter_option = arg_value(arg);
-            }
+    for (int i = 0; i < argc; ++i) {
+        const char * const arg = argv[i];
+        if (!arg) {
+            continue;
+        } else if (strstr(arg, HelpOption)) {
+            RunContext.help = true;
+        } else if (strstr(arg, VersionOption)) {
+            RunContext.version = true;
+        } else if (strstr(arg, VerboseOption)) {
+            verbosity_option = arg_value(arg);
+        } else if (strstr(arg, ColorizedOption)) {
+            color_option = arg_value(arg);
+        } else if (strstr(arg, SuppressOutputOption)) {
+            suppress_output_option = arg_value(arg);
+        } else if (strstr(arg, IncludeFilterOption)) {
+            include_filter_option = arg_value(arg);
+        } else if (strstr(arg, ExcludeFilterOption)) {
+            exclude_filter_option = arg_value(arg);
         }
     }
     
@@ -1050,7 +1050,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[static argc + 1])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();
