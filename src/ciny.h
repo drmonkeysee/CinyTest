@@ -96,8 +96,8 @@ struct ct_testcase {
  */
 struct ct_testsuite {
     const char *name;                       /**< The name of the test suite. */
-    const struct ct_testcase *tests;        /**< The collection of tests to run. */
     size_t count;                           /**< The number of tests to be run. */
+    const struct ct_testcase *tests;        /**< The collection of tests to run. */
     ct_setupteardown_function *setup,       /**< The test setup function. Run before each test case. May be NULL. */
                               *teardown;    /**< The test teardown function. Runs after each test case. May be NULL. */
 };
@@ -106,7 +106,7 @@ struct ct_testsuite {
  Make a test suite for the list of tests.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list must be an array lvalue.
+ The size of the test array is calculated inline so test_list must be an array value.
  @return A test suite.
  */
 #define ct_makesuite(test_list) ct_makesuite_setup(test_list, NULL)
@@ -114,7 +114,7 @@ struct ct_testsuite {
  Make a test suite with a setup function.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list must be an array lvalue.
+ The size of the test array is calculated inline so test_list must be an array value.
  @param setup_function The setup function. Runs before each test case.
  @return A test suite.
  */
@@ -123,60 +123,60 @@ struct ct_testsuite {
  Make a test suite with a setup and teardown function.
  Uses the enclosing function as the test suite name.
  @param test_list The list of tests to run.
- The size of the test array is calculated inline so test_list must be an array lvalue.
+ The size of the test array is calculated inline so test_list must be an array value.
  @param setup_function The setup function. Runs before each test case.
  @param teardown_function The teardown function. Runs after each test case.
  @return A test suite.
  */
 #define ct_makesuite_setup_teardown(test_list, setup_function, teardown_function) \
 ct_makesuite_setup_teardown_named(__func__, \
-                                    test_list, \
                                     sizeof (test_list) / sizeof (test_list)[0], \
+                                    test_list, \
                                     setup_function, \
                                     teardown_function)
 /**
  Make a test suite with a setup function, teardown function, and a name.
  @param name The name of the test suite.
- @param tests The collection of test cases.
  @param count The number of test cases.
+ @param tests The collection of test cases.
  @param setup The setup function. Runs before each test case. Can be NULL.
  @param teardown The teardown function. Runs after each test case. Can be NULL.
  @return A test suite.
  */
 inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *name,
-                                             const struct ct_testcase tests[],
                                              size_t count,
+                                             const struct ct_testcase tests[count],
                                              ct_setupteardown_function *setup,
                                              ct_setupteardown_function *teardown)
 {
-    return (struct ct_testsuite){name, tests, count, setup, teardown};
+    return (struct ct_testsuite){name, count, tests, setup, teardown};
 }
 
 /**
  Run multiple unit test suites.
  @param suites The test suites to run.
- The size of the test suites array is calculated inline so suites must be an array lvalue.
+ The size of the test suites array is calculated inline so suites must be an array value.
  @return The total number of failed tests.
  */
 #define ct_run(suites) ct_run_withargs(suites, 0, NULL)
 /**
  Run multiple unit test suites with command line arguments.
  @param suites The test suites to run.
- The size of the test suites array is calculated inline so suites must be an array lvalue.
+ The size of the test suites array is calculated inline so suites must be an array value.
  @param argc The command line argument count.
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-#define ct_run_withargs(suites, argc, argv) ct_runcount_withargs(suites, sizeof (suites) / sizeof (suites)[0], argc, argv)
+#define ct_run_withargs(suites, argc, argv) ct_runcount_withargs(sizeof (suites) / sizeof (suites)[0], suites, argc, argv)
 /**
  Run unit test suites with count and command line arguments.
- @param suites The test suites to run.
  @param count The number of test suites.
+ @param suites The test suites to run.
  @param argc The command line argument count.
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[argc+1]);
+size_t ct_runcount_withargs(size_t count, const struct ct_testsuite suites[count], int argc, const char *argv[argc+1]);
 
 /**
  Run a unit test suite with command line arguments.
@@ -187,7 +187,7 @@ size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, in
  */
 inline size_t ct_runsuite_withargs(const struct ct_testsuite suite[static 1], int argc, const char *argv[argc+1])
 {
-    return ct_runcount_withargs(suite, 1, argc, argv);
+    return ct_runcount_withargs(1, suite, argc, argv);
 }
 
 /**

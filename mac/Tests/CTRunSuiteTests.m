@@ -180,7 +180,7 @@ static void test_teardown(void *context[static 1])
 - (void)test_ctrunsuite_InvokesPassingTests_UpToCount
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown_named("foobar", cases, 2, NULL, NULL);
+    const struct ct_testsuite suite = ct_makesuite_setup_teardown_named("foobar", 2, cases, NULL, NULL);
     
     const size_t run_result = ct_runsuite(&suite);
     

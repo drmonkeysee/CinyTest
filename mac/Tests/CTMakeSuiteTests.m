@@ -159,7 +159,7 @@ static struct ct_testsuite fakesuite_function(void)
     ct_setupteardown_function * const expected_setup = makesuite_fakesetup,
                                 * const expected_teardown = makesuite_faketeardown;
     
-    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", faketests, expected_count, expected_setup, expected_teardown);
+    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", expected_count, faketests, expected_setup, expected_teardown);
     
     XCTAssertEqualObjects(@"fake suite", [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -170,7 +170,7 @@ static struct ct_testsuite fakesuite_function(void)
 
 - (void)test_ctmakesuitesetupteardownnamed_CreatesTestSuite_IfNullArguments
 {
-    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named(NULL, NULL, 0, NULL, NULL);
+    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named(NULL, 0, NULL, NULL, NULL);
     
     XCTAssertTrue(testsuite.name == NULL, @"Expected NULL name");
     XCTAssertTrue(testsuite.tests == NULL, @"Expected NULL tests");

@@ -387,7 +387,7 @@ static void test_teardownB(void *context[static 1])
     };
     const char *args[] = {"foo", "bar"};
     
-    const size_t run_result = ct_runcount_withargs(suites, sizeof suites / sizeof suites[0], sizeof args / sizeof args[0], args);
+    const size_t run_result = ct_runcount_withargs(sizeof suites / sizeof suites[0], suites, sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
@@ -419,7 +419,7 @@ static void test_teardownB(void *context[static 1])
     };
     const char *args[] = {"foo", NULL, "bar", ""};
     
-    const size_t run_result = ct_runcount_withargs(suites, 1, sizeof args / sizeof args[0], args);
+    const size_t run_result = ct_runcount_withargs(1, suites, sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);

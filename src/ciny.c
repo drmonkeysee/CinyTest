@@ -132,7 +132,7 @@ static struct runsummary {
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version[static 1]);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, const struct ct_testcase[], size_t, ct_setupteardown_function *, ct_setupteardown_function *);
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, size_t, const struct ct_testcase[], ct_setupteardown_function *, ct_setupteardown_function *);
 extern inline size_t ct_runsuite_withargs(const struct ct_testsuite[static 1], int, const char *[]),
                      ct_runsuite(const struct ct_testsuite[static 1]);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
@@ -278,7 +278,7 @@ static void print_linemessage(const char *message)
     }
 }
 
-static bool pretty_truncate(char buffer[], size_t size)
+static bool pretty_truncate(size_t size, char buffer[size])
 {
     const size_t ellipsis_length = strlen(Ellipsis);
     const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
@@ -819,7 +819,7 @@ static void assertstate_setdescription(const char * restrict format, ...)
     va_end(format_args);
     
     if ((size_t)write_count >= description_size) {
-        pretty_truncate(AssertState.description, description_size);
+        pretty_truncate(description_size, AssertState.description);
     }
 }
 
@@ -836,7 +836,7 @@ static void assertstate_setvmessage(const char * restrict format, va_list format
     const int write_count = vsnprintf(AssertState.message, message_size, format, format_args);
     
     if ((size_t)write_count >= message_size) {
-        pretty_truncate(AssertState.message, message_size);
+        pretty_truncate(message_size, AssertState.message);
     }
 }
 
@@ -890,7 +890,7 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value expect
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value value[restrict static 1], char buffer[restrict], size_t size)
+static void comparable_value_valuedescription(const struct ct_comparable_value value[restrict static 1], size_t size, char buffer[restrict size])
 {
     int write_count;
     
@@ -920,7 +920,7 @@ static void comparable_value_valuedescription(const struct ct_comparable_value v
     }
     
     if ((size_t)write_count >= size) {
-        pretty_truncate(buffer, size);
+        pretty_truncate(size, buffer);
     }
 }
 
@@ -1050,7 +1050,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[argc+1])
+size_t ct_runcount_withargs(size_t count, const struct ct_testsuite suites[count], int argc, const char *argv[argc+1])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();
@@ -1133,8 +1133,8 @@ void ct_internal_assertequal(struct ct_comparable_value expected, const char *st
         failed_assert = true;
     } else if (!comparable_value_equalvalues(&expected, &actual, expected.type)) {
         char valuestr_expected[COMPVALUE_STR_SIZE], valuestr_actual[COMPVALUE_STR_SIZE];
-        comparable_value_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
-        comparable_value_valuedescription(&actual, valuestr_actual, sizeof valuestr_actual);
+        comparable_value_valuedescription(&expected, sizeof valuestr_expected, valuestr_expected);
+        comparable_value_valuedescription(&actual, sizeof valuestr_actual, valuestr_actual);
         assertstate_setdescription("(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
         failed_assert = true;
     }
@@ -1152,7 +1152,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value expected, const char 
         failed_assert = true;
     } else if (comparable_value_equalvalues(&expected, &actual, expected.type)) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
-        comparable_value_valuedescription(&expected, valuestr_expected, sizeof valuestr_expected);
+        comparable_value_valuedescription(&expected, sizeof valuestr_expected, valuestr_expected);
         assertstate_setdescription("(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
         failed_assert = true;
     }
@@ -1204,10 +1204,10 @@ void ct_internal_assertequalstrn(const char *expected, const char *stringized_ex
         || (expected && actual && (strncmp(expected, actual, n) != 0))) {
         char valuestr_expected[COMPVALUE_STR_SIZE], valuestr_actual[COMPVALUE_STR_SIZE];
         if ((size_t)snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
-            pretty_truncate(valuestr_expected, sizeof valuestr_expected);
+            pretty_truncate(sizeof valuestr_expected, valuestr_expected);
         }
         if ((size_t)snprintf(valuestr_actual, sizeof valuestr_actual, "%s", actual) >= sizeof valuestr_actual) {
-            pretty_truncate(valuestr_actual, sizeof valuestr_actual);
+            pretty_truncate(sizeof valuestr_actual, valuestr_actual);
         }
         assertstate_setdescription("(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
         
@@ -1220,7 +1220,7 @@ void ct_internal_assertnotequalstrn(const char *expected, const char *stringized
     if ((!expected && !actual) || (expected && actual && (strncmp(expected, actual, n) == 0))) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
         if ((size_t)snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
-            pretty_truncate(valuestr_expected, sizeof valuestr_expected);
+            pretty_truncate(sizeof valuestr_expected, valuestr_expected);
         }
         assertstate_setdescription("(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
         
