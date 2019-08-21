@@ -134,10 +134,11 @@ static struct ct_testsuite make_suite(const char *name, ct_setupteardown_functio
     Suite1Flags = Suite2Flags = RUN_TEST_NONE;
     
     const int argc = (int)filters.count;
-    const char *argv[argc];
+    const char *argv[argc + 1];
     for (int i = 0; i < argc; ++i) {
         argv[i] = [filters[i] UTF8String];
     }
+    argv[argc] = NULL;
     
     ct_run_withargs(Suites, argc, argv);
     

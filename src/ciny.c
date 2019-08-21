@@ -554,7 +554,7 @@ static const char *runcontext_capturevar(const char * restrict env_var, char * r
     return *slot;
 }
 
-static void runcontext_init(int argc, const char *argv[])
+static void runcontext_init(int argc, const char *argv[argc+1])
 {
     RunContext.help = RunContext.version = false;
     RunContext.verbosity = VERBOSITY_DEFAULT;
@@ -1050,7 +1050,7 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[])
+size_t ct_runcount_withargs(const struct ct_testsuite suites[], size_t count, int argc, const char *argv[argc+1])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();

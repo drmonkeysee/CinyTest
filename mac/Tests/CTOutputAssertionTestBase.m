@@ -117,10 +117,11 @@ static void test_case(void *context)
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
     const int argc = (int)args.count;
-    const char *argv[args.count];
+    const char *argv[argc + 1];
     for (int i = 0; i < argc; ++i) {
         argv[i] = [args[i] UTF8String];
     }
+    argv[argc] = NULL;
     
     ct_runsuite_withargs(&suite, argc, argv);
     
