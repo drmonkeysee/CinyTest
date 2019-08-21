@@ -29,14 +29,25 @@ uint64_t ct_get_currentmsecs(void)
     FILETIME vtime;
     GetSystemTimeAsFileTime(&vtime);
     
-    const ULARGE_INTEGER ntime = {.LowPart = vtime.dwLowDateTime, .HighPart = vtime.dwHighDateTime};
+    const ULARGE_INTEGER ntime = {
+        .LowPart = vtime.dwLowDateTime,
+        .HighPart = vtime.dwHighDateTime,
+    };
     return ntime.QuadPart / MillisecondFactor;
 }
 
 void ct_startcolor(FILE *stream, size_t color_index)
 {
-    static const WORD colors[] = {FOREGROUND_GREEN, FOREGROUND_RED, FOREGROUND_BLUE | FOREGROUND_GREEN, FOREGROUND_BLUE | FOREGROUND_RED},
-                      clear_foreground = ~(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    static const WORD colors[] = {
+                            FOREGROUND_GREEN,
+                            FOREGROUND_RED,
+                            FOREGROUND_BLUE | FOREGROUND_GREEN,
+                            FOREGROUND_BLUE | FOREGROUND_RED,
+                        },
+                        clear_foreground = ~(
+                            FOREGROUND_BLUE | FOREGROUND_GREEN
+                            | FOREGROUND_RED | FOREGROUND_INTENSITY
+                        );
     static const size_t color_count = sizeof colors / sizeof colors[0];
     
     if (color_index >= color_count) return;

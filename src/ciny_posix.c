@@ -26,7 +26,8 @@ uint64_t ct_get_currentmsecs(void)
     struct timeval vtime;
     gettimeofday(&vtime, NULL);
     
-    return (vtime.tv_sec * MillisecondFactor) + (vtime.tv_usec / MillisecondFactor);
+    return (vtime.tv_sec * MillisecondFactor)
+            + (vtime.tv_usec / MillisecondFactor);
 }
 
 void ct_startcolor(FILE *stream, size_t color_index)
