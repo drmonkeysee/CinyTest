@@ -29,7 +29,9 @@ static struct bt_node *create_node(int value)
 
 static struct bt_node **find_childref(struct bt_node *self, int value)
 {
-    struct bt_node ** const child_ref = self->value > value ? &self->left : &self->right;
+    struct bt_node ** const child_ref = self->value > value
+                                        ? &self->left
+                                        : &self->right;
     
     if (!(*child_ref) || (*child_ref)->value == value) return child_ref;
     
@@ -75,7 +77,7 @@ static void print_tree(const struct bt_node *self, int indent, char label)
     if (!self) return;
     
     for (int indent_count = indent; indent_count > 0; --indent_count) {
-        printf("\t");
+        fputs("\t", stdout);
     }
     printf("%c(%d)\n", label, self->value);
     print_tree(self->left, indent + 1, 'L');
@@ -99,7 +101,9 @@ static bool balanced_tree(const struct bt_node *self, size_t *depth)
     return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
 }
 
-static void inline_tree(struct bt_node *self, struct bt_node *nodes[], ptrdiff_t *current_index)
+static void inline_tree(
+    struct bt_node *self, struct bt_node *nodes[], ptrdiff_t *current_index
+)
 {
     if (self->left) {
         inline_tree(self->left, nodes, current_index);
@@ -112,7 +116,9 @@ static void inline_tree(struct bt_node *self, struct bt_node *nodes[], ptrdiff_t
     }
 }
 
-static struct bt_node *rebalance_node(struct bt_node *node_list[], ptrdiff_t start_index, ptrdiff_t end_index)
+static struct bt_node *rebalance_node(
+    struct bt_node *node_list[], ptrdiff_t start_index, ptrdiff_t end_index
+)
 {
     if (start_index > end_index) return EmptyTree;
     
@@ -194,7 +200,9 @@ bool bt_contains(const binarytree *self, int value)
     if (self->value == value) return true;
     
     // find_childref does not change self so cast-away const is safe
-    struct bt_node ** const child_ref = find_childref((binarytree *)self, value);
+    struct bt_node ** const child_ref = find_childref(
+        (binarytree *)self, value
+    );
     return *child_ref != EmptyTree;
 }
 

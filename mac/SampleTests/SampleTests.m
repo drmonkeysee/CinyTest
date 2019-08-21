@@ -8,7 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
-size_t binarytree_tests(int argc, const char *argv[]);
+#include <stddef.h>
+
+size_t binarytree_tests(int, const char *[]);
 
 @interface SampleTests : XCTestCase
 
@@ -18,7 +20,7 @@ size_t binarytree_tests(int argc, const char *argv[]);
 
 - (void)test_BinaryTree_Suite
 {
-    const char *argv[] = {"--ct-colorized=no"};
+    const char *argv[] = {"--ct-colorized=no", NULL};
     const int argc = sizeof argv / sizeof argv[0];
     
     const size_t results = binarytree_tests(argc, argv);
