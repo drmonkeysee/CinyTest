@@ -28,7 +28,7 @@ uint64_t ct_get_currentmsecs(void)
 {
     FILETIME vtime;
     GetSystemTimeAsFileTime(&vtime);
-    
+
     const ULARGE_INTEGER ntime = {
         .LowPart = vtime.dwLowDateTime,
         .HighPart = vtime.dwHighDateTime,
@@ -39,21 +39,21 @@ uint64_t ct_get_currentmsecs(void)
 void ct_startcolor(FILE *stream, size_t color_index)
 {
     static const WORD colors[] = {
-                            FOREGROUND_GREEN,
-                            FOREGROUND_RED,
-                            FOREGROUND_BLUE | FOREGROUND_GREEN,
-                            FOREGROUND_BLUE | FOREGROUND_RED,
-                        },
-                        clear_foreground = ~(
-                            FOREGROUND_BLUE | FOREGROUND_GREEN
-                            | FOREGROUND_RED | FOREGROUND_INTENSITY
-                        );
+                        FOREGROUND_GREEN,
+                        FOREGROUND_RED,
+                        FOREGROUND_BLUE | FOREGROUND_GREEN,
+                        FOREGROUND_BLUE | FOREGROUND_RED,
+                      },
+                      clear_foreground = ~(
+                        FOREGROUND_BLUE | FOREGROUND_GREEN
+                        | FOREGROUND_RED | FOREGROUND_INTENSITY
+                      );
     static const size_t color_count = sizeof colors / sizeof colors[0];
-    
+
     if (color_index >= color_count) return;
 
     fflush(stream);
-    
+
     const HANDLE output = streamhandle(stream);
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
@@ -76,7 +76,7 @@ void ct_endcolor(FILE *stream)
 FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
-    
+
     const int new_stream = _dup(_fileno(stream));
     freopen("NUL", "w", stream);
     return _fdopen(new_stream, "w");

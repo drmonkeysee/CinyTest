@@ -54,7 +54,8 @@ static const char * const restrict HelpOption = "--ct-help",
                   * const restrict VersionOption = "--ct-version",
                   * const restrict VerboseOption = "--ct-verbose",
                   * const restrict ColorizedOption = "--ct-colorized",
-                  * const restrict SuppressOutputOption = "--ct-suppress-output",
+                  * const restrict SuppressOutputOption =
+                                    "--ct-suppress-output",
                   * const restrict IncludeFilterOption = "--ct-include",
                   * const restrict ExcludeFilterOption = "--ct-exclude",
                   * const restrict IgnoredTestSymbol = "?";
@@ -132,13 +133,23 @@ static struct runsummary {
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version[static 1]);
-extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(const char *, size_t, const struct ct_testcase[], ct_setupteardown_function *, ct_setupteardown_function *);
-extern inline size_t ct_runsuite_withargs(const struct ct_testsuite[static 1], int, const char *[]),
+extern inline struct ct_testsuite ct_makesuite_setup_teardown_named(
+    const char *, size_t, const struct ct_testcase[],
+    ct_setupteardown_function *, ct_setupteardown_function *
+);
+extern inline size_t ct_runsuite_withargs(
+                        const struct ct_testsuite[static 1], int,
+                        const char *[]
+                     ),
                      ct_runsuite(const struct ct_testsuite[static 1]);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ct_makevalue_uinteger(int, uintmax_t),
-                                         ct_makevalue_floatingpoint(int, long double),
-                                         ct_makevalue_complex(int, ct_lcomplex),
+                                         ct_makevalue_floatingpoint(
+                                            int, long double
+                                         ),
+                                         ct_makevalue_complex(
+                                            int, ct_lcomplex
+                                         ),
                                          ct_makevalue_invalid(int, ...);
 
 /////
@@ -157,7 +168,7 @@ static void testfilter_print(const struct testfilter *, enum text_highlight);
 static void print_title(const char * restrict format, ...)
 {
     printout("---=== ");
-    
+
     va_list format_args;
     va_start(format_args, format);
     vfprintf(RunContext.out, format, format_args);
@@ -169,15 +180,37 @@ static void print_title(const char * restrict format, ...)
 static void print_usage(void)
 {
     print_title("CinyTest Usage");
-    printout("This program contains CinyTest tests and can accept the following command line options:\n\n");
-    printout("  %s\t\tPrint this help message (does not run tests).\n", HelpOption);
-    printout("  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption);
-    printout("  %s=[0,3]\tOutput verbosity (default: 2).\n", VerboseOption);
-    printout("  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results (default: yes).\n", ColorizedOption);
-    printout("  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard streams (default: yes).\n", SuppressOutputOption);
+    printout(
+        "This program contains CinyTest tests and can accept the"
+        " following command line options:\n\n"
+    );
+    printout(
+        "  %s\t\tPrint this help message (does not run tests).\n", HelpOption
+    );
+    printout(
+        "  %s\t\tPrint CinyTest version (does not run tests).\n", VersionOption
+    );
+    printout(
+        "  %s=[0,3]\tOutput verbosity (default: 2).\n", VerboseOption
+    );
+    printout(
+        "  %s=[yes|no|1|0|true|false]\n\t\t\tColorize test results"
+        " (default: yes).\n",
+        ColorizedOption
+    );
+    printout(
+        "  %s=[yes|no|1|0|true|false]\n\t\t\tSuppress output from standard"
+        " streams (default: yes).\n",
+        SuppressOutputOption
+    );
     printout("  %s=[suite:case,suite:case,...]\n", IncludeFilterOption);
     printout("  %s=[suite:case,suite:case,...]\n", ExcludeFilterOption);
-    printout("\t\t\tRun only tests matching include filters and not matching exclude filters;\n\t\t\t'?' matches any character, '*' matches any substring;\n\t\t\t'suite:' and ':case' are shorthand for 'suite:*' and '*:case'.\n");
+    printout(
+        "\t\t\tRun only tests matching include filters and not matching"
+        " exclude filters;\n\t\t\t'?' matches any character, '*' matches"
+        " any substring;\n\t\t\t'suite:' and ':case' are shorthand for"
+        " 'suite:*' and '*:case'.\n"
+    );
 }
 
 static void print_version(void)
@@ -190,17 +223,19 @@ static void print_version(void)
     printout("\n");
 }
 
-static void print_highlighted(enum text_highlight style, const char * restrict format, ...)
+static void print_highlighted(
+    enum text_highlight style, const char * restrict format, ...
+)
 {
     if (RunContext.colorized) {
         ct_startcolor(RunContext.out, style);
     }
-    
+
     va_list format_args;
     va_start(format_args, format);
     vfprintf(RunContext.out, format, format_args);
     va_end(format_args);
-    
+
     if (RunContext.colorized) {
         ct_endcolor(RunContext.out);
     }
@@ -213,7 +248,9 @@ static void print_labelbox(enum text_highlight style, const char *result_label)
     printout(" ] - ");
 }
 
-static void print_testresult(enum text_highlight style, const char *result_label, const char *name)
+static void print_testresult(
+    enum text_highlight style, const char *result_label, const char *name
+)
 {
     if (RunContext.verbosity == VERBOSITY_MINIMAL) {
         static bool first_call = true;
@@ -256,8 +293,10 @@ static void print_testresult(enum text_highlight style, const char *result_label
         }
         printout(" %s", status);
 
-        if (RunContext.verbosity == VERBOSITY_FULL
-            && (RunContext.include || RunContext.exclude)) {
+        if (
+            RunContext.verbosity == VERBOSITY_FULL
+            && (RunContext.include || RunContext.exclude)
+        ) {
             printout(" (filtered: ");
             if (AssertState.matched) {
                 testfilter_print(AssertState.matched, filter_style);
@@ -282,13 +321,13 @@ static bool pretty_truncate(size_t size, char buffer[size])
 {
     const size_t ellipsis_length = strlen(Ellipsis);
     const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
-    
+
     const bool can_fit_ellipsis = truncation_index >= 0;
     if (can_fit_ellipsis) {
         buffer[truncation_index] = '\0';
         strcat(buffer, Ellipsis);
     }
-    
+
     return can_fit_ellipsis;
 }
 
@@ -302,7 +341,7 @@ static bool argflag_on(const char *value)
     static const size_t flags_count = sizeof off_flags;
 
     if (!value) return true;
-    
+
     for (size_t i = 0; i < flags_count; ++i) {
         if (*value == off_flags[i]) return false;
     }
@@ -315,7 +354,9 @@ static int argverbose(const char *value)
     if (!value) return VERBOSITY_DEFAULT;
 
     const int arg = atoi(value);
-    return arg < VERBOSITY_MINIMAL ? VERBOSITY_MINIMAL : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
+    return arg < VERBOSITY_MINIMAL
+            ? VERBOSITY_MINIMAL
+            : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
 }
 
 static const char *argflag_tostring(bool value)
@@ -326,9 +367,9 @@ static const char *argflag_tostring(bool value)
 static const char *arg_value(const char *arg)
 {
     const char *delimiter = strrchr(arg, '=');
-    
+
     if (delimiter) return ++delimiter;
-    
+
     return NULL;
 }
 
@@ -341,7 +382,9 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){.apply = FILTER_ANY};
 }
 
-static bool testfilter_match(const struct testfilter self[static 1], const char *name)
+static bool testfilter_match(
+    const struct testfilter self[static 1], const char *name
+)
 {
     static const char char_wildcard = '?', str_wildcard = '*';
 
@@ -360,7 +403,8 @@ static bool testfilter_match(const struct testfilter self[static 1], const char 
                 wc_fmarker = fcursor;
                 wc_nmarker = ncursor;
             } else {
-                // wildcard at end of filter so it automatically matches rest of name
+                // wildcard at end of filter so it automatically matches
+                // rest of name
                 return true;
             }
         } else if (wc_fmarker) {
@@ -372,11 +416,15 @@ static bool testfilter_match(const struct testfilter self[static 1], const char 
             break;
         }
     }
-    const bool eof = fcursor == self->end || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
+    const bool eof = fcursor == self->end
+        || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
     return eof && !(*ncursor);
 }
 
-static void testfilter_print_prefixed(const struct testfilter self[static 1], enum text_highlight style, bool include_prefix)
+static void testfilter_print_prefixed(
+    const struct testfilter self[static 1], enum text_highlight style,
+    bool include_prefix
+)
 {
     const char *prefix = "";
     if (!RunContext.colorized && include_prefix) {
@@ -391,15 +439,21 @@ static void testfilter_print_prefixed(const struct testfilter self[static 1], en
                 break;
         }
     }
-    print_highlighted(style, "%s%.*s", prefix, (int)(self->end - self->start), self->start);
+    print_highlighted(
+        style, "%s%.*s", prefix, (int)(self->end - self->start), self->start
+    );
 }
 
-static void testfilter_print_noprefix(const struct testfilter self[static 1], enum text_highlight style)
+static void testfilter_print_noprefix(
+    const struct testfilter self[static 1], enum text_highlight style
+)
 {
     testfilter_print_prefixed(self, style, false);
 }
 
-static void testfilter_print(const struct testfilter self[static 1], enum text_highlight style)
+static void testfilter_print(
+    const struct testfilter self[static 1], enum text_highlight style
+)
 {
     testfilter_print_prefixed(self, style, true);
 }
@@ -409,7 +463,9 @@ static filterlist *filterlist_new(void)
     return NULL;
 }
 
-static void filterlist_push(filterlist * restrict self[static 1], struct testfilter filter)
+static void filterlist_push(
+    filterlist * restrict self[static 1], struct testfilter filter
+)
 {
     struct testfilter * const filter_node = malloc(sizeof *filter_node);
     *filter_node = filter;
@@ -425,12 +481,18 @@ static bool filterlist_any(const filterlist *self, enum filtertarget target)
     return false;
 }
 
-static struct testfilter *filterlist_apply(filterlist * restrict self, const char * restrict suite_name, const char * restrict case_name)
+static struct testfilter *filterlist_apply(
+    filterlist * restrict self, const char * restrict suite_name,
+    const char * restrict case_name
+)
 {
     for (; self; self = self->next) {
         switch (self->apply) {
             case FILTER_ANY:
-                if (testfilter_match(self, suite_name) || testfilter_match(self, case_name)) return self;
+                if (
+                    testfilter_match(self, suite_name)
+                    || testfilter_match(self, case_name)
+                ) return self;
                 break;
             case FILTER_SUITE:
                 if (testfilter_match(self, suite_name)) return self;
@@ -439,10 +501,14 @@ static struct testfilter *filterlist_apply(filterlist * restrict self, const cha
                 if (testfilter_match(self, case_name)) return self;
                 break;
             case FILTER_ALL: {
-                // target ALL filters come in case, suite pairs; consume both filters here
+                // target ALL filters come in case, suite pairs; consume
+                // both filters here
                 struct testfilter * const case_filter = self,
                                   * const suite_filter = self = self->next;
-                if (testfilter_match(suite_filter, suite_name) && testfilter_match(case_filter, case_name)) return case_filter;
+                if (
+                    testfilter_match(suite_filter, suite_name)
+                    && testfilter_match(case_filter, case_name)
+                ) return case_filter;
                 break;
             }
             default:
@@ -453,7 +519,9 @@ static struct testfilter *filterlist_apply(filterlist * restrict self, const cha
     return NULL;
 }
 
-static void filterlist_print(const filterlist *self, enum filtertarget match, enum text_highlight style)
+static void filterlist_print(
+    const filterlist *self, enum filtertarget match, enum text_highlight style
+)
 {
     for (; self; self = self->next) {
         if (self->apply != match) continue;
@@ -467,7 +535,7 @@ static void filterlist_print(const filterlist *self, enum filtertarget match, en
         } else {
             testfilter_print(self, style);
         }
-        
+
         if (filterlist_any(self->next, match)) {
             printout(", ");
         }
@@ -483,7 +551,9 @@ static void filterlist_free(filterlist *self)
     }
 }
 
-static const char *parse_filterexpr(const char * restrict cursor, filterlist * restrict fl[static 1])
+static const char *parse_filterexpr(
+    const char * restrict cursor, filterlist * restrict fl[static 1]
+)
 {
     static const char expr_delimiter = ',';
 
@@ -492,7 +562,8 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist * r
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
         if (c == FilterTargetDelimiter && filter.apply == FILTER_ANY) {
-            // first target delimiter seen so this is a (possibly empty) suite filter
+            // first target delimiter seen so this is a (possibly empty)
+            // suite filter
             filter.end = cursor;
             filter.apply = FILTER_SUITE;
         } else if (filter.apply == FILTER_SUITE) {
@@ -515,11 +586,11 @@ static const char *parse_filterexpr(const char * restrict cursor, filterlist * r
     if (filter.apply != FILTER_SUITE) {
         filter.end = cursor;
     }
-    
+
     if (filter.start < filter.end) {
         filterlist_push(fl, filter);
     }
-    
+
     // Finish the expression either by consuming the
     // delimiter or clearing the cursor.
     if (*cursor == expr_delimiter) {
@@ -547,7 +618,9 @@ static filterlist *parse_filters(const char *filter_option)
 // Run Context
 /////
 
-static const char *runcontext_capturevar(const char * restrict env_var, char * restrict slot[static 1])
+static const char *runcontext_capturevar(
+    const char * restrict env_var, char * restrict slot[static 1]
+)
 {
     *slot = malloc(strlen(env_var) + 1);
     strcpy(*slot, env_var);
@@ -560,11 +633,11 @@ static void runcontext_init(int argc, const char *argv[argc+1])
     RunContext.verbosity = VERBOSITY_DEFAULT;
 
     const char *color_option = NULL,
-                *verbosity_option = NULL,
-                *suppress_output_option = NULL,
-                *include_filter_option = NULL,
-                *exclude_filter_option = NULL;
-    
+               *verbosity_option = NULL,
+               *suppress_output_option = NULL,
+               *include_filter_option = NULL,
+               *exclude_filter_option = NULL;
+
     if (argv) {
         for (int i = 0; i < argc; ++i) {
             const char * const arg = argv[i];
@@ -587,12 +660,12 @@ static void runcontext_init(int argc, const char *argv[argc+1])
             }
         }
     }
-    
+
     if (!verbosity_option) {
         verbosity_option = getenv("CINYTEST_VERBOSE");
     }
     RunContext.verbosity = argverbose(verbosity_option);
-    
+
     if (!color_option) {
         color_option = getenv("CINYTEST_COLORIZED");
     }
@@ -613,7 +686,9 @@ static void runcontext_init(int argc, const char *argv[argc+1])
         include_filter_option = getenv("CINYTEST_INCLUDE");
         if (include_filter_option) {
             // copy env value to prevent invalidated pointers
-            include_filter_option = runcontext_capturevar(include_filter_option, RunContext.env_copies);
+            include_filter_option = runcontext_capturevar(
+                include_filter_option, RunContext.env_copies
+            );
         }
     }
     RunContext.include = parse_filters(include_filter_option);
@@ -622,7 +697,9 @@ static void runcontext_init(int argc, const char *argv[argc+1])
         exclude_filter_option = getenv("CINYTEST_EXCLUDE");
         if (exclude_filter_option) {
             // copy env value to prevent invalidated pointers
-            exclude_filter_option = runcontext_capturevar(exclude_filter_option, RunContext.env_copies + 1);
+            exclude_filter_option = runcontext_capturevar(
+                exclude_filter_option, RunContext.env_copies + 1
+            );
         }
     }
     RunContext.exclude = parse_filters(exclude_filter_option);
@@ -695,7 +772,9 @@ static void runcontext_print(void)
     const struct ct_version v = ct_getversion();
     print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
     printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
-    printout("Suppress Output: %s\n", argflag_tostring(runcontext_suppressoutput()));
+    printout(
+        "Suppress Output: %s\n", argflag_tostring(runcontext_suppressoutput())
+    );
     runcontext_printfilters();
     printout("\n");
 }
@@ -704,7 +783,7 @@ static void runcontext_cleanup(void)
 {
     ct_restorestream(stdout, RunContext.out);
     RunContext.out = NULL;
-    
+
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
 
@@ -731,7 +810,11 @@ static struct runsummary runsummary_make(void)
 
 static void runsummary_print(const struct runsummary self[static 1])
 {
-    printout("Ran %zu tests (%.3f seconds): ", self->test_count, self->total_time / 1000.0);
+    printout(
+        "Ran %zu tests (%.3f seconds): ",
+        self->test_count,
+        self->total_time / 1000.0
+    );
     print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed);
     printout(", ");
     print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed);
@@ -772,22 +855,31 @@ static void assertstate_reset(void)
     AssertState.description[0] = AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(const char * restrict test_name, struct runledger ledger[restrict static 1])
+static void assertstate_handlefailure(
+    const char * restrict test_name, struct runledger ledger[restrict static 1]
+)
 {
     ++ledger->failed;
 
     print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, test_name);
 
     if (RunContext.verbosity > VERBOSITY_MINIMAL) {
-        printout("%s L.%d : %s\n", AssertState.file, AssertState.line, AssertState.description);
+        printout(
+            "%s L.%d : %s\n",
+            AssertState.file,
+            AssertState.line,
+            AssertState.description
+        );
         print_linemessage(AssertState.message);
     }
 }
 
-static void assertstate_handleignore(const char * restrict test_name, struct runledger ledger[restrict static 1])
+static void assertstate_handleignore(
+    const char * restrict test_name, struct runledger ledger[restrict static 1]
+)
 {
     ++ledger->ignored;
-    
+
     print_testresult(HIGHLIGHT_IGNORE, IgnoredTestSymbol, test_name);
 
     if (RunContext.verbosity > VERBOSITY_MINIMAL) {
@@ -795,7 +887,9 @@ static void assertstate_handleignore(const char * restrict test_name, struct run
     }
 }
 
-static void assertstate_handle(const char * restrict test_name, struct runledger ledger[restrict static 1])
+static void assertstate_handle(
+    const char * restrict test_name, struct runledger ledger[restrict static 1]
+)
 {
     switch (AssertState.type) {
         case ASSERT_FAILURE:
@@ -815,9 +909,11 @@ static void assertstate_setdescription(const char * restrict format, ...)
     const size_t description_size = sizeof AssertState.description;
     va_list format_args;
     va_start(format_args, format);
-    const int write_count = vsnprintf(AssertState.description, description_size, format, format_args);
+    const int write_count = vsnprintf(
+        AssertState.description, description_size, format, format_args
+    );
     va_end(format_args);
-    
+
     if ((size_t)write_count >= description_size) {
         pretty_truncate(description_size, AssertState.description);
     }
@@ -830,11 +926,15 @@ do { \
     assertstate_setvmessage(format, format_args); \
     va_end(format_args); \
 } while (false)
-static void assertstate_setvmessage(const char * restrict format, va_list format_args)
+static void assertstate_setvmessage(
+    const char * restrict format, va_list format_args
+)
 {
     const size_t message_size = sizeof AssertState.message;
-    const int write_count = vsnprintf(AssertState.message, message_size, format, format_args);
-    
+    const int write_count = vsnprintf(
+        AssertState.message, message_size, format, format_args
+    );
+
     if ((size_t)write_count >= message_size) {
         pretty_truncate(message_size, AssertState.message);
     }
@@ -853,12 +953,17 @@ do { \
 // Comparable Value
 /////
 
-static bool comparable_value_equaltypes(const struct ct_comparable_value expected[static 1], const struct ct_comparable_value actual[static 1])
+static bool comparable_value_equaltypes(
+    const struct ct_comparable_value expected[static 1],
+    const struct ct_comparable_value actual[static 1]
+)
 {
     return expected->type == actual->type;
 }
 
-static const char *comparable_value_typedescription(const struct ct_comparable_value value[static 1])
+static const char *comparable_value_typedescription(
+    const struct ct_comparable_value value[static 1]
+)
 {
     switch (value->type) {
         case CT_ANNOTATE_INTEGER:
@@ -874,7 +979,11 @@ static const char *comparable_value_typedescription(const struct ct_comparable_v
     }
 }
 
-static bool comparable_value_equalvalues(const struct ct_comparable_value expected[static 1], const struct ct_comparable_value actual[static 1], enum ct_valuetype_annotation type)
+static bool comparable_value_equalvalues(
+    const struct ct_comparable_value expected[static 1],
+    const struct ct_comparable_value actual[static 1],
+    enum ct_valuetype_annotation type
+)
 {
     switch (type) {
         case CT_ANNOTATE_INTEGER:
@@ -882,27 +991,40 @@ static bool comparable_value_equalvalues(const struct ct_comparable_value expect
         case CT_ANNOTATE_UINTEGER:
             return expected->uinteger_value == actual->uinteger_value;
         case CT_ANNOTATE_FLOATINGPOINT:
-            return expected->floatingpoint_value == actual->floatingpoint_value;
+            return expected->floatingpoint_value
+                    == actual->floatingpoint_value;
         case CT_ANNOTATE_COMPLEX:
-            return creall(expected->complex_value) == creall(actual->complex_value) && cimagl(expected->complex_value) == cimagl(actual->complex_value);
+            return creall(expected->complex_value)
+                        == creall(actual->complex_value)
+                    && cimagl(expected->complex_value)
+                        == cimagl(actual->complex_value);
         default:
             return false;
     }
 }
 
-static void comparable_value_valuedescription(const struct ct_comparable_value value[restrict static 1], size_t size, char buffer[restrict size])
+static void comparable_value_valuedescription(
+    const struct ct_comparable_value value[restrict static 1],
+    size_t size, char buffer[restrict size]
+)
 {
     int write_count;
-    
+
     switch (value->type) {
         case CT_ANNOTATE_INTEGER:
-            write_count = snprintf(buffer, size, "%"PRIdMAX, value->integer_value);
+            write_count = snprintf(
+                buffer, size, "%"PRIdMAX, value->integer_value
+            );
             break;
         case CT_ANNOTATE_UINTEGER:
-            write_count = snprintf(buffer, size, "%"PRIuMAX, value->uinteger_value);
+            write_count = snprintf(
+                buffer, size, "%"PRIuMAX, value->uinteger_value
+            );
             break;
         case CT_ANNOTATE_FLOATINGPOINT:
-            write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG, value->floatingpoint_value);
+            write_count = snprintf(
+                buffer, size, "%.*Lg", DECIMAL_DIG, value->floatingpoint_value
+            );
             break;
         case CT_ANNOTATE_COMPLEX: {
             long double imagin_value = cimagl(value->complex_value);
@@ -911,14 +1033,23 @@ static void comparable_value_valuedescription(const struct ct_comparable_value v
                 sign = '-';
                 imagin_value = fabsl(imagin_value);
             }
-            write_count = snprintf(buffer, size, "%.*Lg %c %.*Lgi", DECIMAL_DIG, creall(value->complex_value), sign, DECIMAL_DIG, imagin_value);
+            write_count = snprintf(
+                buffer,
+                size,
+                "%.*Lg %c %.*Lgi",
+                DECIMAL_DIG,
+                creall(value->complex_value),
+                sign,
+                DECIMAL_DIG,
+                imagin_value
+            );
             break;
         }
         default:
             write_count = snprintf(buffer, size, "invalid value");
             break;
     }
-    
+
     if ((size_t)write_count >= size) {
         pretty_truncate(size, buffer);
     }
@@ -928,33 +1059,56 @@ static void comparable_value_valuedescription(const struct ct_comparable_value v
 // Test Suite and Test Case
 /////
 
-static void testcase_run(const struct ct_testcase self[restrict static 1], void * restrict test_context, struct runledger ledger[restrict static 1])
+static void testcase_run(
+    const struct ct_testcase self[restrict static 1],
+    void * restrict test_context, struct runledger ledger[restrict static 1]
+)
 {
     if (!self->test) {
-        printerr("WARNING: Test case '%s' skipped, NULL function pointer found!\n", self->name);
+        printerr(
+            "WARNING: Test case '%s' skipped, NULL function pointer found!\n",
+            self->name
+        );
         return;
     }
-    
+
     self->test(test_context);
-    
+
     ++ledger->passed;
     print_testresult(HIGHLIGHT_SUCCESS, PassedTestSymbol, self->name);
 }
 
-static void testsuite_printheader(const struct ct_testsuite self[static 1], time_t start_time)
+static void testsuite_printheader(
+    const struct ct_testsuite self[static 1], time_t start_time
+)
 {
     char formatted_datetime[30];
-    const size_t format_length = strftime(formatted_datetime, sizeof formatted_datetime, "%FT%T%z", localtime(&start_time));
-    printout("Test suite '%s' started at %s\n", self->name,
-           format_length ? formatted_datetime : "Invalid Date (formatted output may have exceeded buffer size)");
+    const size_t format_length = strftime(
+        formatted_datetime,
+        sizeof formatted_datetime,
+        "%FT%T%z",
+        localtime(&start_time)
+    );
+    printout(
+        "Test suite '%s' started at %s\n",
+        self->name,
+        format_length
+            ? formatted_datetime
+            : "Invalid Date (formatted output may have exceeded buffer size)"
+    );
 }
 
 static enum suitebreak suitebreak_make(void)
 {
-    return RunContext.verbosity > VERBOSITY_LIST ? SUITEBREAK_OPEN : SUITEBREAK_END;
+    return RunContext.verbosity > VERBOSITY_LIST
+            ? SUITEBREAK_OPEN
+            : SUITEBREAK_END;
 }
 
-static void suitebreak_open(enum suitebreak state[restrict static 1], const struct ct_testsuite suite[restrict static 1])
+static void suitebreak_open(
+    enum suitebreak state[restrict static 1],
+    const struct ct_testsuite suite[restrict static 1]
+)
 {
     if (*state == SUITEBREAK_OPEN) {
         testsuite_printheader(suite, time(NULL));
@@ -962,7 +1116,10 @@ static void suitebreak_open(enum suitebreak state[restrict static 1], const stru
     }
 }
 
-static void suitebreak_close(enum suitebreak state[restrict static 1], const struct runsummary summary[restrict static 1])
+static void suitebreak_close(
+    enum suitebreak state[restrict static 1],
+    const struct runsummary summary[restrict static 1]
+)
 {
     if (*state == SUITEBREAK_CLOSE) {
         runsummary_print(summary);
@@ -970,12 +1127,19 @@ static void suitebreak_close(enum suitebreak state[restrict static 1], const str
     }
 }
 
-static void testsuite_runcase(const struct ct_testsuite self[restrict static 1], const struct ct_testcase current_case[restrict static 1], struct runsummary summary[restrict static 1], enum suitebreak sb_ref[restrict static 1])
+static void testsuite_runcase(
+    const struct ct_testsuite self[restrict static 1],
+    const struct ct_testcase current_case[restrict static 1],
+    struct runsummary summary[restrict static 1],
+    enum suitebreak sb_ref[restrict static 1]
+)
 {
     assertstate_reset();
 
     if (RunContext.include) {
-        const struct testfilter * const match = filterlist_apply(RunContext.include, self->name, current_case->name);
+        const struct testfilter * const match = filterlist_apply(
+            RunContext.include, self->name, current_case->name
+        );
         if (match) {
             AssertState.matched = match;
         } else {
@@ -983,41 +1147,47 @@ static void testsuite_runcase(const struct ct_testsuite self[restrict static 1],
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb_ref, self);
-                print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
+                print_testresult(
+                    HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name
+                );
             }
-            
+
             return;
         }
     }
-    
+
     if (RunContext.exclude) {
-        const struct testfilter * const match = filterlist_apply(RunContext.exclude, self->name, current_case->name);
+        const struct testfilter * const match = filterlist_apply(
+            RunContext.exclude, self->name, current_case->name
+        );
         if (match) {
             AssertState.matched = match;
             --summary->test_count;
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb_ref, self);
-                print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name);
+                print_testresult(
+                    HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name
+                );
             }
-            
+
             return;
         }
     }
-    
+
     suitebreak_open(sb_ref, self);
 
     void *test_context = NULL;
     if (self->setup) {
         self->setup(&test_context);
     }
-    
+
     if (setjmp(AssertSignal)) {
         assertstate_handle(current_case->name, &summary->ledger);
     } else {
         testcase_run(current_case, test_context, &summary->ledger);
     }
-    
+
     if (self->teardown) {
         self->teardown(&test_context);
     }
@@ -1026,7 +1196,7 @@ static void testsuite_runcase(const struct ct_testsuite self[restrict static 1],
 static void testsuite_run(const struct ct_testsuite *self)
 {
     struct runsummary summary = runsummary_make();
-    
+
     if (self && self->tests) {
         const uint64_t start_msecs = ct_get_currentmsecs();
         enum suitebreak sb = suitebreak_make();
@@ -1035,14 +1205,17 @@ static void testsuite_run(const struct ct_testsuite *self)
         for (size_t i = 0; i < self->count; ++i) {
             testsuite_runcase(self, self->tests + i, &summary, &sb);
         }
-        
+
         summary.total_time = ct_get_currentmsecs() - start_msecs;
         suitebreak_close(&sb, &summary);
     } else {
-        printerr("WARNING: NULL test suite or NULL test list detected, no tests run!\n");
+        printerr(
+            "WARNING: NULL test suite or NULL test list detected,"
+            " no tests run!\n"
+        );
         summary.ledger.failed = InvalidSuite;
     }
-    
+
     runtotals_add(&summary);
 }
 
@@ -1050,11 +1223,14 @@ static void testsuite_run(const struct ct_testsuite *self)
 // Public Functions
 /////
 
-size_t ct_runcount_withargs(size_t count, const struct ct_testsuite suites[count], int argc, const char *argv[argc+1])
+size_t ct_runcount_withargs(
+    size_t count, const struct ct_testsuite suites[count],
+    int argc, const char *argv[argc+1]
+)
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();
-    
+
     if (RunContext.help) {
         print_usage();
     } else if (RunContext.version) {
@@ -1068,12 +1244,18 @@ size_t ct_runcount_withargs(size_t count, const struct ct_testsuite suites[count
             for (size_t i = 0; i < count; ++i) {
                 testsuite_run(suites + i);
             }
-            if (RunContext.verbosity == VERBOSITY_MINIMAL && RunTotals.test_count) {
+            if (
+                RunContext.verbosity == VERBOSITY_MINIMAL
+                && RunTotals.test_count
+            ) {
                 printout("\n");
             }
             runtotals_print();
         } else {
-            printerr("WARNING: NULL test suite collection detected, no test suites run!\n");
+            printerr(
+                "WARNING: NULL test suite collection detected,"
+                " no test suites run!\n"
+            );
             RunTotals.ledger.failed = InvalidSuite;
         }
     }
@@ -1087,143 +1269,294 @@ noreturn void ct_internal_ignore(const char * restrict format, ...)
     assertstate_raise_signal(ASSERT_IGNORE, NULL, 0, format);
 }
 
-noreturn void ct_internal_assertfail(const char * restrict file, int line, const char * restrict format, ...)
+noreturn void ct_internal_assertfail(
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     assertstate_setdescription("%s", "asserted unconditional failure");
     assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
 }
 
-void ct_internal_asserttrue(bool expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_asserttrue(
+    bool expression, const char *stringized_expression,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     if (!expression) {
-        assertstate_setdescription("(%s) is true failed", stringized_expression);
+        assertstate_setdescription(
+            "(%s) is true failed", stringized_expression
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertfalse(bool expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertfalse(
+    bool expression, const char *stringized_expression,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     if (expression) {
-        assertstate_setdescription("(%s) is false failed", stringized_expression);
+        assertstate_setdescription(
+            "(%s) is false failed", stringized_expression
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertnull(const void * restrict expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnull(
+    const void * restrict expression, const char *stringized_expression,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     if (expression) {
-        assertstate_setdescription("(%s) is NULL failed: (%p)", stringized_expression, expression);
+        assertstate_setdescription(
+            "(%s) is NULL failed: (%p)", stringized_expression, expression
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertnotnull(const void * restrict expression, const char *stringized_expression, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnotnull(
+    const void * restrict expression, const char *stringized_expression,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     if (!expression) {
-        assertstate_setdescription("(%s) is not NULL failed", stringized_expression);
+        assertstate_setdescription(
+            "(%s) is not NULL failed", stringized_expression
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertequal(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertequal(
+    struct ct_comparable_value expected, const char *stringized_expected,
+    struct ct_comparable_value actual, const char *stringized_actual,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     bool failed_assert = false;
     if (!comparable_value_equaltypes(&expected, &actual)) {
-        assertstate_setdescription("(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparable_value_typedescription(&expected), comparable_value_typedescription(&actual));
+        assertstate_setdescription(
+            "(%s) is not the same type as (%s): expected (%s type),"
+            " actual (%s type)",
+            stringized_expected,
+            stringized_actual,
+            comparable_value_typedescription(&expected),
+            comparable_value_typedescription(&actual)
+        );
         failed_assert = true;
-    } else if (!comparable_value_equalvalues(&expected, &actual, expected.type)) {
-        char valuestr_expected[COMPVALUE_STR_SIZE], valuestr_actual[COMPVALUE_STR_SIZE];
-        comparable_value_valuedescription(&expected, sizeof valuestr_expected, valuestr_expected);
-        comparable_value_valuedescription(&actual, sizeof valuestr_actual, valuestr_actual);
-        assertstate_setdescription("(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
+    } else if (!comparable_value_equalvalues(
+        &expected, &actual, expected.type
+    )) {
+        char valuestr_expected[COMPVALUE_STR_SIZE],
+             valuestr_actual[COMPVALUE_STR_SIZE];
+        comparable_value_valuedescription(
+            &expected, sizeof valuestr_expected, valuestr_expected
+        );
+        comparable_value_valuedescription(
+            &actual, sizeof valuestr_actual, valuestr_actual
+        );
+        assertstate_setdescription(
+            "(%s) is not equal to (%s): expected (%s), actual (%s)",
+            stringized_expected,
+            stringized_actual,
+            valuestr_expected,
+            valuestr_actual
+        );
         failed_assert = true;
     }
-    
+
     if (failed_assert) {
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertnotequal(struct ct_comparable_value expected, const char *stringized_expected, struct ct_comparable_value actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnotequal(
+    struct ct_comparable_value expected, const char *stringized_expected,
+    struct ct_comparable_value actual, const char *stringized_actual,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     bool failed_assert = false;
     if (!comparable_value_equaltypes(&expected, &actual)) {
-        assertstate_setdescription("(%s) is not the same type as (%s): expected (%s type), actual (%s type)", stringized_expected, stringized_actual, comparable_value_typedescription(&expected), comparable_value_typedescription(&actual));
+        assertstate_setdescription(
+            "(%s) is not the same type as (%s): expected (%s type),"
+            " actual (%s type)",
+            stringized_expected,
+            stringized_actual,
+            comparable_value_typedescription(&expected),
+            comparable_value_typedescription(&actual)
+        );
         failed_assert = true;
-    } else if (comparable_value_equalvalues(&expected, &actual, expected.type)) {
+    } else if (comparable_value_equalvalues(
+        &expected, &actual, expected.type)
+    ) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
-        comparable_value_valuedescription(&expected, sizeof valuestr_expected, valuestr_expected);
-        assertstate_setdescription("(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
+        comparable_value_valuedescription(
+            &expected, sizeof valuestr_expected, valuestr_expected
+        );
+        assertstate_setdescription(
+            "(%s) is equal to (%s): (%s)",
+            stringized_expected,
+            stringized_actual,
+            valuestr_expected
+        );
         failed_assert = true;
     }
-    
+
     if (failed_assert) {
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertaboutequal(
+    long double expected, const char *stringized_expected,
+    long double actual, const char *stringized_actual, long double precision,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     const long double diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
-        assertstate_setdescription("(%s) differs from (%s) by greater than %s(%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, PlusMinus, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
-        
+        assertstate_setdescription(
+            "(%s) differs from (%s) by greater than %s(%.*Lg):"
+            " expected (%.*Lg), actual (%.*Lg)",
+            stringized_expected,
+            stringized_actual,
+            PlusMinus,
+            DECIMAL_DIG,
+            precision,
+            DECIMAL_DIG,
+            expected,
+            DECIMAL_DIG,
+            actual
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertnotaboutequal(long double expected, const char *stringized_expected, long double actual, const char *stringized_actual, long double precision, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnotaboutequal(
+    long double expected, const char *stringized_expected,
+    long double actual, const char *stringized_actual, long double precision,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     const long double diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
-        assertstate_setdescription("(%s) differs from (%s) by less than or equal to %s(%.*Lg): expected (%.*Lg), actual (%.*Lg)", stringized_expected, stringized_actual, PlusMinus, DECIMAL_DIG, precision, DECIMAL_DIG, expected, DECIMAL_DIG, actual);
-        
+        assertstate_setdescription(
+            "(%s) differs from (%s) by less than or equal to %s(%.*Lg):"
+            " expected (%.*Lg), actual (%.*Lg)",
+            stringized_expected,
+            stringized_actual,
+            PlusMinus,
+            DECIMAL_DIG,
+            precision,
+            DECIMAL_DIG,
+            expected,
+            DECIMAL_DIG,
+            actual
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertsame(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertsame(
+    const void *expected, const char *stringized_expected,
+    const void *actual, const char *stringized_actual,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     if (expected != actual) {
-        assertstate_setdescription("(%s) is not the same as (%s): expected (%p), actual (%p)", stringized_expected, stringized_actual, expected, actual);
+        assertstate_setdescription(
+            "(%s) is not the same as (%s): expected (%p), actual (%p)",
+            stringized_expected,
+            stringized_actual,
+            expected,
+            actual
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertnotsame(const void *expected, const char *stringized_expected, const void *actual, const char *stringized_actual, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnotsame(
+    const void *expected, const char *stringized_expected,
+    const void *actual, const char *stringized_actual,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
     if (expected == actual) {
-        assertstate_setdescription("(%s) is the same as (%s): (%p)", stringized_expected, stringized_actual, expected);
+        assertstate_setdescription(
+            "(%s) is the same as (%s): (%p)",
+            stringized_expected,
+            stringized_actual,
+            expected
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertequalstrn(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertequalstrn(
+    const char *expected, const char *stringized_expected,
+    const char *actual, const char *stringized_actual, size_t n,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
-    if ((expected && !actual) || (!expected && actual)
-        || (expected && actual && (strncmp(expected, actual, n) != 0))) {
-        char valuestr_expected[COMPVALUE_STR_SIZE], valuestr_actual[COMPVALUE_STR_SIZE];
-        if ((size_t)snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
+    if (
+        (expected && !actual) || (!expected && actual)
+        || (expected && actual && (strncmp(expected, actual, n) != 0))
+    ) {
+        char valuestr_expected[COMPVALUE_STR_SIZE],
+             valuestr_actual[COMPVALUE_STR_SIZE];
+        if (
+            (size_t)snprintf(
+                valuestr_expected, sizeof valuestr_expected, "%s", expected
+            ) >= sizeof valuestr_expected
+        ) {
             pretty_truncate(sizeof valuestr_expected, valuestr_expected);
         }
-        if ((size_t)snprintf(valuestr_actual, sizeof valuestr_actual, "%s", actual) >= sizeof valuestr_actual) {
+        if (
+            (size_t)snprintf(
+                valuestr_actual, sizeof valuestr_actual, "%s", actual
+            ) >= sizeof valuestr_actual
+        ) {
             pretty_truncate(sizeof valuestr_actual, valuestr_actual);
         }
-        assertstate_setdescription("(%s) is not equal to (%s): expected (%s), actual (%s)", stringized_expected, stringized_actual, valuestr_expected, valuestr_actual);
-        
+        assertstate_setdescription(
+            "(%s) is not equal to (%s): expected (%s), actual (%s)",
+            stringized_expected,
+            stringized_actual,
+            valuestr_expected,
+            valuestr_actual
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
 
-void ct_internal_assertnotequalstrn(const char *expected, const char *stringized_expected, const char *actual, const char *stringized_actual, size_t n, const char * restrict file, int line, const char * restrict format, ...)
+void ct_internal_assertnotequalstrn(
+    const char *expected, const char *stringized_expected,
+    const char *actual, const char *stringized_actual, size_t n,
+    const char * restrict file, int line, const char * restrict format, ...
+)
 {
-    if ((!expected && !actual) || (expected && actual && (strncmp(expected, actual, n) == 0))) {
+    if (
+        (!expected && !actual)
+        || (expected && actual
+            && (strncmp(expected, actual, n) == 0))
+    ) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
-        if ((size_t)snprintf(valuestr_expected, sizeof valuestr_expected, "%s", expected) >= sizeof valuestr_expected) {
+        if (
+            (size_t)snprintf(
+                valuestr_expected, sizeof valuestr_expected, "%s", expected
+            ) >= sizeof valuestr_expected
+        ) {
             pretty_truncate(sizeof valuestr_expected, valuestr_expected);
         }
-        assertstate_setdescription("(%s) is equal to (%s): (%s)", stringized_expected, stringized_actual, valuestr_expected);
-        
+        assertstate_setdescription(
+            "(%s) is equal to (%s): (%s)",
+            stringized_expected,
+            stringized_actual,
+            valuestr_expected
+        );
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
 }
