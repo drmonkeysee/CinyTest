@@ -13,6 +13,6 @@ size_t binarytree_tests(int, const char *[]);
 int main(int argc, const char *argv[argc+1])
 {
     const size_t results = binarytree_tests(argc, argv);
-    
+
     return results != 0;
 }

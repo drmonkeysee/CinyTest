@@ -25,7 +25,7 @@ uint64_t ct_get_currentmsecs(void)
 {
     struct timeval vtime;
     gettimeofday(&vtime, NULL);
-    
+
     return (vtime.tv_sec * MillisecondFactor)
             + (vtime.tv_usec / MillisecondFactor);
 }
@@ -34,7 +34,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
 {
     static const char * const colors[] = {GREEN, RED, CYAN, MAGENTA};
     static const size_t color_count = sizeof colors / sizeof colors[0];
-    
+
     if (color_index < color_count) {
         fprintf(stream, "%s", colors[color_index]);
     }
@@ -48,7 +48,7 @@ void ct_endcolor(FILE *stream)
 FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
-    
+
     const int new_stream = dup(fileno(stream));
     freopen("/dev/null", "w", stream);
     return fdopen(new_stream, "w");
@@ -57,7 +57,7 @@ FILE *ct_replacestream(FILE *stream)
 void ct_restorestream(FILE *to, FILE *from)
 {
     if (to == from) return;
-    
+
     fflush(to);
     fflush(from);
     dup2(fileno(from), fileno(to));

@@ -30,12 +30,12 @@ int main(int argc, const char *argv[argc+1])
         12, 1, 2, 3, 6, 5, 4, 10, 11, 12, 13, 14, 15
     );
     tree_output(tree);
-    
+
     bt_rebalance(&tree);
     tree_output(tree);
 
     bt_free(tree);
     tree = NULL;
-    
+
     return EXIT_SUCCESS;
 }
