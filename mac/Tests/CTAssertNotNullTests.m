@@ -18,29 +18,37 @@
 
 static void variable_test(void *context)
 {
-    CTAssertNotNullTests *testObject = (__bridge CTAssertNotNullTests *)(TestClass);
+    CTAssertNotNullTests *testObject =
+        (__bridge CTAssertNotNullTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
-    ct_assertnotnull(testObject.testVariable, "i see the %p value", testObject.testVariable);
+    ct_assertnotnull(
+        testObject.testVariable, "i see the %p value", testObject.testVariable
+    );
     
     testObject.sawPostAssertCode = YES;
 }
 
 static void expression_test(void *context)
 {
-    CTAssertNotNullTests *testObject = (__bridge CTAssertNotNullTests *)(TestClass);
+    CTAssertNotNullTests *testObject =
+        (__bridge CTAssertNotNullTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
-    ct_assertnotnull(generate_pointer(testObject.useRealPointer), "oh no i got a fake pointer!!");
+    ct_assertnotnull(
+        generate_pointer(testObject.useRealPointer),
+        "oh no i got a fake pointer!!"
+    );
     
     testObject.sawPostAssertCode = YES;
 }
 
 static void literal_null_test(void *context)
 {
-    CTAssertNotNullTests *testObject = (__bridge CTAssertNotNullTests *)(TestClass);
+    CTAssertNotNullTests *testObject =
+        (__bridge CTAssertNotNullTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -51,7 +59,8 @@ static void literal_null_test(void *context)
 
 static void literal_notnull_test(void *context)
 {
-    CTAssertNotNullTests *testObject = (__bridge CTAssertNotNullTests *)(TestClass);
+    CTAssertNotNullTests *testObject =
+        (__bridge CTAssertNotNullTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

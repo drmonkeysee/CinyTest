@@ -18,22 +18,31 @@
 
 static void variable_test(void *context)
 {
-    CTAssertTrueTests *testObject = (__bridge CTAssertTrueTests *)(TestClass);
+    CTAssertTrueTests *testObject =
+        (__bridge CTAssertTrueTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
-    ct_asserttrue(testObject.testVariable, "i didn't expect %d value right???", testObject.testVariable);
+    ct_asserttrue(
+        testObject.testVariable,
+        "i didn't expect %d value right???",
+        testObject.testVariable
+    );
     
     testObject.sawPostAssertCode = YES;
 }
 
 static void expression_test(void *context)
 {
-    CTAssertTrueTests *testObject = (__bridge CTAssertTrueTests *)(TestClass);
+    CTAssertTrueTests *testObject =
+        (__bridge CTAssertTrueTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
-    ct_asserttrue(testObject.gtExpressionLhs > testObject.gtExpressionRhs, "oh no my lhs is too small!!");
+    ct_asserttrue(
+        testObject.gtExpressionLhs > testObject.gtExpressionRhs,
+        "oh no my lhs is too small!!"
+    );
     
     testObject.sawPostAssertCode = YES;
 }

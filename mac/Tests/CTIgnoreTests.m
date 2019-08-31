@@ -58,7 +58,9 @@ static void ignore_test_formatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_ignore("a test message with %d format arguments: %f, %s", 3, 1.5, "foo");
+    ct_ignore(
+        "a test message with %d format arguments: %f, %s", 3, 1.5, "foo"
+    );
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"

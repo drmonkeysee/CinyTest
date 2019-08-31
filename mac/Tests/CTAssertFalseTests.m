@@ -18,29 +18,39 @@
 
 static void variable_test(void *context)
 {
-    CTAssertFalseTests *testObject = (__bridge CTAssertFalseTests *)(TestClass);
+    CTAssertFalseTests *testObject =
+        (__bridge CTAssertFalseTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
-    ct_assertfalse(testObject.testVariable, "i did expect %d value right???", testObject.testVariable);
+    ct_assertfalse(
+        testObject.testVariable,
+        "i did expect %d value right???",
+        testObject.testVariable
+    );
     
     testObject.sawPostAssertCode = YES;
 }
 
 static void expression_test(void *context)
 {
-    CTAssertFalseTests *testObject = (__bridge CTAssertFalseTests *)(TestClass);
+    CTAssertFalseTests *testObject =
+        (__bridge CTAssertFalseTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
-    ct_assertfalse(testObject.gtExpressionLhs > testObject.gtExpressionRhs, "oh no my lhs is too big!!");
+    ct_assertfalse(
+        testObject.gtExpressionLhs > testObject.gtExpressionRhs,
+        "oh no my lhs is too big!!"
+    );
     
     testObject.sawPostAssertCode = YES;
 }
 
 static void literal_true_test(void *context)
 {
-    CTAssertFalseTests *testObject = (__bridge CTAssertFalseTests *)(TestClass);
+    CTAssertFalseTests *testObject =
+        (__bridge CTAssertFalseTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -51,7 +61,8 @@ static void literal_true_test(void *context)
 
 static void literal_false_test(void *context)
 {
-    CTAssertFalseTests *testObject = (__bridge CTAssertFalseTests *)(TestClass);
+    CTAssertFalseTests *testObject =
+        (__bridge CTAssertFalseTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

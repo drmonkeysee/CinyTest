@@ -16,7 +16,8 @@
 
 static void test_case(void *context)
 {
-    CTNoRunOptionsTests *testObject = (__bridge CTNoRunOptionsTests *)(TestClass);
+    CTNoRunOptionsTests *testObject =
+        (__bridge CTNoRunOptionsTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

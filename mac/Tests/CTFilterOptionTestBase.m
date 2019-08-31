@@ -23,7 +23,9 @@ static RUN_TEST_FLAGS Suite1Flags, Suite2Flags;
 
 static void set_test_flag(const void *ctx, RUN_TEST_FLAGS flag)
 {
-    RUN_TEST_FLAGS * const testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2 ? &Suite2Flags : &Suite1Flags;
+    RUN_TEST_FLAGS * const testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2
+                                        ? &Suite2Flags :
+                                        &Suite1Flags;
     *testvar |= flag;
 }
 
@@ -87,7 +89,9 @@ static void suite2_setup(void *context[static 1])
     *context = (void *)RUN_SUITE2;
 }
 
-static struct ct_testsuite make_suite(const char *name, ct_setupteardown_function *setup)
+static struct ct_testsuite make_suite(
+    const char *name, ct_setupteardown_function *setup
+)
 {
     static const struct ct_testcase tests[] = {
         ct_maketest(test_foobar),
@@ -102,7 +106,9 @@ static struct ct_testsuite make_suite(const char *name, ct_setupteardown_functio
         ct_maketest(test_🐴🐎),
     };
     
-    return ct_makesuite_setup_teardown_named(name, sizeof tests / sizeof tests[0], tests, setup, NULL);
+    return ct_makesuite_setup_teardown_named(
+        name, sizeof tests / sizeof tests[0], tests, setup, NULL
+    );
 }
 
 @implementation CTFilterOptionTestBase

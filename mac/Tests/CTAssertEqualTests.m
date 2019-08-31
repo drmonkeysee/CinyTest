@@ -21,10 +21,11 @@
 
 static void equality_test(void *context)
 {
-    CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
-    
+    CTAssertEqualTests *testObject =
+        (__bridge CTAssertEqualTests *)(TestClass);
+
     testObject.invokedTest = YES;
-    
+
     switch (testObject.expectedType) {
         case TAT_SCHAR:
         case TAT_SHORT:
@@ -39,7 +40,14 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_integer_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_integer_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -48,17 +56,38 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_integer_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_uinteger_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_integer_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_float_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_integer_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_integer_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_complex_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
             }
             break;
@@ -76,7 +105,14 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_uinteger_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_integer_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -85,17 +121,38 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_uinteger_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_uinteger_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_uinteger_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_float_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_uinteger_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_uinteger_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_complex_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
             }
             break;
@@ -109,7 +166,14 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_float_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_integer_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -118,17 +182,38 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_float_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_uinteger_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_float_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_float_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_float_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_float_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_complex_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
             }
             break;
@@ -142,7 +227,14 @@ static void equality_test(void *context)
                 case TAT_LONG:
                 case TAT_LONG_LONG:
                 case TAT_SMAX:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_integer_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_complex_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_integer_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_BOOL:
                 case TAT_UCHAR:
@@ -151,60 +243,81 @@ static void equality_test(void *context)
                 case TAT_ULONG:
                 case TAT_ULONG_LONG:
                 case TAT_UMAX:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_uinteger_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_complex_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_uinteger_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FLOAT:
                 case TAT_DOUBLE:
                 case TAT_LDOUBLE:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_float_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_complex_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_float_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
                 case TAT_FCOMPLEX:
                 case TAT_COMPLEX:
                 case TAT_LCOMPLEX:
-                    ct_assertequal(get_complex_test_arg(testObject.expectedType, ARG_EXPECTED), get_complex_test_arg(testObject.actualType, ARG_ACTUAL));
+                    ct_assertequal(
+                        get_complex_test_arg(
+                            testObject.expectedType, ARG_EXPECTED
+                        ),
+                        get_complex_test_arg(
+                            testObject.actualType, ARG_ACTUAL
+                        )
+                    );
                     break;
             }
             break;
     }
-    
+
     testObject.sawPostAssertCode = YES;
 }
 
 static void equality_test_withmessage(void *context)
 {
     CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
-    
+
     testObject.invokedTest = YES;
-    
+
     ct_assertequal(10, 20, "Oh dear, an inequality message!");
-    
+
     testObject.sawPostAssertCode = YES;
 }
 
 static void equality_test_withformatmessage(void *context)
 {
     CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
-    
+
     testObject.invokedTest = YES;
-    
+
     int e = -9, i = 5;
-    
+
     ct_assertequal(e, i, "Turns out %d is not equal to %d", e, i);
-    
+
     testObject.sawPostAssertCode = YES;
 }
 
 static void equality_test_withtypevariants(void *context)
 {
     CTAssertEqualTests *testObject = (__bridge CTAssertEqualTests *)(TestClass);
-    
+
     testObject.invokedTest = YES;
-    
+
     const int ci = 10;
     int i = 10;
-    
+
     ct_assertequal(ci, i, "const ints and ints should be equal");
-    
+
     testObject.sawPostAssertCode = YES;
 }
 
@@ -220,9 +333,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -234,9 +347,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -248,9 +361,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -262,9 +375,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -276,9 +389,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -290,9 +403,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_SHORT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -304,9 +417,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -318,9 +431,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_SMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -332,9 +445,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -346,9 +459,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_SMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -360,9 +473,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -374,9 +487,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -388,9 +501,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_SMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -404,9 +517,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -418,9 +531,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_ULONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -432,9 +545,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -446,9 +559,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_ULONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -460,9 +573,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_ULONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -474,9 +587,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -488,9 +601,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -502,9 +615,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -516,9 +629,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -532,9 +645,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -546,9 +659,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -560,9 +673,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -574,9 +687,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -588,9 +701,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -602,9 +715,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -616,9 +729,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -630,9 +743,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -644,9 +757,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -658,9 +771,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -672,9 +785,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -688,9 +801,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -702,9 +815,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -716,9 +829,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -730,9 +843,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -744,9 +857,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -758,9 +871,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -772,9 +885,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -786,9 +899,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -800,9 +913,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -814,9 +927,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -828,9 +941,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -842,9 +955,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -856,9 +969,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -870,9 +983,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -884,9 +997,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -900,9 +1013,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -914,9 +1027,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -928,9 +1041,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -942,9 +1055,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -956,9 +1069,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -970,9 +1083,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -987,9 +1100,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -1002,9 +1115,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -1017,9 +1130,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -1029,9 +1142,9 @@ static void equality_test_withtypevariants(void *context)
 {
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withmessage)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -1039,9 +1152,9 @@ static void equality_test_withtypevariants(void *context)
 {
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withformatmessage)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     failed_assertion_expected(run_result);
 }
 
@@ -1051,9 +1164,9 @@ static void equality_test_withtypevariants(void *context)
 {
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withtypevariants)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -1067,9 +1180,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_CHAR;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     successful_assertion_expected(run_result);
 }
 
@@ -1081,9 +1194,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     XCTAssertEqual(0u, run_result, "Test unexpectedly failed - possibly compiled with unsigned char option?");
     XCTAssertTrue(self.invokedTest);
     XCTAssertTrue(self.sawPostAssertCode);
@@ -1097,9 +1210,9 @@ static void equality_test_withtypevariants(void *context)
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
-    
+
     const size_t run_result = ct_runsuite(&suite);
-    
+
     XCTAssertEqual(1u, run_result, "Test unexpectedly passed - possibly compiled with unsigned char option?");
     XCTAssertTrue(self.invokedTest);
     XCTAssertFalse(self.sawPostAssertCode);

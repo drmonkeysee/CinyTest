@@ -50,7 +50,9 @@ static void fail_test_formatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertfail("a test message with %d format arguments: %f, %s", 3, 1.5, "foo");
+    ct_assertfail(
+        "a test message with %d format arguments: %f, %s", 3, 1.5, "foo"
+    );
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
