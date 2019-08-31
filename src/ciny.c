@@ -293,7 +293,8 @@ static void print_testresult(
         }
         printout(" %s", status);
 
-        const bool annotate_filtered = RunContext.verbosity == VERBOSITY_FULL
+        const bool annotate_filtered =
+            RunContext.verbosity == VERBOSITY_FULL
             && (RunContext.include || RunContext.exclude);
         if (annotate_filtered) {
             printout(" (filtered: ");
@@ -415,7 +416,8 @@ static bool testfilter_match(
             break;
         }
     }
-    const bool eof = fcursor == self->end
+    const bool eof =
+        fcursor == self->end
         || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
     return eof && !(*ncursor);
 }
@@ -489,7 +491,7 @@ static struct testfilter *filterlist_apply(
         switch (self->apply) {
             case FILTER_ANY: {
                 const bool anymatch = testfilter_match(self, suite_name)
-                    || testfilter_match(self, case_name);
+                                        || testfilter_match(self, case_name);
                 if (anymatch) return self;
                 break;
             }
@@ -504,9 +506,9 @@ static struct testfilter *filterlist_apply(
                 // both filters here
                 struct testfilter * const case_filter = self,
                                   * const suite_filter = self = self->next;
-                const bool allmatch = testfilter_match(
-                        suite_filter, suite_name
-                    ) && testfilter_match(case_filter, case_name);
+                const bool allmatch =
+                    testfilter_match(suite_filter, suite_name)
+                    && testfilter_match(case_filter, case_name);
                 if (allmatch) return case_filter;
                 break;
             }
@@ -1272,7 +1274,7 @@ size_t ct_runcount_withargs(
                 testsuite_run(suites + i);
             }
             const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
-                && RunTotals.test_count;
+                                        && RunTotals.test_count;
             if (need_newline) {
                 printout("\n");
             }
@@ -1527,7 +1529,8 @@ void ct_internal_assertequalstrn(
     const char * restrict file, int line, const char * restrict format, ...
 )
 {
-    const bool assert_fails = (expected && !actual)
+    const bool assert_fails =
+        (expected && !actual)
         || (!expected && actual)
         || (expected && actual && (strncmp(expected, actual, n) != 0));
     if (assert_fails) {
@@ -1565,7 +1568,8 @@ void ct_internal_assertnotequalstrn(
     const char * restrict file, int line, const char * restrict format, ...
 )
 {
-    const bool assert_fails = (!expected && !actual)
+    const bool assert_fails =
+        (!expected && !actual)
         || (expected && actual && (strncmp(expected, actual, n) == 0));
     if (assert_fails) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
