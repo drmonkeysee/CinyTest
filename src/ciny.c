@@ -119,7 +119,7 @@ enum suitebreak {
     SUITEBREAK_CLOSE,
 };
 struct runledger {
-    size_t passed, failed, ignored;
+    size_t passed, failed, ignored, skipped;
 };
 static struct runsummary {
     struct runledger ledger;
@@ -819,6 +819,12 @@ static void runsummary_print(const struct runsummary self[static 1])
     print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed);
     printout(", ");
     print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", self->ledger.ignored);
+    if (RunContext.verbosity == VERBOSITY_FULL) {
+        printout(", ");
+        print_highlighted(
+            HIGHLIGHT_SKIPPED, "%zu skipped", self->ledger.skipped
+        );
+    }
     printout(".\n");
 }
 
@@ -829,6 +835,7 @@ static void runtotals_add(const struct runsummary summary[static 1])
     RunTotals.ledger.passed += summary->ledger.passed;
     RunTotals.ledger.failed += summary->ledger.failed;
     RunTotals.ledger.ignored += summary->ledger.ignored;
+    RunTotals.ledger.skipped += summary->ledger.skipped;
 }
 
 static void runtotals_print(void)
@@ -1142,7 +1149,8 @@ static void testsuite_runcase(
         if (match) {
             AssertState.matched = match;
         } else {
-            --summary->test_count;
+            --(summary->test_count);
+            ++(summary->ledger.skipped);
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb_ref, self);
@@ -1161,7 +1169,8 @@ static void testsuite_runcase(
         );
         if (match) {
             AssertState.matched = match;
-            --summary->test_count;
+            --(summary->test_count);
+            ++(summary->ledger.skipped);
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb_ref, self);
