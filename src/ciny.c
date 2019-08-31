@@ -319,7 +319,7 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(size_t size, char buffer[size])
 {
-    const size_t ellipsis_length = strlen(Ellipsis);
+    static const size_t ellipsis_length = strlen(Ellipsis);
     const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
 
     const bool can_fit_ellipsis = truncation_index >= 0;
@@ -933,7 +933,7 @@ static void assertstate_handle(
 
 static void assertstate_setdescription(const char * restrict format, ...)
 {
-    const size_t description_size = sizeof AssertState.description;
+    static const size_t description_size = sizeof AssertState.description;
     va_list format_args;
     va_start(format_args, format);
     const int write_count = vsnprintf(
@@ -957,7 +957,7 @@ static void assertstate_setvmessage(
     const char * restrict format, va_list format_args
 )
 {
-    const size_t message_size = sizeof AssertState.message;
+    static const size_t message_size = sizeof AssertState.message;
     const int write_count = vsnprintf(
         AssertState.message, message_size, format, format_args
     );
