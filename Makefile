@@ -13,7 +13,7 @@ INST_LIB := $(INST_DIR)/lib
 INST_DOC := $(INST_DIR)/share/doc/cinytest
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -pedantic -std=c11
+CFLAGS := -Wall -Wextra -pedantic -std=c17
 SP := strip
 SPFLAGS := -s
 ARFLAGS := -rsv
@@ -39,7 +39,7 @@ endif
 
 .PHONY: release debug buildall build buildsample buildsampletests check install uninstall clean
 
-release: CFLAGS += -Os
+release: CFLAGS += -Werror -Os -DNDEBUG
 release: buildall
 	$(SP) $(SPFLAGS) $(BUILD_DIR)/$(SAMP_TARGET)
 	$(SP) $(SPFLAGS) $(BUILD_DIR)/$(SAMPT_TARGET)
