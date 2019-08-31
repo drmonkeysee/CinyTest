@@ -814,11 +814,30 @@ static void runsummary_print(const struct runsummary self[static 1])
         self->test_count,
         self->total_time / 1000.0
     );
-    print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed);
-    printout(", ");
-    print_highlighted(HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed);
-    printout(", ");
-    print_highlighted(HIGHLIGHT_IGNORE, "%zu ignored", self->ledger.ignored);
+    bool printed_subtotal = false;
+    if (self->ledger.passed > 0 || RunContext.verbosity == VERBOSITY_FULL) {
+        print_highlighted(
+            HIGHLIGHT_SUCCESS, "%zu passed", self->ledger.passed
+        );
+        printed_subtotal = true;
+    }
+    if (self->ledger.failed > 0 || RunContext.verbosity == VERBOSITY_FULL) {
+        if (printed_subtotal) {
+            printout(", ");
+        }
+        print_highlighted(
+            HIGHLIGHT_FAILURE, "%zu failed", self->ledger.failed
+        );
+        printed_subtotal = true;
+    }
+    if (self->ledger.ignored > 0 || RunContext.verbosity == VERBOSITY_FULL) {
+        if (printed_subtotal) {
+            printout(", ");
+        }
+        print_highlighted(
+            HIGHLIGHT_IGNORE, "%zu ignored", self->ledger.ignored
+        );
+    }
     if (RunContext.verbosity == VERBOSITY_FULL) {
         printout(", ");
         print_highlighted(

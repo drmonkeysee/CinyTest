@@ -25,37 +25,37 @@
 
 - (void)test_colorizedEnabledByDefault
 {
-    [self assertDefault:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertDefault:CTOutputContains value:@"[0;32m1 passed[0m."];
 }
 
 - (void)test_colorizedDisabledByEnv
 {
-    [self assertEnvDisabled:CTOutputContains value:@"1 passed,"];
+    [self assertEnvDisabled:CTOutputContains value:@"1 passed."];
 }
 
 - (void)test_colorizedEnabled_ForPositiveEnvValues
 {
-    [self assertEnvEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertEnvEnabled:CTOutputContains value:@"[0;32m1 passed[0m."];
 }
 
 - (void)test_colorizedEnabled_WithArbitraryArgs
 {
-    [self assertArbitraryArgs:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertArbitraryArgs:CTOutputContains value:@"[0;32m1 passed[0m."];
 }
 
 - (void)test_colorizedDisabled_WithCommandLineArg
 {
-    [self assertArg:@"--ct-colorized" ifDisabled:CTOutputContains value:@"1 passed,"];
+    [self assertArg:@"--ct-colorized" ifDisabled:CTOutputContains value:@"1 passed."];
 }
 
 - (void)test_colorizedEnabled_WithPositiveCommandLineArg
 {
-    [self assertArg:@"--ct-colorized" ifEnabled:CTOutputContains value:@"[0;32m1 passed[0m,"];
+    [self assertArg:@"--ct-colorized" ifEnabled:CTOutputContains value:@"[0;32m1 passed[0m."];
 }
 
 - (void)test_colorizedHandlesDuplicateCommandLineArgs
 {
-    [self assertDuplicateArg:@"--ct-colorized" isDisabled:CTOutputContains value:@"1 passed,"];
+    [self assertDuplicateArg:@"--ct-colorized" isDisabled:CTOutputContains value:@"1 passed."];
 }
 
 @end
