@@ -27,15 +27,15 @@ static struct bt_node *create_node(int value)
     return new_node;
 }
 
-static struct bt_node **find_childref(struct bt_node *self, int value)
+static struct bt_node **find_childlink(struct bt_node *self, int value)
 {
-    struct bt_node ** const child_ref = self->value > value
-                                        ? &self->left
-                                        : &self->right;
+    struct bt_node ** const child_link = self->value > value
+                                            ? &self->left
+                                            : &self->right;
 
-    if (!(*child_ref) || (*child_ref)->value == value) return child_ref;
+    if (!(*child_link) || (*child_link)->value == value) return child_link;
 
-    return find_childref(*child_ref, value);
+    return find_childlink(*child_link, value);
 }
 
 static struct bt_node *minimum_child(struct bt_node *self)
@@ -49,8 +49,8 @@ static struct bt_node *minimum_child(struct bt_node *self)
 
 static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node ** const node_ref = find_childref(self, value),
-                    * const node = *node_ref;
+    struct bt_node ** const node_link = find_childlink(self, value),
+                    * const node = *node_link;
 
     if (!node) return;
 
@@ -59,15 +59,15 @@ static void remove_node(struct bt_node *self, int value)
         node->value = successor->value;
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
-        *node_ref = node->left;
+        *node_link = node->left;
         node->left = EmptyTree;
         bt_free(node);
     } else if (node->right) {
-        *node_ref = node->right;
+        *node_link = node->right;
         node->right = EmptyTree;
         bt_free(node);
     } else {
-        *node_ref = EmptyTree;
+        *node_link = EmptyTree;
         bt_free(node);
     }
 }
@@ -199,11 +199,11 @@ bool bt_contains(const binarytree *self, int value)
 
     if (self->value == value) return true;
 
-    // find_childref does not change self so cast-away const is safe
-    struct bt_node ** const child_ref = find_childref(
+    // find_childlink does not change self so cast-away const is safe
+    struct bt_node ** const child_link = find_childlink(
         (binarytree *)self, value
     );
-    return *child_ref != EmptyTree;
+    return *child_link != EmptyTree;
 }
 
 bool bt_isbalanced(const binarytree *self)

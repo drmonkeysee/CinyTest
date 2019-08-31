@@ -1156,7 +1156,7 @@ static void testsuite_runcase(
     const struct ct_testsuite self[restrict static 1],
     const struct ct_testcase current_case[restrict static 1],
     struct runsummary summary[restrict static 1],
-    enum suitebreak sb_ref[restrict static 1]
+    enum suitebreak sb[restrict static 1]
 )
 {
     assertstate_reset();
@@ -1172,7 +1172,7 @@ static void testsuite_runcase(
             ++(summary->ledger.skipped);
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
-                suitebreak_open(sb_ref, self);
+                suitebreak_open(sb, self);
                 print_testresult(
                     HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name
                 );
@@ -1192,7 +1192,7 @@ static void testsuite_runcase(
             ++(summary->ledger.skipped);
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
-                suitebreak_open(sb_ref, self);
+                suitebreak_open(sb, self);
                 print_testresult(
                     HIGHLIGHT_SKIPPED, SkippedTestSymbol, current_case->name
                 );
@@ -1202,7 +1202,7 @@ static void testsuite_runcase(
         }
     }
 
-    suitebreak_open(sb_ref, self);
+    suitebreak_open(sb, self);
 
     void *test_context = NULL;
     if (self->setup) {
