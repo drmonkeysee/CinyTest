@@ -46,19 +46,21 @@ A simple example demonstrating the use of CinyTest as an external dependency can
 
 Running this example on the command line (assuming all tests pass) will output something like the following:
 
-	Test suite 'rectangle_tests' started at 2017-02-02T20:21:19-0800
+	Test suite 'rectangle_tests' started at 2019-09-03T22:24:06-0700
 	[ ✓ ] - 'rectanglemake_createsrectangle' success
 	[ ✓ ] - 'rectanglearea_calculatesarea' success
 	[ ✓ ] - 'rectanglehypotenuse_calculateshypotenuse' success
 	[ ✓ ] - 'rectangletostring_buildsrectanglestring' success
-	Ran 4 tests (0.001 seconds): 4 passed, 0 failed, 0 ignored.
-	Test suite 'circle_tests' started at 2017-02-02T20:21:19-0800
+	[ ✓ ] - 'rectangleprint_printsrectangle' success
+	Ran 5 tests (0.000 seconds): 5 passed.
+	Test suite 'circle_tests' started at 2019-09-03T22:24:06-0700
 	[ ✓ ] - 'circlemake_createscircle' success
 	[ ✓ ] - 'circlediameter_calculatesdiameter' success
 	[ ✓ ] - 'circlearea_calculatesarea' success
 	[ ✓ ] - 'circletostring_buildscirclestring' success
-	Ran 4 tests (0.000 seconds): 4 passed, 0 failed, 0 ignored.
-	[ SUCCESS ] - Ran 8 tests (0.001 seconds): 8 passed, 0 failed, 0 ignored.
+	[ ✓ ] - 'circleprint_printscircle' success
+	Ran 5 tests (0.001 seconds): 5 passed.
+	[ SUCCESS ] - Ran 10 tests (0.001 seconds): 10 passed.
 
 This example runs two test suites of four test cases each.
 
@@ -112,7 +114,7 @@ In the sample code included in the CinyTest project, CinyTest is bootstrapped in
 
 ### Constraints and Assumptions
 
-While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no platform-specific compiler features and targeted the latest C language standard, C11.
+While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no platform-specific compiler features and targeted the latest C language standard, C17.
 
 That original goal has been left behind at this point as I've expanded the library's scope and target platforms. However the majority of platform-specific code is nicely sequestered behind a common API and compiler targets. As of this writing there are POSIX and Windows compatibility source files.
 
@@ -124,7 +126,7 @@ CinyTest is designed to be a small and simple library. To that point, it uses no
 
 #### Windows Support
 
-CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards. Specifically the [Universal CRT](https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/) provides headers and libraries bridging the gap to C99. Combined with clang, a C11 codebase like CinyTest can be compiled and deployed on Windows.
+CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards. Specifically the [Universal CRT](https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/) provides headers and libraries bridging the gap to C99. Combined with clang, a C17 codebase like CinyTest can be compiled and deployed on Windows.
 
 It is possible to develop CinyTest in Visual Studio by installing the [Clang with Microsoft CodeGen](https://blogs.msdn.microsoft.com/vcblog/2015/12/04/clang-with-microsoft-codegen-in-vs-2015-update-1/) feature (packaged by default in Visual Studio 2015+) but **winbuild.bat** is sufficient to build artifacts.
 

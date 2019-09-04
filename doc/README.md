@@ -1,4 +1,4 @@
-CinyTest is a unit test framework for C, targeting the C11 standard. This document describes the API.
+CinyTest is a unit test framework for C, targeting the C17 standard. This document describes the API.
 
 CinyTest supports the creation of test cases, test suites, and a comprehensive set of assertions.
 
