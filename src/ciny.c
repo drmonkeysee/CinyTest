@@ -319,7 +319,7 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(size_t size, char buffer[size])
 {
-    static const size_t ellipsis_length = strlen(Ellipsis);
+    const size_t ellipsis_length = strlen(Ellipsis);
     const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
 
     const bool can_fit_ellipsis = truncation_index >= 0;
