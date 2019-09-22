@@ -397,7 +397,7 @@
 		C880598D1D2E11A0002ECC5E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Brandon Stansbury";
 				TargetAttributes = {
 					C88059941D2E11A0002ECC5E = {
@@ -649,6 +649,7 @@
 				GCC_C_LANGUAGE_STANDARD = c17;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_PEDANTIC = YES;
@@ -725,6 +726,7 @@
 		C8805A0E1D2E21B2002ECC5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
 			};
 			name = Debug;
@@ -732,6 +734,7 @@
 		C8805A0F1D2E21B2002ECC5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				PRODUCT_NAME = "$(TARGET_NAME:lower)";
 			};
 			name = Release;
