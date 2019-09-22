@@ -108,7 +108,10 @@ static void test_teardown(void *context[static 1])
 {
     const struct ct_testcase * const cases = NULL;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsizeof-pointer-div"
     const struct ct_testsuite suite = ct_makesuite(cases);
+#pragma clang diagnostic pop
     
     const size_t run_result = ct_runsuite(&suite);
     
