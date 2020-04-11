@@ -1,6 +1,6 @@
 # CinyTest
 
-CinyTest is a lightweight library for defining and running unit tests in C.
+CinyTest is a lightweight library for defining and running unit tests in C. It targets the C17 standard (mostly) and follows the guidelines of [Modern C](https://modernc.gforge.inria.fr).
 
 ## Features
 
