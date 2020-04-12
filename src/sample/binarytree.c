@@ -132,9 +132,9 @@ static struct bt_node *rebalance_node(
     return node;
 }
 
-/////
+///
 // Public API Implementation
-/////
+///
 
 binarytree *bt_new(void)
 {
