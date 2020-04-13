@@ -21,9 +21,9 @@
 #include <string.h>
 #include <time.h>
 
-///
+//
 // Platform-specific Definitions
-///
+//
 
 uint64_t ct_get_currentmsecs(void);
 void ct_startcolor(FILE *, size_t),
@@ -46,9 +46,9 @@ static const char * const restrict Ellipsis = "\u2026",
                   * const restrict SkippedTestSymbol = "\u2205";
 #endif
 
-///
+//
 // Type and Data Definitions
-///
+//
 
 static const char * const restrict HelpOption = "--ct-help",
                   * const restrict VersionOption = "--ct-version",
@@ -127,9 +127,9 @@ static struct runsummary {
     uint64_t total_time;
 } RunTotals;
 
-///
+//
 // Inline Function Call Sites
-///
+//
 
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version[static 1]);
@@ -152,15 +152,15 @@ extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ),
                                          ct_makevalue_invalid(int, ...);
 
-///
+//
 // Function Declarations
-///
+//
 
 static void testfilter_print(const struct testfilter *, enum text_highlight);
 
-///
+//
 // Printing and Text Manipulation
-///
+//
 
 #define printout(...) fprintf(RunContext.out, __VA_ARGS__)
 #define printerr(...) fprintf(RunContext.err, __VA_ARGS__)
@@ -331,9 +331,9 @@ static bool pretty_truncate(size_t size, char buffer[size])
     return can_fit_ellipsis;
 }
 
-///
+//
 // Arg Parsing
-///
+//
 
 static bool argflag_on(const char *value)
 {
@@ -373,9 +373,9 @@ static const char *arg_value(const char *arg)
     return NULL;
 }
 
-///
+//
 // Test Filters
-///
+//
 
 static struct testfilter testfilter_make(void)
 {
@@ -615,9 +615,9 @@ static filterlist *parse_filters(const char *filter_option)
     return fl;
 }
 
-///
+//
 // Run Context
-///
+//
 
 static const char *runcontext_capturevar(
     const char * restrict env_var, char * restrict slot[static 1]
@@ -800,9 +800,9 @@ static void runcontext_cleanup(void)
     }
 }
 
-///
+//
 // Run Summary
-///
+//
 
 static struct runsummary runsummary_make(void)
 {
@@ -869,9 +869,9 @@ static void runtotals_print(void)
     runsummary_print(&RunTotals);
 }
 
-///
+//
 // Assert State
-///
+//
 
 static void assertstate_reset(void)
 {
@@ -976,9 +976,9 @@ do { \
     longjmp(AssertSignal, AssertState.type); \
 } while (false)
 
-///
+//
 // Comparable Value
-///
+//
 
 static bool comparable_value_equaltypes(
     const struct ct_comparable_value expected[static 1],
@@ -1082,9 +1082,9 @@ static void comparable_value_valuedescription(
     }
 }
 
-///
+//
 // Test Suite and Test Case
-///
+//
 
 static void testcase_run(
     const struct ct_testcase self[restrict static 1],
@@ -1248,9 +1248,9 @@ static void testsuite_run(const struct ct_testsuite *self)
     runtotals_add(&summary);
 }
 
-///
+//
 // Public Functions
-///
+//
 
 size_t ct_runcount_withargs(
     size_t count, const struct ct_testsuite suites[count],

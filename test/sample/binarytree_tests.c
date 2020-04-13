@@ -13,9 +13,9 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-///
+//
 // Setup / Teardown
-///
+//
 
 struct bt_testcontext {
     binarytree *tree;
@@ -35,9 +35,9 @@ static void teardown(void *context[static 1])
     *context = NULL;
 }
 
-///
+//
 // Tests
-///
+//
 
 static void btnew_creates_emptytree(void *context)
 {
