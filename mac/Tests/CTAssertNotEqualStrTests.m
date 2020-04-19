@@ -44,7 +44,7 @@ static void test_inequality_stringn_withformatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    const char * const expected = "foobar", * const actual = "foobar";
+    const char *const expected = "foobar", *const actual = "foobar";
     
     ct_assertnotequalstrn(expected, actual, sizeof "foobar", "we both said %s", actual);
     
@@ -101,7 +101,7 @@ static void test_inequality_string_withformatmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    const char * const actual = "foobar";
+    const char *const actual = "foobar";
     
     ct_assertnotequalstr("foobar", actual, "why'd you say %s??", actual);
     

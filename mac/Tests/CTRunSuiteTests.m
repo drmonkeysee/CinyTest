@@ -106,7 +106,7 @@ static void test_teardown(void *context[static 1])
 
 - (void)test_ctrunsuite_ReturnsZero_IfSuiteHasNullTestList
 {
-    const struct ct_testcase * const cases = NULL;
+    const struct ct_testcase *const cases = NULL;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"

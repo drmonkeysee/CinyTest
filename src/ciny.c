@@ -33,32 +33,32 @@ void ct_restorestream(FILE *, FILE *);
 
 #ifdef _WIN64
 // windows console doesn't support utf-8 nicely
-static const char * const restrict Ellipsis = "...",
-                  * const restrict PlusMinus = "+/-",
-                  * const restrict PassedTestSymbol = "+",
-                  * const restrict FailedTestSymbol = "x",
-                  * const restrict SkippedTestSymbol = "/";
+static const char *const restrict Ellipsis = "...",
+                  *const restrict PlusMinus = "+/-",
+                  *const restrict PassedTestSymbol = "+",
+                  *const restrict FailedTestSymbol = "x",
+                  *const restrict SkippedTestSymbol = "/";
 #else
-static const char * const restrict Ellipsis = "\u2026",
-                  * const restrict PlusMinus = "\u00b1",
-                  * const restrict PassedTestSymbol = "\u2713",
-                  * const restrict FailedTestSymbol = "\u2717",
-                  * const restrict SkippedTestSymbol = "\u2205";
+static const char *const restrict Ellipsis = "\u2026",
+                  *const restrict PlusMinus = "\u00b1",
+                  *const restrict PassedTestSymbol = "\u2713",
+                  *const restrict FailedTestSymbol = "\u2717",
+                  *const restrict SkippedTestSymbol = "\u2205";
 #endif
 
 //
 // Type and Data Definitions
 //
 
-static const char * const restrict HelpOption = "--ct-help",
-                  * const restrict VersionOption = "--ct-version",
-                  * const restrict VerboseOption = "--ct-verbose",
-                  * const restrict ColorizedOption = "--ct-colorized",
-                  * const restrict SuppressOutputOption =
+static const char *const restrict HelpOption = "--ct-help",
+                  *const restrict VersionOption = "--ct-version",
+                  *const restrict VerboseOption = "--ct-verbose",
+                  *const restrict ColorizedOption = "--ct-colorized",
+                  *const restrict SuppressOutputOption =
                                     "--ct-suppress-output",
-                  * const restrict IncludeFilterOption = "--ct-include",
-                  * const restrict ExcludeFilterOption = "--ct-exclude",
-                  * const restrict IgnoredTestSymbol = "?";
+                  *const restrict IncludeFilterOption = "--ct-include",
+                  *const restrict ExcludeFilterOption = "--ct-exclude",
+                  *const restrict IgnoredTestSymbol = "?";
 
 enum text_highlight {
     HIGHLIGHT_SUCCESS,
@@ -165,7 +165,7 @@ static void testfilter_print(const struct testfilter *, enum text_highlight);
 #define printout(...) fprintf(RunContext.out, __VA_ARGS__)
 #define printerr(...) fprintf(RunContext.err, __VA_ARGS__)
 
-static void print_title(const char * restrict format, ...)
+static void print_title(const char *restrict format, ...)
 {
     printout("---=== ");
 
@@ -224,7 +224,7 @@ static void print_version(void)
 }
 
 static void print_highlighted(
-    enum text_highlight style, const char * restrict format, ...
+    enum text_highlight style, const char *restrict format, ...
 )
 {
     if (RunContext.colorized) {
@@ -465,10 +465,10 @@ static filterlist *filterlist_new(void)
 }
 
 static void filterlist_push(
-    filterlist * restrict self[static 1], struct testfilter filter
+    filterlist *restrict self[static 1], struct testfilter filter
 )
 {
-    struct testfilter * const filter_node = malloc(sizeof *filter_node);
+    struct testfilter *const filter_node = malloc(sizeof *filter_node);
     *filter_node = filter;
     filter_node->next = *self;
     *self = filter_node;
@@ -483,8 +483,8 @@ static bool filterlist_any(const filterlist *self, enum filtertarget target)
 }
 
 static struct testfilter *filterlist_apply(
-    filterlist * restrict self, const char * restrict suite_name,
-    const char * restrict case_name
+    filterlist *restrict self, const char *restrict suite_name,
+    const char *restrict case_name
 )
 {
     for (; self; self = self->next) {
@@ -504,8 +504,8 @@ static struct testfilter *filterlist_apply(
             case FILTER_ALL: {
                 // target ALL filters come in case, suite pairs; consume
                 // both filters here
-                struct testfilter * const case_filter = self,
-                                  * const suite_filter = self = self->next;
+                struct testfilter *const case_filter = self,
+                                  *const suite_filter = self = self->next;
                 const bool allmatch =
                     testfilter_match(suite_filter, suite_name)
                     && testfilter_match(case_filter, case_name);
@@ -528,8 +528,8 @@ static void filterlist_print(
         if (self->apply != match) continue;
 
         if (self->apply == FILTER_ALL) {
-            const struct testfilter * const fcase = self,
-                                    * const fsuite = self = self->next;
+            const struct testfilter *const fcase = self,
+                                    *const fsuite = self = self->next;
             testfilter_print(fsuite, style);
             print_highlighted(style, "%c", FilterTargetDelimiter);
             testfilter_print_noprefix(fcase, style);
@@ -546,14 +546,14 @@ static void filterlist_print(
 static void filterlist_free(filterlist *self)
 {
     while (self) {
-        struct testfilter * const head = self;
+        struct testfilter *const head = self;
         self = head->next;
         free(head);
     }
 }
 
 static const char *parse_filterexpr(
-    const char * restrict cursor, filterlist * restrict fl[static 1]
+    const char *restrict cursor, filterlist *restrict fl[static 1]
 )
 {
     static const char expr_delimiter = ',';
@@ -620,7 +620,7 @@ static filterlist *parse_filters(const char *filter_option)
 //
 
 static const char *runcontext_capturevar(
-    const char * restrict env_var, char * restrict slot[static 1]
+    const char *restrict env_var, char *restrict slot[static 1]
 )
 {
     *slot = malloc(strlen(env_var) + 1);
@@ -641,7 +641,7 @@ static void runcontext_init(int argc, const char *argv[argc+1])
 
     if (argv) {
         for (int i = 0; i < argc; ++i) {
-            const char * const arg = argv[i];
+            const char *const arg = argv[i];
             if (!arg) {
                 continue;
             } else if (strstr(arg, HelpOption)) {
@@ -883,7 +883,7 @@ static void assertstate_reset(void)
 }
 
 static void assertstate_handlefailure(
-    const char * restrict test_name, struct runledger ledger[restrict static 1]
+    const char *restrict test_name, struct runledger ledger[restrict static 1]
 )
 {
     ++ledger->failed;
@@ -902,7 +902,7 @@ static void assertstate_handlefailure(
 }
 
 static void assertstate_handleignore(
-    const char * restrict test_name, struct runledger ledger[restrict static 1]
+    const char *restrict test_name, struct runledger ledger[restrict static 1]
 )
 {
     ++ledger->ignored;
@@ -915,7 +915,7 @@ static void assertstate_handleignore(
 }
 
 static void assertstate_handle(
-    const char * restrict test_name, struct runledger ledger[restrict static 1]
+    const char *restrict test_name, struct runledger ledger[restrict static 1]
 )
 {
     switch (AssertState.type) {
@@ -931,7 +931,7 @@ static void assertstate_handle(
     }
 }
 
-static void assertstate_setdescription(const char * restrict format, ...)
+static void assertstate_setdescription(const char *restrict format, ...)
 {
     static const size_t description_size = sizeof AssertState.description;
     va_list format_args;
@@ -954,7 +954,7 @@ do { \
     va_end(format_args); \
 } while (false)
 static void assertstate_setvmessage(
-    const char * restrict format, va_list format_args
+    const char *restrict format, va_list format_args
 )
 {
     static const size_t message_size = sizeof AssertState.message;
@@ -1088,7 +1088,7 @@ static void comparable_value_valuedescription(
 
 static void testcase_run(
     const struct ct_testcase self[restrict static 1],
-    void * restrict test_context, struct runledger ledger[restrict static 1]
+    void *restrict test_context, struct runledger ledger[restrict static 1]
 )
 {
     if (!self->test) {
@@ -1164,7 +1164,7 @@ static void testsuite_runcase(
     assertstate_reset();
 
     if (RunContext.include) {
-        const struct testfilter * const match = filterlist_apply(
+        const struct testfilter *const match = filterlist_apply(
             RunContext.include, self->name, current_case->name
         );
         if (match) {
@@ -1185,7 +1185,7 @@ static void testsuite_runcase(
     }
 
     if (RunContext.exclude) {
-        const struct testfilter * const match = filterlist_apply(
+        const struct testfilter *const match = filterlist_apply(
             RunContext.exclude, self->name, current_case->name
         );
         if (match) {
@@ -1292,13 +1292,13 @@ size_t ct_runcount_withargs(
     return RunTotals.ledger.failed;
 }
 
-noreturn void ct_internal_ignore(const char * restrict format, ...)
+noreturn void ct_internal_ignore(const char *restrict format, ...)
 {
     assertstate_raise_signal(ASSERT_IGNORE, NULL, 0, format);
 }
 
 noreturn void ct_internal_assertfail(
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     assertstate_setdescription("%s", "asserted unconditional failure");
@@ -1307,7 +1307,7 @@ noreturn void ct_internal_assertfail(
 
 void ct_internal_asserttrue(
     bool expression, const char *stringized_expression,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     if (!expression) {
@@ -1320,7 +1320,7 @@ void ct_internal_asserttrue(
 
 void ct_internal_assertfalse(
     bool expression, const char *stringized_expression,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     if (expression) {
@@ -1332,8 +1332,8 @@ void ct_internal_assertfalse(
 }
 
 void ct_internal_assertnull(
-    const void * restrict expression, const char *stringized_expression,
-    const char * restrict file, int line, const char * restrict format, ...
+    const void *restrict expression, const char *stringized_expression,
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     if (expression) {
@@ -1345,8 +1345,8 @@ void ct_internal_assertnull(
 }
 
 void ct_internal_assertnotnull(
-    const void * restrict expression, const char *stringized_expression,
-    const char * restrict file, int line, const char * restrict format, ...
+    const void *restrict expression, const char *stringized_expression,
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     if (!expression) {
@@ -1360,7 +1360,7 @@ void ct_internal_assertnotnull(
 void ct_internal_assertequal(
     struct ct_comparable_value expected, const char *stringized_expected,
     struct ct_comparable_value actual, const char *stringized_actual,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     bool failed_assert = false;
@@ -1403,7 +1403,7 @@ void ct_internal_assertequal(
 void ct_internal_assertnotequal(
     struct ct_comparable_value expected, const char *stringized_expected,
     struct ct_comparable_value actual, const char *stringized_actual,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     bool failed_assert = false;
@@ -1441,7 +1441,7 @@ void ct_internal_assertnotequal(
 void ct_internal_assertaboutequal(
     long double expected, const char *stringized_expected,
     long double actual, const char *stringized_actual, long double precision,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     const long double diff = fabsl(expected - actual);
@@ -1466,7 +1466,7 @@ void ct_internal_assertaboutequal(
 void ct_internal_assertnotaboutequal(
     long double expected, const char *stringized_expected,
     long double actual, const char *stringized_actual, long double precision,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     const long double diff = fabsl(expected - actual);
@@ -1491,7 +1491,7 @@ void ct_internal_assertnotaboutequal(
 void ct_internal_assertsame(
     const void *expected, const char *stringized_expected,
     const void *actual, const char *stringized_actual,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     if (expected != actual) {
@@ -1509,7 +1509,7 @@ void ct_internal_assertsame(
 void ct_internal_assertnotsame(
     const void *expected, const char *stringized_expected,
     const void *actual, const char *stringized_actual,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     if (expected == actual) {
@@ -1526,7 +1526,7 @@ void ct_internal_assertnotsame(
 void ct_internal_assertequalstrn(
     const char *expected, const char *stringized_expected,
     const char *actual, const char *stringized_actual, size_t n,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     const bool assert_fails =
@@ -1565,7 +1565,7 @@ void ct_internal_assertequalstrn(
 void ct_internal_assertnotequalstrn(
     const char *expected, const char *stringized_expected,
     const char *actual, const char *stringized_actual, size_t n,
-    const char * restrict file, int line, const char * restrict format, ...
+    const char *restrict file, int line, const char *restrict format, ...
 )
 {
     const bool assert_fails =

@@ -779,7 +779,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  ignored.
  @param format_args Format arguments for the format string.
  */
-_Noreturn void ct_internal_ignore(const char * restrict, ...);
+_Noreturn void ct_internal_ignore(const char *restrict, ...);
 
 /**
  Assert failure unconditionally with contextual details and message.
@@ -791,7 +791,7 @@ _Noreturn void ct_internal_ignore(const char * restrict, ...);
  @param format_args Format arguments for the format string.
  */
 _Noreturn void ct_internal_assertfail(
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -807,7 +807,7 @@ _Noreturn void ct_internal_assertfail(
  */
 void ct_internal_asserttrue(
     _Bool, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -823,7 +823,7 @@ void ct_internal_asserttrue(
  */
 void ct_internal_assertfalse(
     _Bool, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -838,8 +838,8 @@ void ct_internal_assertfalse(
  @param format_args Format arguments for the format string.
  */
 void ct_internal_assertnull(
-    const void * restrict, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const void *restrict, const char *,
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -855,8 +855,8 @@ void ct_internal_assertnull(
  @param format_args Format arguments for the format string.
  */
 void ct_internal_assertnotnull(
-    const void * restrict, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const void *restrict, const char *,
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -877,7 +877,7 @@ void ct_internal_assertnotnull(
 void ct_internal_assertequal(
     struct ct_comparable_value, const char *,
     struct ct_comparable_value, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -898,7 +898,7 @@ void ct_internal_assertequal(
 void ct_internal_assertnotequal(
     struct ct_comparable_value, const char *,
     struct ct_comparable_value, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -921,7 +921,7 @@ void ct_internal_assertnotequal(
  */
 void ct_internal_assertaboutequal(
     long double, const char *, long double, const char *, long double,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -944,7 +944,7 @@ void ct_internal_assertaboutequal(
  */
 void ct_internal_assertnotaboutequal(
     long double, const char *, long double, const char *, long double,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -965,7 +965,7 @@ void ct_internal_assertnotaboutequal(
  */
 void ct_internal_assertsame(
     const void *, const char *, const void *, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -986,7 +986,7 @@ void ct_internal_assertsame(
  */
 void ct_internal_assertnotsame(
     const void *, const char *, const void *, const char *,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -1009,7 +1009,7 @@ void ct_internal_assertnotsame(
  */
 void ct_internal_assertequalstrn(
     const char *, const char *, const char *, const char *, size_t,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**
@@ -1032,7 +1032,7 @@ void ct_internal_assertequalstrn(
  */
 void ct_internal_assertnotequalstrn(
     const char *, const char *, const char *, const char *, size_t,
-    const char * restrict, int, const char * restrict, ...
+    const char *restrict, int, const char *restrict, ...
 );
 
 /**

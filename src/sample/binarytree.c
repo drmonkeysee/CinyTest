@@ -17,11 +17,11 @@ struct bt_node {
     struct bt_node *left, *right;
     int value;
 };
-static struct bt_node * const EmptyTree;
+static struct bt_node *const EmptyTree;
 
 static struct bt_node *create_node(int value)
 {
-    struct bt_node * const new_node = malloc(sizeof *new_node);
+    struct bt_node *const new_node = malloc(sizeof *new_node);
     new_node->value = value;
     new_node->left = new_node->right = EmptyTree;
     return new_node;
@@ -29,7 +29,7 @@ static struct bt_node *create_node(int value)
 
 static struct bt_node **find_childlink(struct bt_node *self, int value)
 {
-    struct bt_node ** const child_link = self->value > value
+    struct bt_node **const child_link = self->value > value
                                             ? &self->left
                                             : &self->right;
 
@@ -49,13 +49,13 @@ static struct bt_node *minimum_child(struct bt_node *self)
 
 static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node ** const node_link = find_childlink(self, value),
-                    * const node = *node_link;
+    struct bt_node **const node_link = find_childlink(self, value),
+                    *const node = *node_link;
 
     if (!node) return;
 
     if (node->left && node->right) {
-        struct bt_node * const successor = minimum_child(node->right);
+        struct bt_node *const successor = minimum_child(node->right);
         node->value = successor->value;
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
@@ -124,7 +124,7 @@ static struct bt_node *rebalance_node(
 
     const ptrdiff_t distance = end_index - start_index,
                     middle_index = start_index + (distance / 2);
-    struct bt_node * const node = node_list[middle_index];
+    struct bt_node *const node = node_list[middle_index];
 
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
     node->right = rebalance_node(node_list, middle_index + 1, end_index);
@@ -200,7 +200,7 @@ bool bt_contains(const binarytree *self, int value)
     if (self->value == value) return true;
 
     // find_childlink does not change self so cast-away const is safe
-    struct bt_node ** const child_link = find_childlink(
+    struct bt_node **const child_link = find_childlink(
         (binarytree *)self, value
     );
     return *child_link != EmptyTree;
