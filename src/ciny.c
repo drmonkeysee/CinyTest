@@ -40,7 +40,7 @@ static const char * const restrict Ellipsis = "...",
                   * const restrict SkippedTestSymbol = "/";
 #else
 static const char * const restrict Ellipsis = "\u2026",
-                  * const restrict PlusMinus = "\u00B1",
+                  * const restrict PlusMinus = "\u00b1",
                   * const restrict PassedTestSymbol = "\u2713",
                   * const restrict FailedTestSymbol = "\u2717",
                   * const restrict SkippedTestSymbol = "\u2205";

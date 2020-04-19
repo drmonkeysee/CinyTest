@@ -232,7 +232,7 @@ static void test_equality_string_withformatmessage(void *context)
 - (void)test_ctassertequalstrn_ComparesEqual_IfUnicodeCharIsComparedToUTF32EscapeSequence
 {
     self.expectedString = "🐴";
-    self.actualString = "\U0001F434";
+    self.actualString = "\U0001f434";
     self.compareCount = sizeof "🐴";
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
