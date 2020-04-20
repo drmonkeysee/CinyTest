@@ -883,7 +883,7 @@ static void assertstate_reset(void)
 }
 
 static void assertstate_handlefailure(
-    const char *restrict test_name, struct runledger ledger[restrict static 1]
+    const char *restrict test_name, struct runledger ledger[static restrict 1]
 )
 {
     ++ledger->failed;
@@ -902,7 +902,7 @@ static void assertstate_handlefailure(
 }
 
 static void assertstate_handleignore(
-    const char *restrict test_name, struct runledger ledger[restrict static 1]
+    const char *restrict test_name, struct runledger ledger[static restrict 1]
 )
 {
     ++ledger->ignored;
@@ -915,7 +915,7 @@ static void assertstate_handleignore(
 }
 
 static void assertstate_handle(
-    const char *restrict test_name, struct runledger ledger[restrict static 1]
+    const char *restrict test_name, struct runledger ledger[static restrict 1]
 )
 {
     switch (AssertState.type) {
@@ -1031,7 +1031,7 @@ static bool comparable_value_equalvalues(
 }
 
 static void comparable_value_valuedescription(
-    const struct ct_comparable_value value[restrict static 1],
+    const struct ct_comparable_value value[static restrict 1],
     size_t size, char buffer[restrict size]
 )
 {
@@ -1087,8 +1087,8 @@ static void comparable_value_valuedescription(
 //
 
 static void testcase_run(
-    const struct ct_testcase self[restrict static 1],
-    void *restrict test_context, struct runledger ledger[restrict static 1]
+    const struct ct_testcase self[static restrict 1],
+    void *restrict test_context, struct runledger ledger[static restrict 1]
 )
 {
     if (!self->test) {
@@ -1133,8 +1133,8 @@ static enum suitebreak suitebreak_make(void)
 }
 
 static void suitebreak_open(
-    enum suitebreak state[restrict static 1],
-    const struct ct_testsuite suite[restrict static 1]
+    enum suitebreak state[static restrict 1],
+    const struct ct_testsuite suite[static restrict 1]
 )
 {
     if (*state == SUITEBREAK_OPEN) {
@@ -1144,8 +1144,8 @@ static void suitebreak_open(
 }
 
 static void suitebreak_close(
-    enum suitebreak state[restrict static 1],
-    const struct runsummary summary[restrict static 1]
+    enum suitebreak state[static restrict 1],
+    const struct runsummary summary[static restrict 1]
 )
 {
     if (*state == SUITEBREAK_CLOSE) {
@@ -1155,10 +1155,10 @@ static void suitebreak_close(
 }
 
 static void testsuite_runcase(
-    const struct ct_testsuite self[restrict static 1],
-    const struct ct_testcase current_case[restrict static 1],
-    struct runsummary summary[restrict static 1],
-    enum suitebreak sb[restrict static 1]
+    const struct ct_testsuite self[static restrict 1],
+    const struct ct_testcase current_case[static restrict 1],
+    struct runsummary summary[static restrict 1],
+    enum suitebreak sb[static restrict 1]
 )
 {
     assertstate_reset();
