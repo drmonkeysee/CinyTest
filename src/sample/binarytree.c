@@ -101,9 +101,8 @@ static bool balanced_tree(const struct bt_node *self, size_t *depth)
     return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
 }
 
-static void inline_tree(
-    struct bt_node *self, struct bt_node *nodes[], ptrdiff_t *current_index
-)
+static void inline_tree(struct bt_node *self, struct bt_node *nodes[],
+                        ptrdiff_t *current_index)
 {
     if (self->left) {
         inline_tree(self->left, nodes, current_index);
@@ -116,9 +115,9 @@ static void inline_tree(
     }
 }
 
-static struct bt_node *rebalance_node(
-    struct bt_node *node_list[], ptrdiff_t start_index, ptrdiff_t end_index
-)
+static struct bt_node *rebalance_node(struct bt_node *node_list[],
+                                      ptrdiff_t start_index,
+                                      ptrdiff_t end_index)
 {
     if (start_index > end_index) return EmptyTree;
 
@@ -200,9 +199,8 @@ bool bt_contains(const binarytree *self, int value)
     if (self->value == value) return true;
 
     // find_childlink does not change self so cast-away const is safe
-    struct bt_node **const child_link = find_childlink(
-        (binarytree *)self, value
-    );
+    struct bt_node **const child_link = find_childlink((binarytree *)self,
+                                                       value);
     return *child_link != EmptyTree;
 }
 

@@ -188,10 +188,9 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-size_t ct_runcount_withargs(
-    size_t count, const struct ct_testsuite suites[count],
-    int argc, const char *argv[argc+1]
-);
+size_t ct_runcount_withargs(size_t count,
+                            const struct ct_testsuite suites[count],
+                            int argc, const char *argv[argc+1]);
 
 /**
  Run a unit test suite with command line arguments.
@@ -200,10 +199,8 @@ size_t ct_runcount_withargs(
  @param argv The command line argument strings.
  @return The number of failed tests.
  */
-inline size_t ct_runsuite_withargs(
-    const struct ct_testsuite suite[static 1],
-    int argc, const char *argv[argc+1]
-)
+inline size_t ct_runsuite_withargs(const struct ct_testsuite suite[static 1],
+                                   int argc, const char *argv[argc+1])
 {
     return ct_runcount_withargs(1, suite, argc, argv);
 }
@@ -633,9 +630,8 @@ _Generic( \
  to be converted.
  @return A comparable value structure for the signed integer value.
  */
-inline struct ct_comparable_value ct_makevalue_integer(
-    int placeholder, intmax_t value
-)
+inline struct ct_comparable_value ct_makevalue_integer(int placeholder,
+                                                       intmax_t value)
 {
     (void)placeholder;
     return (struct ct_comparable_value){
@@ -651,9 +647,8 @@ inline struct ct_comparable_value ct_makevalue_integer(
  to be converted.
  @return A comparable value structure for the unsigned integer value.
  */
-inline struct ct_comparable_value ct_makevalue_uinteger(
-    int placeholder, uintmax_t value
-)
+inline struct ct_comparable_value ct_makevalue_uinteger(int placeholder,
+                                                        uintmax_t value)
 {
     (void)placeholder;
     return (struct ct_comparable_value){
@@ -669,9 +664,8 @@ inline struct ct_comparable_value ct_makevalue_uinteger(
  to be converted.
  @return A comparable value structure for the floating point value.
  */
-inline struct ct_comparable_value ct_makevalue_floatingpoint(
-    int placeholder, long double value
-)
+inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder,
+                                                             long double value)
 {
     (void)placeholder;
     return (struct ct_comparable_value){
@@ -687,9 +681,8 @@ inline struct ct_comparable_value ct_makevalue_floatingpoint(
  to be converted.
  @return A comparable value structure for the complex number value.
  */
-inline struct ct_comparable_value ct_makevalue_complex(
-    int placeholder, ct_lcomplex value
-)
+inline struct ct_comparable_value ct_makevalue_complex(int placeholder,
+                                                       ct_lcomplex value)
 {
     (void)placeholder;
     return (struct ct_comparable_value){
@@ -790,9 +783,8 @@ _Noreturn void ct_internal_ignore(const char *restrict, ...);
  assertion fails.
  @param format_args Format arguments for the format string.
  */
-_Noreturn void ct_internal_assertfail(
-    const char *restrict, int, const char *restrict, ...
-);
+_Noreturn void ct_internal_assertfail(const char *restrict, int,
+                                      const char *restrict, ...);
 
 /**
  Assert whether the expression is true, with contextual details and message.
@@ -805,10 +797,8 @@ _Noreturn void ct_internal_assertfail(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_asserttrue(
-    _Bool, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_asserttrue(_Bool, const char *, const char *restrict, int,
+                            const char *restrict, ...);
 
 /**
  Assert whether the expression is false, with contextual details and message.
@@ -821,10 +811,8 @@ void ct_internal_asserttrue(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertfalse(
-    _Bool, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertfalse(_Bool, const char *, const char *restrict, int,
+                             const char *restrict, ...);
 
 /**
  Assert whether the expression is NULL, with contextual details and message.
@@ -837,10 +825,9 @@ void ct_internal_assertfalse(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnull(
-    const void *restrict, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertnull(const void *restrict, const char *,
+                            const char *restrict, int, const char *restrict,
+                            ...);
 
 /**
  Assert whether the expression is not NULL, with contextual details and
@@ -854,10 +841,9 @@ void ct_internal_assertnull(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotnull(
-    const void *restrict, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertnotnull(const void *restrict, const char *,
+                               const char *restrict, int, const char *restrict,
+                               ...);
 
 /**
  Assert whether two values are equal, with contextual details and message.
@@ -874,11 +860,10 @@ void ct_internal_assertnotnull(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertequal(
-    struct ct_comparable_value, const char *,
-    struct ct_comparable_value, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertequal(struct ct_comparable_value, const char *,
+                             struct ct_comparable_value, const char *,
+                             const char *restrict, int, const char *restrict,
+                             ...);
 
 /**
  Assert whether two values are not equal, with contextual details and message.
@@ -895,11 +880,10 @@ void ct_internal_assertequal(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotequal(
-    struct ct_comparable_value, const char *,
-    struct ct_comparable_value, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertnotequal(struct ct_comparable_value, const char *,
+                                struct ct_comparable_value, const char *,
+                                const char *restrict, int,
+                                const char *restrict, ...);
 
 /**
  Assert whether two floating point values are equal within plus or minus
@@ -919,10 +903,10 @@ void ct_internal_assertnotequal(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertaboutequal(
-    long double, const char *, long double, const char *, long double,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertaboutequal(long double, const char *, long double,
+                                  const char *, long double,
+                                  const char *restrict, int,
+                                  const char *restrict, ...);
 
 /**
  Assert whether two floating point values are not equal within plus or minus
@@ -942,10 +926,10 @@ void ct_internal_assertaboutequal(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotaboutequal(
-    long double, const char *, long double, const char *, long double,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertnotaboutequal(long double, const char *, long double,
+                                     const char *, long double,
+                                     const char *restrict, int,
+                                     const char *restrict, ...);
 
 /**
  Assert whether two pointers refer to the same object, with contextual
@@ -963,10 +947,9 @@ void ct_internal_assertnotaboutequal(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertsame(
-    const void *, const char *, const void *, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertsame(const void *, const char *, const void *,
+                            const char *, const char *restrict, int,
+                            const char *restrict, ...);
 
 /**
  Assert whether two pointers refer to different objects, with contextual
@@ -984,10 +967,9 @@ void ct_internal_assertsame(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotsame(
-    const void *, const char *, const void *, const char *,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertnotsame(const void *, const char *, const void *,
+                               const char *, const char *restrict, int,
+                               const char *restrict, ...);
 
 /**
  Assert whether two strings are equal, with contextual details and message.
@@ -1007,10 +989,9 @@ void ct_internal_assertnotsame(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertequalstrn(
-    const char *, const char *, const char *, const char *, size_t,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertequalstrn(const char *, const char *, const char *,
+                                 const char *, size_t, const char *restrict,
+                                 int, const char *restrict, ...);
 
 /**
  Assert whether two strings are not equal, with contextual details and message.
@@ -1030,10 +1011,9 @@ void ct_internal_assertequalstrn(
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertnotequalstrn(
-    const char *, const char *, const char *, const char *, size_t,
-    const char *restrict, int, const char *restrict, ...
-);
+void ct_internal_assertnotequalstrn(const char *, const char *, const char *,
+                                    const char *, size_t, const char *restrict,
+                                    int, const char *restrict, ...);
 
 /**
  @}

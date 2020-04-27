@@ -26,9 +26,8 @@ int main(int argc, const char *argv[argc+1])
 {
     (void)argc, (void)argv;
 
-    binarytree *tree = bt_new_withvalues(
-        12, 1, 2, 3, 6, 5, 4, 10, 11, 12, 13, 14, 15
-    );
+    binarytree *tree = bt_new_withvalues(12, 1, 2, 3, 6, 5, 4, 10, 11, 12, 13,
+                                         14, 15);
     tree_output(tree);
 
     bt_rebalance(&tree);
