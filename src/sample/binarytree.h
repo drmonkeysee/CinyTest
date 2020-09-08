@@ -23,22 +23,22 @@ binarytree *bt_new_withvalues(size_t n, ...);
 
 void bt_free(binarytree *self);
 
-_Bool bt_isempty(const binarytree *self);
+_Bool bt_isempty(binarytree *self);
 
 void bt_insert(binarytree **self, int value);
 
 void bt_remove(binarytree **self, int value);
 
-_Bool bt_contains(const binarytree *self, int value);
+_Bool bt_contains(binarytree *self, int value);
 
-_Bool bt_isbalanced(const binarytree *self);
+_Bool bt_isbalanced(binarytree *self);
 
 void bt_rebalance(binarytree **self);
 
-size_t bt_size(const binarytree *self);
+size_t bt_size(binarytree *self);
 
-size_t bt_depth(const binarytree *self);
+size_t bt_depth(binarytree *self);
 
-void bt_print(const binarytree *self);
+void bt_print(binarytree *self);
 
 #endif

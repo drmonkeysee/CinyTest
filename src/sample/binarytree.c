@@ -163,7 +163,7 @@ void bt_free(binarytree *self)
     free(self);
 }
 
-bool bt_isempty(const binarytree *self)
+bool bt_isempty(binarytree *self)
 {
     return self == EmptyTree;
 }
@@ -192,19 +192,17 @@ void bt_remove(binarytree **self, int value)
     remove_node(*self, value);
 }
 
-bool bt_contains(const binarytree *self, int value)
+bool bt_contains(binarytree *self, int value)
 {
     if (!self) return false;
 
     if (self->value == value) return true;
 
-    // find_childlink does not change self so cast-away const is safe
-    struct bt_node **const child_link = find_childlink((binarytree *)self,
-                                                       value);
+    struct bt_node **const child_link = find_childlink(self, value);
     return *child_link != EmptyTree;
 }
 
-bool bt_isbalanced(const binarytree *self)
+bool bt_isbalanced(binarytree *self)
 {
     if (!self) return true;
 
@@ -226,7 +224,7 @@ void bt_rebalance(binarytree **self)
     *self = rebalance_node(sorted_nodes, start, end);
 }
 
-size_t bt_size(const binarytree *self)
+size_t bt_size(binarytree *self)
 {
     size_t size = 0;
     if (self) {
@@ -237,7 +235,7 @@ size_t bt_size(const binarytree *self)
     return size;
 }
 
-size_t bt_depth(const binarytree *self)
+size_t bt_depth(binarytree *self)
 {
     if (!self) return 0;
 
@@ -246,7 +244,7 @@ size_t bt_depth(const binarytree *self)
     return depth;
 }
 
-void bt_print(const binarytree *self)
+void bt_print(binarytree *self)
 {
     print_tree(self, 0, 'T');
 }
