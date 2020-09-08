@@ -108,7 +108,7 @@ static void ignored_testB(void *context)
     ct_ignore();
 }
 
-static void test_setupA(void *context[static 1])
+static void test_setupA(void **context)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.setupInvocationsA;
@@ -118,7 +118,7 @@ static void test_setupA(void *context[static 1])
     *context = FakeContextA;
 }
 
-static void test_setupB(void *context[static 1])
+static void test_setupB(void **context)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.setupInvocationsB;
@@ -128,7 +128,7 @@ static void test_setupB(void *context[static 1])
     *context = FakeContextB;
 }
 
-static void test_teardownA(void *context[static 1])
+static void test_teardownA(void **context)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     
@@ -139,7 +139,7 @@ static void test_teardownA(void *context[static 1])
     }
 }
 
-static void test_teardownB(void *context[static 1])
+static void test_teardownB(void **context)
 {
     CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
     

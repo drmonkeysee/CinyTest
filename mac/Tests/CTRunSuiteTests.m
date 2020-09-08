@@ -64,7 +64,7 @@ static void ignored_test(void *context)
     ct_ignore();
 }
 
-static void test_setup(void *context[static 1])
+static void test_setup(void **context)
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.setupInvocations;
@@ -74,7 +74,7 @@ static void test_setup(void *context[static 1])
     *context = FakeContext;
 }
 
-static void test_teardown(void *context[static 1])
+static void test_teardown(void **context)
 {
     CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
     

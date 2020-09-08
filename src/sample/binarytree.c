@@ -168,7 +168,7 @@ bool bt_isempty(const binarytree *self)
     return self == EmptyTree;
 }
 
-void bt_insert(binarytree *self[static 1], int value)
+void bt_insert(binarytree **self, int value)
 {
     if (!(*self)) {
         *self = create_node(value);
@@ -179,7 +179,7 @@ void bt_insert(binarytree *self[static 1], int value)
     }
 }
 
-void bt_remove(binarytree *self[static 1], int value)
+void bt_remove(binarytree **self, int value)
 {
     if (!(*self)) return;
 
@@ -212,7 +212,7 @@ bool bt_isbalanced(const binarytree *self)
     return balanced_tree(self, &depth);
 }
 
-void bt_rebalance(binarytree *self[static 1])
+void bt_rebalance(binarytree **self)
 {
     if (!(*self)) return;
 

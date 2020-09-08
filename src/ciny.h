@@ -47,7 +47,7 @@ inline struct ct_version ct_getversion(void)
  @param version The semantic version structure to convert to a number.
  @return A numeric representation of the version.
  */
-inline uint32_t ct_versionhex(const struct ct_version version[static 1])
+inline uint32_t ct_versionhex(const struct ct_version *version)
 {
     return 0 | version->major << 16 | version->minor << 8 | version->patch;
 }
@@ -64,7 +64,7 @@ typedef void ct_test_function(void *);
  or destruction.
  The test context will be passed to all unit tests for a given suite.
  */
-typedef void ct_setupteardown_function(void *[static 1]);
+typedef void ct_setupteardown_function(void **);
 
 /**
  A test case.
@@ -199,7 +199,7 @@ size_t ct_runcount_withargs(size_t count,
  @param argv The command line argument strings.
  @return The number of failed tests.
  */
-inline size_t ct_runsuite_withargs(const struct ct_testsuite suite[static 1],
+inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite,
                                    int argc, const char *argv[argc+1])
 {
     return ct_runcount_withargs(1, suite, argc, argv);
@@ -210,7 +210,7 @@ inline size_t ct_runsuite_withargs(const struct ct_testsuite suite[static 1],
  @param suite The test suite to run.
  @return The number of failed tests.
  */
-inline size_t ct_runsuite(const struct ct_testsuite suite[static 1])
+inline size_t ct_runsuite(const struct ct_testsuite *suite)
 {
     return ct_runsuite_withargs(suite, 0, NULL);
 }

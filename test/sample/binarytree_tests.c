@@ -21,14 +21,14 @@ struct bt_testcontext {
     binarytree *tree;
 };
 
-static void setup(void *context[static 1])
+static void setup(void **context)
 {
     struct bt_testcontext *const bt_context = malloc(sizeof *bt_context);
     bt_context->tree = bt_new();
     *context = bt_context;
 }
 
-static void teardown(void *context[static 1])
+static void teardown(void **context)
 {
     bt_free(((struct bt_testcontext *)*context)->tree);
     free(*context);

@@ -79,12 +79,12 @@ static void test_🐴🐎(void *context)
     set_test_flag(context, RUN_TEST_HORSE);
 }
 
-static void suite1_setup(void *context[static 1])
+static void suite1_setup(void **context)
 {
     *context = (void *)RUN_SUITE1;
 }
 
-static void suite2_setup(void *context[static 1])
+static void suite2_setup(void **context)
 {
     *context = (void *)RUN_SUITE2;
 }
