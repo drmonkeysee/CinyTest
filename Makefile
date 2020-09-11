@@ -12,10 +12,8 @@ INST_INC := $(INST_DIR)/include
 INST_LIB := $(INST_DIR)/lib
 INST_DOC := $(INST_DIR)/share/doc/cinytest
 
-CC := gcc
 CFLAGS := -Wall -Wextra -pedantic -std=c17
 SP := strip
-SPFLAGS := -s
 ARFLAGS := -rsv
 
 PUB_HEADER := ciny.h
@@ -24,30 +22,43 @@ SOURCES := ciny.c ciny_posix.c
 SRC_FILES := $(addprefix $(SRC_DIR)/,$(SOURCES))
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(SOURCES:.c=.o))
 SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c
-LIB_TARGET := libcinytest.a
+LIB_NAME := libcinytest
+LIB_TARGET := $(LIB_NAME).a
+DYLIB_VERSION := 8.0.0
+DYLIB_MAJOR := $(firstword $(subst ., ,$(DYLIB_VERSION)))
 SAMP_TARGET := sample
 SAMPT_TARGET := sampletests
 
 ifeq ($(OS_TARGET), Darwin)
 CC := clang
 SPFLAGS := -
+DYLIB_SHORTNAME := $(LIB_NAME).dylib
+DYLIB_MAJORNAME := $(LIB_NAME).$(DYLIB_MAJOR).dylib
+DYLIB_NAME := $(LIB_NAME).$(DYLIB_VERSION).dylib
+else
+CC := gcc
+SPFLAGS := -s
+DYLIB_SHORTNAME := $(LIB_NAME).so
+DYLIB_MAJORNAME := $(LIB_NAME).so.$(DYLIB_MAJOR)
+DYLIB_NAME := $(LIB_NAME).so.$(DYLIB_VERSION)
 endif
 
 ifdef XCFLAGS
 CFLAGS += $(XCFLAGS)
 endif
 
-.PHONY: release debug buildall build buildsample buildsampletests check install uninstall clean
+.PHONY: release debug buildall build buildshared buildsample buildsampletests check install uninstall clean
 
 release: CFLAGS += -Werror -Os -DNDEBUG
 release: buildall
+	$(SP) -x $(LIB_DIR)/$(DYLIB_NAME)
 	$(SP) $(SPFLAGS) $(BUILD_DIR)/$(SAMP_TARGET)
 	$(SP) $(SPFLAGS) $(BUILD_DIR)/$(SAMPT_TARGET)
 
 debug: CFLAGS += -g -O0 -DDEBUG
 debug: buildall
 
-buildall: build buildsample buildsampletests
+buildall: build buildshared buildsample buildsampletests
 
 # gcc requires feature test for file functions and is touchier about ignoring file return values
 ifneq ($(CC), clang)
@@ -58,6 +69,15 @@ build: $(OBJ_FILES)
 	$(AR) $(ARFLAGS) $(LIB_DIR)/$(LIB_TARGET) $(OBJ_FILES)
 	mkdir -p $(INC_DIR)
 	cp $(HEADER_FILES) $(INC_DIR)
+
+ifeq ($(CC), clang)
+buildshared: DYFLAGS := -dynamiclib -current_version $(DYLIB_VERSION) -compatibility_version $(DYLIB_VERSION) -install_name $(INST_LIB)/$(DYLIB_NAME)
+else
+buildshared: CFLAGS += -D_POSIX_C_SOURCE=199309L -Wno-unused-result -fPIC
+buildshared: DYFLAGS := -shared -Wl,-soname,$(DYLIB_MAJORNAME)
+endif
+buildshared:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(DYFLAGS) -o $(LIB_DIR)/$(DYLIB_NAME)
 
 buildsample: SAMP_SRC_FILES += $(SAMP_SRC_DIR)/main.c
 buildsample:
@@ -88,6 +108,9 @@ check:
 install:
 	cp $(INC_DIR)/$(PUB_HEADER) $(INST_INC)
 	cp $(LIB_DIR)/$(LIB_TARGET) $(INST_LIB)
+	cp $(LIB_DIR)/$(DYLIB_NAME) $(INST_LIB)
+	ln -sf $(DYLIB_NAME) $(INST_LIB)/$(DYLIB_MAJORNAME)
+	ln -sf $(DYLIB_MAJORNAME) $(INST_LIB)/$(DYLIB_SHORTNAME)
 ifneq ($(wildcard $(DOC_DIR)),)
 	cp -R $(DOC_DIR)/ $(INST_DOC)
 endif
@@ -95,6 +118,9 @@ endif
 uninstall:
 	$(RM) $(INST_INC)/$(PUB_HEADER)
 	$(RM) $(INST_LIB)/$(LIB_TARGET)
+	$(RM) $(INST_LIB)/$(DYLIB_SHORTNAME)
+	$(RM) $(INST_LIB)/$(DYLIB_MAJORNAME)
+	$(RM) $(INST_LIB)/$(DYLIB_NAME)
 ifneq ($(wildcard $(INST_DOC)),)
 	$(RM) -r $(INST_DOC)
 endif
