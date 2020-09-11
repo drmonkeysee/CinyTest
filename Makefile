@@ -12,10 +12,6 @@ INST_INC := $(INST_DIR)/include
 INST_LIB := $(INST_DIR)/lib
 INST_DOC := $(INST_DIR)/share/doc/cinytest
 
-CFLAGS := -Wall -Wextra -pedantic -std=c17
-SP := strip
-ARFLAGS := -rsv
-
 PUB_HEADER := ciny.h
 HEADER_FILES := $(addprefix $(SRC_DIR)/,$(PUB_HEADER))
 SOURCES := ciny.c ciny_posix.c
@@ -28,6 +24,10 @@ DYLIB_VERSION := 8.0.0
 DYLIB_MAJOR := $(firstword $(subst ., ,$(DYLIB_VERSION)))
 SAMP_TARGET := sample
 SAMPT_TARGET := sampletests
+
+CFLAGS := -Wall -Wextra -pedantic -std=c17
+SP := strip
+ARFLAGS := -rsv
 
 ifeq ($(OS_TARGET), Darwin)
 CC := clang
