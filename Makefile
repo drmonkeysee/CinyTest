@@ -51,7 +51,7 @@ buildall: build buildsample buildsampletests
 
 # gcc requires feature test for file functions and is touchier about ignoring file return values
 ifneq ($(CC), clang)
-build: CFLAGS += -D_POSIX_C_SOURCE=1 -Wno-unused-result
+build: CFLAGS += -D_POSIX_C_SOURCE=199309L -Wno-unused-result
 endif
 build: $(OBJ_FILES)
 	mkdir -p $(LIB_DIR)
