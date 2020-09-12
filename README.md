@@ -16,7 +16,7 @@ CinyTest is a lightweight library for defining and running unit tests in C. It t
 
 ## Build CinyTest
 
-CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project is used for development and only builds a static library but the Makefile builds both static and dynamic (or shared) libraries.
+The [Makefile](http://www.gnu.org/software/make/) will build CinyTest static and dynamic (shared) libraries for either macOS ([clang](http://clang.llvm.org)) or Linux ([gcc](https://gcc.gnu.org)). The **mac** folder also contains an Xcode project used for development that only builds a static library.
 
 For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options?view=vs-2019). See [Windows Support](#windows-support) below for more detail.
 
@@ -38,7 +38,7 @@ The Xcode project consists of the following targets:
 - **CinyTest**: main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
 - **Sample**: additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
 
-Finally, a [Doxygen](http://www.doxygen.org) configuration file provided in the **doc** folder can be used to generate documentation.
+Finally, documentation can be generated using the [Doxygen](http://www.doxygen.org) configuration file provided in the **doc** folder.
 
 ## Example
 
