@@ -121,9 +121,7 @@ uninstall:
 	$(RM) $(INST_LIB)/$(DYLIB_SHORTNAME)
 	$(RM) $(INST_LIB)/$(DYLIB_MAJORNAME)
 	$(RM) $(INST_LIB)/$(DYLIB_NAME)
-ifneq ($(wildcard $(INST_DOC)),)
 	$(RM) -r $(INST_DOC)
-endif
 
 clean:
 	$(RM) -r $(BUILD_DIR)
