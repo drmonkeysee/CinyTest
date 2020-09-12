@@ -16,9 +16,9 @@ CinyTest is a lightweight library for defining and running unit tests in C. It t
 
 ## Build CinyTest
 
-CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project is used for development and is only set up to build a static library but the Makefile targets build both a static and dynamic (or shared) library.
+CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project is used for development and only builds a static library but the Makefile builds both static and dynamic (or shared) libraries.
 
-For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx). See [Constraints and Assumptions](#constraints-and-assumptions) below for more detail on Windows support.
+For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options?view=vs-2019). See [Windows Support](#windows-support) below for more detail.
 
 The Makefile has the following build targets:
 
@@ -118,7 +118,7 @@ While I hope CinyTest is useful to others it is also a hobby exercise of mine. I
 
 That original goal has been left behind at this point as I've expanded the library's scope and target platforms. However the majority of platform-specific code is nicely sequestered behind a common API and compiler targets. As of this writing there are POSIX and Windows compatibility source files.
 
-### Memory Usage
+#### Memory Usage
 
 CinyTest is designed to be a small and simple library. To that point, it uses no dynamic memory in any of its default behaviors. However there are some advanced features that do require memory allocations. If your environment is sensitive to unexpected memory usage then take care when invoking the following options:
 
