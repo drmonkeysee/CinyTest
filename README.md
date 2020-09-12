@@ -126,15 +126,14 @@ CinyTest is designed to be a small and simple library. To that point, it uses no
 
 #### Windows Support
 
-CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards. Specifically the [Universal CRT](https://blogs.msdn.microsoft.com/vcblog/2015/03/03/introducing-the-universal-crt/) provides headers and libraries bridging the gap to C99. Combined with clang, a C17 codebase like CinyTest can be compiled and deployed on Windows.
+CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards and current versions of Visual Studio include clang tooling and runtime libraries that cover the later standards.
 
-It is possible to develop CinyTest in Visual Studio by installing the [Clang with Microsoft CodeGen](https://blogs.msdn.microsoft.com/vcblog/2015/12/04/clang-with-microsoft-codegen-in-vs-2015-update-1/) feature (packaged by default in Visual Studio 2015+) but **winbuild.bat** is sufficient to build artifacts.
+It is possible to develop CinyTest in Visual Studio by installing the _C++ Clang tools for Windows_ feature (packaged in Visual Studio 2019+) but **winbuild.bat** is sufficient to build artifacts. Note that **winbuild.bat** only builds a static version of the CinyTest library.
 
 To build CinyTest on Windows install the following tools:
 
-- [Build Tools for Visual Studio 2017](https://www.visualstudio.com/downloads/)
-	- Visual C++ build tools
-	- VC++ 2015.3 v140 toolset for desktop (x86,x64) (as of this writing clang does not support the 2017 C++ toolset)
+- [Visual Studio Community 2019](https://visualstudio.microsoft.com)
+	- Desktop development with C++
 - clang
 - Doxygen (set the `_WIN64` preprocessor macro in the Predefined section to select the right documentation)
 
