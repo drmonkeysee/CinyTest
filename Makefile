@@ -30,13 +30,11 @@ SP := strip
 ARFLAGS := -rsv
 
 ifeq ($(OS_TARGET), Darwin)
-CC := clang
 SPFLAGS := -
 DYLIB_SHORTNAME := $(LIB_NAME).dylib
 DYLIB_MAJORNAME := $(LIB_NAME).$(DYLIB_MAJOR).dylib
 DYLIB_NAME := $(LIB_NAME).$(DYLIB_VERSION).dylib
 else
-CC := gcc
 SPFLAGS := -s
 DYLIB_SHORTNAME := $(LIB_NAME).so
 DYLIB_MAJORNAME := $(LIB_NAME).so.$(DYLIB_MAJOR)
@@ -47,7 +45,8 @@ ifdef XCFLAGS
 CFLAGS += $(XCFLAGS)
 endif
 
-.PHONY: release debug buildall build buildshared buildsample buildsampletests check install uninstall clean
+.PHONY: release debug buildall build buildshared buildsample buildsampletests \
+		check install uninstall clean
 
 release: CFLAGS += -Werror -Os -DNDEBUG
 release: buildall
@@ -61,7 +60,7 @@ debug: buildall
 buildall: build buildshared buildsample buildsampletests
 
 # gcc requires feature test for file functions and is touchier about ignoring file return values
-ifneq ($(CC), clang)
+ifneq ($(OS_TARGET), Darwin)
 build: CFLAGS += -D_POSIX_C_SOURCE=199309L -Wno-unused-result
 endif
 build: $(OBJ_FILES)
@@ -70,8 +69,10 @@ build: $(OBJ_FILES)
 	mkdir -p $(INC_DIR)
 	cp $(HEADER_FILES) $(INC_DIR)
 
-ifeq ($(CC), clang)
-buildshared: DYFLAGS := -dynamiclib -current_version $(DYLIB_VERSION) -compatibility_version $(DYLIB_VERSION) -install_name $(INST_LIB)/$(DYLIB_NAME)
+ifeq ($(OS_TARGET), Darwin)
+buildshared: DYFLAGS := -dynamiclib -current_version $(DYLIB_VERSION) \
+				-compatibility_version $(DYLIB_VERSION) \
+				-install_name $(INST_LIB)/$(DYLIB_NAME)
 else
 buildshared: CFLAGS += -D_POSIX_C_SOURCE=199309L -Wno-unused-result -fPIC
 buildshared: DYFLAGS := -shared -Wl,-soname,$(DYLIB_MAJORNAME)
@@ -84,7 +85,7 @@ buildsample:
 	$(CC) $(CFLAGS) $(SAMP_SRC_FILES) -o $(BUILD_DIR)/$(SAMP_TARGET)
 
 # suppress ISO C99 variadic macro at-least-one-argument warning
-ifeq ($(CC), clang)
+ifeq ($(OS_TARGET), Darwin)
 buildsampletests: CFLAGS += -Wno-gnu-zero-variadic-macro-arguments
 else
 buildsampletests: CFLAGS += -Wno-pedantic
