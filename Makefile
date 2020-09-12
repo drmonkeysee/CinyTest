@@ -113,6 +113,7 @@ install:
 	ln -sf $(DYLIB_NAME) $(INST_LIB)/$(DYLIB_MAJORNAME)
 	ln -sf $(DYLIB_MAJORNAME) $(INST_LIB)/$(DYLIB_SHORTNAME)
 ifneq ($(wildcard $(DOC_DIR)),)
+	mkdir -p $(INST_DOC)
 	cp -R $(DOC_DIR)/ $(INST_DOC)
 endif
 
