@@ -59,7 +59,7 @@ debug: buildall
 
 buildall: build buildshared buildsample buildsampletests
 
-# gcc requires feature test for file functions and is touchier about ignoring file return values
+# gcc requires feature test for some posix functions and is touchier about ignoring file return values
 ifneq ($(OS_TARGET), Darwin)
 build: CFLAGS += -D_POSIX_C_SOURCE=199309L -Wno-unused-result
 endif
