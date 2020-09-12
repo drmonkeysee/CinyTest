@@ -16,14 +16,14 @@ CinyTest is a lightweight library for defining and running unit tests in C. It t
 
 ## Build CinyTest
 
-CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). On macOS the Xcode project and Makefile will give you identical libraries so pick whichever build method is more convenient.
+CinyTest was developed on macOS so an Xcode project is provided under the **mac** folder. There is also a [Makefile](http://www.gnu.org/software/make/) that will build CinyTest for either macOS ([clang](http://clang.llvm.org) by default) or Linux ([gcc](https://gcc.gnu.org) by default). The Xcode project is used for development and is only set up to build a static library but the Makefile targets build both a static and dynamic (or shared) library.
 
 For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](http://msdn.microsoft.com/en-us/library/9s7c9wdw.aspx). See [Constraints and Assumptions](#constraints-and-assumptions) below for more detail on Windows support.
 
 The Makefile has the following build targets:
 
-- `release` the default target; build CinyTest library and binary tree sample executables with full optimizations
-- `debug` build CinyTest library and binary tree sample executables with debug symbols and no optimizations
+- `release` the default target; build CinyTest libraries and binary tree sample executables with full optimizations
+- `debug` build CinyTest libraries and binary tree sample executables with debug symbols and no optimizations
 - `check` verify CinyTest by running the sample tests
 - `install` add CinyTest artifacts to **/usr/local**
 - `uninstall` remove CinyTest artifacts from **/usr/local**
@@ -38,7 +38,7 @@ The Xcode project consists of the following targets:
 - **CinyTest**: main target for CinyTest source code and unit tests; builds the CinyTest static library and runs the XCTest unit tests
 - **Sample**: additional target illustrating the use of CinyTest to test a binary tree module; includes command-line binary to exercise the binary tree module and an XCTest class for bootstrapping the binary tree unit tests into Xcode
 
-Finally, there are precompiled zip files under the releases tab on GitHub. The zip files include documentation generated from the [Doxygen](http://www.doxygen.org) configuration file.
+Finally, a [Doxygen](http://www.doxygen.org) configuration file provided in the **doc** folder can be used to generate documentation.
 
 ## Example
 
