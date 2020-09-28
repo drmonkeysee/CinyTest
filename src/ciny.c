@@ -102,7 +102,7 @@ enum assert_type {
     ASSERT_FAILURE,
     ASSERT_IGNORE,
 };
-static struct {
+static struct assertion {
     const struct testfilter *matched;
     const char *file;
     int line;
@@ -126,6 +126,17 @@ static struct runsummary {
     size_t test_count;
     uint64_t total_time;
 } RunTotals;
+
+struct casereport {
+    const struct ct_testcase *test;
+    uint64_t run_time;
+    struct assertion assert_state;
+};
+struct suitereport {
+    struct runsummary summary;
+    const struct ct_testsuite *suite;
+    struct casereport *cases;
+};
 
 //
 // Inline Function Call Sites
@@ -1093,10 +1104,12 @@ static void testsuite_runcase(
     const struct ct_testsuite *restrict self,
     const struct ct_testcase *restrict current_case,
     struct runsummary *restrict summary,
-    enum suitebreak *restrict sb
+    enum suitebreak *restrict sb,
+    struct casereport *restrict report
 )
 {
     assertstate_reset();
+    *report = (struct casereport){.test = current_case};
 
     if (RunContext.include) {
         const struct testfilter *const match = filterlist_apply(
@@ -1138,6 +1151,7 @@ static void testsuite_runcase(
     }
 
     suitebreak_open(sb, self);
+    uint64_t start_time = ct_get_currentmsecs();
 
     void *test_context = NULL;
     if (self->setup) {
@@ -1153,22 +1167,29 @@ static void testsuite_runcase(
     if (self->teardown) {
         self->teardown(&test_context);
     }
+
+    report->run_time = ct_get_currentmsecs() - start_time;
+    report->assert_state = AssertState;
 }
 
-static void testsuite_run(const struct ct_testsuite *self)
+static void testsuite_run(const struct ct_testsuite *self,
+                          struct suitereport *report)
 {
     struct runsummary summary = runsummary_make();
+    *report = (struct suitereport){.suite = self};
 
     if (self && self->tests) {
-        const uint64_t start_msecs = ct_get_currentmsecs();
+        const uint64_t start_time = ct_get_currentmsecs();
         enum suitebreak sb = suitebreak_make();
         summary.test_count = self->count;
+        report->cases = malloc(sizeof(struct casereport) * self->count);
 
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, self->tests + i, &summary, &sb);
+            testsuite_runcase(self, self->tests + i, &summary, &sb,
+                              report->cases + i);
         }
 
-        summary.total_time = ct_get_currentmsecs() - start_msecs;
+        summary.total_time = ct_get_currentmsecs() - start_time;
         suitebreak_close(&sb, &summary);
     } else {
         printerr("WARNING: NULL test suite or NULL test list detected,"
@@ -1176,6 +1197,7 @@ static void testsuite_run(const struct ct_testsuite *self)
         summary.ledger.failed = InvalidSuite;
     }
 
+    report->summary = summary;
     runtotals_add(&summary);
 }
 
@@ -1200,8 +1222,10 @@ size_t ct_runcount_withargs(size_t count,
         }
 
         if (suites) {
+            struct suitereport *runreport = malloc(sizeof *runreport * count);
+
             for (size_t i = 0; i < count; ++i) {
-                testsuite_run(suites + i);
+                testsuite_run(suites + i, runreport + i);
             }
             const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
                                         && RunTotals.test_count;
@@ -1209,6 +1233,12 @@ size_t ct_runcount_withargs(size_t count,
                 printout("\n");
             }
             runtotals_print();
+
+            for (size_t i = 0; i < count; ++i) {
+                free(runreport[i].cases);
+            }
+            free(runreport);
+            runreport = NULL;
         } else {
             printerr("WARNING: NULL test suite collection detected,"
                      " no test suites run!\n");
