@@ -129,13 +129,19 @@ static struct runsummary {
 
 struct casereport {
     const struct ct_testcase *test;
-    uint64_t run_time;
-    struct assertion assert_state;
+    uint64_t time;
+    const char *message;
+    enum assert_type result;
 };
 struct suitereport {
     struct runsummary summary;
     const struct ct_testsuite *suite;
     struct casereport *cases;
+};
+struct runreport {
+    const char *name;
+    size_t count;
+    struct suitereport suites[];
 };
 
 //
@@ -856,8 +862,8 @@ static void assertstate_reset(void)
     AssertState.description[0] = AssertState.message[0] = '\0';
 }
 
-static void assertstate_handlefailure(
-    const char *restrict test_name, struct runledger *restrict ledger
+static void assertstate_handlefailure(const char *restrict test_name,
+                                      struct runledger *restrict ledger
 )
 {
     ++ledger->failed;
@@ -871,8 +877,8 @@ static void assertstate_handlefailure(
     }
 }
 
-static void assertstate_handleignore(
-    const char *restrict test_name, struct runledger *restrict ledger
+static void assertstate_handleignore(const char *restrict test_name,
+                                     struct runledger *restrict ledger
 )
 {
     ++ledger->ignored;
@@ -884,8 +890,8 @@ static void assertstate_handleignore(
     }
 }
 
-static void assertstate_handle(
-    const char *restrict test_name, struct runledger *restrict ledger
+static void assertstate_handle(const char *restrict test_name,
+                               struct runledger *restrict ledger
 )
 {
     switch (AssertState.type) {
@@ -1038,6 +1044,89 @@ static void comparable_value_valuedescription(
 }
 
 //
+// Run Report
+//
+
+static const char *xml_attribute_escape(const char *string)
+{
+    return string;
+}
+
+static struct runreport *runreport_new(const char *name, size_t suite_count)
+{
+    // TODO: handle 0 count
+    // TODO: is calloc safer here? can i end up freeing junk in .cases?
+    struct runreport *r = malloc(sizeof(struct runreport)
+                                 + (sizeof(struct suitereport) * suite_count));
+    *r = (struct runreport){
+        .name = name ? name : "(root)",
+        .count = suite_count,
+    };
+    return r;
+}
+
+static void runreport_free(struct runreport *self)
+{
+    for (size_t i = 0; i < self->count; ++i) {
+        free(self->suites[i].cases);
+        self->suites[i].cases = NULL;
+    }
+    free(self);
+}
+
+static void suitereport_add_cases(struct suitereport *self, size_t count)
+{
+    // TODO: handle zero count
+    self->cases = malloc(sizeof(struct casereport) * count);
+}
+
+static void runreport_write(const struct runreport *self)
+{
+    static const double ms_per_sec = 1000.0;
+    printout("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    printout(
+        "<testsuites name=\"%s\" tests=\"%zu\" failures=\"%zu\" time=\"%.3f\">\n",
+        self->name,
+        RunTotals.test_count + RunTotals.ledger.skipped,
+        RunTotals.ledger.failed,
+        RunTotals.total_time / ms_per_sec
+    );
+    for (size_t i = 0; i < self->count; ++i) {
+        const struct suitereport *current_suite = self->suites + i;
+        printout("  ");
+        printout("<testsuite name=\"%s\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\" time=\"%.3f\" timestamp=\"%s\">\n", current_suite->suite->name, i, current_suite->summary.test_count + current_suite->summary.ledger.skipped, current_suite->summary.ledger.failed, current_suite->summary.ledger.ignored + current_suite->summary.ledger.skipped, current_suite->summary.total_time / ms_per_sec, "TIMESTAMP");
+        for (size_t j = 0; j < current_suite->suite->count; ++j) {
+            const struct casereport *currentcase = current_suite->cases + j;
+            printout("    ");
+            printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, current_suite->suite->name, currentcase->test->name, currentcase->time / ms_per_sec);
+            switch (currentcase->result) {
+            case ASSERT_FAILURE:
+                printout(">\n");
+                printout("      ");
+                printout("<failure message=\"%s\" type=\"assertion\" />\n", xml_attribute_escape("FAILED MESSAGE"));
+                printout("    ");
+                printout("</testcase>\n");
+                break;
+            case ASSERT_IGNORE:
+                printout(">\n");
+                printout("      ");
+                printout("<skipped message=\"%s\" type=\"ignored\" />\n", xml_attribute_escape("IGNORED MESSAGE"));
+                printout("    ");
+                printout("</testcase>\n");
+                break;
+            // TODO: treat PASSED state explicitly
+            default:
+                printout(" />\n");
+                break;
+            }
+        }
+        printout("  ");
+        printout("</testsuite>\n");
+    }
+    printout("</testsuites>\n");
+}
+
+//
 // Test Suite and Test Case
 //
 
@@ -1168,8 +1257,8 @@ static void testsuite_runcase(
         self->teardown(&test_context);
     }
 
-    report->run_time = ct_get_currentmsecs() - start_time;
-    report->assert_state = AssertState;
+    report->time = ct_get_currentmsecs() - start_time;
+    report->result = AssertState.type;
 }
 
 static void testsuite_run(const struct ct_testsuite *self,
@@ -1182,7 +1271,7 @@ static void testsuite_run(const struct ct_testsuite *self,
         const uint64_t start_time = ct_get_currentmsecs();
         enum suitebreak sb = suitebreak_make();
         summary.test_count = self->count;
-        report->cases = malloc(sizeof(struct casereport) * self->count);
+        suitereport_add_cases(report, self->count);
 
         for (size_t i = 0; i < self->count; ++i) {
             testsuite_runcase(self, self->tests + i, &summary, &sb,
@@ -1222,10 +1311,13 @@ size_t ct_runcount_withargs(size_t count,
         }
 
         if (suites) {
-            struct suitereport *runreport = malloc(sizeof *runreport * count);
+            struct runreport *report = runreport_new(argv && argc > 0
+                                                     ? argv[0]
+                                                     : NULL,
+                                                     count);
 
             for (size_t i = 0; i < count; ++i) {
-                testsuite_run(suites + i, runreport + i);
+                testsuite_run(suites + i, report->suites + i);
             }
             const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
                                         && RunTotals.test_count;
@@ -1234,11 +1326,9 @@ size_t ct_runcount_withargs(size_t count,
             }
             runtotals_print();
 
-            for (size_t i = 0; i < count; ++i) {
-                free(runreport[i].cases);
-            }
-            free(runreport);
-            runreport = NULL;
+            runreport_write(report);
+            runreport_free(report);
+            report = NULL;
         } else {
             printerr("WARNING: NULL test suite collection detected,"
                      " no test suites run!\n");
