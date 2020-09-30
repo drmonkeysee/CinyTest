@@ -128,14 +128,14 @@ static struct runsummary {
 } RunTotals;
 
 struct casereport {
-    const struct ct_testcase *test;
+    const struct ct_testcase *testcase;
     uint64_t time;
     const char *message;
     enum assert_type result;
 };
 struct suitereport {
+    const struct ct_testsuite *testsuite;
     struct runsummary summary;
-    const struct ct_testsuite *suite;
     struct casereport *cases;
 };
 struct runreport {
@@ -1092,14 +1092,14 @@ static void runreport_write(const struct runreport *self)
         RunTotals.total_time / ms_per_sec
     );
     for (size_t i = 0; i < self->count; ++i) {
-        const struct suitereport *current_suite = self->suites + i;
+        const struct suitereport *s = self->suites + i;
         printout("  ");
-        printout("<testsuite name=\"%s\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\" time=\"%.3f\" timestamp=\"%s\">\n", current_suite->suite->name, i, current_suite->summary.test_count + current_suite->summary.ledger.skipped, current_suite->summary.ledger.failed, current_suite->summary.ledger.ignored + current_suite->summary.ledger.skipped, current_suite->summary.total_time / ms_per_sec, "TIMESTAMP");
-        for (size_t j = 0; j < current_suite->suite->count; ++j) {
-            const struct casereport *currentcase = current_suite->cases + j;
+        printout("<testsuite name=\"%s\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\" time=\"%.3f\" timestamp=\"%s\">\n", s->testsuite->name, i, s->summary.test_count + s->summary.ledger.skipped, s->summary.ledger.failed, s->summary.ledger.ignored + s->summary.ledger.skipped, s->summary.total_time / ms_per_sec, "TIMESTAMP");
+        for (size_t j = 0; j < s->testsuite->count; ++j) {
+            const struct casereport *c = s->cases + j;
             printout("    ");
-            printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, current_suite->suite->name, currentcase->test->name, currentcase->time / ms_per_sec);
-            switch (currentcase->result) {
+            printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, s->testsuite->name, c->testcase->name, c->time / ms_per_sec);
+            switch (c->result) {
             case ASSERT_FAILURE:
                 printout(">\n");
                 printout("      ");
@@ -1198,7 +1198,7 @@ static void testsuite_runcase(
 )
 {
     assertstate_reset();
-    *report = (struct casereport){.test = current_case};
+    *report = (struct casereport){.testcase = current_case};
 
     if (RunContext.include) {
         const struct testfilter *const match = filterlist_apply(
@@ -1265,7 +1265,7 @@ static void testsuite_run(const struct ct_testsuite *self,
                           struct suitereport *report)
 {
     struct runsummary summary = runsummary_make();
-    *report = (struct suitereport){.suite = self};
+    *report = (struct suitereport){.testsuite = self};
 
     if (self && self->tests) {
         const uint64_t start_time = ct_get_currentmsecs();
