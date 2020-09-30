@@ -627,7 +627,7 @@ static void runcontext_init(int argc, const char *argv[argc+1])
                *include_filter_option = NULL,
                *exclude_filter_option = NULL;
 
-    if (argv) {
+    if (argc > 0) {
         for (int i = 0; i < argc; ++i) {
             const char *const arg = argv[i];
             if (!arg) {
@@ -1054,8 +1054,6 @@ static const char *xml_attribute_escape(const char *string)
 
 static struct runreport *runreport_new(const char *name, size_t suite_count)
 {
-    // TODO: handle 0 count
-    // TODO: is calloc safer here? can i end up freeing junk in .cases?
     struct runreport *r = malloc(sizeof(struct runreport)
                                  + (sizeof(struct suitereport) * suite_count));
     *r = (struct runreport){
@@ -1076,7 +1074,6 @@ static void runreport_free(struct runreport *self)
 
 static void suitereport_add_cases(struct suitereport *self, size_t count)
 {
-    // TODO: handle zero count
     self->cases = malloc(sizeof(struct casereport) * count);
 }
 
@@ -1267,7 +1264,7 @@ static void testsuite_run(const struct ct_testsuite *self,
     struct runsummary summary = runsummary_make();
     *report = (struct suitereport){.testsuite = self};
 
-    if (self && self->tests) {
+    if (self && self->tests && self->count) {
         const uint64_t start_time = ct_get_currentmsecs();
         enum suitebreak sb = suitebreak_make();
         summary.test_count = self->count;
@@ -1281,8 +1278,8 @@ static void testsuite_run(const struct ct_testsuite *self,
         summary.total_time = ct_get_currentmsecs() - start_time;
         suitebreak_close(&sb, &summary);
     } else {
-        printerr("WARNING: NULL test suite or NULL test list detected,"
-                 " no tests run!\n");
+        printerr("WARNING: No test suite or test cases detected,"
+                 " test suite run skipped!\n");
         summary.ledger.failed = InvalidSuite;
     }
 
@@ -1310,10 +1307,8 @@ size_t ct_runcount_withargs(size_t count,
             runcontext_print();
         }
 
-        if (suites) {
-            struct runreport *report = runreport_new(argv && argc > 0
-                                                     ? argv[0]
-                                                     : NULL,
+        if (count && suites) {
+            struct runreport *report = runreport_new(argc > 0 ? argv[0] : NULL,
                                                      count);
 
             for (size_t i = 0; i < count; ++i) {
@@ -1330,8 +1325,7 @@ size_t ct_runcount_withargs(size_t count,
             runreport_free(report);
             report = NULL;
         } else {
-            printerr("WARNING: NULL test suite collection detected,"
-                     " no test suites run!\n");
+            printerr("WARNING: No test suites detected, test run canceled!\n");
             RunTotals.ledger.failed = InvalidSuite;
         }
     }
