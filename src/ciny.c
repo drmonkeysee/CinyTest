@@ -99,6 +99,7 @@ static struct {
 #define COMPVALUE_STR_SIZE 75u
 enum assert_type {
     ASSERT_UNKNOWN,
+    ASSERT_SUCCESS,
     ASSERT_FAILURE,
     ASSERT_IGNORE,
 };
@@ -897,6 +898,9 @@ static void assertstate_handle(const char *restrict test_name,
 )
 {
     switch (AssertState.type) {
+    case ASSERT_SUCCESS:
+        // NOTE: nothing to handle!
+        break;
     case ASSERT_FAILURE:
         assertstate_handlefailure(test_name, ledger);
         break;
@@ -1099,6 +1103,9 @@ static void runreport_write(const struct runreport *self)
             printout("    ");
             printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, sr->testsuite->name, cr->testcase->name, cr->time / ms_per_sec);
             switch (cr->result) {
+            case ASSERT_SUCCESS:
+                printout(" />\n");
+                break;
             case ASSERT_FAILURE:
                 printout(">\n");
                 printout("      ");
@@ -1113,9 +1120,12 @@ static void runreport_write(const struct runreport *self)
                 printout("    ");
                 printout("</testcase>\n");
                 break;
-            // TODO: treat PASSED state explicitly
             default:
-                printout(" />\n");
+                printout(">\n");
+                printout("      ");
+                printout("<error message=\"Unexpected test result\" type=\"error\" />\n");
+                printout("    ");
+                printout("</testcase>\n");
                 break;
             }
         }
@@ -1143,6 +1153,7 @@ static void testcase_run(const struct ct_testcase *restrict self,
 
     self->test(test_context);
 
+    AssertState.type = ASSERT_SUCCESS;
     ++ledger->passed;
     print_testresult(HIGHLIGHT_SUCCESS, PassedTestSymbol, self->name);
 }
