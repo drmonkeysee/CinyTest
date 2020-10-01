@@ -1208,7 +1208,7 @@ static void suitebreak_close(
 
 static void testsuite_runcase(
     const struct ct_testsuite *restrict self,
-    struct suitereport *report,
+    struct suitereport *restrict report,
     const struct ct_testcase *restrict current_case,
     struct runsummary *restrict summary,
     enum suitebreak *restrict sb,
