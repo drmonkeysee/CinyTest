@@ -127,6 +127,7 @@ static struct runsummary {
     uint64_t total_time;
 } RunTotals;
 
+#define DATE_STR_SIZE 30u
 struct casereport {
     const struct ct_testcase *testcase;
     uint64_t time;
@@ -137,6 +138,7 @@ struct suitereport {
     const struct ct_testsuite *testsuite;
     struct runsummary summary;
     struct casereport *cases;
+    char date[DATE_STR_SIZE];
 };
 struct runreport {
     const char *name;
@@ -1089,14 +1091,14 @@ static void runreport_write(const struct runreport *self)
         RunTotals.total_time / ms_per_sec
     );
     for (size_t i = 0; i < self->count; ++i) {
-        const struct suitereport *s = self->suites + i;
+        const struct suitereport *sr = self->suites + i;
         printout("  ");
-        printout("<testsuite name=\"%s\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\" time=\"%.3f\" timestamp=\"%s\">\n", s->testsuite->name, i, s->summary.test_count + s->summary.ledger.skipped, s->summary.ledger.failed, s->summary.ledger.ignored + s->summary.ledger.skipped, s->summary.total_time / ms_per_sec, "TIMESTAMP");
-        for (size_t j = 0; j < s->testsuite->count; ++j) {
-            const struct casereport *c = s->cases + j;
+        printout("<testsuite name=\"%s\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\" time=\"%.3f\" timestamp=\"%s\">\n", sr->testsuite->name, i, sr->summary.test_count + sr->summary.ledger.skipped, sr->summary.ledger.failed, sr->summary.ledger.ignored + sr->summary.ledger.skipped, sr->summary.total_time / ms_per_sec, sr->date);
+        for (size_t j = 0; j < sr->testsuite->count; ++j) {
+            const struct casereport *cr = sr->cases + j;
             printout("    ");
-            printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, s->testsuite->name, c->testcase->name, c->time / ms_per_sec);
-            switch (c->result) {
+            printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, sr->testsuite->name, cr->testcase->name, cr->time / ms_per_sec);
+            switch (cr->result) {
             case ASSERT_FAILURE:
                 printout(">\n");
                 printout("      ");
@@ -1146,16 +1148,22 @@ static void testcase_run(const struct ct_testcase *restrict self,
 }
 
 static void testsuite_printheader(const struct ct_testsuite *self,
+                                  struct suitereport *report,
                                   time_t start_time)
 {
-    char formatted_datetime[30];
+    char formatted_datetime[DATE_STR_SIZE];
     const size_t format_length = strftime(formatted_datetime,
                                           sizeof formatted_datetime, "%FT%T%z",
                                           localtime(&start_time));
-    const char *const date_msg = format_length
-                                    ? formatted_datetime
-                                    : "Invalid Date (formatted output may"
-                                        " have exceeded buffer size)";
+    const char *date_msg;
+    if (format_length) {
+        date_msg = formatted_datetime;
+        strcpy(report->date, formatted_datetime);
+    } else {
+        date_msg = "Invalid Date (formatted output may"
+                    " have exceeded buffer size)";
+        // NOTE: leave report date blank if format error
+    }
     printout("Test suite '%s' started at %s\n", self->name, date_msg);
 }
 
@@ -1167,10 +1175,11 @@ static enum suitebreak suitebreak_make(void)
 }
 
 static void suitebreak_open(enum suitebreak *restrict state,
-                            const struct ct_testsuite *restrict suite)
+                            const struct ct_testsuite *restrict suite,
+                            struct suitereport *restrict report)
 {
     if (*state == SUITEBREAK_OPEN) {
-        testsuite_printheader(suite, time(NULL));
+        testsuite_printheader(suite, report, time(NULL));
         *state = SUITEBREAK_CLOSE;
     }
 }
@@ -1188,14 +1197,15 @@ static void suitebreak_close(
 
 static void testsuite_runcase(
     const struct ct_testsuite *restrict self,
+    struct suitereport *report,
     const struct ct_testcase *restrict current_case,
     struct runsummary *restrict summary,
     enum suitebreak *restrict sb,
-    struct casereport *restrict report
+    struct casereport *restrict case_report
 )
 {
     assertstate_reset();
-    *report = (struct casereport){.testcase = current_case};
+    *case_report = (struct casereport){.testcase = current_case};
 
     if (RunContext.include) {
         const struct testfilter *const match = filterlist_apply(
@@ -1208,7 +1218,7 @@ static void testsuite_runcase(
             ++(summary->ledger.skipped);
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
-                suitebreak_open(sb, self);
+                suitebreak_open(sb, self, report);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol,
                                  current_case->name);
             }
@@ -1227,7 +1237,7 @@ static void testsuite_runcase(
             ++(summary->ledger.skipped);
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
-                suitebreak_open(sb, self);
+                suitebreak_open(sb, self, report);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol,
                                  current_case->name);
             }
@@ -1236,7 +1246,7 @@ static void testsuite_runcase(
         }
     }
 
-    suitebreak_open(sb, self);
+    suitebreak_open(sb, self, report);
     uint64_t start_time = ct_get_currentmsecs();
 
     void *test_context = NULL;
@@ -1254,8 +1264,8 @@ static void testsuite_runcase(
         self->teardown(&test_context);
     }
 
-    report->time = ct_get_currentmsecs() - start_time;
-    report->result = AssertState.type;
+    case_report->time = ct_get_currentmsecs() - start_time;
+    case_report->result = AssertState.type;
 }
 
 static void testsuite_run(const struct ct_testsuite *self,
@@ -1271,7 +1281,7 @@ static void testsuite_run(const struct ct_testsuite *self,
         suitereport_add_cases(report, self->count);
 
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, self->tests + i, &summary, &sb,
+            testsuite_runcase(self, report, self->tests + i, &summary, &sb,
                               report->cases + i);
         }
 
