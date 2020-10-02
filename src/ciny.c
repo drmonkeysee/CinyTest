@@ -866,8 +866,7 @@ static void assertstate_reset(void)
 }
 
 static void assertstate_handlefailure(const char *restrict test_name,
-                                      struct runledger *restrict ledger
-)
+                                      struct runledger *restrict ledger)
 {
     ++ledger->failed;
 
@@ -881,8 +880,7 @@ static void assertstate_handlefailure(const char *restrict test_name,
 }
 
 static void assertstate_handleignore(const char *restrict test_name,
-                                     struct runledger *restrict ledger
-)
+                                     struct runledger *restrict ledger)
 {
     ++ledger->ignored;
 
@@ -894,8 +892,7 @@ static void assertstate_handleignore(const char *restrict test_name,
 }
 
 static void assertstate_handle(const char *restrict test_name,
-                               struct runledger *restrict ledger
-)
+                               struct runledger *restrict ledger)
 {
     switch (AssertState.type) {
     case ASSERT_SUCCESS:
@@ -1195,10 +1192,8 @@ static void suitebreak_open(enum suitebreak *restrict state,
     }
 }
 
-static void suitebreak_close(
-    enum suitebreak *restrict state,
-    const struct runsummary *restrict summary
-)
+static void suitebreak_close(enum suitebreak *restrict state,
+                             const struct runsummary *restrict summary)
 {
     if (*state == SUITEBREAK_CLOSE) {
         runsummary_print(summary);
@@ -1554,8 +1549,7 @@ void ct_internal_assertequalstrn(const char *expected,
                                  const char *actual,
                                  const char *stringized_actual, size_t n,
                                  const char *restrict file, int line,
-                                 const char *restrict format, ...
-)
+                                 const char *restrict format, ...)
 {
     const bool assert_fails =
         (expected && !actual)
@@ -1590,8 +1584,7 @@ void ct_internal_assertnotequalstrn(const char *expected,
                                     const char *actual,
                                     const char *stringized_actual, size_t n,
                                     const char *restrict file, int line,
-                                    const char *restrict format, ...
-)
+                                    const char *restrict format, ...)
 {
     const bool assert_fails =
         (!expected && !actual)
