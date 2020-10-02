@@ -1206,16 +1206,15 @@ static void suitebreak_close(
     }
 }
 
-static void testsuite_runcase(
-    const struct ct_testsuite *restrict self,
-    struct suitereport *restrict report,
-    const struct ct_testcase *restrict current_case,
-    struct runsummary *restrict summary,
-    enum suitebreak *restrict sb,
-    struct casereport *restrict case_report
-)
+static void testsuite_runcase(const struct ct_testsuite *restrict self,
+                              size_t case_index,
+                              struct runsummary *restrict summary,
+                              enum suitebreak *restrict sb,
+                              struct suitereport *restrict report)
 {
     assertstate_reset();
+    const struct ct_testcase *const current_case = self->tests + case_index;
+    struct casereport *const case_report = report->cases + case_index;
     *case_report = (struct casereport){.testcase = current_case};
 
     if (RunContext.include) {
@@ -1292,8 +1291,7 @@ static void testsuite_run(const struct ct_testsuite *self,
         suitereport_add_cases(report, self->count);
 
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, report, self->tests + i, &summary, &sb,
-                              report->cases + i);
+            testsuite_runcase(self, i, &summary, &sb, report);
         }
 
         summary.total_time = ct_get_currentmsecs() - start_time;
