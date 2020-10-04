@@ -132,8 +132,7 @@ static struct runsummary {
 struct casereport {
     const struct ct_testcase *testcase;
     uint64_t time;
-    const char *message;
-    enum assert_type result;
+    struct assertion assert_state;
 };
 struct suitereport {
     const struct ct_testsuite *testsuite;
@@ -1050,14 +1049,9 @@ static void comparable_value_valuedescription(
 // Run Report
 //
 
-static const char *xml_attribute_escape(const char *string)
-{
-    return string;
-}
-
 static struct runreport *runreport_new(const char *name, size_t suite_count)
 {
-    struct runreport *r = malloc(sizeof(struct runreport)
+    struct runreport *r = malloc(sizeof *r
                                  + (sizeof(struct suitereport) * suite_count));
     *r = (struct runreport){
         .name = name ? name : "(root)",
@@ -1099,21 +1093,44 @@ static void runreport_write(const struct runreport *self)
             const struct casereport *cr = sr->cases + j;
             printout("    ");
             printout("<testcase classname=\"%s.%s\" name=\"%s\" time=\"%.3f\"", self->name, sr->testsuite->name, cr->testcase->name, cr->time / ms_per_sec);
-            switch (cr->result) {
+            switch (cr->assert_state.type) {
             case ASSERT_SUCCESS:
                 printout(" />\n");
                 break;
             case ASSERT_FAILURE:
-                printout(">\n");
-                printout("      ");
-                printout("<failure message=\"%s\" type=\"assertion\" />\n", xml_attribute_escape("FAILED MESSAGE"));
-                printout("    ");
-                printout("</testcase>\n");
-                break;
+                {
+                    char *assert_buffer = NULL;
+                    const int description_length = snprintf(assert_buffer, 0,
+                                                      "%s L.%d : %s",
+                                                      cr->assert_state.file,
+                                                      cr->assert_state.line,
+                                                      cr->assert_state.description);
+                    if (description_length > 0) {
+                        const size_t buffer_size = description_length + 1;
+                        assert_buffer = malloc(sizeof *assert_buffer * buffer_size);
+                        snprintf(assert_buffer, buffer_size, "%s L.%d : %s",
+                                 cr->assert_state.file, cr->assert_state.line,
+                                 cr->assert_state.description);
+                        const size_t msg_length = strlen(cr->assert_state.message);
+                        if (msg_length > 0) {
+                            // NOTE: buffer_size includes original NUL + msg length + separating newline
+                            assert_buffer = realloc(assert_buffer, buffer_size + msg_length + 1);
+                            assert_buffer[buffer_size - 1] = '\n';
+                            strcpy(assert_buffer + buffer_size, cr->assert_state.message);
+                        }
+                    }
+                    printout(">\n");
+                    printout("      ");
+                    printout("<failure message=\"%s\" type=\"assertion\" />\n", assert_buffer ? assert_buffer : "");
+                    printout("    ");
+                    printout("</testcase>\n");
+                    free(assert_buffer);
+                    break;
+                }
             case ASSERT_IGNORE:
                 printout(">\n");
                 printout("      ");
-                printout("<skipped message=\"%s\" type=\"ignored\" />\n", xml_attribute_escape("IGNORED MESSAGE"));
+                printout("<skipped message=\"%s\" type=\"ignored\" />\n", cr->assert_state.message);
                 printout("    ");
                 printout("</testcase>\n");
                 break;
@@ -1270,7 +1287,7 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
     }
 
     case_report->time = ct_get_currentmsecs() - start_time;
-    case_report->result = AssertState.type;
+    case_report->assert_state = AssertState;
 }
 
 static void testsuite_run(const struct ct_testsuite *self,
