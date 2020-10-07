@@ -50,6 +50,7 @@ static const char *const restrict Ellipsis = "\u2026",
 // Type and Data Definitions
 //
 
+#define ASSERT_FAIL_LINEFMT " L.%d : "
 static const char *const restrict HelpOption = "--ct-help",
                   *const restrict VersionOption = "--ct-version",
                   *const restrict VerboseOption = "--ct-verbose",
@@ -329,6 +330,53 @@ static bool pretty_truncate(size_t size, char buffer[size])
     }
 
     return can_fit_ellipsis;
+}
+
+static size_t print_xml_flush(FILE *restrict output, size_t index,
+                              char buffer[restrict])
+{
+    buffer[index] = '\0';
+    fprintf(output, "%s", buffer);
+    return 0;
+}
+
+static void print_xml_attribute_escape(FILE *restrict output,
+                                       const char *restrict string)
+{
+    // NOTE: escape size = &#NN; + NUL byte
+    static const size_t buffer_size = 1024, escape_size = 6;
+
+    if (!string) return;
+
+    char buff[buffer_size];
+    size_t i = 0;
+    for (char c = *string; c; c = *(++string)) {
+        switch (c) {
+        case '\t':
+        case '\n':
+        case '\r':
+        case '"':
+        case '&':
+        case '<':
+            if (buffer_size - i < escape_size) {
+                i = print_xml_flush(output, i, buff);
+            }
+            snprintf(buff + i, escape_size, "&#%02d;", c);
+            // NOTE: advance i by escape string length
+            // so next char overwrites NUL added by snprintf.
+            i += escape_size - 1;
+            break;
+        default:
+            buff[i++] = c;
+            break;
+        }
+        if (i == buffer_size - 1) {
+            i = print_xml_flush(output, i, buff);
+        }
+    }
+    if (i > 0) {
+        print_xml_flush(output, i, buff);
+    }
 }
 
 //
@@ -872,7 +920,7 @@ static void assertstate_handlefailure(const char *restrict test_name,
     print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, test_name);
 
     if (RunContext.verbosity > VERBOSITY_MINIMAL) {
-        printout("%s L.%d : %s\n", AssertState.file, AssertState.line,
+        printout("%s" ASSERT_FAIL_LINEFMT "%s\n", AssertState.file, AssertState.line,
                  AssertState.description);
         print_linemessage(AssertState.message);
     }
@@ -1099,41 +1147,37 @@ static void runreport_write(const struct runreport *self)
                 break;
             case ASSERT_FAILURE:
                 {
-                    char *assert_buffer = NULL;
-                    const int description_length = snprintf(assert_buffer, 0,
-                                                      "%s L.%d : %s",
-                                                      cr->assert_state.file,
-                                                      cr->assert_state.line,
-                                                      cr->assert_state.description);
-                    if (description_length > 0) {
-                        const size_t buffer_size = description_length + 1;
-                        assert_buffer = malloc(sizeof *assert_buffer * buffer_size);
-                        snprintf(assert_buffer, buffer_size, "%s L.%d : %s",
-                                 cr->assert_state.file, cr->assert_state.line,
-                                 cr->assert_state.description);
-                        const size_t msg_length = strlen(cr->assert_state.message);
-                        if (msg_length > 0) {
-                            // NOTE: buffer_size includes original NUL + msg length + separating newline
-                            assert_buffer = realloc(assert_buffer, buffer_size + msg_length + 1);
-                            assert_buffer[buffer_size - 1] = '\n';
-                            strcpy(assert_buffer + buffer_size, cr->assert_state.message);
-                        }
-                    }
                     printout(">\n");
                     printout("      ");
-                    printout("<failure message=\"%s\" type=\"assertion\" />\n", assert_buffer ? assert_buffer : "");
+                    printout("<failure message=\"");
+                    print_xml_attribute_escape(RunContext.out, cr->assert_state.file);
+                    printout(ASSERT_FAIL_LINEFMT, cr->assert_state.line);
+                    print_xml_attribute_escape(RunContext.out, cr->assert_state.description);
+                    const size_t msg_length = strlen(cr->assert_state.message);
+                    if (msg_length > 0) {
+                        print_xml_attribute_escape(RunContext.out, "\n");
+                        print_xml_attribute_escape(RunContext.out, cr->assert_state.message);
+                    }
+                    printout("\" type=\"assertion\" />\n");
                     printout("    ");
                     printout("</testcase>\n");
-                    free(assert_buffer);
                     break;
                 }
             case ASSERT_IGNORE:
-                printout(">\n");
-                printout("      ");
-                printout("<skipped message=\"%s\" type=\"ignored\" />\n", cr->assert_state.message);
-                printout("    ");
-                printout("</testcase>\n");
-                break;
+                {
+                    printout(">\n");
+                    printout("      ");
+                    printout("<skipped");
+                    const size_t msg_length = strlen(cr->assert_state.message);
+                    if (msg_length > 0) {
+                        printout(" message=\"");
+                        print_xml_attribute_escape(RunContext.out, cr->assert_state.message);
+                        printout("\" type=\"ignored\" />\n");
+                    }
+                    printout("    ");
+                    printout("</testcase>\n");
+                    break;
+                }
             default:
                 printout(">\n");
                 printout("      ");
