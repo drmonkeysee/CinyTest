@@ -1172,8 +1172,9 @@ static void runreport_write(const struct runreport *self)
                     if (msg_length > 0) {
                         printout(" message=\"");
                         print_xml_attribute_escape(RunContext.out, cr->assert_state.message);
-                        printout("\" type=\"ignored\" />\n");
+                        printout("\"");
                     }
+                    printout(" type=\"ignored\" />\n");
                     printout("    ");
                     printout("</testcase>\n");
                     break;
