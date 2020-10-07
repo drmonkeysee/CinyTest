@@ -332,8 +332,8 @@ static bool pretty_truncate(size_t size, char buffer[size])
     return can_fit_ellipsis;
 }
 
-static size_t print_xml_flush(FILE *restrict output, size_t index,
-                              char buffer[restrict])
+static size_t xml_flush(FILE *restrict output, size_t index,
+                        char buffer[restrict])
 {
     buffer[index] = '\0';
     fprintf(output, "%s", buffer);
@@ -346,7 +346,7 @@ static void print_xml_attribute_escape(FILE *restrict output,
     // NOTE: escape size = &#NN; + NUL byte
     static const size_t buffer_size = 1024, escape_size = 6;
 
-    if (!string) return;
+    if (!output || !string) return;
 
     char buff[buffer_size];
     size_t i = 0;
@@ -359,7 +359,7 @@ static void print_xml_attribute_escape(FILE *restrict output,
         case '&':
         case '<':
             if (buffer_size - i < escape_size) {
-                i = print_xml_flush(output, i, buff);
+                i = xml_flush(output, i, buff);
             }
             snprintf(buff + i, escape_size, "&#%02d;", c);
             // NOTE: advance i by escape string length
@@ -371,11 +371,11 @@ static void print_xml_attribute_escape(FILE *restrict output,
             break;
         }
         if (i == buffer_size - 1) {
-            i = print_xml_flush(output, i, buff);
+            i = xml_flush(output, i, buff);
         }
     }
     if (i > 0) {
-        print_xml_flush(output, i, buff);
+        xml_flush(output, i, buff);
     }
 }
 
