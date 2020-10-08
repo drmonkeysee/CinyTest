@@ -103,6 +103,7 @@ enum assert_type {
     ASSERT_SUCCESS,
     ASSERT_FAILURE,
     ASSERT_IGNORE,
+    ASSERT_SKIPPED,
 };
 static struct assertion {
     const struct testfilter *matched;
@@ -897,6 +898,7 @@ static void assertstate_handle(const char *restrict test_name,
 {
     switch (AssertState.type) {
     case ASSERT_SUCCESS:
+    case ASSERT_SKIPPED:
         // NOTE: nothing to handle!
         break;
     case ASSERT_FAILURE:
@@ -1177,6 +1179,23 @@ static void casereport_write(const struct casereport *restrict self,
             printout("</testcase>\n");
             break;
         }
+    case ASSERT_SKIPPED:
+        {
+            printout(">\n");
+            printout("      ");
+            printout("<skipped");
+            const size_t msg_length = strlen(self->assert_state.message);
+            if (msg_length > 0) {
+                printout(" message=\"");
+                write_xml_attribute_escaped(RunContext.out,
+                                            self->assert_state.message);
+                printout("\"");
+            }
+            printout(" type=\"filtered\" />\n");
+            printout("    ");
+            printout("</testcase>\n");
+            break;
+        }
     default:
         printout(">\n");
         printout("      ");
@@ -1318,6 +1337,10 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
                                  current_case->name);
             }
 
+            case_report->assert_state.type = ASSERT_SKIPPED;
+            strcpy(case_report->assert_state.message,
+                   "skipped by include filter (no match)");
+
             return;
         }
     }
@@ -1335,6 +1358,17 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
                 suitebreak_open(sb, self, report);
                 print_testresult(HIGHLIGHT_SKIPPED, SkippedTestSymbol,
                                  current_case->name);
+            }
+
+            case_report->assert_state.type = ASSERT_SKIPPED;
+            const size_t msgsize = sizeof case_report->assert_state.message;
+            const int count = snprintf(case_report->assert_state.message,
+                                       msgsize,
+                                       "skipped by exclude filter (%.*s)",
+                                       (int)(match->end - match->start),
+                                       match->start);
+            if ((size_t)count >= msgsize) {
+                pretty_truncate(sizeof msgsize, case_report->assert_state.message);
             }
 
             return;
