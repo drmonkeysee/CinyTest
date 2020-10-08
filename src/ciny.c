@@ -90,7 +90,7 @@ enum verbositylevel {
     VERBOSITY_FULL,
 };
 static struct {
-    FILE *out, *err;
+    FILE *out, *err, *xml;
     filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
     enum verbositylevel verbosity;
@@ -183,6 +183,7 @@ static void testfilter_print(const struct testfilter *, enum text_highlight);
 
 #define printout(...) fprintf(RunContext.out, __VA_ARGS__)
 #define printerr(...) fprintf(RunContext.err, __VA_ARGS__)
+#define printxml(...) fprintf(RunContext.xml, __VA_ARGS__)
 
 static void print_title(const char *restrict format, ...)
 {
@@ -675,6 +676,7 @@ static void runcontext_init(int argc, const char *argv[argc+1])
         RunContext.out = stdout;
         RunContext.err = stderr;
     }
+    RunContext.xml = stdout;
 
     if (!include_filter_option) {
         include_filter_option = getenv("CINYTEST_INCLUDE");
@@ -779,6 +781,8 @@ static void runcontext_cleanup(void)
 
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
+
+    RunContext.xml = NULL;
 
     filterlist_free(RunContext.include);
     RunContext.include = NULL;
@@ -1078,21 +1082,19 @@ static void suitereport_add_cases(struct suitereport *self, size_t count)
     self->cases = malloc(sizeof(struct casereport) * count);
 }
 
-static size_t xml_flush(FILE *restrict output, size_t index,
-                        char buffer[restrict])
+static size_t xml_flush(size_t terminator, char buffer[])
 {
-    buffer[index] = '\0';
-    fprintf(output, "%s", buffer);
+    buffer[terminator] = '\0';
+    printxml("%s", buffer);
     return 0;
 }
 
-static void write_xml_attribute_escaped(FILE *restrict output,
-                                        const char *restrict string)
+static void write_xml_attribute_escaped(const char *string)
 {
     // NOTE: escape size = &#NN; + NUL byte
     static const size_t buffer_size = 1024, escape_size = 6;
 
-    if (!output || !string) return;
+    if (!string) return;
 
     char buff[buffer_size];
     size_t i = 0;
@@ -1105,7 +1107,7 @@ static void write_xml_attribute_escaped(FILE *restrict output,
         case '&':
         case '<':
             if (buffer_size - i < escape_size) {
-                i = xml_flush(output, i, buff);
+                i = xml_flush(i, buff);
             }
             snprintf(buff + i, escape_size, "&#%02d;", c);
             // NOTE: advance i by escape string length
@@ -1117,68 +1119,64 @@ static void write_xml_attribute_escaped(FILE *restrict output,
             break;
         }
         if (i == buffer_size - 1) {
-            i = xml_flush(output, i, buff);
+            i = xml_flush(i, buff);
         }
     }
     if (i > 0) {
-        xml_flush(output, i, buff);
+        xml_flush(i, buff);
     }
 }
 
 static void casereport_write_failure(const struct casereport *self)
 {
-    printout(">\n");
-    printout("      ");
-    printout("<failure message=\"");
-    write_xml_attribute_escaped(RunContext.out,
-                                self->assert_state.file);
-    printout(ASSERT_FAIL_LINEFMT, self->assert_state.line);
-    write_xml_attribute_escaped(RunContext.out,
-                                self->assert_state.description);
+    printxml(">\n");
+    printxml("      ");
+    printxml("<failure message=\"");
+    write_xml_attribute_escaped(self->assert_state.file);
+    printxml(ASSERT_FAIL_LINEFMT, self->assert_state.line);
+    write_xml_attribute_escaped(self->assert_state.description);
     const size_t msg_length = strlen(self->assert_state.message);
     if (msg_length > 0) {
-        write_xml_attribute_escaped(RunContext.out, "\n");
-        write_xml_attribute_escaped(RunContext.out,
-                                    self->assert_state.message);
+        write_xml_attribute_escaped("\n");
+        write_xml_attribute_escaped(self->assert_state.message);
     }
-    printout("\" type=\"assertion\" />\n");
-    printout("    ");
-    printout("</testcase>\n");
+    printxml("\" type=\"assertion\" />\n");
+    printxml("    ");
+    printxml("</testcase>\n");
 }
 
 static void casereport_write_skipped(const struct casereport *restrict self,
                                      const char *skip_type)
 {
-    printout(">\n");
-    printout("      ");
-    printout("<skipped");
+    printxml(">\n");
+    printxml("      ");
+    printxml("<skipped");
     const size_t msg_length = strlen(self->assert_state.message);
     if (msg_length > 0) {
-        printout(" message=\"");
-        write_xml_attribute_escaped(RunContext.out,
-                                    self->assert_state.message);
-        printout("\"");
+        printxml(" message=\"");
+        write_xml_attribute_escaped(self->assert_state.message);
+        printxml("\"");
     }
-    printout(" type=\"%s\" />\n", skip_type);
-    printout("    ");
-    printout("</testcase>\n");
+    printxml(" type=\"%s\" />\n", skip_type);
+    printxml("    ");
+    printxml("</testcase>\n");
 }
 
 static void casereport_write(const struct casereport *restrict self,
                              const char *restrict suite_name,
                              const char *restrict name)
 {
-    printout("    ");
-    printout("<testcase classname=\"");
-    write_xml_attribute_escaped(RunContext.out, name);
-    printout(".");
-    write_xml_attribute_escaped(RunContext.out, suite_name);
-    printout("\" name=\"");
-    write_xml_attribute_escaped(RunContext.out, self->testcase->name);
-    printout("\" time=\"%.3f\"", self->time / MsPerSec);
+    printxml("    ");
+    printxml("<testcase classname=\"");
+    write_xml_attribute_escaped(name);
+    printxml(".");
+    write_xml_attribute_escaped(suite_name);
+    printxml("\" name=\"");
+    write_xml_attribute_escaped(self->testcase->name);
+    printxml("\" time=\"%.3f\"", self->time / MsPerSec);
     switch (self->assert_state.type) {
     case ASSERT_SUCCESS:
-        printout(" />\n");
+        printxml(" />\n");
         break;
     case ASSERT_FAILURE:
         casereport_write_failure(self);
@@ -1190,12 +1188,12 @@ static void casereport_write(const struct casereport *restrict self,
         casereport_write_skipped(self, "filtered");
         break;
     default:
-        printout(">\n");
-        printout("      ");
-        printout("<error message=\"Unexpected test result\""
+        printxml(">\n");
+        printxml("      ");
+        printxml("<error message=\"Unexpected test result\""
                  " type=\"error\" />\n");
-        printout("    ");
-        printout("</testcase>\n");
+        printxml("    ");
+        printxml("</testcase>\n");
         break;
     }
 }
@@ -1203,10 +1201,10 @@ static void casereport_write(const struct casereport *restrict self,
 static void suitereport_write(const struct suitereport *restrict self,
                               size_t suite_id, const char *restrict name)
 {
-    printout("  ");
-    printout("<testsuite name=\"");
-    write_xml_attribute_escaped(RunContext.out, self->testsuite->name);
-    printout("\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\""
+    printxml("  ");
+    printxml("<testsuite name=\"");
+    write_xml_attribute_escaped(self->testsuite->name);
+    printxml("\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\""
              " time=\"%.3f\" timestamp=\"%s\">\n", suite_id,
              self->summary.test_count + self->summary.ledger.skipped,
              self->summary.ledger.failed,
@@ -1215,23 +1213,23 @@ static void suitereport_write(const struct suitereport *restrict self,
     for (size_t i = 0; i < self->testsuite->count; ++i) {
         casereport_write(self->cases + i, self->testsuite->name, name);
     }
-    printout("  ");
-    printout("</testsuite>\n");
+    printxml("  ");
+    printxml("</testsuite>\n");
 }
 
 static void runreport_write(const struct runreport *self)
 {
-    printout("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    printout("<testsuites name=\"");
-    write_xml_attribute_escaped(RunContext.out, self->name);
-    printout("\" tests=\"%zu\" failures=\"%zu\" time=\"%.3f\">\n",
+    printxml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    printxml("<testsuites name=\"");
+    write_xml_attribute_escaped(self->name);
+    printxml("\" tests=\"%zu\" failures=\"%zu\" time=\"%.3f\">\n",
              RunTotals.test_count + RunTotals.ledger.skipped,
              RunTotals.ledger.failed, RunTotals.total_time / MsPerSec
     );
     for (size_t i = 0; i < self->count; ++i) {
         suitereport_write(self->suites + i, i, self->name);
     }
-    printout("</testsuites>\n");
+    printxml("</testsuites>\n");
 }
 
 //
