@@ -1125,6 +1125,45 @@ static void write_xml_attribute_escaped(FILE *restrict output,
     }
 }
 
+static void casereport_write_failure(const struct casereport *self)
+{
+    printout(">\n");
+    printout("      ");
+    printout("<failure message=\"");
+    write_xml_attribute_escaped(RunContext.out,
+                                self->assert_state.file);
+    printout(ASSERT_FAIL_LINEFMT, self->assert_state.line);
+    write_xml_attribute_escaped(RunContext.out,
+                                self->assert_state.description);
+    const size_t msg_length = strlen(self->assert_state.message);
+    if (msg_length > 0) {
+        write_xml_attribute_escaped(RunContext.out, "\n");
+        write_xml_attribute_escaped(RunContext.out,
+                                    self->assert_state.message);
+    }
+    printout("\" type=\"assertion\" />\n");
+    printout("    ");
+    printout("</testcase>\n");
+}
+
+static void casereport_write_skipped(const struct casereport *restrict self,
+                                     const char *skip_type)
+{
+    printout(">\n");
+    printout("      ");
+    printout("<skipped");
+    const size_t msg_length = strlen(self->assert_state.message);
+    if (msg_length > 0) {
+        printout(" message=\"");
+        write_xml_attribute_escaped(RunContext.out,
+                                    self->assert_state.message);
+        printout("\"");
+    }
+    printout(" type=\"%s\" />\n", skip_type);
+    printout("    ");
+    printout("</testcase>\n");
+}
+
 static void casereport_write(const struct casereport *restrict self,
                              const char *restrict suite_name,
                              const char *restrict name)
@@ -1142,60 +1181,14 @@ static void casereport_write(const struct casereport *restrict self,
         printout(" />\n");
         break;
     case ASSERT_FAILURE:
-        {
-            printout(">\n");
-            printout("      ");
-            printout("<failure message=\"");
-            write_xml_attribute_escaped(RunContext.out,
-                                        self->assert_state.file);
-            printout(ASSERT_FAIL_LINEFMT, self->assert_state.line);
-            write_xml_attribute_escaped(RunContext.out,
-                                        self->assert_state.description);
-            const size_t msg_length = strlen(self->assert_state.message);
-            if (msg_length > 0) {
-                write_xml_attribute_escaped(RunContext.out, "\n");
-                write_xml_attribute_escaped(RunContext.out,
-                                            self->assert_state.message);
-            }
-            printout("\" type=\"assertion\" />\n");
-            printout("    ");
-            printout("</testcase>\n");
-            break;
-        }
+        casereport_write_failure(self);
+        break;
     case ASSERT_IGNORE:
-        {
-            printout(">\n");
-            printout("      ");
-            printout("<skipped");
-            const size_t msg_length = strlen(self->assert_state.message);
-            if (msg_length > 0) {
-                printout(" message=\"");
-                write_xml_attribute_escaped(RunContext.out,
-                                            self->assert_state.message);
-                printout("\"");
-            }
-            printout(" type=\"ignored\" />\n");
-            printout("    ");
-            printout("</testcase>\n");
-            break;
-        }
+        casereport_write_skipped(self, "ignored");
+        break;
     case ASSERT_SKIPPED:
-        {
-            printout(">\n");
-            printout("      ");
-            printout("<skipped");
-            const size_t msg_length = strlen(self->assert_state.message);
-            if (msg_length > 0) {
-                printout(" message=\"");
-                write_xml_attribute_escaped(RunContext.out,
-                                            self->assert_state.message);
-                printout("\"");
-            }
-            printout(" type=\"filtered\" />\n");
-            printout("    ");
-            printout("</testcase>\n");
-            break;
-        }
+        casereport_write_skipped(self, "filtered");
+        break;
     default:
         printout(">\n");
         printout("      ");
@@ -1208,13 +1201,13 @@ static void casereport_write(const struct casereport *restrict self,
 }
 
 static void suitereport_write(const struct suitereport *restrict self,
-                              size_t id, const char *restrict name)
+                              size_t suite_id, const char *restrict name)
 {
     printout("  ");
     printout("<testsuite name=\"");
     write_xml_attribute_escaped(RunContext.out, self->testsuite->name);
     printout("\" id=\"%zu\" tests=\"%zu\" failures=\"%zu\" skipped=\"%zu\""
-             " time=\"%.3f\" timestamp=\"%s\">\n", id,
+             " time=\"%.3f\" timestamp=\"%s\">\n", suite_id,
              self->summary.test_count + self->summary.ledger.skipped,
              self->summary.ledger.failed,
              self->summary.ledger.ignored + self->summary.ledger.skipped,
@@ -1368,7 +1361,8 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
                                        (int)(match->end - match->start),
                                        match->start);
             if ((size_t)count >= msgsize) {
-                pretty_truncate(sizeof msgsize, case_report->assert_state.message);
+                pretty_truncate(sizeof msgsize,
+                                case_report->assert_state.message);
             }
 
             return;
