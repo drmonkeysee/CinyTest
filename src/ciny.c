@@ -1056,7 +1056,7 @@ static struct runreport *runreport_new(const char *name, size_t suite_count)
     struct runreport *r = malloc(sizeof *r
                                  + (sizeof(struct suitereport) * suite_count));
     *r = (struct runreport){
-        .name = name ? name : "(root)",
+        .name = name ? name : "(all tests)",
         .count = suite_count,
     };
     return r;
