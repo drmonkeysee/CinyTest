@@ -1142,8 +1142,8 @@ static void casereport_write_failure(const struct casereport *self)
     printxml("</testcase>\n");
 }
 
-static void casereport_write_skipped(const struct casereport *restrict self,
-                                     const char *restrict skip_type)
+static void casereport_write_skipped(const struct casereport *self,
+                                     const char *skip_type)
 {
     printxml(">\n");
     printxml("      ");
@@ -1159,9 +1159,9 @@ static void casereport_write_skipped(const struct casereport *restrict self,
     printxml("</testcase>\n");
 }
 
-static void casereport_write(const struct casereport *restrict self,
-                             const char *restrict suite_name,
-                             const char *restrict name)
+static void casereport_write(const struct casereport *self,
+                             const char *suite_name,
+                             const char *name)
 {
     printxml("    ");
     printxml("<testcase classname=\"");
@@ -1195,8 +1195,8 @@ static void casereport_write(const struct casereport *restrict self,
     }
 }
 
-static void suitereport_write(const struct suitereport *restrict self,
-                              size_t suite_id, const char *restrict name)
+static void suitereport_write(const struct suitereport *self,
+                              size_t suite_id, const char *name)
 {
     printxml("  ");
     printxml("<testsuite name=\"");
