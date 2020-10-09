@@ -59,6 +59,7 @@ static const char *const restrict HelpOption = "--ct-help",
                                     "--ct-suppress-output",
                   *const restrict IncludeFilterOption = "--ct-include",
                   *const restrict ExcludeFilterOption = "--ct-exclude",
+                  *const restrict XmlFileOption = "--ct-xml",
                   *const restrict IgnoredTestSymbol = "?";
 
 enum text_highlight {
@@ -93,6 +94,7 @@ static struct {
     FILE *out, *err, *xml;
     filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
+    const char *xmlpath;
     enum verbositylevel verbosity;
     bool help, version, colorized;
 } RunContext;
@@ -217,6 +219,7 @@ static void print_usage(void)
              " exclude filters;\n\t\t\t'?' matches any character, '*' matches"
              " any substring;\n\t\t\t'suite:' and ':case' are shorthand for"
              " 'suite:*' and '*:case'.\n");
+    printout("  %s=[path]\tCreate a JUnit XML report at path.\n", XmlFileOption);
 }
 
 static void print_version(void)
@@ -631,7 +634,8 @@ static void runcontext_init(int argc, const char *argv[argc+1])
                *verbosity_option = NULL,
                *suppress_output_option = NULL,
                *include_filter_option = NULL,
-               *exclude_filter_option = NULL;
+               *exclude_filter_option = NULL,
+               *xml_option = NULL;
 
     if (argc > 0) {
         for (int i = 0; i < argc; ++i) {
@@ -652,6 +656,8 @@ static void runcontext_init(int argc, const char *argv[argc+1])
                 include_filter_option = arg_value(arg);
             } else if (strstr(arg, ExcludeFilterOption)) {
                 exclude_filter_option = arg_value(arg);
+            } else if (strstr(arg, XmlFileOption)) {
+                xml_option = arg_value(arg);
             }
         }
     }
@@ -666,6 +672,15 @@ static void runcontext_init(int argc, const char *argv[argc+1])
     }
     RunContext.colorized = argflag_on(color_option);
 
+    if (xml_option) {
+        RunContext.xml = fopen(xml_option, "w");
+        if (RunContext.xml) {
+            RunContext.xmlpath = xml_option;
+        } else {
+            perror("XML file failure");
+        }
+    }
+
     if (!suppress_output_option) {
         suppress_output_option = getenv("CINYTEST_SUPPRESS_OUTPUT");
     }
@@ -676,7 +691,6 @@ static void runcontext_init(int argc, const char *argv[argc+1])
         RunContext.out = stdout;
         RunContext.err = stderr;
     }
-    RunContext.xml = stdout;
 
     if (!include_filter_option) {
         include_filter_option = getenv("CINYTEST_INCLUDE");
@@ -770,6 +784,9 @@ static void runcontext_print(void)
     printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
     printout("Suppress Output: %s\n",
              argflag_tostring(runcontext_suppressoutput()));
+    if (RunContext.xmlpath) {
+        printout("JUnit Report: %s\n", RunContext.xmlpath);
+    }
     runcontext_printfilters();
     printout("\n");
 }
@@ -782,7 +799,11 @@ static void runcontext_cleanup(void)
     ct_restorestream(stderr, RunContext.err);
     RunContext.err = NULL;
 
-    RunContext.xml = NULL;
+    if (RunContext.xml) {
+        fclose(RunContext.xml);
+        RunContext.xml = NULL;
+    }
+    RunContext.xmlpath = NULL;
 
     filterlist_free(RunContext.include);
     RunContext.include = NULL;
