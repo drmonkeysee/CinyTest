@@ -134,15 +134,13 @@ ct_makesuite_setup_teardown(test_list, setup_function, NULL)
  @return A test suite.
  */
 #define ct_makesuite_setup_teardown( \
-    test_list, setup_function, teardown_function \
-) \
+    test_list, setup_function, teardown_function) \
 ct_makesuite_setup_teardown_named( \
     __func__, \
     sizeof (test_list) / sizeof (test_list)[0], \
     test_list, \
     setup_function, \
-    teardown_function \
-)
+    teardown_function)
 /**
  Make a test suite with a setup function, teardown function, and a name.
  @param name The name of the test suite.
@@ -152,10 +150,11 @@ ct_makesuite_setup_teardown_named( \
  @param teardown The teardown function. Runs after each test case. Can be NULL.
  @return A test suite.
  */
-inline struct ct_testsuite ct_makesuite_setup_teardown_named(
-    const char *name, size_t count, const struct ct_testcase tests[count],
-    ct_setupteardown_function *setup, ct_setupteardown_function *teardown
-)
+inline struct ct_testsuite
+ct_makesuite_setup_teardown_named(const char *name, size_t count,
+                                  const struct ct_testcase tests[count],
+                                  ct_setupteardown_function *setup,
+                                  ct_setupteardown_function *teardown)
 {
     return (struct ct_testsuite){name, count, tests, setup, teardown};
 }
@@ -177,9 +176,9 @@ inline struct ct_testsuite ct_makesuite_setup_teardown_named(
  @param argv The command line argument strings.
  @return The total number of failed tests.
  */
-#define ct_run_withargs(suites, argc, argv) ct_runcount_withargs( \
-    sizeof (suites) / sizeof (suites)[0], suites, argc, argv \
-)
+#define ct_run_withargs(suites, argc, argv) \
+ct_runcount_withargs( \
+    sizeof (suites) / sizeof (suites)[0], suites, argc, argv)
 /**
  Run unit test suites with count and command line arguments.
  @param count The number of test suites.
@@ -230,9 +229,9 @@ ct_internal_ignore(ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_assertfail(...) ct_internal_assertfail( \
-    __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__) \
-)
+#define ct_assertfail(...) \
+ct_internal_assertfail( \
+    __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether an expression is true.
@@ -246,8 +245,7 @@ ct_internal_ignore(ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether an expression is false.
  @param expression The expression to evaluate against the value false.
@@ -260,8 +258,7 @@ ct_internal_ignore(ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether an expression is NULL.
@@ -275,8 +272,7 @@ ct_internal_ignore(ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether an expression is not NULL.
  @param expression The expression to evaluate against the value !NULL.
@@ -289,8 +285,7 @@ ct_internal_ignore(ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether two values are equal.
@@ -315,8 +310,7 @@ do { \
         __FILE__, \
         __LINE__, \
         ct_va_string(__VA_ARGS__), \
-        ct_va_rest(__VA_ARGS__) \
-    ); \
+        ct_va_rest(__VA_ARGS__)); \
 } while (0)
 /**
  Assert whether two values are not equal.
@@ -341,8 +335,7 @@ do { \
         __FILE__, \
         __LINE__, \
         ct_va_string(__VA_ARGS__), \
-        ct_va_rest(__VA_ARGS__) \
-    ); \
+        ct_va_rest(__VA_ARGS__)); \
 } while (0)
 
 /**
@@ -365,8 +358,7 @@ ct_internal_assertaboutequal( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two floating point values are not equal within plus or minus
  a degree of error.
@@ -387,8 +379,7 @@ ct_internal_assertnotaboutequal( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether two pointers refer to the same object.
@@ -405,8 +396,7 @@ ct_internal_assertnotaboutequal( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two pointers refer to different objects.
  @param expected The expected pointer.
@@ -422,8 +412,7 @@ ct_internal_assertnotaboutequal( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether two strings are equal.
@@ -445,8 +434,7 @@ ct_internal_assertequalstrn( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two strings are equal.
  Compares up to n characters for equality.
@@ -467,8 +455,7 @@ ct_internal_assertequalstrn( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two strings are not equal.
  The first argument is a string literal used to automatically determine
@@ -489,8 +476,7 @@ ct_internal_assertnotequalstrn( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two strings are not equal.
  Compares up to n characters for inequality.
@@ -511,8 +497,7 @@ ct_internal_assertnotequalstrn( \
     __FILE__, \
     __LINE__, \
     ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__) \
-)
+    ct_va_rest(__VA_ARGS__))
 
 /**
  @}
@@ -590,28 +575,26 @@ struct ct_comparable_value {
  @return A function pointer to a typed makevalue function.
  */
 #define ct_makevalue_factory(v) \
-_Generic( \
-    v, \
-        signed char:            ct_makevalue_integer, \
-        short:                  ct_makevalue_integer, \
-        int:                    ct_makevalue_integer, \
-        long:                   ct_makevalue_integer, \
-        long long:              ct_makevalue_integer, \
-        char:                   ct_makevalue_char, \
-        _Bool:                  ct_makevalue_uinteger, \
-        unsigned char:          ct_makevalue_uinteger, \
-        unsigned short:         ct_makevalue_uinteger, \
-        unsigned int:           ct_makevalue_uinteger, \
-        unsigned long:          ct_makevalue_uinteger, \
-        unsigned long long:     ct_makevalue_uinteger, \
-        float:                  ct_makevalue_floatingpoint, \
-        double:                 ct_makevalue_floatingpoint, \
-        long double:            ct_makevalue_floatingpoint, \
-        ct_fcomplex:            ct_makevalue_complex, \
-        ct_complex:             ct_makevalue_complex, \
-        ct_lcomplex:            ct_makevalue_complex, \
-        default:                ct_makevalue_invalid \
-)
+_Generic(v, \
+    signed char:            ct_makevalue_integer, \
+    short:                  ct_makevalue_integer, \
+    int:                    ct_makevalue_integer, \
+    long:                   ct_makevalue_integer, \
+    long long:              ct_makevalue_integer, \
+    char:                   ct_makevalue_char, \
+    _Bool:                  ct_makevalue_uinteger, \
+    unsigned char:          ct_makevalue_uinteger, \
+    unsigned short:         ct_makevalue_uinteger, \
+    unsigned int:           ct_makevalue_uinteger, \
+    unsigned long:          ct_makevalue_uinteger, \
+    unsigned long long:     ct_makevalue_uinteger, \
+    float:                  ct_makevalue_floatingpoint, \
+    double:                 ct_makevalue_floatingpoint, \
+    long double:            ct_makevalue_floatingpoint, \
+    ct_fcomplex:            ct_makevalue_complex, \
+    ct_complex:             ct_makevalue_complex, \
+    ct_lcomplex:            ct_makevalue_complex, \
+    default:                ct_makevalue_invalid)
 
 /**
  Create a char comparable value structure based on whether char is signed
@@ -712,7 +695,8 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  lists possible remedies.
  @param v The expression to verify as a simple value type.
  */
-#define ct_checkvalue(v) _Static_assert( \
+#define ct_checkvalue(v) \
+_Static_assert( \
     _Generic( \
         &ct_makevalue_factory(v), \
             struct ct_comparable_value (*)(int, ...): 0, \
@@ -720,8 +704,7 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
     ), \
     "(" #v ") is an invalid value type; use ct_assert[not]same for" \
     " pointer types, ct_assert[not]equalstr for string types, or custom" \
-    " comparisons with ct_asserttrue/false for structs, unions, and arrays." \
-)
+    " comparisons with ct_asserttrue/false for structs, unions, and arrays.")
 
 /**
  Ensure the first argument of a variadic macro argument list is a string

@@ -963,17 +963,15 @@ do { \
 // Comparable Value
 //
 
-static bool comparable_value_equaltypes(
-    const struct ct_comparable_value *expected,
-    const struct ct_comparable_value *actual
-)
+static bool
+comparable_value_equaltypes(const struct ct_comparable_value *expected,
+                            const struct ct_comparable_value *actual)
 {
     return expected->type == actual->type;
 }
 
-static const char *comparable_value_typedescription(
-    const struct ct_comparable_value *value
-)
+static const char *
+comparable_value_typedescription(const struct ct_comparable_value *value)
 {
     switch (value->type) {
     case CT_ANNOTATE_INTEGER:
@@ -989,11 +987,10 @@ static const char *comparable_value_typedescription(
     }
 }
 
-static bool comparable_value_equalvalues(
-    const struct ct_comparable_value *expected,
-    const struct ct_comparable_value *actual,
-    enum ct_valuetype_annotation type
-)
+static bool
+comparable_value_equalvalues(const struct ct_comparable_value *expected,
+                             const struct ct_comparable_value *actual,
+                             enum ct_valuetype_annotation type)
 {
     switch (type) {
     case CT_ANNOTATE_INTEGER:
@@ -1012,10 +1009,10 @@ static bool comparable_value_equalvalues(
     }
 }
 
-static void comparable_value_valuedescription(
-    const struct ct_comparable_value *restrict value,
-    size_t size, char buffer[restrict size]
-)
+static void
+comparable_value_valuedescription(const struct ct_comparable_value
+                                    *restrict value,
+                                  size_t size, char buffer[restrict size])
 {
     int write_count;
 
@@ -1146,7 +1143,7 @@ static void casereport_write_failure(const struct casereport *self)
 }
 
 static void casereport_write_skipped(const struct casereport *restrict self,
-                                     const char *skip_type)
+                                     const char *restrict skip_type)
 {
     printxml(">\n");
     printxml("      ");

@@ -28,9 +28,8 @@ static void *TestClass;
 static int *FakeContext;
 static const int FakeContextValue = 8;
 
-static void record_testcontext_occurrence(
-    void *context, CTRunSuiteTests *testObject
-)
+static void record_testcontext_occurrence(void *context,
+                                          CTRunSuiteTests *testObject)
 {
     if (context && *((int *)context) == FakeContextValue) {
         ++testObject.testSawContext;

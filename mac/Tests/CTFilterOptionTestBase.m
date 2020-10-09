@@ -89,9 +89,8 @@ static void suite2_setup(void **context)
     *context = (void *)RUN_SUITE2;
 }
 
-static struct ct_testsuite make_suite(
-    const char *name, ct_setupteardown_function *setup
-)
+static struct ct_testsuite make_suite(const char *name,
+                                      ct_setupteardown_function *setup)
 {
     static const struct ct_testcase tests[] = {
         ct_maketest(test_foobar),
