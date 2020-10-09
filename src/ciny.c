@@ -672,6 +672,9 @@ static void runcontext_init(int argc, const char *argv[argc+1])
     }
     RunContext.colorized = argflag_on(color_option);
 
+    if (!xml_option) {
+        xml_option = getenv("CINYTEST_XML");
+    }
     if (xml_option) {
         RunContext.xml = fopen(xml_option, "w");
         if (RunContext.xml) {
