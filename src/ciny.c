@@ -94,7 +94,7 @@ static struct {
     FILE *out, *err, *xml;
     filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
-    const char *xmlpath;
+    const char *xmlfilename;
     enum verbositylevel verbosity;
     bool help, version, colorized;
 } RunContext;
@@ -219,7 +219,7 @@ static void print_usage(void)
              " exclude filters;\n\t\t\t'?' matches any character, '*' matches"
              " any substring;\n\t\t\t'suite:' and ':case' are shorthand for"
              " 'suite:*' and '*:case'.\n");
-    printout("  %s=[path]\tCreate a JUnit XML report at path.\n", XmlFileOption);
+    printout("  %s=[file]\tWrite a JUnit XML report to file.\n", XmlFileOption);
 }
 
 static void print_version(void)
@@ -675,7 +675,7 @@ static void runcontext_init(int argc, const char *argv[argc+1])
     if (xml_option) {
         RunContext.xml = fopen(xml_option, "w");
         if (RunContext.xml) {
-            RunContext.xmlpath = xml_option;
+            RunContext.xmlfilename = xml_option;
         } else {
             perror("XML file failure");
         }
@@ -784,8 +784,8 @@ static void runcontext_print(void)
     printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
     printout("Suppress Output: %s\n",
              argflag_tostring(runcontext_suppressoutput()));
-    if (RunContext.xmlpath) {
-        printout("JUnit Report: %s\n", RunContext.xmlpath);
+    if (RunContext.xmlfilename) {
+        printout("JUnit Report: %s\n", RunContext.xmlfilename);
     }
     runcontext_printfilters();
     printout("\n");
@@ -803,7 +803,7 @@ static void runcontext_cleanup(void)
         fclose(RunContext.xml);
         RunContext.xml = NULL;
     }
-    RunContext.xmlpath = NULL;
+    RunContext.xmlfilename = NULL;
 
     filterlist_free(RunContext.include);
     RunContext.include = NULL;
