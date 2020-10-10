@@ -1081,6 +1081,8 @@ comparable_value_valuedescription(const struct ct_comparable_value
 
 static struct runreport *runreport_new(const char *name, size_t suite_count)
 {
+    if (!RunContext.xml) return NULL;
+
     struct runreport *r = malloc(sizeof *r
                                  + (sizeof(struct suitereport) * suite_count));
     *r = (struct runreport){
@@ -1090,8 +1092,18 @@ static struct runreport *runreport_new(const char *name, size_t suite_count)
     return r;
 }
 
+static struct suitereport *runreport_getsuite(struct runreport *self,
+                                              size_t index)
+{
+    if (!self) return NULL;
+
+    return self->suites + index;
+}
+
 static void runreport_free(struct runreport *self)
 {
+    if (!self) return;
+
     for (size_t i = 0; i < self->count; ++i) {
         free(self->suites[i].cases);
         self->suites[i].cases = NULL;
@@ -1099,9 +1111,85 @@ static void runreport_free(struct runreport *self)
     free(self);
 }
 
+static void suitereport_init(struct suitereport *self,
+                             const struct ct_testsuite *suite)
+{
+    if (!self) return;
+
+    *self = (struct suitereport){.testsuite = suite};
+}
+
 static void suitereport_add_cases(struct suitereport *self, size_t count)
 {
+    if (!self) return;
+
     self->cases = malloc(sizeof(struct casereport) * count);
+}
+
+static void suitereport_set_date(struct suitereport *restrict self,
+                                 const char *restrict formatted_datetime)
+{
+    if (!self) return;
+
+    strcpy(self->date, formatted_datetime);
+}
+
+static void suitereport_add_summary(struct suitereport *self,
+                                    const struct runsummary *summary)
+{
+    if (!self) return;
+
+    self->summary = *summary;
+}
+
+static struct casereport *suitereport_get_case(struct suitereport *self,
+                                               size_t index)
+{
+    if (!self) return NULL;
+
+    return self->cases + index;
+}
+
+static void casereport_init(struct casereport *self,
+                            const struct ct_testcase *test)
+{
+    if (!self) return;
+
+    *self = (struct casereport){.testcase = test};
+}
+
+static void casereport_skipped_nomatch(struct casereport *self)
+{
+    if (!self) return;
+
+    self->assert_state.type = ASSERT_SKIPPED;
+    strcpy(self->assert_state.message, "skipped by include filter (no match)");
+}
+
+static void casereport_skipped_match(struct casereport *self,
+                                     const struct testfilter *match)
+{
+    if (!self) return;
+
+    self->assert_state.type = ASSERT_SKIPPED;
+    const size_t msgsize = sizeof self->assert_state.message;
+    const int count = snprintf(self->assert_state.message,
+                               msgsize,
+                               "skipped by exclude filter (%.*s)",
+                               (int)(match->end - match->start),
+                               match->start);
+    if ((size_t)count >= msgsize) {
+        pretty_truncate(sizeof msgsize,
+                        self->assert_state.message);
+    }
+}
+
+static void casereport_set_result(struct casereport *self, uint64_t start_time)
+{
+    if (!self) return;
+
+    self->time = ct_get_currentmsecs() - start_time;
+    self->assert_state = AssertState;
 }
 
 static size_t xml_flush(size_t terminator, char buffer[])
@@ -1241,6 +1329,8 @@ static void suitereport_write(const struct suitereport *self,
 
 static void runreport_write(const struct runreport *self)
 {
+    if (!self) return;
+
     printxml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     printxml("<testsuites name=\"");
     write_xml_attribute_escaped(self->name);
@@ -1288,7 +1378,7 @@ static void testsuite_printheader(const struct ct_testsuite *self,
     const char *date_msg;
     if (format_length) {
         date_msg = formatted_datetime;
-        strcpy(report->date, formatted_datetime);
+        suitereport_set_date(report, formatted_datetime);
     } else {
         date_msg = "Invalid Date (formatted output may"
                     " have exceeded buffer size)";
@@ -1331,8 +1421,9 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
 {
     assertstate_reset();
     const struct ct_testcase *const current_case = self->tests + case_index;
-    struct casereport *const case_report = report->cases + case_index;
-    *case_report = (struct casereport){.testcase = current_case};
+    struct casereport *const case_report = suitereport_get_case(report,
+                                                                case_index);
+    casereport_init(case_report, current_case);
 
     if (RunContext.include) {
         const struct testfilter *const match = filterlist_apply(
@@ -1350,9 +1441,7 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
                                  current_case->name);
             }
 
-            case_report->assert_state.type = ASSERT_SKIPPED;
-            strcpy(case_report->assert_state.message,
-                   "skipped by include filter (no match)");
+            casereport_skipped_nomatch(case_report);
 
             return;
         }
@@ -1373,17 +1462,7 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
                                  current_case->name);
             }
 
-            case_report->assert_state.type = ASSERT_SKIPPED;
-            const size_t msgsize = sizeof case_report->assert_state.message;
-            const int count = snprintf(case_report->assert_state.message,
-                                       msgsize,
-                                       "skipped by exclude filter (%.*s)",
-                                       (int)(match->end - match->start),
-                                       match->start);
-            if ((size_t)count >= msgsize) {
-                pretty_truncate(sizeof msgsize,
-                                case_report->assert_state.message);
-            }
+            casereport_skipped_match(case_report, match);
 
             return;
         }
@@ -1407,15 +1486,14 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
         self->teardown(&test_context);
     }
 
-    case_report->time = ct_get_currentmsecs() - start_time;
-    case_report->assert_state = AssertState;
+    casereport_set_result(case_report, start_time);
 }
 
 static void testsuite_run(const struct ct_testsuite *self,
                           struct suitereport *report)
 {
     struct runsummary summary = runsummary_make();
-    *report = (struct suitereport){.testsuite = self};
+    suitereport_init(report, self);
 
     if (self && self->tests && self->count) {
         const uint64_t start_time = ct_get_currentmsecs();
@@ -1435,7 +1513,7 @@ static void testsuite_run(const struct ct_testsuite *self,
         summary.ledger.failed = InvalidSuite;
     }
 
-    report->summary = summary;
+    suitereport_add_summary(report, &summary);
     runtotals_add(&summary);
 }
 
@@ -1464,7 +1542,7 @@ size_t ct_runcount_withargs(size_t count,
                                                      count);
 
             for (size_t i = 0; i < count; ++i) {
-                testsuite_run(suites + i, report->suites + i);
+                testsuite_run(suites + i, runreport_getsuite(report, i));
             }
             const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
                                         && RunTotals.test_count;
