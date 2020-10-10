@@ -28,8 +28,10 @@
 @end
 
 #define ARGS_SIZE 2
+#define FARGS_SIZE 3
 static void *TestClass;
 static const char *ProgramArgs[ARGS_SIZE];
+static const char *FilteredProgramArgs[FARGS_SIZE];
 
 // NOTE: mock fopen to capture xml output (I'm surprised this works)
 FILE *fopen(const char *restrict filename, const char *restrict mode)
@@ -74,8 +76,8 @@ static void encoded_ignore(void *context)
     self.xmlSink = [NSPipe pipe];
 
     TestClass = (__bridge void *)(self);
-    ProgramArgs[0] = "xmltests";
-    ProgramArgs[1] = "--ct-xml=test.xml";
+    FilteredProgramArgs[0] = ProgramArgs[0] = "xmltests";
+    FilteredProgramArgs[1] = ProgramArgs[1] = "--ct-xml=test.xml";
 }
 
 - (void)tearDown
@@ -208,6 +210,52 @@ static void encoded_ignore(void *context)
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"encoded_ignore\"",
         @"<skipped message=\"don't run this &#34;useful&#34; test\" type=\"ignored\" />",
+    ];
+    [self assertValidXmlContaining:expected];
+}
+
+- (void)test_SkippedByNoMatch
+{
+    FilteredProgramArgs[2] = "--ct-include=*foo*";
+    const struct ct_testcase cases[] = {ct_maketest(simple_success)};
+    const struct ct_testsuite
+    suite = ct_makesuite_setup_teardown_named("suite1",
+                                              sizeof cases / sizeof cases[0],
+                                              cases, NULL, NULL);
+
+    const size_t result = ct_runsuite_withargs(&suite, FARGS_SIZE,
+                                               FilteredProgramArgs);
+
+    XCTAssertEqual(0, result);
+    XCTAssertEqualObjects(@"test.xml", self.xmlName);
+    NSArray *expected = @[
+        @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
+        @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
+        @"<testcase classname=\"xmltests.suite1\" name=\"simple_success\"",
+        @"<skipped message=\"skipped by include filter (no match)\" type=\"filtered\" />",
+    ];
+    [self assertValidXmlContaining:expected];
+}
+
+- (void)test_SkippedByMatch
+{
+    FilteredProgramArgs[2] = "--ct-exclude=:simple_success";
+    const struct ct_testcase cases[] = {ct_maketest(simple_success)};
+    const struct ct_testsuite
+    suite = ct_makesuite_setup_teardown_named("suite1",
+                                              sizeof cases / sizeof cases[0],
+                                              cases, NULL, NULL);
+
+    const size_t result = ct_runsuite_withargs(&suite, FARGS_SIZE,
+                                               FilteredProgramArgs);
+
+    XCTAssertEqual(0, result);
+    XCTAssertEqualObjects(@"test.xml", self.xmlName);
+    NSArray *expected = @[
+        @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
+        @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
+        @"<testcase classname=\"xmltests.suite1\" name=\"simple_success\"",
+        @"<skipped message=\"skipped by exclude filter (simple_success)\" type=\"filtered\" />",
     ];
     [self assertValidXmlContaining:expected];
 }
