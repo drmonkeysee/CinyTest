@@ -94,7 +94,7 @@ static struct {
     FILE *out, *err, *xml;
     filterlist *include, *exclude;
     char *env_copies[ENV_COPY_COUNT];
-    const char *xmlfilename;
+    const char *xml_filename;
     enum verbositylevel verbosity;
     bool help, version, colorized;
 } RunContext;
@@ -678,7 +678,7 @@ static void runcontext_init(int argc, const char *argv[argc+1])
     if (xml_option) {
         RunContext.xml = fopen(xml_option, "w");
         if (RunContext.xml) {
-            RunContext.xmlfilename = xml_option;
+            RunContext.xml_filename = xml_option;
         } else {
             perror("XML file failure");
         }
@@ -787,8 +787,8 @@ static void runcontext_print(void)
     printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
     printout("Suppress Output: %s\n",
              argflag_tostring(runcontext_suppressoutput()));
-    if (RunContext.xmlfilename) {
-        printout("JUnit Report: %s\n", RunContext.xmlfilename);
+    if (RunContext.xml_filename) {
+        printout("JUnit Report: %s\n", RunContext.xml_filename);
     }
     runcontext_printfilters();
     printout("\n");
@@ -806,7 +806,7 @@ static void runcontext_cleanup(void)
         fclose(RunContext.xml);
         RunContext.xml = NULL;
     }
-    RunContext.xmlfilename = NULL;
+    RunContext.xml_filename = NULL;
 
     filterlist_free(RunContext.include);
     RunContext.include = NULL;
