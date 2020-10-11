@@ -22,8 +22,8 @@ LIB_NAME := libcinytest
 LIB_TARGET := $(LIB_NAME).a
 DYLIB_VERSION := 8.1.0
 DYLIB_MAJOR := $(firstword $(subst ., ,$(DYLIB_VERSION)))
-SAMP_TARGET := sample
-SAMPT_TARGET := sampletests
+SAMP_TARGET := ct_sample
+SAMPT_TARGET := ct_sampletests
 
 CFLAGS := -Wall -Wextra -pedantic -std=c17
 SP := strip
