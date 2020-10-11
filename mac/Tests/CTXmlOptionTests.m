@@ -19,11 +19,11 @@
 @property (nonatomic) NSPipe *xmlSink;
 @property (nonatomic) NSString *xmlName;
 
++ (NSString *)getResourceStringFor:(NSString *)key;
 - (void)assertValidXmlContaining:(NSArray *)expected;
 - (NSData *)getXmlData;
 - (NSString *)xmlTextFrom:(NSData *)data;
 - (NSString *)getXmlText;
-- (NSString *)getExpectedXmlFor:(NSString *)key;
 
 @end
 
@@ -65,7 +65,33 @@ static void encoded_ignore(void *context)
     ct_ignore("don't run this \"useful\" test");
 }
 
+static void long_ignore(void *context)
+{
+    CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
+    const char *const
+    long_string = [testObject.class
+                   getResourceStringFor:@"LongString"].UTF8String;
+    ct_ignore("%s", long_string);
+}
+
+static void long_failure(void *context)
+{
+    CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
+    const char *const
+    long_string = [testObject.class
+                   getResourceStringFor:@"LongString"].UTF8String;
+    ct_assertfail("%s", long_string);
+}
+
 @implementation CTXmlOptionTests
+
++ (NSString *)getResourceStringFor:(NSString *)key
+{
+    return [[NSBundle bundleForClass:self.class]
+            localizedStringForKey:key
+            value:@"PlaceholderString"
+            table:@"Tests"];
+}
 
 - (void)setUp
 {
@@ -103,7 +129,7 @@ static void encoded_ignore(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    XCTAssertEqualObjects([self getExpectedXmlFor:@"EmptyXmlDoc"],
+    XCTAssertEqualObjects([self.class getResourceStringFor:@"EmptyXmlDoc"],
                           [self getXmlText]);
 }
 
@@ -314,6 +340,51 @@ static void encoded_ignore(void *context)
     [self assertValidXmlContaining:expected];
 }
 
+- (void)test_IgnoredTest_VeryLongMessage
+{
+    const struct ct_testcase cases[] = {ct_maketest(long_ignore)};
+    const struct ct_testsuite
+    suite = ct_makesuite_setup_teardown_named("suite1",
+                                              sizeof cases / sizeof cases[0],
+                                              cases, NULL, NULL);
+
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
+
+    XCTAssertEqual(0, result);
+    XCTAssertEqualObjects(@"test.xml", self.xmlName);
+    NSArray *expected = @[
+        @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
+        @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
+        @"<testcase classname=\"xmltests.suite1\" name=\"long_ignore\"",
+        [NSString stringWithFormat:@"<skipped message=\"%@\" type=\"ignored\" />",
+         [self.class getResourceStringFor:@"TruncatedString"]],
+    ];
+    [self assertValidXmlContaining:expected];
+}
+
+- (void)test_FailedTest_VeryLongMessage
+{
+    const struct ct_testcase cases[] = {ct_maketest(long_failure)};
+    const struct ct_testsuite
+    suite = ct_makesuite_setup_teardown_named("suite1",
+                                              sizeof cases / sizeof cases[0],
+                                              cases, NULL, NULL);
+
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
+
+    XCTAssertEqual(1, result);
+    XCTAssertEqualObjects(@"test.xml", self.xmlName);
+    NSArray *expected = @[
+        @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
+        @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
+        @"<testcase classname=\"xmltests.suite1\" name=\"long_failure\"",
+        [NSString stringWithFormat:@"<failure message=\"%@ L.83 : asserted unconditional failure&#10;%@\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__], [self.class getResourceStringFor:@"TruncatedString"]],
+    ];
+    [self assertValidXmlContaining:expected];
+}
+
 - (void)assertValidXmlContaining:(NSArray *)expected
 {
     NSData *xmlData = [self getXmlData];
@@ -343,14 +414,6 @@ static void encoded_ignore(void *context)
 - (NSString *)getXmlText
 {
     return [self xmlTextFrom:[self getXmlData]];
-}
-
-- (NSString *)getExpectedXmlFor:(NSString *)key
-{
-    return [[NSBundle bundleForClass:self.class]
-            localizedStringForKey:key
-            value:@"PlaceholderString"
-            table:@"Tests"];
 }
 
 @end
