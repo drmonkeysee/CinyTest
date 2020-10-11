@@ -1179,8 +1179,7 @@ static void casereport_skipped_match(struct casereport *self,
                                (int)(match->end - match->start),
                                match->start);
     if ((size_t)count >= msgsize) {
-        pretty_truncate(sizeof msgsize,
-                        self->assert_state.message);
+        pretty_truncate(msgsize, self->assert_state.message);
     }
 }
 
