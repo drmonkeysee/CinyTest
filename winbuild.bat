@@ -33,14 +33,14 @@ IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
 ECHO:
 ECHO Build CinyTest Sample...
-%cc% %cflags% -iquote%samp_src_dir% %samp_src_dir%\binarytree.c %samp_src_dir%\main.c -o %build_dir%\sample.exe
+%cc% %cflags% -iquote%samp_src_dir% %samp_src_dir%\binarytree.c %samp_src_dir%\main.c -o %build_dir%\ct_sample.exe
 IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
 ECHO:
 ECHO Build CinyTest Sample Tests...
 %cc% %cflags% -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-parameter -iquote%build_dir%\include -iquote%samp_src_dir% ^
 	-L%lib_dir% -lcinytest %samp_src_dir%\binarytree.c %samp_test_src_dir%\main.c %samp_test_src_dir%\binarytree_tests.c ^
-	-o %build_dir%\sampletests.exe
+	-o %build_dir%\ct_sampletests.exe
 IF "%ERRORLEVEL%" NEQ "0" GOTO end
 
 :end
