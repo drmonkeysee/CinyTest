@@ -88,7 +88,7 @@ Test filters can target individual test cases or an entire test suite using a si
 
 Examples:
 
-- `./mytests` no filters, all tests are run; equivalent to `--ct-include=*`
+- `./mytests` no filters, all tests are run; equivalent to `--ct-include='*'`
 - `./mytests --ct-include='foo_tests:frob_returns_true'` run only the `frob_returns_true` test in the `foo_tests` suite
 - `./mytests --ct-include='foo_tests:'` run all tests in `foo_tests` suite; this is shorthand for `--ct-include='foo_tests:*'`
 - `./mytests --ct-include=':verify_returns_null'` run any test named `verify_returns_null` across all suites; this is shorthand for `--ct-include='*:verify_returns_null'`
