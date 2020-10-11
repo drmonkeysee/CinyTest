@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 @interface CTXmlOptionTests : CTTestBase
 
@@ -381,6 +382,24 @@ static void long_failure(void *context)
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"long_failure\"",
         [NSString stringWithFormat:@"<failure message=\"%@ L.83 : asserted unconditional failure&#10;%@\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__], [self.class getResourceStringFor:@"TruncatedString"]],
+    ];
+    [self assertValidXmlContaining:expected];
+}
+
+- (void)test_UseEnvVar
+{
+    setenv("CINYTEST_XML", "env.xml", 1);
+    const struct ct_testcase cases[] = {ct_maketest(simple_success)};
+    const struct ct_testsuite suite = ct_makesuite(cases);
+
+    const size_t result = ct_runsuite(&suite);
+
+    XCTAssertEqual(0, result);
+    XCTAssertEqualObjects(@"env.xml", self.xmlName);
+    NSArray *expected = @[
+        @"<testsuites name=\"(all tests)\" tests=\"1\" failures=\"0\"",
+        @"<testsuite name=\"-[CTXmlOptionTests test_UseEnvVar]\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"0\"",
+        @"<testcase classname=\"(all tests).-[CTXmlOptionTests test_UseEnvVar]\" name=\"simple_success\"",
     ];
     [self assertValidXmlContaining:expected];
 }
