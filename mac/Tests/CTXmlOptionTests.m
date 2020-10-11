@@ -27,13 +27,11 @@
 
 @end
 
-#define ARGS_SIZE 2
-#define FARGS_SIZE 3
+#define ARGS_SIZE 3
 static void *TestClass;
 static const char *ProgramArgs[ARGS_SIZE];
-static const char *FilteredProgramArgs[FARGS_SIZE];
 
-// NOTE: mock fopen to capture xml output (I'm surprised this works)
+// NOTE: mock fopen to capture xml output (i'm surprised this works)
 FILE *fopen(const char *restrict filename, const char *restrict mode)
 {
     CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
@@ -76,8 +74,8 @@ static void encoded_ignore(void *context)
     self.xmlSink = [NSPipe pipe];
 
     TestClass = (__bridge void *)(self);
-    FilteredProgramArgs[0] = ProgramArgs[0] = "xmltests";
-    FilteredProgramArgs[1] = ProgramArgs[1] = "--ct-xml=test.xml";
+    ProgramArgs[0] = "xmltests";
+    ProgramArgs[1] = "--ct-xml=test.xml";
 }
 
 - (void)tearDown
@@ -100,7 +98,8 @@ static void encoded_ignore(void *context)
 {
     const struct ct_testcase cases[] = {};
     const struct ct_testsuite suite = ct_makesuite(cases);
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -116,7 +115,8 @@ static void encoded_ignore(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -136,7 +136,8 @@ static void encoded_ignore(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -157,7 +158,8 @@ static void encoded_ignore(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -180,7 +182,8 @@ static void encoded_ignore(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -201,7 +204,8 @@ static void encoded_ignore(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+                                               ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -216,15 +220,15 @@ static void encoded_ignore(void *context)
 
 - (void)test_SkippedByNoMatch
 {
-    FilteredProgramArgs[2] = "--ct-include=*foo*";
+    ProgramArgs[2] = "--ct-include=*foo*";
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
     const struct ct_testsuite
     suite = ct_makesuite_setup_teardown_named("suite1",
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, FARGS_SIZE,
-                                               FilteredProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
+                                               ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -239,15 +243,15 @@ static void encoded_ignore(void *context)
 
 - (void)test_SkippedByMatch
 {
-    FilteredProgramArgs[2] = "--ct-exclude=:simple_success";
+    ProgramArgs[2] = "--ct-exclude=:simple_success";
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
     const struct ct_testsuite
     suite = ct_makesuite_setup_teardown_named("suite1",
                                               sizeof cases / sizeof cases[0],
                                               cases, NULL, NULL);
 
-    const size_t result = ct_runsuite_withargs(&suite, FARGS_SIZE,
-                                               FilteredProgramArgs);
+    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
+                                               ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -256,6 +260,56 @@ static void encoded_ignore(void *context)
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_success\"",
         @"<skipped message=\"skipped by exclude filter (simple_success)\" type=\"filtered\" />",
+    ];
+    [self assertValidXmlContaining:expected];
+}
+
+- (void)test_MultipleSuites
+{
+    ProgramArgs[0] = "multi-tests";
+    ProgramArgs[1] = "--ct-xml=tests.xml";
+    ProgramArgs[2] = "--ct-exclude=:skipped1";
+    const struct ct_testcase cases1[] = {
+        ct_maketest_named("success1", simple_success),
+        ct_maketest_named("success2", simple_success),
+        ct_maketest_named("failure1", encoded_failure),
+        ct_maketest_named("ignore1", encoded_ignore),
+    };
+    const struct ct_testcase cases2[] = {
+        ct_maketest_named("ignore2", simple_ignore),
+        ct_maketest_named("success3", simple_success),
+        ct_maketest_named("skipped1", simple_success),
+    };
+    const struct ct_testsuite suites[] = {
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases1 / sizeof cases1[0],
+                                          cases1, NULL, NULL),
+        ct_makesuite_setup_teardown_named("suite2",
+                                          sizeof cases2 / sizeof cases2[0],
+                                          cases2, NULL, NULL),
+    };
+
+    const size_t result = ct_run_withargs(suites, ARGS_SIZE, ProgramArgs);
+
+    XCTAssertEqual(1, result);
+    XCTAssertEqualObjects(@"tests.xml", self.xmlName);
+    NSArray *expected = @[
+        @"<testsuites name=\"multi-tests\" tests=\"7\" failures=\"1\"",
+        @"<testsuite name=\"suite1\" id=\"0\" tests=\"4\" failures=\"1\" skipped=\"1\"",
+        @"<testsuite name=\"suite2\" id=\"1\" tests=\"3\" failures=\"0\" skipped=\"2\"",
+        @"<testcase classname=\"multi-tests.suite1\" name=\"success1\"",
+        @"<testcase classname=\"multi-tests.suite1\" name=\"success2\"",
+        @"<testcase classname=\"multi-tests.suite1\" name=\"failure1\"",
+        [NSString stringWithFormat:
+         @"<failure message=\"%@ L.55 : (5 &#60; 2) is true failed&#10;a proper &#38; expected failure\" type=\"assertion\" />",
+         [NSString stringWithUTF8String:__FILE__]],
+        @"<testcase classname=\"multi-tests.suite1\" name=\"ignore1\"",
+        @"<skipped message=\"don't run this &#34;useful&#34; test\" type=\"ignored\" />",
+        @"<testcase classname=\"multi-tests.suite2\" name=\"ignore2\"",
+        @"<skipped type=\"ignored\" />",
+        @"<testcase classname=\"multi-tests.suite2\" name=\"success3\"",
+        @"<testcase classname=\"multi-tests.suite2\" name=\"skipped1\"",
+        @"<skipped message=\"skipped by exclude filter (skipped1)\" type=\"filtered\" />",
     ];
     [self assertValidXmlContaining:expected];
 }
