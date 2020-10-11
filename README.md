@@ -8,6 +8,7 @@ CinyTest is a lightweight library for defining and running unit tests in C. It t
 - unit suite execution, including setup and teardown support
 - configurable test output to stdout
 - include and exclude test filtering
+- JUnit-style output support
 - test assertions including:
 	- value equality, including approximate equality for floating point
 	- pointer equality and NULL testing
@@ -77,6 +78,7 @@ CLI Option             | Environment Variable       | Description
 `--ct-suppress-output` | `CINYTEST_SUPPRESS_OUTPUT` | Toggle capture of standard stream output
 `--ct-include`         | `CINYTEST_INCLUDE`         | Include test filters; see [Test Filters](#test-filters) section below for more details
 `--ct-exclude`         | `CINYTEST_EXCLUDE`         | Exclude test filters; see [Test Filters](#test-filters) section below for more details
+`--ct-xml`             | `CINYTEST_XML`             | Write a JUnit XML report to the specified file
 
 ### Test Filters
 
@@ -87,14 +89,14 @@ Test filters can target individual test cases or an entire test suite using a si
 Examples:
 
 - `./mytests` no filters, all tests are run; equivalent to `--ct-include=*`
-- `./mytests --ct-include=foo_tests:frob_returns_true` run only the `frob_returns_true` test in the `foo_tests` suite
-- `./mytests --ct-include=foo_tests:` run all tests in `foo_tests` suite; this is shorthand for `--ct-include=foo_tests:*`
-- `./mytests --ct-include=:verify_returns_null` run any test named `verify_returns_null` across all suites; this is shorthand for `--ct-include=*:verify_returns_null`
-- `./mytests --ct-include=*foo` run any case or suite that ends with `foo`
-- `./mytests --ct-include=bar?:` run any suite starting with `bar` followed by one character, e.g. `barn` or `bark`
-- `./mytests --ct-include=*foo*,*bar*` run all tests with `foo` or `bar` somewhere in the suite or case name
-- `./mytests --ct-exclude=bar_tests:` run all tests except the cases in the `bar_tests` suite
-- `./mytests --ct-include=*foo* --ct-exclude=*bar*` run all tests with `foo` in the name except those tests that also have `bar` in the name (the order of the options does not matter; include is always checked before exclude)
+- `./mytests --ct-include='foo_tests:frob_returns_true'` run only the `frob_returns_true` test in the `foo_tests` suite
+- `./mytests --ct-include='foo_tests:'` run all tests in `foo_tests` suite; this is shorthand for `--ct-include='foo_tests:*'`
+- `./mytests --ct-include=':verify_returns_null'` run any test named `verify_returns_null` across all suites; this is shorthand for `--ct-include='*:verify_returns_null'`
+- `./mytests --ct-include='*foo'` run any case or suite that ends with `foo`
+- `./mytests --ct-include='bar?:'` run any suite starting with `bar` followed by one character, e.g. `barn` or `bark`
+- `./mytests --ct-include='*foo*,*bar*'` run all tests with `foo` or `bar` somewhere in the suite or case name
+- `./mytests --ct-exclude='bar_tests:'` run all tests except the cases in the `bar_tests` suite
+- `./mytests --ct-include='*foo*' --ct-exclude='*bar*'` run all tests with `foo` in the name except those tests that also have `bar` in the name (the order of the options does not matter; include is always checked before exclude)
 
 A note of caution regarding wildcards: filters treat suite and case names as UTF-8 byte strings so multi-byte characters (such as high Basic Multilingual Plane characters or emojis) may be seen as more than one "character". This means the single character wildcard `'?'` will never match a multi-byte character. Instead use the substring wildcard `'*'`, as it will properly match the sequence of bytes that comprise the multi-byte character.
 
