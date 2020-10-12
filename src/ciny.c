@@ -1413,10 +1413,30 @@ static void suitebreak_close(enum suitebreak *restrict state,
 }
 
 static void testsuite_runcase(const struct ct_testsuite *restrict self,
-                              size_t case_index,
-                              struct runsummary *restrict summary,
-                              enum suitebreak *restrict sb,
-                              struct suitereport *restrict report)
+                              const struct ct_testcase *restrict current_case,
+                              struct runledger *restrict ledger)
+{
+    void *test_context = NULL;
+    if (self->setup) {
+        self->setup(&test_context);
+    }
+
+    if (setjmp(AssertSignal)) {
+        assertstate_handle(current_case->name, ledger);
+    } else {
+        testcase_run(current_case, test_context, ledger);
+    }
+
+    if (self->teardown) {
+        self->teardown(&test_context);
+    }
+}
+
+static void testsuite_handlecase(const struct ct_testsuite *restrict self,
+                                 size_t case_index,
+                                 struct runsummary *restrict summary,
+                                 enum suitebreak *restrict sb,
+                                 struct suitereport *restrict report)
 {
     assertstate_reset();
     const struct ct_testcase *const current_case = self->tests + case_index;
@@ -1469,22 +1489,7 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
 
     suitebreak_open(sb, self, report);
     uint64_t start_time = ct_get_currentmsecs();
-
-    void *test_context = NULL;
-    if (self->setup) {
-        self->setup(&test_context);
-    }
-
-    if (setjmp(AssertSignal)) {
-        assertstate_handle(current_case->name, &summary->ledger);
-    } else {
-        testcase_run(current_case, test_context, &summary->ledger);
-    }
-
-    if (self->teardown) {
-        self->teardown(&test_context);
-    }
-
+    testsuite_runcase(self, current_case, &summary->ledger);
     casereport_set_result(case_report, start_time);
 }
 
@@ -1501,7 +1506,7 @@ static void testsuite_run(const struct ct_testsuite *self,
         suitereport_add_cases(report, self->count);
 
         for (size_t i = 0; i < self->count; ++i) {
-            testsuite_runcase(self, i, &summary, &sb, report);
+            testsuite_handlecase(self, i, &summary, &sb, report);
         }
 
         summary.total_time = ct_get_currentmsecs() - start_time;
