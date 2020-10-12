@@ -168,8 +168,7 @@ extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *,
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ct_makevalue_uinteger(int, uintmax_t),
                                          ct_makevalue_floatingpoint(
-                                             int, long double
-                                         ),
+                                             int, long double),
                                          ct_makevalue_complex(int,
                                                               ct_lcomplex),
                                          ct_makevalue_invalid(int, ...);

@@ -69,18 +69,16 @@ static void encoded_ignore(void *context)
 static void long_ignore(void *context)
 {
     CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
-    const char *const
-    long_string = [testObject.class
-                   getResourceStringFor:@"LongString"].UTF8String;
+    const char *const long_string =
+        [testObject.class getResourceStringFor:@"LongString"].UTF8String;
     ct_ignore("%s", long_string);
 }
 
 static void long_failure(void *context)
 {
     CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
-    const char *const
-    long_string = [testObject.class
-                   getResourceStringFor:@"LongString"].UTF8String;
+    const char *const long_string =
+        [testObject.class getResourceStringFor:@"LongString"].UTF8String;
     ct_assertfail("%s", long_string);
 }
 
@@ -137,10 +135,10 @@ static void long_failure(void *context)
 - (void)test_SuccessfulTest
 {
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -158,10 +156,10 @@ static void long_failure(void *context)
 - (void)test_FailedTest
 {
     const struct ct_testcase cases[] = {ct_maketest(simple_failure)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -180,10 +178,10 @@ static void long_failure(void *context)
 - (void)test_EncodedFailedTest
 {
     const struct ct_testcase cases[] = {ct_maketest(encoded_failure)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -204,10 +202,10 @@ static void long_failure(void *context)
 - (void)test_IgnoredTest
 {
     const struct ct_testcase cases[] = {ct_maketest(simple_ignore)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -226,10 +224,10 @@ static void long_failure(void *context)
 - (void)test_EncodedIgnoredTest
 {
     const struct ct_testcase cases[] = {ct_maketest(encoded_ignore)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -249,10 +247,10 @@ static void long_failure(void *context)
 {
     ProgramArgs[2] = "--ct-include=*foo*";
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
                                                ProgramArgs);
@@ -272,10 +270,10 @@ static void long_failure(void *context)
 {
     ProgramArgs[2] = "--ct-exclude=:simple_success";
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    const struct ct_testsuite
-    suite = ct_makesuite_setup_teardown_named("suite1",
-                                              sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+    const struct ct_testsuite suite =
+        ct_makesuite_setup_teardown_named("suite1",
+                                          sizeof cases / sizeof cases[0],
+                                          cases, NULL, NULL);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
                                                ProgramArgs);
@@ -381,7 +379,7 @@ static void long_failure(void *context)
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"long_failure\"",
-        [NSString stringWithFormat:@"<failure message=\"%@ L.84 : asserted unconditional failure&#10;%@\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__], [self.class getResourceStringFor:@"TruncatedString"]],
+        [NSString stringWithFormat:@"<failure message=\"%@ L.82 : asserted unconditional failure&#10;%@\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__], [self.class getResourceStringFor:@"TruncatedString"]],
     ];
     [self assertValidXmlContaining:expected];
 }
