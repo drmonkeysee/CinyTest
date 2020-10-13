@@ -177,8 +177,7 @@ ct_makesuite_setup_teardown_named(const char *name, size_t count,
  @return The total number of failed tests.
  */
 #define ct_run_withargs(suites, argc, argv) \
-ct_runcount_withargs( \
-    sizeof (suites) / sizeof (suites)[0], suites, argc, argv)
+ct_runcount_withargs(sizeof (suites) / sizeof (suites)[0], suites, argc, argv)
 /**
  Run unit test suites with count and command line arguments.
  @param count The number of test suites.
@@ -239,7 +238,8 @@ ct_internal_assertfail( \
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_asserttrue(expression, ...) ct_internal_asserttrue( \
+#define ct_asserttrue(expression, ...) \
+ct_internal_asserttrue( \
     expression, \
     #expression, \
     __FILE__, \
@@ -252,7 +252,8 @@ ct_internal_assertfail( \
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_assertfalse(expression, ...) ct_internal_assertfalse( \
+#define ct_assertfalse(expression, ...) \
+ct_internal_assertfalse( \
     expression, \
     #expression, \
     __FILE__, \
@@ -266,7 +267,8 @@ ct_internal_assertfail( \
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_assertnull(expression, ...) ct_internal_assertnull( \
+#define ct_assertnull(expression, ...) \
+ct_internal_assertnull( \
     expression, \
     #expression, \
     __FILE__, \
@@ -279,7 +281,8 @@ ct_internal_assertfail( \
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_assertnotnull(expression, ...) ct_internal_assertnotnull( \
+#define ct_assertnotnull(expression, ...) \
+ct_internal_assertnotnull( \
     expression, \
     #expression, \
     __FILE__, \
@@ -388,7 +391,8 @@ ct_internal_assertnotaboutequal( \
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_assertsame(expected, actual, ...) ct_internal_assertsame( \
+#define ct_assertsame(expected, actual, ...) \
+ct_internal_assertsame( \
     expected, \
     #expected, \
     actual, \
@@ -404,7 +408,8 @@ ct_internal_assertnotaboutequal( \
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
-#define ct_assertnotsame(expected, actual, ...) ct_internal_assertnotsame( \
+#define ct_assertnotsame(expected, actual, ...) \
+ct_internal_assertnotsame( \
     expected, \
     #expected, \
     actual, \

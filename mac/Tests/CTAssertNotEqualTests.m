@@ -40,14 +40,10 @@ static void inequality_test(void *context)
         case TAT_LONG:
         case TAT_LONG_LONG:
         case TAT_SMAX:
-            ct_assertnotequal(
-                get_integer_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_integer_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_integer_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_integer_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         case TAT_BOOL:
         case TAT_UCHAR:
@@ -56,38 +52,26 @@ static void inequality_test(void *context)
         case TAT_ULONG:
         case TAT_ULONG_LONG:
         case TAT_UMAX:
-            ct_assertnotequal(
-                get_integer_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_uinteger_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_integer_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_uinteger_test_arg(testObject.actualType,
+                                                    ARG_ACTUAL));
             break;
         case TAT_FLOAT:
         case TAT_DOUBLE:
         case TAT_LDOUBLE:
-            ct_assertnotequal(
-                get_integer_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_float_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_integer_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_float_test_arg(testObject.actualType,
+                                                 ARG_ACTUAL));
             break;
         case TAT_FCOMPLEX:
         case TAT_COMPLEX:
         case TAT_LCOMPLEX:
-            ct_assertnotequal(
-                get_integer_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_complex_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_integer_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_complex_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         }
         break;
@@ -105,14 +89,10 @@ static void inequality_test(void *context)
         case TAT_LONG:
         case TAT_LONG_LONG:
         case TAT_SMAX:
-            ct_assertnotequal(
-                get_uinteger_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_integer_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_uinteger_test_arg(testObject.expectedType,
+                                                    ARG_EXPECTED),
+                              get_integer_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         case TAT_BOOL:
         case TAT_UCHAR:
@@ -121,38 +101,26 @@ static void inequality_test(void *context)
         case TAT_ULONG:
         case TAT_ULONG_LONG:
         case TAT_UMAX:
-            ct_assertnotequal(
-                get_uinteger_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_uinteger_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_uinteger_test_arg(testObject.expectedType,
+                                                    ARG_EXPECTED),
+                              get_uinteger_test_arg(testObject.actualType,
+                                                    ARG_ACTUAL));
             break;
         case TAT_FLOAT:
         case TAT_DOUBLE:
         case TAT_LDOUBLE:
-            ct_assertnotequal(
-                get_uinteger_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_float_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_uinteger_test_arg(testObject.expectedType,
+                                                    ARG_EXPECTED),
+                              get_float_test_arg(testObject.actualType,
+                                                 ARG_ACTUAL));
             break;
         case TAT_FCOMPLEX:
         case TAT_COMPLEX:
         case TAT_LCOMPLEX:
-            ct_assertnotequal(
-                get_uinteger_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_complex_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_uinteger_test_arg(testObject.expectedType,
+                                                    ARG_EXPECTED),
+                              get_complex_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         }
         break;
@@ -166,14 +134,10 @@ static void inequality_test(void *context)
         case TAT_LONG:
         case TAT_LONG_LONG:
         case TAT_SMAX:
-            ct_assertnotequal(
-                get_float_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_integer_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_float_test_arg(testObject.expectedType,
+                                                 ARG_EXPECTED),
+                              get_integer_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         case TAT_BOOL:
         case TAT_UCHAR:
@@ -182,38 +146,26 @@ static void inequality_test(void *context)
         case TAT_ULONG:
         case TAT_ULONG_LONG:
         case TAT_UMAX:
-            ct_assertnotequal(
-                get_float_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_uinteger_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_float_test_arg(testObject.expectedType,
+                                                 ARG_EXPECTED),
+                              get_uinteger_test_arg(testObject.actualType,
+                                                    ARG_ACTUAL));
             break;
         case TAT_FLOAT:
         case TAT_DOUBLE:
         case TAT_LDOUBLE:
-            ct_assertnotequal(
-                get_float_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_float_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_float_test_arg(testObject.expectedType,
+                                                 ARG_EXPECTED),
+                              get_float_test_arg(testObject.actualType,
+                                                 ARG_ACTUAL));
             break;
         case TAT_FCOMPLEX:
         case TAT_COMPLEX:
         case TAT_LCOMPLEX:
-            ct_assertnotequal(
-                get_float_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_complex_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_float_test_arg(testObject.expectedType,
+                                                 ARG_EXPECTED),
+                              get_complex_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         }
         break;
@@ -227,14 +179,10 @@ static void inequality_test(void *context)
         case TAT_LONG:
         case TAT_LONG_LONG:
         case TAT_SMAX:
-            ct_assertnotequal(
-                get_complex_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_integer_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_complex_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_integer_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         case TAT_BOOL:
         case TAT_UCHAR:
@@ -243,38 +191,26 @@ static void inequality_test(void *context)
         case TAT_ULONG:
         case TAT_ULONG_LONG:
         case TAT_UMAX:
-            ct_assertnotequal(
-                get_complex_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_uinteger_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_complex_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_uinteger_test_arg(testObject.actualType,
+                                                    ARG_ACTUAL));
             break;
         case TAT_FLOAT:
         case TAT_DOUBLE:
         case TAT_LDOUBLE:
-            ct_assertnotequal(
-                get_complex_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_float_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_complex_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_float_test_arg(testObject.actualType,
+                                                 ARG_ACTUAL));
             break;
         case TAT_FCOMPLEX:
         case TAT_COMPLEX:
         case TAT_LCOMPLEX:
-            ct_assertnotequal(
-                get_complex_test_arg(
-                    testObject.expectedType, ARG_EXPECTED
-                ),
-                get_complex_test_arg(
-                    testObject.actualType, ARG_ACTUAL
-                )
-            );
+            ct_assertnotequal(get_complex_test_arg(testObject.expectedType,
+                                                   ARG_EXPECTED),
+                              get_complex_test_arg(testObject.actualType,
+                                                   ARG_ACTUAL));
             break;
         }
         break;

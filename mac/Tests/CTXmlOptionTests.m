@@ -86,7 +86,7 @@ static void long_failure(void *context)
 
 + (NSString *)getResourceStringFor:(NSString *)key
 {
-    return [[NSBundle bundleForClass:self.class]
+    return [[NSBundle bundleForClass:self]
             localizedStringForKey:key
             value:@"PlaceholderString"
             table:@"Tests"];
