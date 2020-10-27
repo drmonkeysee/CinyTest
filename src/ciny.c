@@ -1200,11 +1200,12 @@ static size_t xml_flush(size_t terminator, char buffer[])
 static void write_xml_attribute_escaped(const char *string)
 {
     // NOTE: escape size = &#NN; + NUL byte
-    static const size_t buffer_size = 1024, escape_size = 6;
+    static const size_t escape_size = 6;
 
     if (!string) return;
 
-    char buff[buffer_size];
+    char buff[1024];
+    const size_t buffer_size = sizeof buff;
     size_t i = 0;
     for (char c = *string; c; c = *(++string)) {
         switch (c) {
