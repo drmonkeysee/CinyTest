@@ -93,7 +93,7 @@ enum verbositylevel {
 static struct {
     FILE *out, *err, *xml;
     filterlist *include, *exclude;
-    char *env_copies[ENV_COPY_COUNT];
+    char *restrict env_copies[ENV_COPY_COUNT];
     const char *xml_filename;
     enum verbositylevel verbosity;
     bool help, version, colorized;
@@ -219,7 +219,8 @@ static void print_usage(void)
              " exclude filters;\n\t\t\t'?' matches any character, '*' matches"
              " any substring;\n\t\t\t'suite:' and ':case' are shorthand for"
              " 'suite:*' and '*:case'.\n");
-    printout("  %s=[file]\tWrite a JUnit XML report to file.\n", XmlFileOption);
+    printout("  %s=[file]\tWrite a JUnit XML report to file.\n",
+             XmlFileOption);
 }
 
 static void print_version(void)
@@ -389,8 +390,7 @@ static struct testfilter testfilter_make(void)
     return (struct testfilter){.apply = FILTER_ANY};
 }
 
-static bool testfilter_match(const struct testfilter *self,
-                             const char *name)
+static bool testfilter_match(const struct testfilter *self, const char *name)
 {
     static const char char_wildcard = '?', str_wildcard = '*';
 
@@ -466,8 +466,7 @@ static filterlist *filterlist_new(void)
     return NULL;
 }
 
-static void filterlist_push(filterlist *restrict *self,
-                            struct testfilter filter)
+static void filterlist_push(filterlist **self, struct testfilter filter)
 {
     struct testfilter *const filter_node = malloc(sizeof *filter_node);
     *filter_node = filter;
@@ -483,7 +482,7 @@ static bool filterlist_any(const filterlist *self, enum filtertarget target)
     return false;
 }
 
-static struct testfilter *filterlist_apply(filterlist *restrict self,
+static struct testfilter *filterlist_apply(filterlist *self,
                                            const char *restrict suite_name,
                                            const char *restrict case_name)
 {
@@ -552,7 +551,7 @@ static void filterlist_free(filterlist *self)
 }
 
 static const char *parse_filterexpr(const char *restrict cursor,
-                                    filterlist *restrict *fl)
+                                    filterlist **fl)
 {
     static const char expr_delimiter = ',';
 
@@ -896,21 +895,21 @@ static void assertstate_reset(void)
 }
 
 static void assertstate_handlefailure(const char *restrict test_name,
-                                      struct runledger *restrict ledger)
+                                      struct runledger *ledger)
 {
     ++ledger->failed;
 
     print_testresult(HIGHLIGHT_FAILURE, FailedTestSymbol, test_name);
 
     if (RunContext.verbosity > VERBOSITY_MINIMAL) {
-        printout("%s" ASSERT_FAIL_LINEFMT "%s\n", AssertState.file, AssertState.line,
-                 AssertState.description);
+        printout("%s" ASSERT_FAIL_LINEFMT "%s\n", AssertState.file,
+                 AssertState.line, AssertState.description);
         print_linemessage(AssertState.message);
     }
 }
 
 static void assertstate_handleignore(const char *restrict test_name,
-                                     struct runledger *restrict ledger)
+                                     struct runledger *ledger)
 {
     ++ledger->ignored;
 
@@ -922,7 +921,7 @@ static void assertstate_handleignore(const char *restrict test_name,
 }
 
 static void assertstate_handle(const char *restrict test_name,
-                               struct runledger *restrict ledger)
+                               struct runledger *ledger)
 {
     switch (AssertState.type) {
     case ASSERT_SUCCESS:
@@ -1034,8 +1033,7 @@ comparable_value_equalvalues(const struct ct_comparable_value *expected,
 }
 
 static void
-comparable_value_valuedescription(const struct ct_comparable_value
-                                    *restrict value,
+comparable_value_valuedescription(const struct ct_comparable_value *value,
                                   size_t size, char buffer[restrict size])
 {
     int write_count;
@@ -1125,7 +1123,7 @@ static void suitereport_add_cases(struct suitereport *self, size_t count)
     self->cases = malloc(sizeof(struct casereport) * count);
 }
 
-static void suitereport_set_date(struct suitereport *restrict self,
+static void suitereport_set_date(struct suitereport *self,
                                  const char *restrict formatted_datetime)
 {
     if (!self) return;
@@ -1347,9 +1345,9 @@ static void runreport_write(const struct runreport *self)
 // Test Suite and Test Case
 //
 
-static void testcase_run(const struct ct_testcase *restrict self,
+static void testcase_run(const struct ct_testcase *self,
                          void *restrict test_context,
-                         struct runledger *restrict ledger)
+                         struct runledger *ledger)
 {
     if (!self->test) {
         printerr(
@@ -1394,8 +1392,8 @@ static enum suitebreak suitebreak_make(void)
 }
 
 static void suitebreak_open(enum suitebreak *restrict state,
-                            const struct ct_testsuite *restrict suite,
-                            struct suitereport *restrict report)
+                            const struct ct_testsuite *suite,
+                            struct suitereport *report)
 {
     if (*state == SUITEBREAK_OPEN) {
         testsuite_printheader(suite, report, time(NULL));
@@ -1404,7 +1402,7 @@ static void suitebreak_open(enum suitebreak *restrict state,
 }
 
 static void suitebreak_close(enum suitebreak *restrict state,
-                             const struct runsummary *restrict summary)
+                             const struct runsummary *summary)
 {
     if (*state == SUITEBREAK_CLOSE) {
         runsummary_print(summary);
@@ -1412,9 +1410,9 @@ static void suitebreak_close(enum suitebreak *restrict state,
     }
 }
 
-static void testsuite_runcase(const struct ct_testsuite *restrict self,
-                              const struct ct_testcase *restrict current_case,
-                              struct runledger *restrict ledger)
+static void testsuite_runcase(const struct ct_testsuite *self,
+                              const struct ct_testcase *current_case,
+                              struct runledger *ledger)
 {
     void *test_context = NULL;
     if (self->setup) {
@@ -1432,11 +1430,11 @@ static void testsuite_runcase(const struct ct_testsuite *restrict self,
     }
 }
 
-static void testsuite_handlecase(const struct ct_testsuite *restrict self,
+static void testsuite_handlecase(const struct ct_testsuite *self,
                                  size_t case_index,
-                                 struct runsummary *restrict summary,
+                                 struct runsummary *summary,
                                  enum suitebreak *restrict sb,
-                                 struct suitereport *restrict report)
+                                 struct suitereport *report)
 {
     assertstate_reset();
     const struct ct_testcase *const current_case = self->tests + case_index;
