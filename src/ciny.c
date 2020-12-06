@@ -1392,7 +1392,7 @@ static enum suitebreak suitebreak_make(void)
             : SUITEBREAK_END;
 }
 
-static void suitebreak_open(enum suitebreak *restrict state,
+static void suitebreak_open(enum suitebreak *state,
                             const struct ct_testsuite *suite,
                             struct suitereport *report)
 {
@@ -1402,7 +1402,7 @@ static void suitebreak_open(enum suitebreak *restrict state,
     }
 }
 
-static void suitebreak_close(enum suitebreak *restrict state,
+static void suitebreak_close(enum suitebreak *state,
                              const struct runsummary *summary)
 {
     if (*state == SUITEBREAK_CLOSE) {
@@ -1434,7 +1434,7 @@ static void testsuite_runcase(const struct ct_testsuite *self,
 static void testsuite_handlecase(const struct ct_testsuite *self,
                                  size_t case_index,
                                  struct runsummary *summary,
-                                 enum suitebreak *restrict sb,
+                                 enum suitebreak *sb,
                                  struct suitereport *report)
 {
     assertstate_reset();
