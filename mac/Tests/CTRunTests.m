@@ -39,7 +39,7 @@ static const int FakeContextAValue = 8, FakeContextBValue = -5;
 static void record_testcontext_occurrenceA(void *context,
                                            CTRunTests *testObject)
 {
-    if (context && *((int *)context) == FakeContextAValue) {
+    if (context && *(int *)context == FakeContextAValue) {
         ++testObject.testSawContextA;
     } else {
         --testObject.testSawContextA;
@@ -49,7 +49,7 @@ static void record_testcontext_occurrenceA(void *context,
 static void record_testcontext_occurrenceB(void *context,
                                            CTRunTests *testObject)
 {
-    if (context && *((int *)context) == FakeContextBValue) {
+    if (context && *(int *)context == FakeContextBValue) {
         ++testObject.testSawContextB;
     } else {
         --testObject.testSawContextB;

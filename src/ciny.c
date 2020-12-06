@@ -558,7 +558,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
     struct testfilter filter = testfilter_make();
 
     filter.start = cursor;
-    for (char c = *cursor; c && c != expr_delimiter; c = *(++cursor)) {
+    for (char c = *cursor; c && c != expr_delimiter; c = *++cursor) {
         if (c == FilterTargetDelimiter && filter.apply == FILTER_ANY) {
             // first target delimiter seen so this is a (possibly empty)
             // suite filter
@@ -1205,7 +1205,7 @@ static void write_xml_attribute_escaped(const char *string)
     char buff[1024];
     const size_t buffer_size = sizeof buff;
     size_t i = 0;
-    for (char c = *string; c; c = *(++string)) {
+    for (char c = *string; c; c = *++string) {
         switch (c) {
         case '\t':
         case '\n':

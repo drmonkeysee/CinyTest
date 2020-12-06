@@ -31,7 +31,7 @@ static const int FakeContextValue = 8;
 static void record_testcontext_occurrence(void *context,
                                           CTRunSuiteTests *testObject)
 {
-    if (context && *((int *)context) == FakeContextValue) {
+    if (context && *(int *)context == FakeContextValue) {
         ++testObject.testSawContext;
     } else {
         --testObject.testSawContext;
