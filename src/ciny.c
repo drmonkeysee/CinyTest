@@ -945,11 +945,12 @@ static void assertstate_setdescription(const char *restrict format, ...)
     static const size_t description_size = sizeof AssertState.description;
     va_list format_args;
     va_start(format_args, format);
-    const int write_count = vsnprintf(AssertState.description,
-                                      description_size, format, format_args);
+    const size_t write_count = vsnprintf(AssertState.description,
+                                         description_size, format,
+                                         format_args);
     va_end(format_args);
 
-    if ((size_t)write_count >= description_size) {
+    if (write_count >= description_size) {
         pretty_truncate(description_size, AssertState.description);
     }
 }
@@ -965,10 +966,10 @@ static void assertstate_setvmessage(const char *restrict format,
                                     va_list format_args)
 {
     static const size_t message_size = sizeof AssertState.message;
-    const int write_count = vsnprintf(AssertState.message, message_size,
-                                      format, format_args);
+    const size_t write_count = vsnprintf(AssertState.message, message_size,
+                                         format, format_args);
 
-    if ((size_t)write_count >= message_size) {
+    if (write_count >= message_size) {
         pretty_truncate(message_size, AssertState.message);
     }
 }
@@ -1036,7 +1037,7 @@ static void
 comparable_value_valuedescription(const struct ct_comparable_value *value,
                                   size_t size, char buffer[restrict size])
 {
-    int write_count;
+    size_t write_count;
 
     switch (value->type) {
     case CT_ANNOTATE_INTEGER:
@@ -1067,7 +1068,7 @@ comparable_value_valuedescription(const struct ct_comparable_value *value,
         break;
     }
 
-    if ((size_t)write_count >= size) {
+    if (write_count >= size) {
         pretty_truncate(size, buffer);
     }
 }
@@ -1169,13 +1170,13 @@ static void casereport_skipped_match(struct casereport *self,
     if (!self) return;
 
     self->assert_state.type = ASSERT_SKIPPED;
-    const size_t msgsize = sizeof self->assert_state.message;
-    const int count = snprintf(self->assert_state.message,
-                               msgsize,
-                               "skipped by exclude filter (%.*s)",
-                               (int)(match->end - match->start),
-                               match->start);
-    if ((size_t)count >= msgsize) {
+    const size_t msgsize = sizeof self->assert_state.message,
+                    count = snprintf(self->assert_state.message,
+                                     msgsize,
+                                     "skipped by exclude filter (%.*s)",
+                                     (int)(match->end - match->start),
+                                     match->start);
+    if (count >= msgsize) {
         pretty_truncate(msgsize, self->assert_state.message);
     }
 }
@@ -1449,8 +1450,8 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
         if (match) {
             AssertState.matched = match;
         } else {
-            --(summary->test_count);
-            ++(summary->ledger.skipped);
+            --summary->test_count;
+            ++summary->ledger.skipped;
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb, self, report);
@@ -1470,8 +1471,8 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
         );
         if (match) {
             AssertState.matched = match;
-            --(summary->test_count);
-            ++(summary->ledger.skipped);
+            --summary->test_count;
+            ++summary->ledger.skipped;
 
             if (RunContext.verbosity == VERBOSITY_FULL) {
                 suitebreak_open(sb, self, report);
@@ -1777,15 +1778,16 @@ void ct_internal_assertequalstrn(const char *expected,
         char valuestr_expected[COMPVALUE_STR_SIZE],
              valuestr_actual[COMPVALUE_STR_SIZE];
 
-        int write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
-                                   "%s", expected);
-        if ((size_t)write_count >= sizeof valuestr_expected) {
+        size_t write_count = snprintf(valuestr_expected,
+                                      sizeof valuestr_expected, "%s",
+                                      expected);
+        if (write_count >= sizeof valuestr_expected) {
             pretty_truncate(sizeof valuestr_expected, valuestr_expected);
         }
 
         write_count = snprintf(valuestr_actual, sizeof valuestr_actual, "%s",
                                actual);
-        if ((size_t)write_count >= sizeof valuestr_actual) {
+        if (write_count >= sizeof valuestr_actual) {
             pretty_truncate(sizeof valuestr_actual, valuestr_actual);
         }
 
@@ -1810,10 +1812,10 @@ void ct_internal_assertnotequalstrn(const char *expected,
     if (assert_fails) {
         char valuestr_expected[COMPVALUE_STR_SIZE];
 
-        const int write_count = snprintf(valuestr_expected,
-                                         sizeof valuestr_expected, "%s",
-                                         expected);
-        if ((size_t)write_count >= sizeof valuestr_expected) {
+        const size_t write_count = snprintf(valuestr_expected,
+                                            sizeof valuestr_expected, "%s",
+                                            expected);
+        if (write_count >= sizeof valuestr_expected) {
             pretty_truncate(sizeof valuestr_expected, valuestr_expected);
         }
 
