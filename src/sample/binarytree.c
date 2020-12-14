@@ -33,17 +33,17 @@ static struct bt_node **find_childlink(struct bt_node *self, int value)
                                             ? &self->left
                                             : &self->right;
 
-    if (!(*child_link) || (*child_link)->value == value) return child_link;
+    if (!*child_link || (*child_link)->value == value) return child_link;
 
     return find_childlink(*child_link, value);
 }
 
 static struct bt_node *minimum_child(struct bt_node *self)
 {
-    struct bt_node *minimum_child = self;
-    while (minimum_child->left) {
-        minimum_child = minimum_child->left;
-    }
+    struct bt_node *minimum_child;
+    for (minimum_child = self;
+         minimum_child->left;
+         minimum_child = minimum_child->left);
     return minimum_child;
 }
 
@@ -121,8 +121,8 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[],
 {
     if (start_index > end_index) return EmptyTree;
 
-    const ptrdiff_t distance = end_index - start_index,
-                    middle_index = start_index + (distance / 2);
+    const ptrdiff_t middle_index = start_index
+                                    + ((end_index - start_index) / 2);
     struct bt_node *const node = node_list[middle_index];
 
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
