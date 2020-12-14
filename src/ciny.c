@@ -327,8 +327,7 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(size_t size, char buffer[size])
 {
-    const size_t ellipsis_length = strlen(Ellipsis);
-    const ptrdiff_t truncation_index = size - 1 - ellipsis_length;
+    const ptrdiff_t truncation_index = size - 1 - strlen(Ellipsis);
 
     const bool can_fit_ellipsis = truncation_index >= 0;
     if (can_fit_ellipsis) {
@@ -425,7 +424,7 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
     const bool eof =
         fcursor == self->end
         || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
-    return eof && !(*ncursor);
+    return eof && !*ncursor;
 }
 
 static void testfilter_print_prefixed(const struct testfilter *self,
@@ -604,10 +603,9 @@ static filterlist *parse_filters(const char *filter_option)
 {
     filterlist *fl = filterlist_new();
 
-    const char *cursor = filter_option;
-    while (cursor) {
-        cursor = parse_filterexpr(cursor, &fl);
-    }
+    for (const char *cursor = filter_option;
+         cursor;
+         cursor = parse_filterexpr(cursor, &fl));
 
     return fl;
 }
@@ -695,8 +693,7 @@ static void runcontext_init(int argc, char *argv[argc+1])
     }
 
     if (!include_filter_option) {
-        include_filter_option = getenv("CINYTEST_INCLUDE");
-        if (include_filter_option) {
+        if ((include_filter_option = getenv("CINYTEST_INCLUDE"))) {
             // copy env value to prevent invalidated pointers
             include_filter_option = runcontext_capturevar(
                 include_filter_option, RunContext.env_copies
@@ -706,8 +703,7 @@ static void runcontext_init(int argc, char *argv[argc+1])
     RunContext.include = parse_filters(include_filter_option);
 
     if (!exclude_filter_option) {
-        exclude_filter_option = getenv("CINYTEST_EXCLUDE");
-        if (exclude_filter_option) {
+        if ((exclude_filter_option = getenv("CINYTEST_EXCLUDE"))) {
             // copy env value to prevent invalidated pointers
             exclude_filter_option = runcontext_capturevar(
                 exclude_filter_option, RunContext.env_copies + 1
@@ -1243,8 +1239,7 @@ static void casereport_write_failure(const struct casereport *self)
     write_xml_attribute_escaped(self->assert_state.file);
     printxml(ASSERT_FAIL_LINEFMT, self->assert_state.line);
     write_xml_attribute_escaped(self->assert_state.description);
-    const size_t msg_length = strlen(self->assert_state.message);
-    if (msg_length > 0) {
+    if (strlen(self->assert_state.message) > 0) {
         write_xml_attribute_escaped("\n");
         write_xml_attribute_escaped(self->assert_state.message);
     }
@@ -1259,8 +1254,7 @@ static void casereport_write_skipped(const struct casereport *self,
     printxml(">\n");
     printxml("      ");
     printxml("<skipped");
-    const size_t msg_length = strlen(self->assert_state.message);
-    if (msg_length > 0) {
+    if (strlen(self->assert_state.message) > 0) {
         printxml(" message=\"");
         write_xml_attribute_escaped(self->assert_state.message);
         printxml("\"");
