@@ -40,10 +40,10 @@ static struct bt_node **find_childlink(struct bt_node *self, int value)
 
 static struct bt_node *minimum_child(struct bt_node *self)
 {
-    struct bt_node *minimum_child;
-    for (minimum_child = self;
-         minimum_child->left;
-         minimum_child = minimum_child->left);
+    struct bt_node *minimum_child = self;
+    while (minimum_child->left) {
+        minimum_child = minimum_child->left;
+    }
     return minimum_child;
 }
 
