@@ -10,7 +10,7 @@
 
 #include <stddef.h>
 
-size_t binarytree_tests(int, const char *[]);
+size_t binarytree_tests(int, char *[]);
 
 @interface SampleTests : XCTestCase
 
@@ -20,9 +20,9 @@ size_t binarytree_tests(int, const char *[]);
 
 - (void)test_BinaryTree_Suite
 {
-    const char *argv[] = {"XCTestRun", "--ct-colorized=no"};
+    char *argv[] = {"XCTestRun", "--ct-colorized=no"};
     const int argc = sizeof argv / sizeof argv[0];
-    
+
     const size_t results = binarytree_tests(argc, argv);
     
 #pragma clang diagnostic push

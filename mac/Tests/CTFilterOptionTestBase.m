@@ -139,9 +139,10 @@ static struct ct_testsuite make_suite(const char *name,
     Suite1Flags = Suite2Flags = RUN_TEST_NONE;
     
     const int argc = (int)filters.count;
-    const char *argv[argc + 1];
+    char *argv[argc + 1];
     for (int i = 0; i < argc; ++i) {
-        argv[i] = [filters[i] UTF8String];
+        // NOTE: cast away const to match signature (we promise not to mutate them)
+        argv[i] = (char *)[filters[i] UTF8String];
     }
     argv[argc] = NULL;
     

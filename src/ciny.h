@@ -180,6 +180,8 @@ ct_makesuite_setup_teardown_named(const char *name, size_t count,
 ct_runcount_withargs(sizeof (suites) / sizeof (suites)[0], suites, argc, argv)
 /**
  Run unit test suites with count and command line arguments.
+ The command line arguments are mutable to match the signature of main but are guaranteed
+ not to be mutated by this function.
  @param count The number of test suites.
  @param suites The test suites to run.
  @param argc The command line argument count.
@@ -188,17 +190,19 @@ ct_runcount_withargs(sizeof (suites) / sizeof (suites)[0], suites, argc, argv)
  */
 size_t ct_runcount_withargs(size_t count,
                             const struct ct_testsuite suites[count],
-                            int argc, const char *argv[argc+1]);
+                            int argc, char *argv[argc+1]);
 
 /**
  Run a unit test suite with command line arguments.
+ The command line arguments are mutable to match the signature of main but are guaranteed
+ not to be mutated by this function.
  @param suite The test suite to run.
  @param argc The command line argument count.
  @param argv The command line argument strings.
  @return The number of failed tests.
  */
 inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite,
-                                   int argc, const char *argv[argc+1])
+                                   int argc, char *argv[argc+1])
 {
     return ct_runcount_withargs(1, suite, argc, argv);
 }

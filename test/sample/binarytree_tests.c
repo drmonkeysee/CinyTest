@@ -434,7 +434,7 @@ static void btprint_test(void *context)
     ct_asserttrue(true, "Should not happen!");
 }
 
-size_t binarytree_tests(int argc, const char *argv[argc+1])
+size_t binarytree_tests(int argc, char *argv[argc+1])
 {
     const struct ct_testcase tests[] = {
         ct_maketest(btnew_creates_emptytree),

@@ -30,7 +30,7 @@ static void test_case(void *context)
 {
     const struct ct_testcase cases[] = {ct_maketest(test_case)};
     const struct ct_testsuite suite = ct_makesuite(cases);
-    const char *args[] = {"--ct-version"};
+    char *args[] = {"--ct-version"};
     
     const size_t result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     
@@ -42,7 +42,7 @@ static void test_case(void *context)
 {
     const struct ct_testcase cases[] = {ct_maketest(test_case)};
     const struct ct_testsuite suite = ct_makesuite(cases);
-    const char *args[] = {"--ct-help"};
+    char *args[] = {"--ct-help"};
     
     const size_t result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     

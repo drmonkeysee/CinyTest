@@ -8,9 +8,9 @@
 
 #include <stddef.h>
 
-size_t binarytree_tests(int, const char *[]);
+size_t binarytree_tests(int, char *[]);
 
-int main(int argc, const char *argv[argc+1])
+int main(int argc, char *argv[argc+1])
 {
     const size_t results = binarytree_tests(argc, argv);
 

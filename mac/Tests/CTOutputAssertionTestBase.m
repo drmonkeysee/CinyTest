@@ -117,9 +117,10 @@ static void test_case(void *context)
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
     const int argc = (int)args.count;
-    const char *argv[argc + 1];
+    char *argv[argc + 1];
     for (int i = 0; i < argc; ++i) {
-        argv[i] = [args[i] UTF8String];
+        // NOTE: cast away const to match signature (we promise not to mutate them)
+        argv[i] = (char *)[args[i] UTF8String];
     }
     argv[argc] = NULL;
     

@@ -30,7 +30,7 @@
 
 #define ARGS_SIZE 3
 static void *TestClass;
-static const char *ProgramArgs[ARGS_SIZE];
+static char *ProgramArgs[ARGS_SIZE];
 
 // NOTE: mock fopen to capture xml output (i'm surprised this works)
 FILE *fopen(const char *restrict filename, const char *restrict mode)

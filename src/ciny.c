@@ -163,7 +163,7 @@ ct_makesuite_setup_teardown_named(const char *, size_t,
                                   ct_setupteardown_function *,
                                   ct_setupteardown_function *);
 extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *,
-                                          int, const char *[]),
+                                          int, char *[]),
                      ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
                                          ct_makevalue_uinteger(int, uintmax_t),
@@ -624,7 +624,7 @@ static const char *runcontext_capturevar(const char *restrict env_var,
     return *slot;
 }
 
-static void runcontext_init(int argc, const char *argv[argc+1])
+static void runcontext_init(int argc, char *argv[argc+1])
 {
     RunContext.help = RunContext.version = false;
     RunContext.verbosity = VERBOSITY_DEFAULT;
@@ -1525,8 +1525,8 @@ static void testsuite_run(const struct ct_testsuite *self,
 //
 
 size_t ct_runcount_withargs(size_t count,
-                            const struct ct_testsuite suites[count], int argc,
-                            const char *argv[argc+1])
+                            const struct ct_testsuite suites[count],
+                            int argc, char *argv[argc+1])
 {
     runcontext_init(argc, argv);
     RunTotals = runsummary_make();
