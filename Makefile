@@ -119,10 +119,7 @@ endif
 
 uninstall:
 	$(RM) $(INST_INC)/$(PUB_HEADER)
-	$(RM) $(INST_LIB)/$(LIB_TARGET)
-	$(RM) $(INST_LIB)/$(DYLIB_SHORTNAME)
-	$(RM) $(INST_LIB)/$(DYLIB_MAJORNAME)
-	$(RM) $(INST_LIB)/$(DYLIB_NAME)
+	$(RM) $(INST_LIB)/$(LIB_NAME)*
 	$(RM) -r $(INST_DOC)
 
 clean:
