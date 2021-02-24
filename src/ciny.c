@@ -1387,8 +1387,8 @@ static void testsuite_printheader(const struct ct_testsuite *self,
 static enum suitebreak suitebreak_make(void)
 {
     return RunContext.verbosity > VERBOSITY_LIST
-            ? SUITEBREAK_OPEN
-            : SUITEBREAK_END;
+           ? SUITEBREAK_OPEN
+           : SUITEBREAK_END;
 }
 
 static void suitebreak_open(enum suitebreak *state,
