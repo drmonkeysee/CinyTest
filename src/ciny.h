@@ -39,7 +39,7 @@ struct ct_version {
  */
 inline struct ct_version ct_getversion(void)
 {
-    return (struct ct_version){9, 0, 1};
+    return (struct ct_version){9, 0, 2};
 }
 /**
  Convert a semantic verson to hexadecimal form for easy numeric comparisons.
@@ -133,14 +133,11 @@ ct_makesuite_setup_teardown(test_list, setup_function, NULL)
  @param teardown_function The teardown function. Runs after each test case.
  @return A test suite.
  */
-#define ct_makesuite_setup_teardown( \
-    test_list, setup_function, teardown_function) \
-ct_makesuite_setup_teardown_named( \
-    __func__, \
-    sizeof (test_list) / sizeof (test_list)[0], \
-    test_list, \
-    setup_function, \
-    teardown_function)
+#define ct_makesuite_setup_teardown(test_list, setup_function, \
+                                    teardown_function) \
+ct_makesuite_setup_teardown_named(__func__, \
+                                  sizeof (test_list) / sizeof (test_list)[0], \
+                                  test_list, setup_function, teardown_function)
 /**
  Make a test suite with a setup function, teardown function, and a name.
  @param name The name of the test suite.
@@ -233,8 +230,8 @@ ct_internal_ignore(ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
  to display when the assertion fails.
  */
 #define ct_assertfail(...) \
-ct_internal_assertfail( \
-    __FILE__, __LINE__, ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
+ct_internal_assertfail(__FILE__, __LINE__, ct_va_string(__VA_ARGS__), \
+                       ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether an expression is true.
@@ -243,13 +240,8 @@ ct_internal_assertfail( \
  to display when the assertion fails.
  */
 #define ct_asserttrue(expression, ...) \
-ct_internal_asserttrue( \
-    expression, \
-    #expression, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_asserttrue(expression, #expression, __FILE__, __LINE__, \
+                       ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 /**
  Assert whether an expression is false.
  @param expression The expression to evaluate against the value false.
@@ -257,13 +249,8 @@ ct_internal_asserttrue( \
  to display when the assertion fails.
  */
 #define ct_assertfalse(expression, ...) \
-ct_internal_assertfalse( \
-    expression, \
-    #expression, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertfalse(expression, #expression, __FILE__, __LINE__, \
+                        ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether an expression is NULL.
@@ -272,13 +259,8 @@ ct_internal_assertfalse( \
  to display when the assertion fails.
  */
 #define ct_assertnull(expression, ...) \
-ct_internal_assertnull( \
-    expression, \
-    #expression, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertnull(expression, #expression, __FILE__, __LINE__, \
+                       ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 /**
  Assert whether an expression is not NULL.
  @param expression The expression to evaluate against the value !NULL.
@@ -286,13 +268,8 @@ ct_internal_assertnull( \
  to display when the assertion fails.
  */
 #define ct_assertnotnull(expression, ...) \
-ct_internal_assertnotnull( \
-    expression, \
-    #expression, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertnotnull(expression, #expression, __FILE__, __LINE__, \
+                          ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether two values are equal.
@@ -309,15 +286,10 @@ ct_internal_assertnotnull( \
 do { \
     ct_checkvalue(expected); \
     ct_checkvalue(actual); \
-    ct_internal_assertequal( \
-        ct_makevalue(expected), \
-        #expected, \
-        ct_makevalue(actual), \
-        #actual, \
-        __FILE__, \
-        __LINE__, \
-        ct_va_string(__VA_ARGS__), \
-        ct_va_rest(__VA_ARGS__)); \
+    ct_internal_assertequal(ct_makevalue(expected), #expected, \
+                            ct_makevalue(actual), #actual, __FILE__, \
+                            __LINE__, ct_va_string(__VA_ARGS__), \
+                            ct_va_rest(__VA_ARGS__)); \
 } while (0)
 /**
  Assert whether two values are not equal.
@@ -334,15 +306,10 @@ do { \
 do { \
     ct_checkvalue(expected); \
     ct_checkvalue(actual); \
-    ct_internal_assertnotequal( \
-        ct_makevalue(expected), \
-        #expected, \
-        ct_makevalue(actual), \
-        #actual, \
-        __FILE__, \
-        __LINE__, \
-        ct_va_string(__VA_ARGS__), \
-        ct_va_rest(__VA_ARGS__)); \
+    ct_internal_assertnotequal(ct_makevalue(expected), #expected, \
+                               ct_makevalue(actual), #actual, __FILE__, \
+                               __LINE__, ct_va_string(__VA_ARGS__), \
+                               ct_va_rest(__VA_ARGS__)); \
 } while (0)
 
 /**
@@ -356,16 +323,10 @@ do { \
  to display when the assertion fails.
  */
 #define ct_assertaboutequal(expected, actual, precision, ...) \
-ct_internal_assertaboutequal( \
-    expected, \
-    #expected, \
-    actual, \
-    #actual, \
-    precision, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertaboutequal(expected, #expected, actual, #actual, \
+                             precision, __FILE__, __LINE__, \
+                             ct_va_string(__VA_ARGS__), \
+                             ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two floating point values are not equal within plus or minus
  a degree of error.
@@ -377,16 +338,10 @@ ct_internal_assertaboutequal( \
  to display when the assertion fails.
  */
 #define ct_assertnotaboutequal(expected, actual, precision, ...) \
-ct_internal_assertnotaboutequal( \
-    expected, \
-    #expected, \
-    actual, \
-    #actual, \
-    precision, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertnotaboutequal(expected, #expected, actual, #actual, \
+                                precision, __FILE__, __LINE__, \
+                                ct_va_string(__VA_ARGS__), \
+                                ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether two pointers refer to the same object.
@@ -396,15 +351,9 @@ ct_internal_assertnotaboutequal( \
  to display when the assertion fails.
  */
 #define ct_assertsame(expected, actual, ...) \
-ct_internal_assertsame( \
-    expected, \
-    #expected, \
-    actual, \
-    #actual, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertsame(expected, #expected, actual, #actual, __FILE__, \
+                       __LINE__, ct_va_string(__VA_ARGS__), \
+                       ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two pointers refer to different objects.
  @param expected The expected pointer.
@@ -413,15 +362,9 @@ ct_internal_assertsame( \
  to display when the assertion fails.
  */
 #define ct_assertnotsame(expected, actual, ...) \
-ct_internal_assertnotsame( \
-    expected, \
-    #expected, \
-    actual, \
-    #actual, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertnotsame(expected, #expected, actual, #actual, __FILE__, \
+                          __LINE__, ct_va_string(__VA_ARGS__), \
+                          ct_va_rest(__VA_ARGS__))
 
 /**
  Assert whether two strings are equal.
@@ -434,16 +377,10 @@ ct_internal_assertnotsame( \
  to display when the assertion fails.
  */
 #define ct_assertequalstr(expected, actual, ...) \
-ct_internal_assertequalstrn( \
-    "" expected "", \
-    #expected, \
-    actual, \
-    #actual, \
-    sizeof (expected), \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertequalstrn("" expected "", #expected, actual, #actual, \
+                            sizeof (expected), __FILE__, __LINE__, \
+                            ct_va_string(__VA_ARGS__), \
+                            ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two strings are equal.
  Compares up to n characters for equality.
@@ -455,16 +392,9 @@ ct_internal_assertequalstrn( \
  to display when the assertion fails.
  */
 #define ct_assertequalstrn(expected, actual, n, ...) \
-ct_internal_assertequalstrn( \
-    expected, \
-    #expected, \
-    actual, \
-    #actual, \
-    n, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertequalstrn(expected, #expected, actual, #actual, n, \
+                            __FILE__, __LINE__, ct_va_string(__VA_ARGS__), \
+                            ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two strings are not equal.
  The first argument is a string literal used to automatically determine
@@ -476,16 +406,10 @@ ct_internal_assertequalstrn( \
  to display when the assertion fails.
  */
 #define ct_assertnotequalstr(expected, actual, ...) \
-ct_internal_assertnotequalstrn( \
-    "" expected "", \
-    #expected, \
-    actual, \
-    #actual, \
-    sizeof (expected), \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertnotequalstrn("" expected "", #expected, actual, #actual, \
+                               sizeof (expected), __FILE__, __LINE__, \
+                               ct_va_string(__VA_ARGS__), \
+                               ct_va_rest(__VA_ARGS__))
 /**
  Assert whether two strings are not equal.
  Compares up to n characters for inequality.
@@ -497,16 +421,9 @@ ct_internal_assertnotequalstrn( \
  to display when the assertion fails.
  */
 #define ct_assertnotequalstrn(expected, actual, n, ...) \
-ct_internal_assertnotequalstrn( \
-    expected, \
-    #expected, \
-    actual, \
-    #actual, \
-    n, \
-    __FILE__, \
-    __LINE__, \
-    ct_va_string(__VA_ARGS__), \
-    ct_va_rest(__VA_ARGS__))
+ct_internal_assertnotequalstrn(expected, #expected, actual, #actual, n, \
+                               __FILE__, __LINE__, ct_va_string(__VA_ARGS__), \
+                               ct_va_rest(__VA_ARGS__))
 
 /**
  @}
@@ -585,25 +502,25 @@ struct ct_comparable_value {
  */
 #define ct_makevalue_factory(v) \
 _Generic(v, \
-    signed char:            ct_makevalue_integer, \
-    short:                  ct_makevalue_integer, \
-    int:                    ct_makevalue_integer, \
-    long:                   ct_makevalue_integer, \
-    long long:              ct_makevalue_integer, \
-    char:                   ct_makevalue_char, \
-    _Bool:                  ct_makevalue_uinteger, \
-    unsigned char:          ct_makevalue_uinteger, \
-    unsigned short:         ct_makevalue_uinteger, \
-    unsigned int:           ct_makevalue_uinteger, \
-    unsigned long:          ct_makevalue_uinteger, \
-    unsigned long long:     ct_makevalue_uinteger, \
-    float:                  ct_makevalue_floatingpoint, \
-    double:                 ct_makevalue_floatingpoint, \
-    long double:            ct_makevalue_floatingpoint, \
-    ct_fcomplex:            ct_makevalue_complex, \
-    ct_complex:             ct_makevalue_complex, \
-    ct_lcomplex:            ct_makevalue_complex, \
-    default:                ct_makevalue_invalid)
+         signed char:            ct_makevalue_integer, \
+         short:                  ct_makevalue_integer, \
+         int:                    ct_makevalue_integer, \
+         long:                   ct_makevalue_integer, \
+         long long:              ct_makevalue_integer, \
+         char:                   ct_makevalue_char, \
+         _Bool:                  ct_makevalue_uinteger, \
+         unsigned char:          ct_makevalue_uinteger, \
+         unsigned short:         ct_makevalue_uinteger, \
+         unsigned int:           ct_makevalue_uinteger, \
+         unsigned long:          ct_makevalue_uinteger, \
+         unsigned long long:     ct_makevalue_uinteger, \
+         float:                  ct_makevalue_floatingpoint, \
+         double:                 ct_makevalue_floatingpoint, \
+         long double:            ct_makevalue_floatingpoint, \
+         ct_fcomplex:            ct_makevalue_complex, \
+         ct_complex:             ct_makevalue_complex, \
+         ct_lcomplex:            ct_makevalue_complex, \
+         default:                ct_makevalue_invalid)
 
 /**
  Create a char comparable value structure based on whether char is signed
@@ -705,15 +622,13 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  @param v The expression to verify as a simple value type.
  */
 #define ct_checkvalue(v) \
-_Static_assert( \
-    _Generic( \
-        &ct_makevalue_factory(v), \
-            struct ct_comparable_value (*)(int, ...): 0, \
-            default: 1 \
-    ), \
-    "(" #v ") is an invalid value type; use ct_assert[not]same for" \
-    " pointer types, ct_assert[not]equalstr for string types, or custom" \
-    " comparisons with ct_asserttrue/false for structs, unions, and arrays.")
+_Static_assert(_Generic(&ct_makevalue_factory(v), \
+                        struct ct_comparable_value (*)(int, ...): 0, \
+                        default: 1), \
+               "(" #v ") is an invalid value type; use ct_assert[not]same for" \
+               " pointer types, ct_assert[not]equalstr for string types, or" \
+               " custom comparisons with ct_asserttrue/false for structs," \
+               " unions, and arrays.")
 
 /**
  Ensure the first argument of a variadic macro argument list is a string
