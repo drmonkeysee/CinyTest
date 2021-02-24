@@ -51,16 +51,16 @@ static const char *const restrict Ellipsis = "\u2026",
 //
 
 #define ASSERT_FAIL_LINEFMT " L.%d : "
-static const char *const restrict HelpOption = "--ct-help",
-                  *const restrict VersionOption = "--ct-version",
-                  *const restrict VerboseOption = "--ct-verbose",
-                  *const restrict ColorizedOption = "--ct-colorized",
-                  *const restrict SuppressOutputOption =
-                                    "--ct-suppress-output",
-                  *const restrict IncludeFilterOption = "--ct-include",
-                  *const restrict ExcludeFilterOption = "--ct-exclude",
-                  *const restrict XmlFileOption = "--ct-xml",
-                  *const restrict IgnoredTestSymbol = "?";
+static const char
+    *const restrict HelpOption = "--ct-help",
+    *const restrict VersionOption = "--ct-version",
+    *const restrict VerboseOption = "--ct-verbose",
+    *const restrict ColorizedOption = "--ct-colorized",
+    *const restrict SuppressOutputOption = "--ct-suppress-output",
+    *const restrict IncludeFilterOption = "--ct-include",
+    *const restrict ExcludeFilterOption = "--ct-exclude",
+    *const restrict XmlFileOption = "--ct-xml",
+    *const restrict IgnoredTestSymbol = "?";
 
 enum text_highlight {
     HIGHLIGHT_SUCCESS,
@@ -158,20 +158,19 @@ struct runreport {
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version *);
 extern inline struct ct_testsuite
-ct_makesuite_setup_teardown_named(const char *, size_t,
-                                  const struct ct_testcase[],
-                                  ct_setupteardown_function *,
-                                  ct_setupteardown_function *);
+    ct_makesuite_setup_teardown_named(const char *, size_t,
+                                      const struct ct_testcase[],
+                                      ct_setupteardown_function *,
+                                      ct_setupteardown_function *);
 extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *,
                                           int, char *[]),
                      ct_runsuite(const struct ct_testsuite *);
-extern inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t),
-                                         ct_makevalue_uinteger(int, uintmax_t),
-                                         ct_makevalue_floatingpoint(
-                                             int, long double),
-                                         ct_makevalue_complex(int,
-                                                              ct_lcomplex),
-                                         ct_makevalue_invalid(int, ...);
+extern inline struct ct_comparable_value
+    ct_makevalue_integer(int, intmax_t),
+    ct_makevalue_uinteger(int, uintmax_t),
+    ct_makevalue_floatingpoint(int, long double),
+    ct_makevalue_complex(int, ct_lcomplex),
+    ct_makevalue_invalid(int, ...);
 
 //
 // Function Declarations
@@ -362,8 +361,8 @@ static int argverbose(const char *value)
 
     const int arg = atoi(value);
     return arg < VERBOSITY_MINIMAL
-            ? VERBOSITY_MINIMAL
-            : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
+           ? VERBOSITY_MINIMAL
+           : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
 }
 
 static const char *argflag_tostring(bool value)
@@ -489,7 +488,7 @@ static struct testfilter *filterlist_apply(filterlist *self,
         switch (self->apply) {
         case FILTER_ANY: {
             const bool anymatch = testfilter_match(self, suite_name)
-                                    || testfilter_match(self, case_name);
+                                  || testfilter_match(self, case_name);
             if (anymatch) return self;
             break;
         }
@@ -1025,9 +1024,9 @@ comparable_value_equalvalues(const struct ct_comparable_value *expected,
         return expected->floatingpoint_value == actual->floatingpoint_value;
     case CT_ANNOTATE_COMPLEX:
         return creall(expected->complex_value)
-                    == creall(actual->complex_value)
-                && cimagl(expected->complex_value)
-                    == cimagl(actual->complex_value);
+               == creall(actual->complex_value)
+               && cimagl(expected->complex_value)
+                  == cimagl(actual->complex_value);
     default:
         return false;
     }
@@ -1379,7 +1378,7 @@ static void testsuite_printheader(const struct ct_testsuite *self,
         suitereport_set_date(report, formatted_datetime);
     } else {
         date_msg = "Invalid Date (formatted output may"
-                    " have exceeded buffer size)";
+                   " have exceeded buffer size)";
         // NOTE: leave report date blank if format error
     }
     printout("Test suite '%s' started at %s\n", self->name, date_msg);
@@ -1548,7 +1547,7 @@ size_t ct_runcount_withargs(size_t count,
                 testsuite_run(suites + i, runreport_getsuite(report, i));
             }
             const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
-                                        && RunTotals.test_count;
+                                      && RunTotals.test_count;
             if (need_newline) {
                 printout("\n");
             }

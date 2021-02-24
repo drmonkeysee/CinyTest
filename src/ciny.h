@@ -148,10 +148,10 @@ ct_makesuite_setup_teardown_named(__func__, \
  @return A test suite.
  */
 inline struct ct_testsuite
-ct_makesuite_setup_teardown_named(const char *name, size_t count,
-                                  const struct ct_testcase tests[count],
-                                  ct_setupteardown_function *setup,
-                                  ct_setupteardown_function *teardown)
+    ct_makesuite_setup_teardown_named(const char *name, size_t count,
+                                      const struct ct_testcase tests[count],
+                                      ct_setupteardown_function *setup,
+                                      ct_setupteardown_function *teardown)
 {
     return (struct ct_testsuite){name, count, tests, setup, teardown};
 }
