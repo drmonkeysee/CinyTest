@@ -26,24 +26,27 @@
 //
 
 uint64_t ct_get_currentmsecs(void);
-void ct_startcolor(FILE *, size_t),
-     ct_endcolor(FILE *);
+void
+    ct_startcolor(FILE *, size_t),
+    ct_endcolor(FILE *);
 FILE *ct_replacestream(FILE *);
 void ct_restorestream(FILE *, FILE *);
 
 #ifdef _WIN64
 // windows console doesn't support utf-8 nicely
-static const char *const restrict Ellipsis = "...",
-                  *const restrict PlusMinus = "+/-",
-                  *const restrict PassedTestSymbol = "+",
-                  *const restrict FailedTestSymbol = "x",
-                  *const restrict SkippedTestSymbol = "/";
+static const char
+    *const restrict Ellipsis = "...",
+    *const restrict PlusMinus = "+/-",
+    *const restrict PassedTestSymbol = "+",
+    *const restrict FailedTestSymbol = "x",
+    *const restrict SkippedTestSymbol = "/";
 #else
-static const char *const restrict Ellipsis = "\u2026",
-                  *const restrict PlusMinus = "\u00b1",
-                  *const restrict PassedTestSymbol = "\u2713",
-                  *const restrict FailedTestSymbol = "\u2717",
-                  *const restrict SkippedTestSymbol = "\u2205";
+static const char
+    *const restrict Ellipsis = "\u2026",
+    *const restrict PlusMinus = "\u00b1",
+    *const restrict PassedTestSymbol = "\u2713",
+    *const restrict FailedTestSymbol = "\u2717",
+    *const restrict SkippedTestSymbol = "\u2205";
 #endif
 
 //
@@ -112,8 +115,9 @@ static struct assertion {
     const char *file;
     int line;
     enum assert_type type;
-    char description[200 + (COMPVALUE_STR_SIZE * 2)],
-         message[1002];
+    char
+        description[200 + (COMPVALUE_STR_SIZE * 2)],
+        message[1002];
 } AssertState;
 static jmp_buf AssertSignal;
 
@@ -162,9 +166,9 @@ extern inline struct ct_testsuite
                                       const struct ct_testcase[],
                                       ct_setupteardown_function *,
                                       ct_setupteardown_function *);
-extern inline size_t ct_runsuite_withargs(const struct ct_testsuite *,
-                                          int, char *[]),
-                     ct_runsuite(const struct ct_testsuite *);
+extern inline size_t
+    ct_runsuite_withargs(const struct ct_testsuite *, int, char *[]),
+    ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value
     ct_makevalue_integer(int, intmax_t),
     ct_makevalue_uinteger(int, uintmax_t),
@@ -361,8 +365,8 @@ static int argverbose(const char *value)
 
     const int arg = atoi(value);
     return arg < VERBOSITY_MINIMAL
-           ? VERBOSITY_MINIMAL
-           : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
+            ? VERBOSITY_MINIMAL
+            : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
 }
 
 static const char *argflag_tostring(bool value)
@@ -394,8 +398,9 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
 
     if (!name) return false;
 
-    const char *fcursor = self->start, *ncursor = name,
-               *wc_fmarker = NULL, *wc_nmarker = NULL;
+    const char
+        *fcursor = self->start, *ncursor = name,
+        *wc_fmarker = NULL, *wc_nmarker = NULL;
     while (*ncursor) {
         if (*fcursor == *ncursor || *fcursor == char_wildcard) {
             ++fcursor;
@@ -488,7 +493,7 @@ static struct testfilter *filterlist_apply(filterlist *self,
         switch (self->apply) {
         case FILTER_ANY: {
             const bool anymatch = testfilter_match(self, suite_name)
-                                  || testfilter_match(self, case_name);
+                                    || testfilter_match(self, case_name);
             if (anymatch) return self;
             break;
         }
@@ -501,8 +506,9 @@ static struct testfilter *filterlist_apply(filterlist *self,
         case FILTER_ALL: {
             // target ALL filters come in case, suite pairs; consume
             // both filters here
-            struct testfilter *const case_filter = self,
-                              *const suite_filter = self = self->next;
+            struct testfilter
+                *const case_filter = self,
+                *const suite_filter = self = self->next;
             const bool allmatch =
                 testfilter_match(suite_filter, suite_name)
                 && testfilter_match(case_filter, case_name);
@@ -626,12 +632,13 @@ static void runcontext_init(int argc, char *argv[argc+1])
     RunContext.help = RunContext.version = false;
     RunContext.verbosity = VERBOSITY_DEFAULT;
 
-    const char *color_option = NULL,
-               *verbosity_option = NULL,
-               *suppress_output_option = NULL,
-               *include_filter_option = NULL,
-               *exclude_filter_option = NULL,
-               *xml_option = NULL;
+    const char
+        *color_option = NULL,
+        *verbosity_option = NULL,
+        *suppress_output_option = NULL,
+        *include_filter_option = NULL,
+        *exclude_filter_option = NULL,
+        *xml_option = NULL;
 
     if (argc > 0) {
         for (int i = 0; i < argc; ++i) {
@@ -719,9 +726,10 @@ static bool runcontext_suppressoutput(void)
 
 static void runcontext_printtargetedfilters(enum filtertarget target)
 {
-    const bool any_include = filterlist_any(RunContext.include, target),
-               any_exclude = filterlist_any(RunContext.exclude, target),
-               has_output = target == FILTER_ANY || any_include || any_exclude;
+    const bool
+        any_include = filterlist_any(RunContext.include, target),
+        any_exclude = filterlist_any(RunContext.exclude, target),
+        has_output = target == FILTER_ANY || any_include || any_exclude;
 
     const char *label;
     switch (target) {
@@ -1024,9 +1032,9 @@ comparable_value_equalvalues(const struct ct_comparable_value *expected,
         return expected->floatingpoint_value == actual->floatingpoint_value;
     case CT_ANNOTATE_COMPLEX:
         return creall(expected->complex_value)
-               == creall(actual->complex_value)
-               && cimagl(expected->complex_value)
-                  == cimagl(actual->complex_value);
+                == creall(actual->complex_value)
+                && cimagl(expected->complex_value)
+                == cimagl(actual->complex_value);
     default:
         return false;
     }
@@ -1377,8 +1385,8 @@ static void testsuite_printheader(const struct ct_testsuite *self,
         date_msg = formatted_datetime;
         suitereport_set_date(report, formatted_datetime);
     } else {
-        date_msg = "Invalid Date (formatted output may"
-                   " have exceeded buffer size)";
+        date_msg = "Invalid Date (formatted output may "
+                    "have exceeded buffer size)";
         // NOTE: leave report date blank if format error
     }
     printout("Test suite '%s' started at %s\n", self->name, date_msg);
@@ -1387,8 +1395,8 @@ static void testsuite_printheader(const struct ct_testsuite *self,
 static enum suitebreak suitebreak_make(void)
 {
     return RunContext.verbosity > VERBOSITY_LIST
-           ? SUITEBREAK_OPEN
-           : SUITEBREAK_END;
+            ? SUITEBREAK_OPEN
+            : SUITEBREAK_END;
 }
 
 static void suitebreak_open(enum suitebreak *state,
@@ -1547,7 +1555,7 @@ size_t ct_runcount_withargs(size_t count,
                 testsuite_run(suites + i, runreport_getsuite(report, i));
             }
             const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
-                                      && RunTotals.test_count;
+                                        && RunTotals.test_count;
             if (need_newline) {
                 printout("\n");
             }
@@ -1642,8 +1650,9 @@ void ct_internal_assertequal(struct ct_comparable_value expected,
         failed_assert = true;
     } else if (!comparable_value_equalvalues(&expected, &actual,
                                              expected.type)) {
-        char valuestr_expected[COMPVALUE_STR_SIZE],
-             valuestr_actual[COMPVALUE_STR_SIZE];
+        char
+            valuestr_expected[COMPVALUE_STR_SIZE],
+            valuestr_actual[COMPVALUE_STR_SIZE];
         comparable_value_valuedescription(&expected, sizeof valuestr_expected,
                                           valuestr_expected);
         comparable_value_valuedescription(&actual, sizeof valuestr_actual,
@@ -1774,8 +1783,9 @@ void ct_internal_assertequalstrn(const char *expected,
         || (!expected && actual)
         || (expected && actual && (strncmp(expected, actual, n) != 0));
     if (assert_fails) {
-        char valuestr_expected[COMPVALUE_STR_SIZE],
-             valuestr_actual[COMPVALUE_STR_SIZE];
+        char
+            valuestr_expected[COMPVALUE_STR_SIZE],
+            valuestr_actual[COMPVALUE_STR_SIZE];
 
         int write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
                                    "%s", expected);
@@ -1817,8 +1827,8 @@ void ct_internal_assertnotequalstrn(const char *expected,
         char valuestr_expected[COMPVALUE_STR_SIZE];
 
         const int write_count = snprintf(valuestr_expected,
-                                            sizeof valuestr_expected, "%s",
-                                            expected);
+                                         sizeof valuestr_expected, "%s",
+                                         expected);
         if (write_count < 0) {
             printerr("WARNING: notequalstrn assert msg format failure!\n");
         } else if ((size_t)write_count >= sizeof valuestr_expected) {

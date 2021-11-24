@@ -96,11 +96,12 @@ struct ct_testcase {
  A named collection of test cases with optional setup and teardown functions.
  */
 struct ct_testsuite {
-    const char *name;                       /**< The name of the test suite. */
-    size_t count;                           /**< The number of tests to be run. */
-    const struct ct_testcase *tests;        /**< The collection of tests to run. */
-    ct_setupteardown_function *setup,       /**< The test setup function. Runs before each test case. May be NULL. */
-                              *teardown;    /**< The test teardown function. Runs after each test case. May be NULL. */
+    const char *name;                   /**< The name of the test suite. */
+    size_t count;                       /**< The number of tests to be run. */
+    const struct ct_testcase *tests;    /**< The collection of tests to run. */
+    ct_setupteardown_function
+        *setup,                         /**< The test setup function. Runs before each test case. May be NULL. */
+        *teardown;                      /**< The test teardown function. Runs after each test case. May be NULL. */
 };
 
 /**

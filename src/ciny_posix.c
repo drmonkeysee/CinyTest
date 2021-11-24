@@ -17,8 +17,9 @@
 #define GREEN "\033[0;32m"
 #define CYAN "\033[0;36m"
 #define MAGENTA "\033[0;35m"
-static const uint64_t MillisecondsPerSecond = 1000,
-                      NanosecondsPerMillisecond = 1e6;
+static const uint64_t
+    MillisecondsPerSecond = 1000,
+    NanosecondsPerMillisecond = 1e6;
 
 uint64_t ct_get_currentmsecs(void)
 {
