@@ -409,17 +409,14 @@
 					};
 					C88059BD1D2E16D3002ECC5E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = PC9FS9P8R2;
 						ProvisioningStyle = Automatic;
 					};
 					C8805A081D2E21B2002ECC5E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = PC9FS9P8R2;
 						ProvisioningStyle = Automatic;
 					};
 					C8805A191D2E233D002ECC5E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = PC9FS9P8R2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -694,7 +691,9 @@
 		C88059C71D2E16D3002ECC5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tests/Tests.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -713,7 +712,9 @@
 		C88059C81D2E16D3002ECC5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tests/Tests.pch;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -733,6 +734,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "ct_$(TARGET_NAME:lower)";
 			};
 			name = Debug;
@@ -741,6 +743,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "ct_$(TARGET_NAME:lower)";
 			};
 			name = Release;
@@ -748,7 +751,9 @@
 		C8805A201D2E233D002ECC5E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.drmonkeysee.SampleTests;
@@ -764,7 +769,9 @@
 		C8805A211D2E233D002ECC5E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.drmonkeysee.SampleTests;
