@@ -30,6 +30,8 @@ SP := strip
 ARFLAGS := -rsv
 
 ifeq ($(OS_TARGET), Darwin)
+# gcc's Wconversion is WAY too aggressive so only use on clang for now
+CFLAGS += -Wconversion
 SPFLAGS := -
 DYLIB_SHORTNAME := $(LIB_NAME).dylib
 DYLIB_MAJORNAME := $(LIB_NAME).$(DYLIB_MAJOR).dylib
