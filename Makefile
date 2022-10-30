@@ -20,7 +20,7 @@ OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(SOURCES:.c=.o))
 SAMP_SRC_FILES := $(SAMP_SRC_DIR)/binarytree.c
 LIB_NAME := libcinytest
 LIB_TARGET := $(LIB_NAME).a
-DYLIB_VERSION := 9.0.6
+DYLIB_VERSION := 9.0.7
 DYLIB_MAJOR := $(firstword $(subst ., ,$(DYLIB_VERSION)))
 SAMP_TARGET := ct_sample
 SAMPT_TARGET := ct_sampletests
@@ -73,7 +73,7 @@ build: $(OBJ_FILES)
 
 ifeq ($(OS_TARGET), Darwin)
 buildshared: DYFLAGS := -dynamiclib -current_version $(DYLIB_VERSION) \
-				-compatibility_version $(DYLIB_VERSION) \
+				-compatibility_version $(DYLIB_MAJOR) \
 				-install_name $(INST_LIB)/$(DYLIB_NAME)
 else
 buildshared: CFLAGS += -D_POSIX_C_SOURCE=199309L -Wno-unused-result -fPIC
