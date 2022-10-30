@@ -330,11 +330,11 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(size_t size, char buffer[size])
 {
-    const ptrdiff_t truncation_index = size - 1 - strlen(Ellipsis);
+    const ptrdiff_t truncation_idx = (ptrdiff_t)(size - 1 - strlen(Ellipsis));
 
-    const bool can_fit_ellipsis = truncation_index >= 0;
+    const bool can_fit_ellipsis = truncation_idx >= 0;
     if (can_fit_ellipsis) {
-        buffer[truncation_index] = '\0';
+        buffer[truncation_idx] = '\0';
         strcat(buffer, Ellipsis);
     }
 
@@ -359,14 +359,16 @@ static bool argflag_on(const char *value)
     return true;
 }
 
-static int argverbose(const char *value)
+static enum verbositylevel argverbose(const char *value)
 {
     if (!value) return VERBOSITY_DEFAULT;
 
     const int arg = atoi(value);
     return arg < VERBOSITY_MINIMAL
             ? VERBOSITY_MINIMAL
-            : (arg > VERBOSITY_FULL ? VERBOSITY_FULL : arg);
+            : (arg > VERBOSITY_FULL
+               ? VERBOSITY_FULL
+               : (enum verbositylevel)arg);
 }
 
 static const char *argflag_tostring(bool value)
@@ -987,7 +989,7 @@ do { \
     AssertState.file = test_file; \
     AssertState.line = test_line; \
     assertstate_setmessage(format); \
-    longjmp(AssertSignal, AssertState.type); \
+    longjmp(AssertSignal, (int)AssertState.type); \
 } while (false)
 
 //

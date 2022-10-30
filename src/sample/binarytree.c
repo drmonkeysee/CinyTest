@@ -97,7 +97,7 @@ static bool balanced_tree(const struct bt_node *self, size_t *depth)
     }
 
     *depth = (ldepth > rdepth ? ldepth : rdepth) + 1;
-    const ptrdiff_t depth_diff = ldepth - rdepth;
+    const ptrdiff_t depth_diff = (ptrdiff_t)(ldepth - rdepth);
     return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
 }
 
@@ -217,7 +217,7 @@ void bt_rebalance(binarytree **self)
     const size_t size = bt_size(*self);
     struct bt_node *sorted_nodes[size];
 
-    const ptrdiff_t start = 0, end = size - 1;
+    const ptrdiff_t start = 0, end = (ptrdiff_t)(size - 1);
     ptrdiff_t current_index = start;
     inline_tree(*self, sorted_nodes, &current_index);
 

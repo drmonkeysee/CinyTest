@@ -17,7 +17,7 @@
 #define GREEN "\033[0;32m"
 #define CYAN "\033[0;36m"
 #define MAGENTA "\033[0;35m"
-static const uint64_t
+static const int64_t
     MillisecondsPerSecond = 1000,
     NanosecondsPerMillisecond = 1e6;
 
@@ -26,8 +26,8 @@ uint64_t ct_get_currentmsecs(void)
     struct timespec vtime;
     clock_gettime(CLOCK_REALTIME, &vtime);
 
-    return (vtime.tv_sec * MillisecondsPerSecond)
-            + (vtime.tv_nsec / NanosecondsPerMillisecond);
+    return (uint64_t)((vtime.tv_sec * MillisecondsPerSecond)
+                      + (vtime.tv_nsec / NanosecondsPerMillisecond));
 }
 
 void ct_startcolor(FILE *stream, size_t color_index)

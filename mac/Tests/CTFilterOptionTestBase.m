@@ -142,7 +142,7 @@ static struct ct_testsuite make_suite(const char *name,
     char *argv[argc + 1];
     for (int i = 0; i < argc; ++i) {
         // NOTE: cast away const to match signature (we promise not to mutate them)
-        argv[i] = (char *)[filters[i] UTF8String];
+        argv[i] = (char *)[filters[(NSUInteger)i] UTF8String];
     }
     argv[argc] = NULL;
     

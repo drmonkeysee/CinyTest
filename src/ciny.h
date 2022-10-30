@@ -49,7 +49,8 @@ inline struct ct_version ct_getversion(void)
  */
 inline uint32_t ct_versionhex(const struct ct_version *version)
 {
-    return 0 | version->major << 16 | version->minor << 8 | version->patch;
+    return (uint32_t)(0 | version->major << 16 | version->minor << 8
+                      | version->patch);
 }
 
 /**

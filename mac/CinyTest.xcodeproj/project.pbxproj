@@ -609,6 +609,7 @@
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
+					"-Wconversion",
 				);
 			};
 			name = Debug;
@@ -668,6 +669,7 @@
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wextra",
+					"-Wconversion",
 				);
 			};
 			name = Release;

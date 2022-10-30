@@ -102,11 +102,14 @@
 
 - (void)test_ctmakevalue_CreatesComplexValues
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wconversion"
     assert_valuetype(float complex, (CMPLXF(FLT_MAX, FLT_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
     
     assert_valuetype(double complex, (CMPLX(DBL_MAX, DBL_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
     
     assert_valuetype(long double complex, (CMPLXL(LDBL_MAX, LDBL_MAX)), CT_ANNOTATE_COMPLEX, get_complex_value);
+#pragma clang diagnostic pop
 }
 
 - (void)test_ctmakevalue_FromLiterals
