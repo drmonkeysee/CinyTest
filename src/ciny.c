@@ -1209,8 +1209,8 @@ static size_t xml_flush(size_t terminator, char buffer[])
 
 static void write_xml_attribute_escaped(const char *string)
 {
-    // NOTE: escape size = &#NN; + NUL byte
-    static const size_t escape_size = 6;
+    // NOTE: escape size = &#NNN; + NUL byte for any ASCII character
+    static const size_t max_escape = 7;
 
     if (!string) return;
 
@@ -1225,13 +1225,14 @@ static void write_xml_attribute_escaped(const char *string)
         case '"':
         case '&':
         case '<':
-            if (buffer_size - i < escape_size) {
+            if (buffer_size - i < max_escape) {
                 i = xml_flush(i, buff);
             }
-            snprintf(buff + i, escape_size, "&#%02d;", c);
-            // NOTE: advance i by escape string length
-            // so next char overwrites NUL added by snprintf.
-            i += escape_size - 1;
+            const int escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
+            if (escape_size > 0) {
+                // NOTE: advance i by escape string length (NUL not included)
+                i += (size_t)escape_size;
+            }
             break;
         default:
             buff[i++] = c;
