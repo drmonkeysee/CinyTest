@@ -836,7 +836,7 @@ static struct runsummary runsummary_make(void)
 static void runsummary_print(const struct runsummary *self)
 {
     printout("Ran %zu tests (%.3f seconds): ", self->test_count,
-             self->total_time / MsPerSec);
+             (double)self->total_time / MsPerSec);
     bool printed_subtotal = false;
     if (self->ledger.passed > 0 || RunContext.verbosity == VERBOSITY_FULL) {
         print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed",
@@ -1291,7 +1291,7 @@ static void casereport_write(const struct casereport *self,
     write_xml_attribute_escaped(suite_name);
     printxml("\" name=\"");
     write_xml_attribute_escaped(self->testcase->name);
-    printxml("\" time=\"%.3f\"", self->time / MsPerSec);
+    printxml("\" time=\"%.3f\"", (double)self->time / MsPerSec);
     switch (self->assert_state.type) {
     case ASSERT_SUCCESS:
         printxml(" />\n");
@@ -1327,7 +1327,7 @@ static void suitereport_write(const struct suitereport *self,
              self->summary.test_count + self->summary.ledger.skipped,
              self->summary.ledger.failed,
              self->summary.ledger.ignored + self->summary.ledger.skipped,
-             self->summary.total_time / MsPerSec, self->date);
+             (double)self->summary.total_time / MsPerSec, self->date);
     for (size_t i = 0; i < self->testsuite->count; ++i) {
         casereport_write(self->cases + i, self->testsuite->name, name);
     }
@@ -1344,7 +1344,7 @@ static void runreport_write(const struct runreport *self)
     write_xml_attribute_escaped(self->name);
     printxml("\" tests=\"%zu\" failures=\"%zu\" time=\"%.3f\">\n",
              RunTotals.test_count + RunTotals.ledger.skipped,
-             RunTotals.ledger.failed, RunTotals.total_time / MsPerSec
+             RunTotals.ledger.failed, (double)RunTotals.total_time / MsPerSec
     );
     for (size_t i = 0; i < self->count; ++i) {
         suitereport_write(self->suites + i, i, self->name);
