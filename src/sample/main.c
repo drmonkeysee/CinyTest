@@ -34,7 +34,6 @@ int main(int argc, char *argv[argc+1])
     tree_output(tree);
 
     bt_free(tree);
-    tree = NULL;
 
     return EXIT_SUCCESS;
 }

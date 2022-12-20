@@ -1115,7 +1115,6 @@ static void runreport_free(struct runreport *self)
 
     for (size_t i = 0; i < self->count; ++i) {
         free(self->suites[i].cases);
-        self->suites[i].cases = NULL;
     }
     free(self);
 }
@@ -1566,7 +1565,6 @@ size_t ct_runcount_withargs(size_t count,
 
             runreport_write(report);
             runreport_free(report);
-            report = NULL;
         } else {
             printerr("WARNING: no test suites detected, test run canceled!\n");
             RunTotals.ledger.failed = InvalidSuite;
