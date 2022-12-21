@@ -1550,9 +1550,10 @@ size_t ct_runcount_withargs(size_t count,
         }
 
         if (count && suites) {
-            struct runreport *report = runreport_new(argc > 0 ? argv[0] : NULL,
-                                                     count);
-
+            struct runreport *const report = runreport_new(argc > 0
+                                                            ? argv[0]
+                                                            : NULL,
+                                                           count);
             for (size_t i = 0; i < count; ++i) {
                 testsuite_run(suites + i, runreport_getsuite(report, i));
             }
