@@ -15,8 +15,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-// sys time returns 100s of nanoseconds
-static const uint64_t MillisecondFactor = 10000;
 static WORD ConsoleOldAttributes;
 
 static HANDLE streamhandle(FILE *stream)
@@ -26,6 +24,9 @@ static HANDLE streamhandle(FILE *stream)
 
 uint64_t ct_get_currentmsecs(void)
 {
+    // sys time returns 100s of nanoseconds
+    static const uint64_t millisecond_factor = 10000;
+
     FILETIME vtime;
     GetSystemTimeAsFileTime(&vtime);
 
@@ -33,7 +34,7 @@ uint64_t ct_get_currentmsecs(void)
         .LowPart = vtime.dwLowDateTime,
         .HighPart = vtime.dwHighDateTime,
     };
-    return ntime.QuadPart / MillisecondFactor;
+    return ntime.QuadPart / millisecond_factor;
 }
 
 void ct_startcolor(FILE *stream, size_t color_index)
