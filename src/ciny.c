@@ -162,12 +162,13 @@ struct runreport {
 extern inline struct ct_version ct_getversion(void);
 extern inline uint32_t ct_versionhex(const struct ct_version *);
 extern inline struct ct_testsuite
-    ct_makesuite_setup_teardown_named(const char *, size_t a,
-                                      const struct ct_testcase[a],
+    ct_makesuite_setup_teardown_named(const char *, size_t count,
+                                      const struct ct_testcase[count],
                                       ct_setupteardown_function *,
                                       ct_setupteardown_function *);
 extern inline size_t
-    ct_runsuite_withargs(const struct ct_testsuite *, int a, char *[a]),
+    ct_runsuite_withargs(const struct ct_testsuite *, int argc,
+                         char *[argc+1]),
     ct_runsuite(const struct ct_testsuite *);
 extern inline struct ct_comparable_value
     ct_makevalue_integer(int, intmax_t),
