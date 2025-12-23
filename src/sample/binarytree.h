@@ -17,8 +17,10 @@
 
 typedef struct bt_node binarytree;
 
+[[nodiscard("take ownership")]]
 binarytree *bt_new();
 
+[[nodiscard("take ownership")]]
 binarytree *bt_new_withvalues(size_t n, ...);
 
 void bt_free(binarytree *self);

@@ -1575,13 +1575,13 @@ size_t ct_runcount_withargs(size_t count,
     return RunTotals.ledger.failed;
 }
 
-[[noreturn]] void ct_internal_ignore(const char *restrict format, ...)
+void ct_internal_ignore(const char *restrict format, ...)
 {
     assertstate_raise_signal(ASSERT_IGNORE, NULL, 0, format);
 }
 
-[[noreturn]] void ct_internal_assertfail(const char *restrict file, int line,
-                                         const char *restrict format, ...)
+void ct_internal_assertfail(const char *restrict file, int line,
+                            const char *restrict format, ...)
 {
     assertstate_setdescription("%s", "asserted unconditional failure");
     assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
