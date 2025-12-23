@@ -25,7 +25,7 @@ DYLIB_MAJOR := $(firstword $(subst ., ,$(DYLIB_VERSION)))
 SAMP_TARGET := ct_sample
 SAMPT_TARGET := ct_sampletests
 
-CFLAGS := -Wall -Wextra -Wconversion -pedantic -std=c17
+CFLAGS := -Wall -Wextra -Wconversion -pedantic -std=c23
 SP := strip
 ARFLAGS := -rsv
 
