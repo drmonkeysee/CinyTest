@@ -131,7 +131,7 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[],
 }
 
 //
-// Public API Implementation
+// MARK: - Public API Implementation
 //
 
 binarytree *bt_new()

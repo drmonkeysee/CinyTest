@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 //
-// Setup / Teardown
+// MARK: - Setup / Teardown
 //
 
 struct bt_testcontext {
@@ -35,7 +35,7 @@ static void teardown(void **context)
 }
 
 //
-// Tests
+// MARK: - Tests
 //
 
 static void btnew_creates_emptytree(void *context)

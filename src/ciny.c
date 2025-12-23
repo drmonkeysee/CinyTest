@@ -20,7 +20,7 @@
 #include <time.h>
 
 //
-// Platform-specific Definitions
+// MARK: - Platform-specific Definitions
 //
 
 uint64_t ct_get_currentmsecs();
@@ -48,7 +48,7 @@ static const char
 #endif
 
 //
-// Type and Data Definitions
+// MARK: - Type and Data Definitions
 //
 
 #define ASSERT_FAIL_LINEFMT " L.%d : "
@@ -154,7 +154,7 @@ struct runreport {
 };
 
 //
-// Inline Function Call Sites
+// MARK: - Inline Function Call Sites
 //
 
 extern inline struct ct_version ct_getversion();
@@ -176,13 +176,13 @@ extern inline struct ct_comparable_value
     ct_makevalue_invalid(int, ...);
 
 //
-// Function Declarations
+// MARK: - Function Declarations
 //
 
 static void testfilter_print(const struct testfilter *, enum text_highlight);
 
 //
-// Printing and Text Manipulation
+// MARK: - Printing and Text Manipulation
 //
 
 #define printout(...) fprintf(RunContext.out, __VA_ARGS__)
@@ -341,7 +341,7 @@ static bool pretty_truncate(size_t size, char buffer[size])
 }
 
 //
-// Arg Parsing
+// MARK: - Arg Parsing
 //
 
 static bool argflag_on(const char *value)
@@ -385,7 +385,7 @@ static const char *arg_value(const char *arg)
 }
 
 //
-// Test Filters
+// MARK: - Test Filters
 //
 
 static struct testfilter testfilter_make()
@@ -616,7 +616,7 @@ static filterlist *parse_filters(const char *filter_option)
 }
 
 //
-// Run Context
+// MARK: - Run Context
 //
 
 static const char *runcontext_capturevar(const char *restrict env_var,
@@ -823,7 +823,7 @@ static void runcontext_cleanup()
 }
 
 //
-// Run Summary
+// MARK: - Run Summary
 //
 
 static struct runsummary runsummary_make()
@@ -885,7 +885,7 @@ static void runtotals_print()
 }
 
 //
-// Assert State
+// MARK: - Assert State
 //
 
 static void assertstate_reset()
@@ -992,7 +992,7 @@ do { \
 } while (false)
 
 //
-// Comparable Value
+// MARK: - Comparable Value
 //
 
 static bool
@@ -1084,7 +1084,7 @@ comparable_value_valuedescription(const struct ct_comparable_value *value,
 }
 
 //
-// Run Report
+// MARK: - Run Report
 //
 
 static struct runreport *runreport_new(const char *name, size_t suite_count)
@@ -1351,7 +1351,7 @@ static void runreport_write(const struct runreport *self)
 }
 
 //
-// Test Suite and Test Case
+// MARK: - Test Suite and Test Case
 //
 
 static void testcase_run(const struct ct_testcase *self,
@@ -1528,7 +1528,7 @@ static void testsuite_run(const struct ct_testsuite *self,
 }
 
 //
-// Public Functions
+// MARK: - Public Functions
 //
 
 size_t ct_runcount_withargs(size_t count,
