@@ -227,7 +227,7 @@ static void print_usage()
 
 static void print_version()
 {
-    const struct ct_version v = ct_getversion();
+    struct ct_version v = ct_getversion();
     printout("CinyTest %u.%u.%u", v.major, v.minor, v.patch);
 #ifdef __VERSION__
     printout(" (" __VERSION__ ")");
@@ -303,7 +303,7 @@ static void print_testresult(enum text_highlight style,
         }
         printout(" %s", status);
 
-        const bool annotate_filtered =
+        bool annotate_filtered =
             RunContext.verbosity == VERBOSITY_FULL
             && (RunContext.include || RunContext.exclude);
         if (annotate_filtered) {
@@ -329,9 +329,9 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(size_t size, char buffer[size])
 {
-    const ptrdiff_t truncation_idx = (ptrdiff_t)(size - 1 - strlen(Ellipsis));
+    ptrdiff_t truncation_idx = (ptrdiff_t)(size - 1 - strlen(Ellipsis));
 
-    const bool can_fit_ellipsis = truncation_idx >= 0;
+    bool can_fit_ellipsis = truncation_idx >= 0;
     if (can_fit_ellipsis) {
         buffer[truncation_idx] = '\0';
         strcat(buffer, Ellipsis);
@@ -362,7 +362,7 @@ static enum verbositylevel argverbose(const char *value)
 {
     if (!value) return VERBOSITY_DEFAULT;
 
-    const int arg = atoi(value);
+    int arg = atoi(value);
     return arg < VERBOSITY_MINIMAL
             ? VERBOSITY_MINIMAL
             : (arg > VERBOSITY_FULL
@@ -426,9 +426,8 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
             break;
         }
     }
-    const bool eof =
-        fcursor == self->end
-        || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
+    bool eof = fcursor == self->end
+                || (*fcursor == str_wildcard && (fcursor + 1) == self->end);
     return eof && !*ncursor;
 }
 
@@ -472,7 +471,7 @@ static filterlist *filterlist_new()
 
 static void filterlist_push(filterlist **self, struct testfilter filter)
 {
-    struct testfilter *const filter_node = malloc(sizeof *filter_node);
+    struct testfilter *filter_node = malloc(sizeof *filter_node);
     *filter_node = filter;
     filter_node->next = *self;
     *self = filter_node;
@@ -493,8 +492,8 @@ static struct testfilter *filterlist_apply(filterlist *self,
     for (; self; self = self->next) {
         switch (self->apply) {
         case FILTER_ANY: {
-            const bool anymatch = testfilter_match(self, suite_name)
-                                    || testfilter_match(self, case_name);
+            bool anymatch = testfilter_match(self, suite_name)
+                            || testfilter_match(self, case_name);
             if (anymatch) return self;
             break;
         }
@@ -508,9 +507,9 @@ static struct testfilter *filterlist_apply(filterlist *self,
             // target ALL filters come in case, suite pairs; consume
             // both filters here
             struct testfilter
-                *const case_filter = self,
-                *const suite_filter = self = self->next;
-            const bool allmatch =
+                *case_filter = self,
+                *suite_filter = self = self->next;
+            bool allmatch =
                 testfilter_match(suite_filter, suite_name)
                 && testfilter_match(case_filter, case_name);
             if (allmatch) return case_filter;
@@ -531,8 +530,8 @@ static void filterlist_print(const filterlist *self, enum filtertarget match,
         if (self->apply != match) continue;
 
         if (self->apply == FILTER_ALL) {
-            const struct testfilter *const fcase = self,
-                                    *const fsuite = self = self->next;
+            const struct testfilter *fcase = self,
+                                    *fsuite = self = self->next;
             testfilter_print(fsuite, style);
             print_highlighted(style, "%c", FilterTargetDelimiter);
             testfilter_print_noprefix(fcase, style);
@@ -549,7 +548,7 @@ static void filterlist_print(const filterlist *self, enum filtertarget match,
 static void filterlist_free(filterlist *self)
 {
     while (self) {
-        struct testfilter *const head = self;
+        struct testfilter *head = self;
         self = head->next;
         free(head);
     }
@@ -643,7 +642,7 @@ static void runcontext_init(int argc, char *argv[argc+1])
 
     if (argc > 0) {
         for (int i = 0; i < argc; ++i) {
-            const char *const arg = argv[i];
+            const char *arg = argv[i];
             if (!arg) {
                 continue;
             } else if (strstr(arg, HelpOption)) {
@@ -727,7 +726,7 @@ static bool runcontext_suppressoutput()
 
 static void runcontext_printtargetedfilters(enum filtertarget target)
 {
-    const bool
+    bool
         any_include = filterlist_any(RunContext.include, target),
         any_exclude = filterlist_any(RunContext.exclude, target),
         has_output = target == FILTER_ANY || any_include || any_exclude;
@@ -785,7 +784,7 @@ static void runcontext_printfilters()
 
 static void runcontext_print()
 {
-    const struct ct_version v = ct_getversion();
+    struct ct_version v = ct_getversion();
     print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
     printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
     printout("Suppress Output: %s\n",
@@ -947,11 +946,11 @@ static void assertstate_handle(const char *restrict test_name,
 static void assertstate_setdescription(const char *restrict format, ...)
 {
     static constexpr size_t description_size = sizeof AssertState.description;
+
     va_list format_args;
     va_start(format_args, format);
-    const int write_count = vsnprintf(AssertState.description,
-                                      description_size, format,
-                                      format_args);
+    int write_count = vsnprintf(AssertState.description, description_size,
+                                format, format_args);
     va_end(format_args);
 
     if (write_count < 0) {
@@ -972,8 +971,9 @@ static void assertstate_setvmessage(const char *restrict format,
                                     va_list format_args)
 {
     static constexpr size_t message_size = sizeof AssertState.message;
-    const int write_count = vsnprintf(AssertState.message, message_size,
-                                      format, format_args);
+
+    int write_count = vsnprintf(AssertState.message, message_size, format,
+                                format_args);
 
     if (write_count < 0) {
         printerr("WARNING: assert message write failure!\n");
@@ -1032,10 +1032,10 @@ comparable_value_equalvalues(const struct ct_comparable_value *expected,
     case CT_ANNOTATE_FLOATINGPOINT:
         return expected->floatingpoint_value == actual->floatingpoint_value;
     case CT_ANNOTATE_COMPLEX:
-        return creall(expected->complex_value)
-                == creall(actual->complex_value)
-                && cimagl(expected->complex_value)
-                == cimagl(actual->complex_value);
+        return (creall(expected->complex_value)
+                == creall(actual->complex_value))
+                && (cimagl(expected->complex_value)
+                    == cimagl(actual->complex_value));
     default:
         return false;
     }
@@ -1179,10 +1179,10 @@ static void casereport_skipped_match(struct casereport *self,
     if (!self) return;
 
     self->assert_state.type = ASSERT_SKIPPED;
-    const size_t msgsize = sizeof self->assert_state.message;
-    const int count = snprintf(self->assert_state.message, msgsize,
-                               "skipped by exclude filter (%.*s)",
-                               (int)(match->end - match->start), match->start);
+    size_t msgsize = sizeof self->assert_state.message;
+    int count = snprintf(self->assert_state.message, msgsize,
+                         "skipped by exclude filter (%.*s)",
+                         (int)(match->end - match->start), match->start);
     if (count < 0) {
         printerr("WARNING: XML assert message write failure!\n");
     } else if ((size_t)count >= msgsize) {
@@ -1213,7 +1213,7 @@ static void write_xml_attribute_escaped(const char *string)
     if (!string) return;
 
     char buff[1024];
-    const size_t buffer_size = sizeof buff;
+    size_t buffer_size = sizeof buff;
     size_t i = 0;
     for (char c = *string; c; c = *++string) {
         switch (c) {
@@ -1226,7 +1226,7 @@ static void write_xml_attribute_escaped(const char *string)
             if (buffer_size - i < max_escape) {
                 i = xml_flush(i, buff);
             }
-            const int escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
+            int escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
             if (escape_size > 0) {
                 // NOTE: advance i by escape string length (NUL not included)
                 i += (size_t)escape_size;
@@ -1378,9 +1378,9 @@ static void testsuite_printheader(const struct ct_testsuite *self,
                                   time_t start_time)
 {
     char formatted_datetime[DateStrSize];
-    const size_t format_length = strftime(formatted_datetime,
-                                          sizeof formatted_datetime, "%FT%T%z",
-                                          localtime(&start_time));
+    size_t format_length = strftime(formatted_datetime,
+                                    sizeof formatted_datetime, "%FT%T%z",
+                                    localtime(&start_time));
     const char *date_msg;
     if (format_length) {
         date_msg = formatted_datetime;
@@ -1446,13 +1446,12 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
                                  struct suitereport *report)
 {
     assertstate_reset();
-    const struct ct_testcase *const current_case = self->tests + case_index;
-    struct casereport *const case_report = suitereport_get_case(report,
-                                                                case_index);
+    const struct ct_testcase *current_case = self->tests + case_index;
+    struct casereport *case_report = suitereport_get_case(report, case_index);
     casereport_init(case_report, current_case);
 
     if (RunContext.include) {
-        const struct testfilter *const match = filterlist_apply(
+        struct testfilter *match = filterlist_apply(
             RunContext.include, self->name, current_case->name
         );
         if (match) {
@@ -1474,7 +1473,7 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
     }
 
     if (RunContext.exclude) {
-        const struct testfilter *const match = filterlist_apply(
+        struct testfilter *match = filterlist_apply(
             RunContext.exclude, self->name, current_case->name
         );
         if (match) {
@@ -1507,7 +1506,7 @@ static void testsuite_run(const struct ct_testsuite *self,
     suitereport_init(report, self);
 
     if (self && self->tests && self->count) {
-        const uint64_t start_time = ct_get_currentmsecs();
+        uint64_t start_time = ct_get_currentmsecs();
         enum suitebreak sb = suitebreak_make();
         summary.test_count = self->count;
         suitereport_add_cases(report, self->count);
@@ -1549,15 +1548,13 @@ size_t ct_runcount_withargs(size_t count,
         }
 
         if (count && suites) {
-            struct runreport *const report = runreport_new(argc > 0
-                                                            ? argv[0]
-                                                            : nullptr,
-                                                           count);
+            const char *name = argc > 0 ? argv[0] : nullptr;
+            struct runreport *report = runreport_new(name, count);
             for (size_t i = 0; i < count; ++i) {
                 testsuite_run(suites + i, runreport_getsuite(report, i));
             }
-            const bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
-                                        && RunTotals.test_count;
+            bool need_newline = RunContext.verbosity == VERBOSITY_MINIMAL
+                                && RunTotals.test_count;
             if (need_newline) {
                 printout("\n");
             }
@@ -1709,7 +1706,7 @@ void ct_internal_assertaboutequal(long double expected,
                                   const char *restrict file, int line,
                                   const char *restrict format, ...)
 {
-    const long double diff = fabsl(expected - actual);
+    long double diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
         assertstate_setdescription("(%s) differs from (%s) by greater than"
                                    " %s(%.*Lg): expected (%.*Lg),"
@@ -1729,7 +1726,7 @@ void ct_internal_assertnotaboutequal(long double expected,
                                      const char *restrict file, int line,
                                      const char *restrict format, ...)
 {
-    const long double diff = fabsl(expected - actual);
+    long double diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
         assertstate_setdescription("(%s) differs from (%s) by less than"
                                    " or equal to %s(%.*Lg): expected (%.*Lg),"
@@ -1779,7 +1776,7 @@ void ct_internal_assertequalstrn(const char *expected,
                                  const char *restrict file, int line,
                                  const char *restrict format, ...)
 {
-    const bool assert_fails =
+    bool assert_fails =
         (expected && !actual)
         || (!expected && actual)
         || (expected && actual && (strncmp(expected, actual, n) != 0));
@@ -1821,15 +1818,14 @@ void ct_internal_assertnotequalstrn(const char *expected,
                                     const char *restrict file, int line,
                                     const char *restrict format, ...)
 {
-    const bool assert_fails =
+    bool assert_fails =
         (!expected && !actual)
         || (expected && actual && (strncmp(expected, actual, n) == 0));
     if (assert_fails) {
         char valuestr_expected[CompValueStrSize];
 
-        const int write_count = snprintf(valuestr_expected,
-                                         sizeof valuestr_expected, "%s",
-                                         expected);
+        int write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
+                                   "%s", expected);
         if (write_count < 0) {
             printerr("WARNING: notequalstrn assert msg format failure!\n");
         } else if ((size_t)write_count >= sizeof valuestr_expected) {
