@@ -541,10 +541,8 @@ _Generic(v, \
  to be converted.
  @return A comparable value structure for the signed integer value.
  */
-inline struct ct_comparable_value ct_makevalue_integer(int placeholder,
-                                                       intmax_t value)
+inline struct ct_comparable_value ct_makevalue_integer(int, intmax_t value)
 {
-    (void)placeholder;
     return (struct ct_comparable_value){
         .integer_value = value,
         .type = CT_ANNOTATE_INTEGER,
@@ -558,10 +556,8 @@ inline struct ct_comparable_value ct_makevalue_integer(int placeholder,
  to be converted.
  @return A comparable value structure for the unsigned integer value.
  */
-inline struct ct_comparable_value ct_makevalue_uinteger(int placeholder,
-                                                        uintmax_t value)
+inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t value)
 {
-    (void)placeholder;
     return (struct ct_comparable_value){
         .uinteger_value = value,
         .type = CT_ANNOTATE_UINTEGER,
@@ -575,10 +571,9 @@ inline struct ct_comparable_value ct_makevalue_uinteger(int placeholder,
  to be converted.
  @return A comparable value structure for the floating point value.
  */
-inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder,
+inline struct ct_comparable_value ct_makevalue_floatingpoint(int,
                                                              long double value)
 {
-    (void)placeholder;
     return (struct ct_comparable_value){
         .floatingpoint_value = value,
         .type = CT_ANNOTATE_FLOATINGPOINT,
@@ -592,10 +587,9 @@ inline struct ct_comparable_value ct_makevalue_floatingpoint(int placeholder,
  to be converted.
  @return A comparable value structure for the complex number value.
  */
-inline struct ct_comparable_value ct_makevalue_complex(int placeholder,
+inline struct ct_comparable_value ct_makevalue_complex(int,
                                                        ct_lcomplex value)
 {
-    (void)placeholder;
     return (struct ct_comparable_value){
         .complex_value = value,
         .type = CT_ANNOTATE_COMPLEX,
@@ -611,9 +605,8 @@ inline struct ct_comparable_value ct_makevalue_complex(int placeholder,
  @return An invalid comparable value structure used for checking a mismatched
  equality assertion.
  */
-inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
+inline struct ct_comparable_value ct_makevalue_invalid(int, ...)
 {
-    (void)placeholder;
     return (struct ct_comparable_value){.type = CT_ANNOTATE_INVALID};
 }
 
