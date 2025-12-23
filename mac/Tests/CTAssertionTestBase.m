@@ -8,8 +8,6 @@
 
 #import "CTAssertionTestBase.h"
 
-#include <stddef.h>
-
 void *TestClass;
 
 @implementation CTAssertionTestBase

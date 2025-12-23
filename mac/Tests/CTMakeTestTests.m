@@ -9,7 +9,6 @@
 #import "CTTestBase.h"
 
 #include "ciny.h"
-#include <stddef.h>
 
 static void maketest_faketest(void *context)
 {

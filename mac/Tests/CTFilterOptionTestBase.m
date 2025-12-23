@@ -10,7 +10,6 @@
 
 #include "ciny.h"
 
-#include <stddef.h>
 #include <stdlib.h>
 
 enum {
