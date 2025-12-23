@@ -21,9 +21,9 @@ size_t binarytree_tests(int, char *[]);
 - (void)test_BinaryTree_Suite
 {
     char *argv[] = {"XCTestRun", "--ct-colorized=no"};
-    const int argc = sizeof argv / sizeof argv[0];
+    int argc = sizeof argv / sizeof argv[0];
 
-    const size_t results = binarytree_tests(argc, argv);
+    size_t results = binarytree_tests(argc, argv);
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"

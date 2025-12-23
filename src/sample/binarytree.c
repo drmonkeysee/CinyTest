@@ -16,11 +16,11 @@ struct bt_node {
     struct bt_node *left, *right;
     int value;
 };
-static struct bt_node *const EmptyTree;
+static constexpr struct bt_node *EmptyTree = nullptr;
 
 static struct bt_node *create_node(int value)
 {
-    struct bt_node *const new_node = malloc(sizeof *new_node);
+    struct bt_node *new_node = malloc(sizeof *new_node);
     new_node->value = value;
     new_node->left = new_node->right = EmptyTree;
     return new_node;
@@ -28,9 +28,9 @@ static struct bt_node *create_node(int value)
 
 static struct bt_node **find_childlink(struct bt_node *self, int value)
 {
-    struct bt_node **const child_link = self->value > value
-                                            ? &self->left
-                                            : &self->right;
+    struct bt_node **child_link = self->value > value
+                                    ? &self->left
+                                    : &self->right;
 
     if (!*child_link || (*child_link)->value == value) return child_link;
 
@@ -48,13 +48,13 @@ static struct bt_node *minimum_child(struct bt_node *self)
 
 static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node **const node_link = find_childlink(self, value),
-                    *const node = *node_link;
+    struct bt_node **node_link = find_childlink(self, value),
+                    *node = *node_link;
 
     if (!node) return;
 
     if (node->left && node->right) {
-        struct bt_node *const successor = minimum_child(node->right);
+        struct bt_node *successor = minimum_child(node->right);
         node->value = successor->value;
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
@@ -96,7 +96,7 @@ static bool balanced_tree(const struct bt_node *self, size_t *depth)
     }
 
     *depth = (ldepth > rdepth ? ldepth : rdepth) + 1;
-    const ptrdiff_t depth_diff = (ptrdiff_t)(ldepth - rdepth);
+    ptrdiff_t depth_diff = (ptrdiff_t)(ldepth - rdepth);
     return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
 }
 
@@ -120,9 +120,9 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[],
 {
     if (start_index > end_index) return EmptyTree;
 
-    const ptrdiff_t middle_index = start_index
-                                    + ((end_index - start_index) / 2);
-    struct bt_node *const node = node_list[middle_index];
+    ptrdiff_t middle_index = start_index
+                                + ((end_index - start_index) / 2);
+    struct bt_node *node = node_list[middle_index];
 
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
     node->right = rebalance_node(node_list, middle_index + 1, end_index);
@@ -197,7 +197,7 @@ bool bt_contains(binarytree *self, int value)
 
     if (self->value == value) return true;
 
-    struct bt_node **const child_link = find_childlink(self, value);
+    struct bt_node **child_link = find_childlink(self, value);
     return *child_link != EmptyTree;
 }
 
@@ -213,10 +213,10 @@ void bt_rebalance(binarytree **self)
 {
     if (!*self) return;
 
-    const size_t size = bt_size(*self);
+    size_t size = bt_size(*self);
     struct bt_node *sorted_nodes[size];
 
-    const ptrdiff_t start = 0, end = (ptrdiff_t)(size - 1);
+    ptrdiff_t start = 0, end = (ptrdiff_t)(size - 1);
     ptrdiff_t current_index = start;
     inline_tree(*self, sorted_nodes, &current_index);
 
