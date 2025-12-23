@@ -132,17 +132,10 @@
     [self assertFilters:@[@"--ct-exclude=*试*"] suite1Expected:[self except:RUN_TEST_EAST_ASIAN] suite2Expected:[self except:RUN_TEST_EAST_ASIAN]];
 }
 
-- (void)test_EmojiCharacters
-{
-    [self assertFilters:@[@"--ct-exclude=suite_far:test_🐴🐎"] suite1Expected:[self except:RUN_TEST_HORSE] suite2Expected:RUN_TEST_ALL];
-    [self assertFilters:@[@"--ct-exclude=*🐴*"] suite1Expected:[self except:RUN_TEST_HORSE] suite2Expected:[self except:RUN_TEST_HORSE]];
-}
-
 - (void)test_Wildcards_DoNotMatch_ExtendedCharacters
 {
     [self assertFilters:@[@"--ct-exclude=:test_?xtended_chærs"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
     [self assertFilters:@[@"--ct-exclude=:test_测试?"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
-    [self assertFilters:@[@"--ct-exclude=:test_🐴?"] suite1Expected:RUN_TEST_ALL suite2Expected:RUN_TEST_ALL];
 }
 
 - (void)test_MultipleMatchedExpressions

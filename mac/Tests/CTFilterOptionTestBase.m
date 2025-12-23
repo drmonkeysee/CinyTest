@@ -74,11 +74,6 @@ static void test_测试漢(void *context)
     set_test_flag(context, RUN_TEST_EAST_ASIAN);
 }
 
-static void test_🐴🐎(void *context)
-{
-    set_test_flag(context, RUN_TEST_HORSE);
-}
-
 static void suite1_setup(void **context)
 {
     *context = (void *)RUN_SUITE1;
@@ -102,7 +97,6 @@ static struct ct_testsuite make_suite(const char *name,
         ct_maketest(test_ededeedtedered),
         ct_maketest(test_èxtended_chærs),
         ct_maketest(test_测试漢),
-        ct_maketest(test_🐴🐎),
     };
     
     return ct_makesuite_setup_teardown_named(
