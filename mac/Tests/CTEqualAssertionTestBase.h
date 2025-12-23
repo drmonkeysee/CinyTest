@@ -75,7 +75,7 @@ extern long l_values[2];
 extern long long ll_values[2];
 extern intmax_t smx_values[2];
 
-extern _Bool b_values[2];
+extern bool b_values[2];
 extern unsigned char uc_values[2];
 extern unsigned short us_values[2];
 extern unsigned int ui_values[2];

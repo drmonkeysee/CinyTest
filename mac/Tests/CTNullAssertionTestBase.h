@@ -8,8 +8,6 @@
 
 #import "CTAssertionTestBase.h"
 
-#include <stdbool.h>
-
 void *generate_pointer(bool);
 
 @interface CTNullAssertionTestBase : CTAssertionTestBase

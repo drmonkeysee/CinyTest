@@ -22,7 +22,7 @@ static HANDLE streamhandle(FILE *stream)
     return (HANDLE)_get_osfhandle(_fileno(stream));
 }
 
-uint64_t ct_get_currentmsecs(void)
+uint64_t ct_get_currentmsecs()
 {
     // sys time returns 100s of nanoseconds
     static const uint64_t millisecond_factor = 10000;

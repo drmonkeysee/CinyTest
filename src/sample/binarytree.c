@@ -9,7 +9,6 @@
 #include "binarytree.h"
 
 #include <stdarg.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -135,7 +134,7 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[],
 // Public API Implementation
 //
 
-binarytree *bt_new(void)
+binarytree *bt_new()
 {
     return EmptyTree;
 }

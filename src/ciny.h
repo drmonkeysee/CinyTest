@@ -37,7 +37,7 @@ struct ct_version {
  Get the current version of CinyTest as a semantic version structure.
  @return Version structure populated with the current version.
  */
-inline struct ct_version ct_getversion(void)
+inline struct ct_version ct_getversion()
 {
     return (struct ct_version){9, 0, 11};
 }
@@ -510,7 +510,7 @@ _Generic(v, \
          long:                   ct_makevalue_integer, \
          long long:              ct_makevalue_integer, \
          char:                   ct_makevalue_char, \
-         _Bool:                  ct_makevalue_uinteger, \
+         bool:                   ct_makevalue_uinteger, \
          unsigned char:          ct_makevalue_uinteger, \
          unsigned short:         ct_makevalue_uinteger, \
          unsigned int:           ct_makevalue_uinteger, \
@@ -624,13 +624,13 @@ inline struct ct_comparable_value ct_makevalue_invalid(int placeholder, ...)
  @param v The expression to verify as a simple value type.
  */
 #define ct_checkvalue(v) \
-_Static_assert(_Generic(&ct_makevalue_factory(v), \
-                        struct ct_comparable_value (*)(int, ...): 0, \
-                        default: 1), \
-               "(" #v ") is an invalid value type; use ct_assert[not]same for" \
-               " pointer types, ct_assert[not]equalstr for string types, or" \
-               " custom comparisons with ct_asserttrue/false for structs," \
-               " unions, and arrays.")
+static_assert(_Generic(&ct_makevalue_factory(v), \
+                       struct ct_comparable_value (*)(int, ...): 0, \
+                       default: 1), \
+              "(" #v ") is an invalid value type; use ct_assert[not]same for" \
+              " pointer types, ct_assert[not]equalstr for string types, or" \
+              " custom comparisons with ct_asserttrue/false for structs," \
+              " unions, and arrays.")
 
 /**
  Ensure the first argument of a variadic macro argument list is a string
@@ -681,7 +681,7 @@ _Static_assert(_Generic(&ct_makevalue_factory(v), \
  ignored.
  @param format_args Format arguments for the format string.
  */
-_Noreturn void ct_internal_ignore(const char *restrict, ...);
+[[noreturn]] void ct_internal_ignore(const char *restrict, ...);
 
 /**
  Assert failure unconditionally with contextual details and message.
@@ -692,8 +692,8 @@ _Noreturn void ct_internal_ignore(const char *restrict, ...);
  assertion fails.
  @param format_args Format arguments for the format string.
  */
-_Noreturn void ct_internal_assertfail(const char *restrict, int,
-                                      const char *restrict, ...);
+[[noreturn]] void ct_internal_assertfail(const char *restrict, int,
+                                         const char *restrict, ...);
 
 /**
  Assert whether the expression is true, with contextual details and message.
@@ -706,7 +706,7 @@ _Noreturn void ct_internal_assertfail(const char *restrict, int,
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_asserttrue(_Bool, const char *, const char *restrict, int,
+void ct_internal_asserttrue(bool, const char *, const char *restrict, int,
                             const char *restrict, ...);
 
 /**
@@ -720,7 +720,7 @@ void ct_internal_asserttrue(_Bool, const char *, const char *restrict, int,
  fails.
  @param format_args Format arguments for the format string.
  */
-void ct_internal_assertfalse(_Bool, const char *, const char *restrict, int,
+void ct_internal_assertfalse(bool, const char *, const char *restrict, int,
                              const char *restrict, ...);
 
 /**

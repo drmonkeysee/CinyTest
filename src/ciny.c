@@ -14,10 +14,8 @@
 #include <math.h>
 #include <setjmp.h>
 #include <stdarg.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdnoreturn.h>
 #include <string.h>
 #include <time.h>
 
@@ -25,7 +23,7 @@
 // Platform-specific Definitions
 //
 
-uint64_t ct_get_currentmsecs(void);
+uint64_t ct_get_currentmsecs();
 void
     ct_startcolor(FILE *, size_t),
     ct_endcolor(FILE *);
@@ -159,7 +157,7 @@ struct runreport {
 // Inline Function Call Sites
 //
 
-extern inline struct ct_version ct_getversion(void);
+extern inline struct ct_version ct_getversion();
 extern inline uint32_t ct_versionhex(const struct ct_version *);
 extern inline struct ct_testsuite
     ct_makesuite_setup_teardown_named(const char *, size_t count,
@@ -203,7 +201,7 @@ static void print_title(const char *restrict format, ...)
     printout(" ===---\n");
 }
 
-static void print_usage(void)
+static void print_usage()
 {
     print_title("CinyTest Usage");
     printout("This program contains CinyTest tests and can accept the"
@@ -227,7 +225,7 @@ static void print_usage(void)
              XmlFileOption);
 }
 
-static void print_version(void)
+static void print_version()
 {
     const struct ct_version v = ct_getversion();
     printout("CinyTest %u.%u.%u", v.major, v.minor, v.patch);
@@ -390,7 +388,7 @@ static const char *arg_value(const char *arg)
 // Test Filters
 //
 
-static struct testfilter testfilter_make(void)
+static struct testfilter testfilter_make()
 {
     return (struct testfilter){.apply = FILTER_ANY};
 }
@@ -467,7 +465,7 @@ static void testfilter_print(const struct testfilter *self,
     testfilter_print_prefixed(self, style, true);
 }
 
-static filterlist *filterlist_new(void)
+static filterlist *filterlist_new()
 {
     return NULL;
 }
@@ -722,7 +720,7 @@ static void runcontext_init(int argc, char *argv[argc+1])
     RunContext.exclude = parse_filters(exclude_filter_option);
 }
 
-static bool runcontext_suppressoutput(void)
+static bool runcontext_suppressoutput()
 {
     return RunContext.out != stdout;
 }
@@ -772,7 +770,7 @@ static void runcontext_printtargetedfilters(enum filtertarget target)
     }
 }
 
-static void runcontext_printfilters(void)
+static void runcontext_printfilters()
 {
     if (!RunContext.include && !RunContext.exclude) return;
 
@@ -785,7 +783,7 @@ static void runcontext_printfilters(void)
     runcontext_printtargetedfilters(FILTER_ALL);
 }
 
-static void runcontext_print(void)
+static void runcontext_print()
 {
     const struct ct_version v = ct_getversion();
     print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
@@ -799,7 +797,7 @@ static void runcontext_print(void)
     printout("\n");
 }
 
-static void runcontext_cleanup(void)
+static void runcontext_cleanup()
 {
     ct_restorestream(stdout, RunContext.out);
     RunContext.out = NULL;
@@ -829,9 +827,9 @@ static void runcontext_cleanup(void)
 // Run Summary
 //
 
-static struct runsummary runsummary_make(void)
+static struct runsummary runsummary_make()
 {
-    return (struct runsummary){.test_count = 0};
+    return (struct runsummary){};
 }
 
 static void runsummary_print(const struct runsummary *self)
@@ -877,7 +875,7 @@ static void runtotals_add(const struct runsummary *summary)
     RunTotals.ledger.skipped += summary->ledger.skipped;
 }
 
-static void runtotals_print(void)
+static void runtotals_print()
 {
     if (RunTotals.ledger.failed > 0) {
         print_labelbox(HIGHLIGHT_FAILURE, "FAILED");
@@ -891,7 +889,7 @@ static void runtotals_print(void)
 // Assert State
 //
 
-static void assertstate_reset(void)
+static void assertstate_reset()
 {
     AssertState.type = ASSERT_UNKNOWN;
     AssertState.matched = NULL;
@@ -1395,7 +1393,7 @@ static void testsuite_printheader(const struct ct_testsuite *self,
     printout("Test suite '%s' started at %s\n", self->name, date_msg);
 }
 
-static enum suitebreak suitebreak_make(void)
+static enum suitebreak suitebreak_make()
 {
     return RunContext.verbosity > VERBOSITY_LIST
             ? SUITEBREAK_OPEN
@@ -1577,13 +1575,13 @@ size_t ct_runcount_withargs(size_t count,
     return RunTotals.ledger.failed;
 }
 
-noreturn void ct_internal_ignore(const char *restrict format, ...)
+[[noreturn]] void ct_internal_ignore(const char *restrict format, ...)
 {
     assertstate_raise_signal(ASSERT_IGNORE, NULL, 0, format);
 }
 
-noreturn void ct_internal_assertfail(const char *restrict file, int line,
-                                     const char *restrict format, ...)
+[[noreturn]] void ct_internal_assertfail(const char *restrict file, int line,
+                                         const char *restrict format, ...)
 {
     assertstate_setdescription("%s", "asserted unconditional failure");
     assertstate_raise_signal(ASSERT_FAILURE, file, line, format);

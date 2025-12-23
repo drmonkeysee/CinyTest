@@ -1029,7 +1029,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndUIntegerIdenticalBitPattern
 {
-    _Static_assert(sizeof(int) == sizeof(unsigned int), "int and uint not equal sizes; this test needs to be adjusted to use different types");
+    static_assert(sizeof(int) == sizeof(unsigned int), "int and uint not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
     ui_values[ARG_ACTUAL] = 3248488448;
     self.expectedType = TAT_INT;
@@ -1044,7 +1044,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfIntegerAndFloatIdenticalBitPattern
 {
-    _Static_assert(sizeof(int) == sizeof(float), "int and float not equal sizes; this test needs to be adjusted to use different types");
+    static_assert(sizeof(int) == sizeof(float), "int and float not equal sizes; this test needs to be adjusted to use different types");
     i_values[ARG_EXPECTED] = -1046478848;
     f_values[ARG_ACTUAL] = -2.0e1f;
     self.expectedType = TAT_INT;
@@ -1059,7 +1059,7 @@ static void equality_test_withtypevariants(void *context)
 
 - (void)test_ctassertequal_ComparesNotEqual_IfUIntegerAndFloatIdenticalBitPattern
 {
-    _Static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
+    static_assert(sizeof(unsigned int) == sizeof(float), "uint and float not equal sizes; this test needs to be adjusted to use different types");
     ui_values[ARG_EXPECTED] = 3248488448;
     f_values[ARG_ACTUAL] = -2.0e1f;
     self.expectedType = TAT_UINT;

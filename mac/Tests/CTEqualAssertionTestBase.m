@@ -15,7 +15,7 @@ long l_values[2];
 long long ll_values[2];
 intmax_t smx_values[2];
 
-_Bool b_values[2];
+bool b_values[2];
 unsigned char uc_values[2];
 unsigned short us_values[2];
 unsigned int ui_values[2];

@@ -21,7 +21,7 @@ static void makesuite_faketeardown(void **context)
     // do nothing
 }
 
-static struct ct_testsuite fakesuite_function(void)
+static struct ct_testsuite fakesuite_function()
 {
     const struct ct_testcase *const cases = NULL;
 #pragma clang diagnostic push

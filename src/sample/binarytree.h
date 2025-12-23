@@ -17,21 +17,21 @@
 
 typedef struct bt_node binarytree;
 
-binarytree *bt_new(void);
+binarytree *bt_new();
 
 binarytree *bt_new_withvalues(size_t n, ...);
 
 void bt_free(binarytree *self);
 
-_Bool bt_isempty(binarytree *self);
+bool bt_isempty(binarytree *self);
 
 void bt_insert(binarytree **self, int value);
 
 void bt_remove(binarytree **self, int value);
 
-_Bool bt_contains(binarytree *self, int value);
+bool bt_contains(binarytree *self, int value);
 
-_Bool bt_isbalanced(binarytree *self);
+bool bt_isbalanced(binarytree *self);
 
 void bt_rebalance(binarytree **self);
 

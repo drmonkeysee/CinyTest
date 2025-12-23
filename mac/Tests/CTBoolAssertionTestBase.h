@@ -8,8 +8,6 @@
 
 #import "CTAssertionTestBase.h"
 
-#include <stdbool.h>
-
 @interface CTBoolAssertionTestBase : CTAssertionTestBase
 
 @property (nonatomic, assign) bool testVariable;
