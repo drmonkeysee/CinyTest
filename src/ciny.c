@@ -27,7 +27,7 @@ uint64_t ct_get_currentmsecs();
 void
     ct_startcolor(FILE *, size_t),
     ct_endcolor(FILE *);
-FILE *ct_replacestream(FILE *);
+[[nodiscard]] FILE *ct_replacestream(FILE *);
 void ct_restorestream(FILE *, FILE *);
 
 #ifdef _WIN64
