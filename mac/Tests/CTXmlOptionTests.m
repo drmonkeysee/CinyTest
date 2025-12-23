@@ -169,7 +169,7 @@ static void long_failure(void *context)
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_failure\"",
-        [NSString stringWithFormat:@"<failure message=\"%@ L.51 : asserted unconditional failure\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__]],
+        [NSString stringWithFormat:@"<failure message=\"%@ L.50 : asserted unconditional failure\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__]],
     ];
     [self assertValidXmlContaining:expected];
 }
@@ -192,7 +192,7 @@ static void long_failure(void *context)
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"encoded_failure\"",
         [NSString stringWithFormat:
-         @"<failure message=\"%@ L.56 : (5 &#60; 2) is true failed&#10;a proper &#38; expected failure\" type=\"assertion\" />",
+         @"<failure message=\"%@ L.55 : (5 &#60; 2) is true failed&#10;a proper &#38; expected failure\" type=\"assertion\" />",
          [NSString stringWithUTF8String:__FILE__]],
     ];
     [self assertValidXmlContaining:expected];
@@ -325,7 +325,7 @@ static void long_failure(void *context)
         @"<testcase classname=\"multi-tests.suite1\" name=\"success2\"",
         @"<testcase classname=\"multi-tests.suite1\" name=\"failure1\"",
         [NSString stringWithFormat:
-         @"<failure message=\"%@ L.56 : (5 &#60; 2) is true failed&#10;a proper &#38; expected failure\" type=\"assertion\" />",
+         @"<failure message=\"%@ L.55 : (5 &#60; 2) is true failed&#10;a proper &#38; expected failure\" type=\"assertion\" />",
          [NSString stringWithUTF8String:__FILE__]],
         @"<testcase classname=\"multi-tests.suite1\" name=\"ignore1\"",
         @"<skipped message=\"don't run this &#34;useful&#34; test\" type=\"ignored\" />",
@@ -378,7 +378,7 @@ static void long_failure(void *context)
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"long_failure\"",
-        [NSString stringWithFormat:@"<failure message=\"%@ L.82 : asserted unconditional failure&#10;%@\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__], [self.class getResourceStringFor:@"TruncatedString"]],
+        [NSString stringWithFormat:@"<failure message=\"%@ L.81 : asserted unconditional failure&#10;%@\" type=\"assertion\" />", [NSString stringWithUTF8String:__FILE__], [self.class getResourceStringFor:@"TruncatedString"]],
     ];
     [self assertValidXmlContaining:expected];
 }
