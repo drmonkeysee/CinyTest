@@ -70,7 +70,7 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED,
 };
 
-static const char FilterTargetDelimiter = ':';
+static constexpr char FilterTargetDelimiter = ':';
 enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
@@ -84,7 +84,7 @@ struct testfilter {
 };
 typedef struct testfilter filterlist;
 
-#define ENV_COPY_COUNT 2u
+static constexpr size_t EnvCopyCount = 2;
 enum verbositylevel {
     VERBOSITY_MINIMAL,
     VERBOSITY_LIST,
@@ -94,13 +94,13 @@ enum verbositylevel {
 static struct {
     FILE *out, *err, *xml;
     filterlist *include, *exclude;
-    char *restrict env_copies[ENV_COPY_COUNT];
+    char *restrict env_copies[EnvCopyCount];
     const char *xml_filename;
     enum verbositylevel verbosity;
     bool help, version, colorized;
 } RunContext;
 
-#define COMPVALUE_STR_SIZE 75u
+static constexpr size_t CompValueStrSize = 75;
 enum assert_type {
     ASSERT_UNKNOWN,
     ASSERT_SUCCESS,
@@ -114,12 +114,12 @@ static struct assertion {
     int line;
     enum assert_type type;
     char
-        description[200 + (COMPVALUE_STR_SIZE * 2)],
+        description[200 + (CompValueStrSize * 2)],
         message[1002];
 } AssertState;
 static jmp_buf AssertSignal;
 
-static const size_t InvalidSuite;
+static constexpr size_t InvalidSuite = 0;
 enum suitebreak {
     SUITEBREAK_END,
     SUITEBREAK_OPEN,
@@ -134,8 +134,8 @@ static struct runsummary {
     uint64_t total_time;
 } RunTotals;
 
-#define DATE_STR_SIZE 30u
-static const double MsPerSec = 1000.0;
+static constexpr size_t DateStrSize = 30;
+static constexpr double MsPerSec = 1000.0;
 struct casereport {
     const struct ct_testcase *testcase;
     uint64_t time;
@@ -145,7 +145,7 @@ struct suitereport {
     const struct ct_testsuite *testsuite;
     struct runsummary summary;
     struct casereport *cases;
-    char date[DATE_STR_SIZE];
+    char date[DateStrSize];
 };
 struct runreport {
     const char *name;
@@ -346,8 +346,8 @@ static bool pretty_truncate(size_t size, char buffer[size])
 
 static bool argflag_on(const char *value)
 {
-    static const char off_flags[] = {'n', 'N', 'f', 'F', '0'};
-    static const size_t flags_count = sizeof off_flags;
+    static constexpr char off_flags[] = {'n', 'N', 'f', 'F', '0'};
+    static constexpr size_t flags_count = sizeof off_flags;
 
     if (!value) return true;
 
@@ -395,7 +395,7 @@ static struct testfilter testfilter_make()
 
 static bool testfilter_match(const struct testfilter *self, const char *name)
 {
-    static const char char_wildcard = '?', str_wildcard = '*';
+    static constexpr char char_wildcard = '?', str_wildcard = '*';
 
     if (!name) return false;
 
@@ -558,7 +558,7 @@ static void filterlist_free(filterlist *self)
 static const char *parse_filterexpr(const char *restrict cursor,
                                     filterlist **fl)
 {
-    static const char expr_delimiter = ',';
+    static constexpr char expr_delimiter = ',';
 
     struct testfilter filter = testfilter_make();
 
@@ -817,7 +817,7 @@ static void runcontext_cleanup()
     filterlist_free(RunContext.exclude);
     RunContext.exclude = nullptr;
 
-    for (size_t i = 0; i < ENV_COPY_COUNT; ++i) {
+    for (size_t i = 0; i < EnvCopyCount; ++i) {
         free(RunContext.env_copies[i]);
         RunContext.env_copies[i] = nullptr;
     }
@@ -946,7 +946,7 @@ static void assertstate_handle(const char *restrict test_name,
 
 static void assertstate_setdescription(const char *restrict format, ...)
 {
-    static const size_t description_size = sizeof AssertState.description;
+    static constexpr size_t description_size = sizeof AssertState.description;
     va_list format_args;
     va_start(format_args, format);
     const int write_count = vsnprintf(AssertState.description,
@@ -971,7 +971,7 @@ do { \
 static void assertstate_setvmessage(const char *restrict format,
                                     va_list format_args)
 {
-    static const size_t message_size = sizeof AssertState.message;
+    static constexpr size_t message_size = sizeof AssertState.message;
     const int write_count = vsnprintf(AssertState.message, message_size,
                                       format, format_args);
 
@@ -1208,7 +1208,7 @@ static size_t xml_flush(size_t terminator, char buffer[])
 static void write_xml_attribute_escaped(const char *string)
 {
     // NOTE: escape size = &#NNN; + NUL byte for any ASCII character
-    static const size_t max_escape = 7;
+    static constexpr size_t max_escape = 7;
 
     if (!string) return;
 
@@ -1377,7 +1377,7 @@ static void testsuite_printheader(const struct ct_testsuite *self,
                                   struct suitereport *report,
                                   time_t start_time)
 {
-    char formatted_datetime[DATE_STR_SIZE];
+    char formatted_datetime[DateStrSize];
     const size_t format_length = strftime(formatted_datetime,
                                           sizeof formatted_datetime, "%FT%T%z",
                                           localtime(&start_time));
@@ -1652,8 +1652,8 @@ void ct_internal_assertequal(struct ct_comparable_value expected,
     } else if (!comparable_value_equalvalues(&expected, &actual,
                                              expected.type)) {
         char
-            valuestr_expected[COMPVALUE_STR_SIZE],
-            valuestr_actual[COMPVALUE_STR_SIZE];
+            valuestr_expected[CompValueStrSize],
+            valuestr_actual[CompValueStrSize];
         comparable_value_valuedescription(&expected, sizeof valuestr_expected,
                                           valuestr_expected);
         comparable_value_valuedescription(&actual, sizeof valuestr_actual,
@@ -1687,7 +1687,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value expected,
         failed_assert = true;
     } else if (comparable_value_equalvalues(&expected, &actual,
                                             expected.type)) {
-        char valuestr_expected[COMPVALUE_STR_SIZE];
+        char valuestr_expected[CompValueStrSize];
         comparable_value_valuedescription(&expected, sizeof valuestr_expected,
                                           valuestr_expected);
         assertstate_setdescription("(%s) is equal to (%s): (%s)",
@@ -1785,8 +1785,8 @@ void ct_internal_assertequalstrn(const char *expected,
         || (expected && actual && (strncmp(expected, actual, n) != 0));
     if (assert_fails) {
         char
-            valuestr_expected[COMPVALUE_STR_SIZE],
-            valuestr_actual[COMPVALUE_STR_SIZE];
+            valuestr_expected[CompValueStrSize],
+            valuestr_actual[CompValueStrSize];
 
         int write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
                                    "%s", expected);
@@ -1825,7 +1825,7 @@ void ct_internal_assertnotequalstrn(const char *expected,
         (!expected && !actual)
         || (expected && actual && (strncmp(expected, actual, n) == 0));
     if (assert_fails) {
-        char valuestr_expected[COMPVALUE_STR_SIZE];
+        char valuestr_expected[CompValueStrSize];
 
         const int write_count = snprintf(valuestr_expected,
                                          sizeof valuestr_expected, "%s",

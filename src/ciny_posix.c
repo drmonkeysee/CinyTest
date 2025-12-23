@@ -20,9 +20,9 @@
 
 uint64_t ct_get_currentmsecs()
 {
-    static const int64_t
+    static constexpr int64_t
         milliseconds_per_second = 1000,
-        nanoseconds_per_millisecond = 1e6;
+        nanoseconds_per_millisecond = 1'000'000;
 
     struct timespec vtime;
     clock_gettime(CLOCK_REALTIME, &vtime);
@@ -34,7 +34,7 @@ uint64_t ct_get_currentmsecs()
 void ct_startcolor(FILE *stream, size_t color_index)
 {
     static const char *const colors[] = {GREEN, RED, CYAN, MAGENTA};
-    static const size_t color_count = sizeof colors / sizeof colors[0];
+    static constexpr size_t color_count = sizeof colors / sizeof colors[0];
 
     if (color_index < color_count) {
         fprintf(stream, "%s", colors[color_index]);

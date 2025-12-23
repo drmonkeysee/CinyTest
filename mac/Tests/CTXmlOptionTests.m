@@ -27,9 +27,9 @@
 
 @end
 
-#define ARGS_SIZE 3
+static constexpr size_t ArgsSize = 3;
 static void *TestClass;
-static char *ProgramArgs[ARGS_SIZE];
+static char *ProgramArgs[ArgsSize];
 
 // NOTE: mock fopen to capture xml output (i'm surprised this works)
 FILE *fopen(const char *restrict filename, const char *restrict mode)
@@ -111,7 +111,7 @@ static void long_failure(void *context)
 
 - (void)test_NoXmlData_IfNoTests
 {
-    const size_t result = ct_runsuite_withargs(nullptr, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(nullptr, ArgsSize, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -122,7 +122,7 @@ static void long_failure(void *context)
 {
     const struct ct_testcase cases[] = {};
     const struct ct_testsuite suite = ct_makesuite(cases);
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -139,7 +139,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -160,7 +160,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(1, result);
@@ -182,7 +182,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(1, result);
@@ -206,7 +206,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -228,7 +228,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -251,7 +251,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -274,7 +274,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -313,7 +313,7 @@ static void long_failure(void *context)
                                           cases2, nullptr, nullptr),
     };
 
-    const size_t result = ct_run_withargs(suites, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_run_withargs(suites, ArgsSize, ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"tests.xml", self.xmlName);
@@ -346,7 +346,7 @@ static void long_failure(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -369,7 +369,7 @@ static void long_failure(void *context)
                                               sizeof cases / sizeof cases[0],
                                               cases, nullptr, nullptr);
 
-    const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
+    const size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1,
                                                ProgramArgs);
 
     XCTAssertEqual(1, result);

@@ -25,7 +25,7 @@ static HANDLE streamhandle(FILE *stream)
 uint64_t ct_get_currentmsecs()
 {
     // sys time returns 100s of nanoseconds
-    static const uint64_t millisecond_factor = 10000;
+    static constexpr uint64_t millisecond_factor = 10000;
 
     FILETIME vtime;
     GetSystemTimeAsFileTime(&vtime);
@@ -39,7 +39,7 @@ uint64_t ct_get_currentmsecs()
 
 void ct_startcolor(FILE *stream, size_t color_index)
 {
-    static const WORD
+    static constexpr WORD
         colors[] = {
             FOREGROUND_GREEN,
             FOREGROUND_RED,
@@ -48,7 +48,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
         },
         clear_foreground = ~(FOREGROUND_BLUE | FOREGROUND_GREEN
                              | FOREGROUND_RED | FOREGROUND_INTENSITY);
-    static const size_t color_count = sizeof colors / sizeof colors[0];
+    static constexpr size_t color_count = sizeof colors / sizeof colors[0];
 
     if (color_index >= color_count) return;
 

@@ -26,7 +26,7 @@
 
 static void *TestClass;
 static int *FakeContext;
-static const int FakeContextValue = 8;
+static constexpr int FakeContextValue = 8;
 
 static void record_testcontext_occurrence(void *context,
                                           CTRunSuiteTests *testObject)
