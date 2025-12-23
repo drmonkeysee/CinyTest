@@ -39,13 +39,13 @@ uint64_t ct_get_currentmsecs()
 
 void ct_startcolor(FILE *stream, size_t color_index)
 {
+    static constexpr WORD colors[] = {
+        FOREGROUND_GREEN,
+        FOREGROUND_RED,
+        FOREGROUND_BLUE | FOREGROUND_GREEN,
+        FOREGROUND_BLUE | FOREGROUND_RED,
+    };
     static constexpr WORD
-        colors[] = {
-            FOREGROUND_GREEN,
-            FOREGROUND_RED,
-            FOREGROUND_BLUE | FOREGROUND_GREEN,
-            FOREGROUND_BLUE | FOREGROUND_RED,
-        },
         clear_foreground = ~(FOREGROUND_BLUE | FOREGROUND_GREEN
                              | FOREGROUND_RED | FOREGROUND_INTENSITY);
     static constexpr size_t color_count = sizeof colors / sizeof colors[0];

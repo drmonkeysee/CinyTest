@@ -20,9 +20,8 @@
 
 uint64_t ct_get_currentmsecs()
 {
-    static constexpr int64_t
-        milliseconds_per_second = 1000,
-        nanoseconds_per_millisecond = 1'000'000;
+    static constexpr int64_t milliseconds_per_second = 1000;
+    static constexpr int64_t nanoseconds_per_millisecond = 1'000'000;
 
     struct timespec vtime;
     clock_gettime(CLOCK_REALTIME, &vtime);

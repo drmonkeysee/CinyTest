@@ -395,7 +395,8 @@ static struct testfilter testfilter_make()
 
 static bool testfilter_match(const struct testfilter *self, const char *name)
 {
-    static constexpr char char_wildcard = '?', str_wildcard = '*';
+    static constexpr char char_wildcard = '?';
+    static constexpr char str_wildcard = '*';
 
     if (!name) return false;
 
