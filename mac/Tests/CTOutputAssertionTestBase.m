@@ -92,7 +92,7 @@ static void test_case(void *context)
 {
     for (NSString *value in inputs) {
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
-        const uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
+        uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
         NSString *argValue = [NSString stringWithFormat:@"%@=%@", optionArgument, value];
         [args insertObject:argValue atIndex:insertIndex];
         [self assertSuite:compare value:expected forOption:value withArgs:args];
@@ -107,14 +107,14 @@ static void test_case(void *context)
 - (void)assertSuite:(CTOutputComparison)compare value:(NSString *)expected forOption:(NSString *)optionFlag withArgs:(NSArray *)args
 {
     const struct ct_testcase cases[] = {ct_maketest(self.testFunc)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
     NSPipe *output = [NSPipe pipe];
     NSFileHandle *readOutput = output.fileHandleForReading;
-    const int old_stdout = dup(fileno(stdout));
+    int old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
-    const int argc = (int)args.count;
+    int argc = (int)args.count;
     char *argv[argc + 1];
     for (int i = 0; i < argc; ++i) {
         // NOTE: cast away const to match signature (we promise not to mutate them)

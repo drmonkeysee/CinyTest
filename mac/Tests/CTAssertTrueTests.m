@@ -75,9 +75,9 @@ static void literal_false_test(void *context)
 {
     self.testVariable = true;
     const struct ct_testcase cases[] = {ct_maketest(variable_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -86,9 +86,9 @@ static void literal_false_test(void *context)
 {
     self.testVariable = false;
     const struct ct_testcase cases[] = {ct_maketest(variable_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -98,9 +98,9 @@ static void literal_false_test(void *context)
     self.gtExpressionLhs = 10;
     self.gtExpressionRhs = 5;
     const struct ct_testcase cases[] = {ct_maketest(expression_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -110,9 +110,9 @@ static void literal_false_test(void *context)
     self.gtExpressionLhs = 5;
     self.gtExpressionRhs = 10;
     const struct ct_testcase cases[] = {ct_maketest(expression_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -120,9 +120,9 @@ static void literal_false_test(void *context)
 - (void)test_ctasserttrue_ComparesTrue_IfLiteralIsTrue
 {
     const struct ct_testcase cases[] = {ct_maketest(literal_true_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -130,9 +130,9 @@ static void literal_false_test(void *context)
 - (void)test_ctasserttrue_ComparesFalse_IfLiteralIsFalse
 {
     const struct ct_testcase cases[] = {ct_maketest(literal_false_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }

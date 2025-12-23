@@ -43,7 +43,7 @@ static struct ct_testsuite fakesuite_function()
                              *expected_tests = faketests;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    const struct ct_testsuite testsuite = ct_makesuite(faketests);
+    struct ct_testsuite testsuite = ct_makesuite(faketests);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -54,7 +54,7 @@ static struct ct_testsuite fakesuite_function()
 
 - (void)test_ctmakesuite_UsesFunctionName
 {
-    const struct ct_testsuite testsuite = fakesuite_function();
+    struct ct_testsuite testsuite = fakesuite_function();
     
     XCTAssertEqualObjects([NSString stringWithUTF8String:"fakesuite_function"], [NSString stringWithUTF8String:testsuite.name]);
 }
@@ -66,7 +66,7 @@ static struct ct_testsuite fakesuite_function()
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
-    const struct ct_testsuite testsuite = ct_makesuite(cases);
+    struct ct_testsuite testsuite = ct_makesuite(cases);
 #pragma clang diagnostic pop
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
@@ -84,7 +84,7 @@ static struct ct_testsuite fakesuite_function()
     ct_setupteardown_function *expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
+    struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -101,7 +101,7 @@ static struct ct_testsuite fakesuite_function()
     ct_setupteardown_function *expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
+    struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -117,7 +117,7 @@ static struct ct_testsuite fakesuite_function()
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
-    const struct ct_testsuite testsuite = ct_makesuite_setup(cases, nullptr);
+    struct ct_testsuite testsuite = ct_makesuite_setup(cases, nullptr);
 #pragma clang diagnostic pop
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
@@ -136,7 +136,7 @@ static struct ct_testsuite fakesuite_function()
                                 *expected_teardown = makesuite_faketeardown;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
-    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
+    struct ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -152,7 +152,7 @@ static struct ct_testsuite fakesuite_function()
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
-    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown(cases, nullptr, nullptr);
+    struct ct_testsuite testsuite = ct_makesuite_setup_teardown(cases, nullptr, nullptr);
 #pragma clang diagnostic pop
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
@@ -171,7 +171,7 @@ static struct ct_testsuite fakesuite_function()
     ct_setupteardown_function *expected_setup = makesuite_fakesetup,
                                 *expected_teardown = makesuite_faketeardown;
     
-    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", expected_count, faketests, expected_setup, expected_teardown);
+    struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", expected_count, faketests, expected_setup, expected_teardown);
     
     XCTAssertEqualObjects(@"fake suite", [NSString stringWithUTF8String:testsuite.name]);
     XCTAssertEqual(expected_tests, testsuite.tests);
@@ -182,7 +182,7 @@ static struct ct_testsuite fakesuite_function()
 
 - (void)test_ctmakesuitesetupteardownnamed_CreatesTestSuite_IfNullArguments
 {
-    const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named(nullptr, 0, nullptr, nullptr, nullptr);
+    struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named(nullptr, 0, nullptr, nullptr, nullptr);
     
     XCTAssertTrue(testsuite.name == nullptr, @"Expected null name");
     XCTAssertTrue(testsuite.tests == nullptr, @"Expected null tests");

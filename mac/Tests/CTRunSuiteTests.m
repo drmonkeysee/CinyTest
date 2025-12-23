@@ -105,7 +105,7 @@ static void test_teardown(void **context)
 
 - (void)test_ctrunsuite_ReturnsZero_IfNullSuite
 {
-    const size_t run_result = ct_runsuite(nullptr);
+    size_t run_result = ct_runsuite(nullptr);
 
     XCTAssertEqual(0u, run_result);
 }
@@ -116,10 +116,10 @@ static void test_teardown(void **context)
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
 #pragma clang diagnostic pop
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
 }
@@ -127,9 +127,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_InvokesPassingTests_IfValidTestcases
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.passingTestInvocations);
@@ -140,9 +140,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfNoSetupMethod
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertTrue(FakeContext == nullptr);
@@ -152,9 +152,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_CreatesTestContext_IfGivenSetupMethod
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup(cases, test_setup);
+    struct ct_testsuite suite = ct_makesuite_setup(cases, test_setup);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -164,9 +164,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_PassesContextToTeardown_IfSetupAndTeardownMethod
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -177,9 +177,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_GivesTeardownNullContext_IfTeardownButNoSetup
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, nullptr, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, nullptr, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(0u, self.setupInvocations);
@@ -191,9 +191,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_InvokesPassingTests_UpToCount
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown_named("foobar", 2, cases, nullptr, nullptr);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown_named("foobar", 2, cases, nullptr, nullptr);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocations);
@@ -204,9 +204,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcase
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(nullptr), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocations);
@@ -217,9 +217,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_ExecutesTest_IfNullTestName
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest_named(nullptr, passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.passingTestInvocations);
@@ -230,9 +230,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_IgnoresTests_IfNullTestcaseWithContext
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(nullptr), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -243,9 +243,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_ReturnsFailureCount_IfOneTestFails
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocations);
@@ -256,9 +256,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_ReturnsFailureCount_IfAllTestsFail
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(failing_test), ct_maketest(failing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(3u, run_result);
     XCTAssertEqual(0u, self.passingTestInvocations);
@@ -269,9 +269,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsFailWithNoSetupOrTeardown
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(failing_test), ct_maketest(failing_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(3u, run_result);
     XCTAssertTrue(FakeContext == nullptr);
@@ -281,9 +281,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_PassesContextToTests_IfOneFailingTest
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -294,9 +294,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_PassesContextToTests_IfAllFailingTests
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(failing_test), ct_maketest(failing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(3u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -307,9 +307,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_DoesNotIncludeIgnoredTestInFailureCount_IfOneTestIgnored
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocations);
@@ -320,9 +320,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_DoesNotIncludeIgnoredTestsInFailureCount_IfAllTestsIgnored
 {
     const struct ct_testcase cases[] = {ct_maketest(ignored_test), ct_maketest(ignored_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(0u, self.passingTestInvocations);
@@ -333,9 +333,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfAllTestsIgnoredWithNoSetupOrTeardown
 {
     const struct ct_testcase cases[] = {ct_maketest(ignored_test), ct_maketest(ignored_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertTrue(FakeContext == nullptr);
@@ -345,9 +345,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_PassesContextToTests_IfOneIgnoredTest
 {
     const struct ct_testcase cases[] = {ct_maketest(passing_test), ct_maketest(passing_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -358,9 +358,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_PassesContextToTests_IfAllIgnoredTests
 {
     const struct ct_testcase cases[] = {ct_maketest(ignored_test), ct_maketest(ignored_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(0u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -371,9 +371,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_ReturnsFailureCount_IfMixtureOfPassingIgnoredFailedTests
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(1u, self.passingTestInvocations);
@@ -384,9 +384,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_DoesNotCreateTestContext_IfMixtureOfPassingIgnoredFailedTests
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite(cases);
+    struct ct_testsuite suite = ct_makesuite(cases);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertTrue(FakeContext == nullptr);
@@ -396,9 +396,9 @@ static void test_teardown(void **context)
 - (void)test_ctrunsuite_PassesContextToTests_IfMixtureOfPassingIgnoredFailedTests
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(ignored_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -409,10 +409,10 @@ static void test_teardown(void **context)
 - (void)test_ct_runsuite_withargs_Accepts_Commandline_Arguments
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     char *args[] = {"foo", "bar"};
     
-    const size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
+    size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
@@ -423,10 +423,10 @@ static void test_teardown(void **context)
 - (void)test_ct_runsuite_withargs_Handles_NullAndEmpty_Arguments
 {
     const struct ct_testcase cases[] = {ct_maketest(failing_test), ct_maketest(passing_test), ct_maketest(passing_test)};
-    const struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
+    struct ct_testsuite suite = ct_makesuite_setup_teardown(cases, test_setup, test_teardown);
     char *args[] = {"foo", nullptr, "bar", ""};
     
-    const size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
+    size_t run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);

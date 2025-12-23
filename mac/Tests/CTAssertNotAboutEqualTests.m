@@ -64,9 +64,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -80,9 +80,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -96,9 +96,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -112,9 +112,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -128,9 +128,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -144,9 +144,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -160,9 +160,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -176,9 +176,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -192,9 +192,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -208,9 +208,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -224,9 +224,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -240,16 +240,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinFloat
 {
-    const int exponent = ilogbf(FLT_MIN);
+    int exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN;
     af_values[ARG_ACTUAL] = FLT_MIN + ldexpf(0.05f, exponent);
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -257,16 +257,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinFloat
 {
-    const int exponent = ilogbf(FLT_MIN);
+    int exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN + ldexpf(0.05f, exponent);
     af_values[ARG_ACTUAL] = FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -274,9 +274,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -292,9 +292,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -310,16 +310,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinDouble
 {
-    const int exponent = ilogb(DBL_MIN);
+    int exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN;
     ad_values[ARG_ACTUAL] = DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -327,16 +327,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinDouble
 {
-    const int exponent = ilogb(DBL_MIN);
+    int exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_ACTUAL] = DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -344,9 +344,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -362,9 +362,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -380,16 +380,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinLongDouble
 {
-    const int exponent = ilogbl(LDBL_MIN);
+    int exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN;
     ald_values[ARG_ACTUAL] = LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -397,16 +397,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinLongDouble
 {
-    const int exponent = ilogbl(LDBL_MIN);
+    int exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_ACTUAL] = LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -414,9 +414,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -432,9 +432,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -450,16 +450,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinFloat
 {
-    const int exponent = ilogbf(-FLT_MIN);
+    int exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN;
     af_values[ARG_ACTUAL] = -FLT_MIN - ldexpf(0.05f, exponent);
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -467,16 +467,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinFloat
 {
-    const int exponent = ilogbf(-FLT_MIN);
+    int exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN - ldexpf(0.05f, exponent);
     af_values[ARG_ACTUAL] = -FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -484,9 +484,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -502,9 +502,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -520,16 +520,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinDouble
 {
-    const int exponent = ilogb(-DBL_MIN);
+    int exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN;
     ad_values[ARG_ACTUAL] = -DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -537,16 +537,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinDouble
 {
-    const int exponent = ilogb(-DBL_MIN);
+    int exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_ACTUAL] = -DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -554,9 +554,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -572,9 +572,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -590,16 +590,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinLongDouble
 {
-    const int exponent = ilogbl(-LDBL_MIN);
+    int exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN;
     ald_values[ARG_ACTUAL] = -LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -607,16 +607,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinLongDouble
 {
-    const int exponent = ilogbl(-LDBL_MIN);
+    int exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_ACTUAL] = -LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -624,9 +624,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -642,9 +642,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -660,9 +660,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -676,9 +676,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -694,9 +694,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -710,9 +710,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -726,9 +726,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -742,9 +742,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -758,9 +758,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -774,9 +774,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -790,9 +790,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -806,9 +806,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -822,16 +822,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinFloat
 {
-    const int exponent = ilogbf(FLT_MIN);
+    int exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN;
     af_values[ARG_ACTUAL] = FLT_MIN + ldexpf(5.7f, exponent);
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -839,16 +839,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinFloat
 {
-    const int exponent = ilogbf(FLT_MIN);
+    int exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN + ldexpf(5.7f, exponent);
     af_values[ARG_ACTUAL] = FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -856,9 +856,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -874,9 +874,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -892,16 +892,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinDouble
 {
-    const int exponent = ilogb(DBL_MIN);
+    int exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN;
     ad_values[ARG_ACTUAL] = DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -909,16 +909,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinDouble
 {
-    const int exponent = ilogb(DBL_MIN);
+    int exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_ACTUAL] = DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -926,9 +926,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -944,9 +944,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -962,16 +962,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinLongDouble
 {
-    const int exponent = ilogbl(LDBL_MIN);
+    int exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN;
     ald_values[ARG_ACTUAL] = LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -979,16 +979,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinLongDouble
 {
-    const int exponent = ilogbl(LDBL_MIN);
+    int exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_ACTUAL] = LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -996,9 +996,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1014,9 +1014,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1032,9 +1032,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1050,9 +1050,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1066,9 +1066,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1082,9 +1082,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1098,9 +1098,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1114,9 +1114,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1130,16 +1130,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
 {
-    const int exponent = ilogbf(-FLT_MIN);
+    int exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN;
     af_values[ARG_ACTUAL] = -FLT_MIN - ldexpf(5.7f, exponent);
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -1147,16 +1147,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinFloat
 {
-    const int exponent = ilogbf(-FLT_MIN);
+    int exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN - ldexpf(5.7f, exponent);
     af_values[ARG_ACTUAL] = -FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -1164,9 +1164,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1182,9 +1182,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1200,16 +1200,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_FLOAT;
     self.precisionType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinDouble
 {
-    const int exponent = ilogb(-DBL_MIN);
+    int exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN;
     ad_values[ARG_ACTUAL] = -DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -1217,16 +1217,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinDouble
 {
-    const int exponent = ilogb(-DBL_MIN);
+    int exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_ACTUAL] = -DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -1234,9 +1234,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1252,9 +1252,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1270,16 +1270,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinLongDouble
 {
-    const int exponent = ilogbl(-LDBL_MIN);
+    int exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN;
     ald_values[ARG_ACTUAL] = -LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -1287,16 +1287,16 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinLongDouble
 {
-    const int exponent = ilogbl(-LDBL_MIN);
+    int exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_ACTUAL] = -LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -1304,9 +1304,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1322,9 +1322,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1340,9 +1340,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_LDOUBLE;
     self.precisionType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1356,9 +1356,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1372,9 +1372,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1388,9 +1388,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1404,9 +1404,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1420,9 +1420,9 @@ static void notabout_equality_test_withformatmessage(void *context)
     self.actualType = TAT_DOUBLE;
     self.precisionType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1432,9 +1432,9 @@ static void notabout_equality_test_withformatmessage(void *context)
 - (void)test_ctnotaboutequal_FiresAssertion_WithMessage
 {
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test_withmessage)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -1442,9 +1442,9 @@ static void notabout_equality_test_withformatmessage(void *context)
 - (void)test_ctnotaboutequal_FiresAssertion_WithFormatMessage
 {
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test_withformatmessage)};
-    const struct ct_testsuite suite = ct_makesuite(tests);
+    struct ct_testsuite suite = ct_makesuite(tests);
     
-    const size_t run_result = ct_runsuite(&suite);
+    size_t run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
