@@ -1,6 +1,6 @@
 # CinyTest
 
-CinyTest is a lightweight library for defining and running unit tests in C. It targets the C17 standard (mostly) and follows the guidelines of [Modern C](https://modernc.gforge.inria.fr).
+CinyTest is a lightweight library for defining and running unit tests in C. It targets the C23 standard (mostly) and follows the guidelines of [Modern C](https://modernc.gforge.inria.fr).
 
 ## Features
 
@@ -19,7 +19,7 @@ CinyTest is a lightweight library for defining and running unit tests in C. It t
 
 The [Makefile](http://www.gnu.org/software/make/) will build CinyTest static and dynamic (shared) libraries for either macOS ([clang](http://clang.llvm.org)) or Linux ([gcc](https://gcc.gnu.org)). The **mac** folder also contains an Xcode project used for development that only builds a static library.
 
-For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99 and C11 features so the batch file uses clang instead of [cl.exe](https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options?view=vs-2019). See [Windows Support](#windows-support) below for more detail.
+For Windows builds there is a batch file: **winbuild.bat**. Microsoft's dev tools do not support several C99, C11, and C23 features so the batch file uses clang instead of [cl.exe](https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options?view=vs-2019). See [Windows Support](#windows-support) below for more detail.
 
 The Makefile has the following build targets:
 
@@ -116,7 +116,7 @@ In the sample code included in the CinyTest project, CinyTest is bootstrapped in
 
 ### Constraints and Assumptions
 
-While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no platform-specific compiler features and targeted the latest C language standard, C17.
+While I hope CinyTest is useful to others it is also a hobby exercise of mine. Its criteria fit my specific use case and I approached the problem in a very deliberate way. I wanted to see if I could write a library that used no platform-specific compiler features and targeted the latest C language standard, C23.
 
 That original goal has been left behind at this point as I've expanded the library's scope and target platforms. However the majority of platform-specific code is nicely sequestered behind a common API and compiler targets. As of this writing there are POSIX and Windows compatibility source files.
 
@@ -129,7 +129,7 @@ CinyTest is designed to be a small and simple library. To that point, it uses no
 
 #### Windows Support
 
-CinyTest uses C99 and C11 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards and current versions of Visual Studio include clang tooling and runtime libraries that cover the later standards.
+CinyTest uses C99, C11, and C23 features that are, as of this writing, not supported by Microsoft development tools natively; cl.exe is incapable of compiling CinyTest. Fortunately Microsoft has put some effort into supporting newer C standards and current versions of Visual Studio include clang tooling and runtime libraries that cover the later standards.
 
 It is possible to develop CinyTest in Visual Studio by installing the _C++ Clang tools for Windows_ feature (packaged in Visual Studio 2019+) but **winbuild.bat** is sufficient to build artifacts. Note that **winbuild.bat** only builds a static version of the CinyTest library.
 
