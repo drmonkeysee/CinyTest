@@ -101,8 +101,8 @@ struct ct_testsuite {
     size_t count;                       /**< The number of tests to be run. */
     const struct ct_testcase *tests;    /**< The collection of tests to run. */
     ct_setupteardown_function
-        *setup,                         /**< The test setup function. Runs before each test case. May be NULL. */
-        *teardown;                      /**< The test teardown function. Runs after each test case. May be NULL. */
+        *setup,                         /**< The test setup function. Runs before each test case. May be null. */
+        *teardown;                      /**< The test teardown function. Runs after each test case. May be null. */
 };
 
 /**
@@ -113,7 +113,7 @@ struct ct_testsuite {
  array value.
  @return A test suite.
  */
-#define ct_makesuite(test_list) ct_makesuite_setup(test_list, NULL)
+#define ct_makesuite(test_list) ct_makesuite_setup(test_list, nullptr)
 /**
  Make a test suite with a setup function.
  Uses the enclosing function as the test suite name.
@@ -124,7 +124,7 @@ struct ct_testsuite {
  @return A test suite.
  */
 #define ct_makesuite_setup(test_list, setup_function) \
-ct_makesuite_setup_teardown(test_list, setup_function, NULL)
+ct_makesuite_setup_teardown(test_list, setup_function, nullptr)
 /**
  Make a test suite with a setup and teardown function.
  Uses the enclosing function as the test suite name.
@@ -145,8 +145,8 @@ ct_makesuite_setup_teardown_named(__func__, \
  @param name The name of the test suite.
  @param count The number of test cases.
  @param tests The collection of test cases.
- @param setup The setup function. Runs before each test case. Can be NULL.
- @param teardown The teardown function. Runs after each test case. Can be NULL.
+ @param setup The setup function. Runs before each test case. Can be null.
+ @param teardown The teardown function. Runs after each test case. Can be null.
  @return A test suite.
  */
 inline struct ct_testsuite
@@ -165,7 +165,7 @@ inline struct ct_testsuite
  array value.
  @return The total number of failed tests.
  */
-#define ct_run(suites) ct_run_withargs(suites, 0, NULL)
+#define ct_run(suites) ct_run_withargs(suites, 0, nullptr)
 /**
  Run multiple unit test suites with command line arguments.
  @param suites The test suites to run.
@@ -213,7 +213,7 @@ inline size_t ct_runsuite_withargs(const struct ct_testsuite *suite,
  */
 inline size_t ct_runsuite(const struct ct_testsuite *suite)
 {
-    return ct_runsuite_withargs(suite, 0, NULL);
+    return ct_runsuite_withargs(suite, 0, nullptr);
 }
 
 /**
@@ -255,8 +255,8 @@ ct_internal_assertfalse(expression, #expression, __FILE__, __LINE__, \
                         ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 
 /**
- Assert whether an expression is NULL.
- @param expression The expression to evaluate against the value NULL.
+ Assert whether an expression is null.
+ @param expression The expression to evaluate against the value null.
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
@@ -264,8 +264,8 @@ ct_internal_assertfalse(expression, #expression, __FILE__, __LINE__, \
 ct_internal_assertnull(expression, #expression, __FILE__, __LINE__, \
                        ct_va_string(__VA_ARGS__), ct_va_rest(__VA_ARGS__))
 /**
- Assert whether an expression is not NULL.
- @param expression The expression to evaluate against the value !NULL.
+ Assert whether an expression is not null.
+ @param expression The expression to evaluate against the value !null.
  @param message A printf-style format string literal with optional arguments
  to display when the assertion fails.
  */
@@ -717,9 +717,9 @@ void ct_internal_assertfalse(bool, const char *, const char *restrict, int,
                              const char *restrict, ...);
 
 /**
- Assert whether the expression is NULL, with contextual details and message.
+ Assert whether the expression is null, with contextual details and message.
  @see ct_assertnull
- @param expression The expression to evaluate against the value NULL.
+ @param expression The expression to evaluate against the value null.
  @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.
@@ -732,10 +732,10 @@ void ct_internal_assertnull(const void *restrict, const char *,
                             ...);
 
 /**
- Assert whether the expression is not NULL, with contextual details and
+ Assert whether the expression is not null, with contextual details and
  message.
  @see ct_assertnotnull
- @param expression The expression to evaluate against the value !NULL.
+ @param expression The expression to evaluate against the value !null.
  @param stringized_expression The string representation of the expression.
  @param file The name of the file in which the assert fired.
  @param line The line number on which the assert fired.

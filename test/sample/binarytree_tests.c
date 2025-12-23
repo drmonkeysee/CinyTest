@@ -31,7 +31,7 @@ static void teardown(void **context)
 {
     bt_free(((struct bt_testcontext *)*context)->tree);
     free(*context);
-    *context = NULL;
+    *context = nullptr;
 }
 
 //

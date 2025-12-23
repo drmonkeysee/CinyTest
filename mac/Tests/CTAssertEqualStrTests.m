@@ -114,8 +114,8 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreNull
 {
-    self.expectedString = NULL;
-    self.actualString = NULL;
+    self.expectedString = nullptr;
+    self.actualString = nullptr;
     self.compareCount = 0;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
@@ -127,8 +127,8 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesEqual_IfExpectedAndActualAreNullEvenWithInvalidSize
 {
-    self.expectedString = NULL;
-    self.actualString = NULL;
+    self.expectedString = nullptr;
+    self.actualString = nullptr;
     self.compareCount = 8;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
@@ -298,7 +298,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfExpectedIsNull
 {
-    self.expectedString = NULL;
+    self.expectedString = nullptr;
     self.actualString = "foobar";
     self.compareCount = 0;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
@@ -311,7 +311,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfExpectedIsNullWithInvalidSize
 {
-    self.expectedString = NULL;
+    self.expectedString = nullptr;
     self.actualString = "foobar";
     self.compareCount = 45;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
@@ -338,7 +338,7 @@ static void test_equality_string_withformatmessage(void *context)
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsNull
 {
     self.expectedString = "foobar";
-    self.actualString = NULL;
+    self.actualString = nullptr;
     self.compareCount = sizeof "foobar";
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
@@ -351,7 +351,7 @@ static void test_equality_string_withformatmessage(void *context)
 - (void)test_ctassertequalstrn_ComparesNotEqual_IfActualIsNullWithInvalidSize
 {
     self.expectedString = "foobar";
-    self.actualString = NULL;
+    self.actualString = nullptr;
     self.compareCount = 100;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
@@ -462,7 +462,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrEmpty_ComparesNotEqual_IfNull
 {
-    self.actualString = NULL;
+    self.actualString = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_string_expectedempty)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
@@ -506,7 +506,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrOneChar_ComparesNotEqual_IfNull
 {
-    self.actualString = NULL;
+    self.actualString = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_string_expectedonechar)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     
@@ -561,7 +561,7 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrFullStr_ComparesNotEqual_IfNull
 {
-    self.actualString = NULL;
+    self.actualString = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_string_expected)} ;
     const struct ct_testsuite suite = ct_makesuite(tests);
     

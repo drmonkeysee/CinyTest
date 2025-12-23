@@ -52,7 +52,7 @@ static void literal_null_test(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertnotnull(NULL);
+    ct_assertnotnull(nullptr);
     
     testObject.sawPostAssertCode = YES;
 }
@@ -73,7 +73,7 @@ static void literal_notnull_test(void *context)
 
 - (void)test_ctassertnotnull_ComparesNull_IfVariableIsNull
 {
-    self.testVariable = NULL;
+    self.testVariable = nullptr;
     const struct ct_testcase cases[] = {ct_maketest(variable_test)};
     const struct ct_testsuite suite = ct_makesuite(cases);
     

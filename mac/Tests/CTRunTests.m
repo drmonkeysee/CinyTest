@@ -155,25 +155,25 @@ static void test_teardownB(void **context)
     [super setUp];
     
     TestClass = (__bridge void *)(self);
-    FakeContextA = FakeContextB = NULL;
+    FakeContextA = FakeContextB = nullptr;
 }
 
 - (void)tearDown
 {
-    TestClass = NULL;
+    TestClass = nullptr;
     
     free(FakeContextA);
-    FakeContextA = NULL;
+    FakeContextA = nullptr;
     
     free(FakeContextB);
-    FakeContextB = NULL;
+    FakeContextB = nullptr;
     
     [super tearDown];
 }
 
 - (void)test_ctrun_ReturnsZero_IfNullSuites
 {
-    const struct ct_testsuite *const suites = NULL;
+    const struct ct_testsuite *const suites = nullptr;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
@@ -185,7 +185,7 @@ static void test_teardownB(void **context)
 
 - (void)test_ctrun_ReturnsZero_IfSuitesHaveNullTestLists
 {
-    const struct ct_testcase *const cases = NULL;
+    const struct ct_testcase *const cases = nullptr;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
     const struct ct_testsuite suites[] = {ct_makesuite(cases), ct_makesuite(cases)};
@@ -220,8 +220,8 @@ static void test_teardownB(void **context)
     XCTAssertEqual(1u, self.passingTestInvocationsB);
     XCTAssertEqual(1u, self.failingTestInvocationsB);
     XCTAssertEqual(1u, self.ignoredTestInvocationsB);
-    XCTAssertTrue(FakeContextA == NULL);
-    XCTAssertTrue(FakeContextB == NULL);
+    XCTAssertTrue(FakeContextA == nullptr);
+    XCTAssertTrue(FakeContextB == nullptr);
     XCTAssertEqual(-4, self.testSawContextA);
     XCTAssertEqual(-3, self.testSawContextB);
 }
@@ -250,7 +250,7 @@ static void test_teardownB(void **context)
     XCTAssertEqual(1u, self.passingTestInvocationsB);
     XCTAssertEqual(1u, self.failingTestInvocationsB);
     XCTAssertEqual(1u, self.ignoredTestInvocationsB);
-    XCTAssertTrue(FakeContextB == NULL);
+    XCTAssertTrue(FakeContextB == nullptr);
     XCTAssertEqual(4, self.testSawContextA);
     XCTAssertEqual(-3, self.testSawContextB);
 }
@@ -361,7 +361,7 @@ static void test_teardownB(void **context)
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB),
     };
-    char *args[] = {"foo", NULL, "bar", ""};
+    char *args[] = {"foo", nullptr, "bar", ""};
     
     const size_t run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
     
@@ -425,7 +425,7 @@ static void test_teardownB(void **context)
         ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA),
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB),
     };
-    char *args[] = {"foo", NULL, "bar", ""};
+    char *args[] = {"foo", nullptr, "bar", ""};
     
     const size_t run_result = ct_runcount_withargs(1, suites, sizeof args / sizeof args[0], args);
     

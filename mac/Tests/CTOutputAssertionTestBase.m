@@ -33,7 +33,7 @@ static void test_case(void *context)
 - (void)tearDown
 {
     unsetenv(self.envProperty.UTF8String);
-    self.testFunc = NULL;
+    self.testFunc = nullptr;
     
     [super tearDown];
 }
@@ -121,7 +121,7 @@ static void test_case(void *context)
         // NOTE: cast away const to match signature (we promise not to mutate them)
         argv[i] = (char *)[args[(NSUInteger)i] UTF8String];
     }
-    argv[argc] = NULL;
+    argv[argc] = nullptr;
     
     ct_runsuite_withargs(&suite, argc, argv);
     

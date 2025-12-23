@@ -8,18 +8,16 @@
 
 #import "CTNullAssertionTestBase.h"
 
-#include <stddef.h>
-
 void *generate_pointer(bool real_pointer)
 {
-    return real_pointer ? TestClass : NULL;
+    return real_pointer ? TestClass : nullptr;
 }
 
 @implementation CTNullAssertionTestBase
 
 - (void)tearDown
 {
-    self.testVariable = NULL;
+    self.testVariable = nullptr;
     
     [super tearDown];
 }

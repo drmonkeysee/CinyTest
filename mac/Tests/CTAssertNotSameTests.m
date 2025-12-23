@@ -84,8 +84,8 @@ static void identity_test_pointer_andpointertopointer(void *context)
 
 - (void)test_ctassertnotsame_ComparesSame_IfNullInputs
 {
-    self.expectedPointer = NULL;
-    self.actualPointer = NULL;
+    self.expectedPointer = nullptr;
+    self.actualPointer = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     
@@ -97,7 +97,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 - (void)test_ctassertnotsame_ComparesNotSame_IfExpectedIsNull
 {
     int testValue = 10;
-    self.expectedPointer = NULL;
+    self.expectedPointer = nullptr;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
@@ -111,7 +111,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 {
     int testValue = 10;
     self.expectedPointer = &testValue;
-    self.actualPointer = NULL;
+    self.actualPointer = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     const struct ct_testsuite suite = ct_makesuite(tests);
     

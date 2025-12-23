@@ -104,14 +104,14 @@ static void long_failure(void *context)
 
 - (void)tearDown
 {
-    TestClass = NULL;
+    TestClass = nullptr;
 
     [super tearDown];
 }
 
 - (void)test_NoXmlData_IfNoTests
 {
-    const size_t result = ct_runsuite_withargs(NULL, ARGS_SIZE, ProgramArgs);
+    const size_t result = ct_runsuite_withargs(nullptr, ARGS_SIZE, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -137,7 +137,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -158,7 +158,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -180,7 +180,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -204,7 +204,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -226,7 +226,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -249,7 +249,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
                                                ProgramArgs);
@@ -272,7 +272,7 @@ static void long_failure(void *context)
     const struct ct_testsuite suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
-                                          cases, NULL, NULL);
+                                          cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE,
                                                ProgramArgs);
@@ -307,10 +307,10 @@ static void long_failure(void *context)
     const struct ct_testsuite suites[] = {
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases1 / sizeof cases1[0],
-                                          cases1, NULL, NULL),
+                                          cases1, nullptr, nullptr),
         ct_makesuite_setup_teardown_named("suite2",
                                           sizeof cases2 / sizeof cases2[0],
-                                          cases2, NULL, NULL),
+                                          cases2, nullptr, nullptr),
     };
 
     const size_t result = ct_run_withargs(suites, ARGS_SIZE, ProgramArgs);
@@ -344,7 +344,7 @@ static void long_failure(void *context)
     const struct ct_testsuite
     suite = ct_makesuite_setup_teardown_named("suite1",
                                               sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+                                              cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);
@@ -367,7 +367,7 @@ static void long_failure(void *context)
     const struct ct_testsuite
     suite = ct_makesuite_setup_teardown_named("suite1",
                                               sizeof cases / sizeof cases[0],
-                                              cases, NULL, NULL);
+                                              cases, nullptr, nullptr);
 
     const size_t result = ct_runsuite_withargs(&suite, ARGS_SIZE - 1,
                                                ProgramArgs);

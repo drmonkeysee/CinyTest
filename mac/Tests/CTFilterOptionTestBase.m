@@ -100,7 +100,7 @@ static struct ct_testsuite make_suite(const char *name,
     };
     
     return ct_makesuite_setup_teardown_named(
-        name, sizeof tests / sizeof tests[0], tests, setup, NULL
+        name, sizeof tests / sizeof tests[0], tests, setup, nullptr
     );
 }
 
@@ -138,7 +138,7 @@ static struct ct_testsuite make_suite(const char *name,
         // NOTE: cast away const to match signature (we promise not to mutate them)
         argv[i] = (char *)[filters[(NSUInteger)i] UTF8String];
     }
-    argv[argc] = NULL;
+    argv[argc] = nullptr;
     
     ct_run_withargs(Suites, argc, argv);
     

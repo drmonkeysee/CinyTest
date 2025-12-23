@@ -381,7 +381,7 @@ static const char *arg_value(const char *arg)
 
     if (delimiter) return ++delimiter;
 
-    return NULL;
+    return nullptr;
 }
 
 //
@@ -401,7 +401,7 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
 
     const char
         *fcursor = self->start, *ncursor = name,
-        *wc_fmarker = NULL, *wc_nmarker = NULL;
+        *wc_fmarker = nullptr, *wc_nmarker = nullptr;
     while (*ncursor) {
         if (*fcursor == *ncursor || *fcursor == char_wildcard) {
             ++fcursor;
@@ -467,7 +467,7 @@ static void testfilter_print(const struct testfilter *self,
 
 static filterlist *filterlist_new()
 {
-    return NULL;
+    return nullptr;
 }
 
 static void filterlist_push(filterlist **self, struct testfilter filter)
@@ -521,7 +521,7 @@ static struct testfilter *filterlist_apply(filterlist *self,
             break;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 static void filterlist_print(const filterlist *self, enum filtertarget match,
@@ -599,7 +599,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
     if (*cursor == expr_delimiter) {
         ++cursor;
     } else {
-        cursor = NULL;
+        cursor = nullptr;
     }
 
     return cursor;
@@ -634,12 +634,12 @@ static void runcontext_init(int argc, char *argv[argc+1])
     RunContext.verbosity = VERBOSITY_DEFAULT;
 
     const char
-        *color_option = NULL,
-        *verbosity_option = NULL,
-        *suppress_output_option = NULL,
-        *include_filter_option = NULL,
-        *exclude_filter_option = NULL,
-        *xml_option = NULL;
+        *color_option = nullptr,
+        *verbosity_option = nullptr,
+        *suppress_output_option = nullptr,
+        *include_filter_option = nullptr,
+        *exclude_filter_option = nullptr,
+        *xml_option = nullptr;
 
     if (argc > 0) {
         for (int i = 0; i < argc; ++i) {
@@ -800,26 +800,26 @@ static void runcontext_print()
 static void runcontext_cleanup()
 {
     ct_restorestream(stdout, RunContext.out);
-    RunContext.out = NULL;
+    RunContext.out = nullptr;
 
     ct_restorestream(stderr, RunContext.err);
-    RunContext.err = NULL;
+    RunContext.err = nullptr;
 
     if (RunContext.xml) {
         fclose(RunContext.xml);
-        RunContext.xml = NULL;
+        RunContext.xml = nullptr;
     }
-    RunContext.xml_filename = NULL;
+    RunContext.xml_filename = nullptr;
 
     filterlist_free(RunContext.include);
-    RunContext.include = NULL;
+    RunContext.include = nullptr;
 
     filterlist_free(RunContext.exclude);
-    RunContext.exclude = NULL;
+    RunContext.exclude = nullptr;
 
     for (size_t i = 0; i < ENV_COPY_COUNT; ++i) {
         free(RunContext.env_copies[i]);
-        RunContext.env_copies[i] = NULL;
+        RunContext.env_copies[i] = nullptr;
     }
 }
 
@@ -892,8 +892,8 @@ static void runtotals_print()
 static void assertstate_reset()
 {
     AssertState.type = ASSERT_UNKNOWN;
-    AssertState.matched = NULL;
-    AssertState.file = NULL;
+    AssertState.matched = nullptr;
+    AssertState.file = nullptr;
     AssertState.line = 0;
     AssertState.description[0] = AssertState.message[0] = '\0';
 }
@@ -1089,7 +1089,7 @@ comparable_value_valuedescription(const struct ct_comparable_value *value,
 
 static struct runreport *runreport_new(const char *name, size_t suite_count)
 {
-    if (!RunContext.xml) return NULL;
+    if (!RunContext.xml) return nullptr;
 
     struct runreport *r = malloc(sizeof *r
                                  + (sizeof(struct suitereport) * suite_count));
@@ -1103,7 +1103,7 @@ static struct runreport *runreport_new(const char *name, size_t suite_count)
 static struct suitereport *runreport_getsuite(struct runreport *self,
                                               size_t index)
 {
-    if (!self) return NULL;
+    if (!self) return nullptr;
 
     return self->suites + index;
 }
@@ -1152,7 +1152,7 @@ static void suitereport_add_summary(struct suitereport *self,
 static struct casereport *suitereport_get_case(struct suitereport *self,
                                                size_t index)
 {
-    if (!self) return NULL;
+    if (!self) return nullptr;
 
     return self->cases + index;
 }
@@ -1360,7 +1360,7 @@ static void testcase_run(const struct ct_testcase *self,
 {
     if (!self->test) {
         printerr(
-            "WARNING: test case '%s' skipped, NULL function pointer found!\n",
+            "WARNING: test case '%s' skipped, null function pointer found!\n",
             self->name
         );
         return;
@@ -1405,7 +1405,7 @@ static void suitebreak_open(enum suitebreak *state,
                             struct suitereport *report)
 {
     if (*state == SUITEBREAK_OPEN) {
-        testsuite_printheader(suite, report, time(NULL));
+        testsuite_printheader(suite, report, time(nullptr));
         *state = SUITEBREAK_CLOSE;
     }
 }
@@ -1423,7 +1423,7 @@ static void testsuite_runcase(const struct ct_testsuite *self,
                               const struct ct_testcase *current_case,
                               struct runledger *ledger)
 {
-    void *test_context = NULL;
+    void *test_context = nullptr;
     if (self->setup) {
         self->setup(&test_context);
     }
@@ -1551,7 +1551,7 @@ size_t ct_runcount_withargs(size_t count,
         if (count && suites) {
             struct runreport *const report = runreport_new(argc > 0
                                                             ? argv[0]
-                                                            : NULL,
+                                                            : nullptr,
                                                            count);
             for (size_t i = 0; i < count; ++i) {
                 testsuite_run(suites + i, runreport_getsuite(report, i));
@@ -1577,7 +1577,7 @@ size_t ct_runcount_withargs(size_t count,
 
 void ct_internal_ignore(const char *restrict format, ...)
 {
-    assertstate_raise_signal(ASSERT_IGNORE, NULL, 0, format);
+    assertstate_raise_signal(ASSERT_IGNORE, nullptr, 0, format);
 }
 
 void ct_internal_assertfail(const char *restrict file, int line,
@@ -1616,7 +1616,7 @@ void ct_internal_assertnull(const void *restrict expression,
                             const char *restrict format, ...)
 {
     if (expression) {
-        assertstate_setdescription("(%s) is NULL failed: (%p)",
+        assertstate_setdescription("(%s) is null failed: (%p)",
                                    stringized_expression, expression);
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }
@@ -1628,7 +1628,7 @@ void ct_internal_assertnotnull(const void *restrict expression,
                                const char *restrict format, ...)
 {
     if (!expression) {
-        assertstate_setdescription("(%s) is not NULL failed",
+        assertstate_setdescription("(%s) is not null failed",
                                    stringized_expression);
         assertstate_raise_signal(ASSERT_FAILURE, file, line, format);
     }

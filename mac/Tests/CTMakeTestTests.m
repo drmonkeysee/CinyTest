@@ -34,10 +34,10 @@ static void maketest_faketest(void *context)
 
 - (void)test_ctmaketest_CreatesTestCase_IfNullArguments
 {
-    const struct ct_testcase testcase = ct_maketest(NULL);
+    const struct ct_testcase testcase = ct_maketest(nullptr);
     
-    XCTAssertEqualObjects(@"NULL", [NSString stringWithUTF8String:testcase.name]);
-    XCTAssertTrue(testcase.test == NULL, @"Expected NULL function");
+    XCTAssertEqualObjects(@"nullptr", [NSString stringWithUTF8String:testcase.name]);
+    XCTAssertTrue(testcase.test == nullptr, @"Expected null function");
 }
 
 - (void)test_ctmaketestnamed_CreatesTestCaseWithName
@@ -52,10 +52,10 @@ static void maketest_faketest(void *context)
 
 - (void)test_ctmaketestnamed_CreatesTestCase_IfNullArguments
 {
-    const struct ct_testcase testcase = ct_maketest_named(NULL, NULL);
+    const struct ct_testcase testcase = ct_maketest_named(nullptr, nullptr);
     
-    XCTAssertTrue(testcase.name == NULL, @"Expected NULL name");
-    XCTAssertTrue(testcase.test == NULL, @"Expected NULL function");
+    XCTAssertTrue(testcase.name == nullptr, @"Expected null name");
+    XCTAssertTrue(testcase.test == nullptr, @"Expected null function");
 }
 
 @end

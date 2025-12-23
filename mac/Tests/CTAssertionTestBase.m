@@ -23,7 +23,7 @@ void *TestClass;
 
 - (void)tearDown
 {
-    TestClass = NULL;
+    TestClass = nullptr;
     
     [super tearDown];
 }
