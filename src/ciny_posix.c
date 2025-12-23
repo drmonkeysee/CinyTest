@@ -50,7 +50,7 @@ FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
 
-    const int new_stream = dup(fileno(stream));
+    int new_stream = dup(fileno(stream));
     freopen("/dev/null", "w", stream);
     return fdopen(new_stream, "w");
 }
