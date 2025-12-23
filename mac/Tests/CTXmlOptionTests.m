@@ -68,7 +68,7 @@ static void encoded_ignore(void *context)
 static void long_ignore(void *context)
 {
     CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
-    const char *const long_string =
+    const char *long_string =
         [testObject.class getResourceStringFor:@"LongString"].UTF8String;
     ct_ignore("%s", long_string);
 }
@@ -76,7 +76,7 @@ static void long_ignore(void *context)
 static void long_failure(void *context)
 {
     CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
-    const char *const long_string =
+    const char *long_string =
         [testObject.class getResourceStringFor:@"LongString"].UTF8String;
     ct_assertfail("%s", long_string);
 }

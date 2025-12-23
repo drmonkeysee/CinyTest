@@ -173,7 +173,7 @@ static void test_teardownB(void **context)
 
 - (void)test_ctrun_ReturnsZero_IfNullSuites
 {
-    const struct ct_testsuite *const suites = nullptr;
+    const struct ct_testsuite *suites = nullptr;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
@@ -185,7 +185,7 @@ static void test_teardownB(void **context)
 
 - (void)test_ctrun_ReturnsZero_IfSuitesHaveNullTestLists
 {
-    const struct ct_testcase *const cases = nullptr;
+    const struct ct_testcase *cases = nullptr;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
     const struct ct_testsuite suites[] = {ct_makesuite(cases), ct_makesuite(cases)};

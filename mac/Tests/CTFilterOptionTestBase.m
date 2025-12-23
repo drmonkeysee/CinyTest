@@ -22,9 +22,9 @@ static RUN_TEST_FLAGS Suite1Flags, Suite2Flags;
 
 static void set_test_flag(const void *ctx, RUN_TEST_FLAGS flag)
 {
-    RUN_TEST_FLAGS *const testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2
-                                        ? &Suite2Flags :
-                                        &Suite1Flags;
+    RUN_TEST_FLAGS *testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2
+                                ? &Suite2Flags :
+                                &Suite1Flags;
     *testvar |= flag;
 }
 

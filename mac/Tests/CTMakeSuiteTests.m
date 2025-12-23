@@ -23,7 +23,7 @@ static void makesuite_faketeardown(void **context)
 
 static struct ct_testsuite fakesuite_function()
 {
-    const struct ct_testcase *const cases = nullptr;
+    const struct ct_testcase *cases = nullptr;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
     return ct_makesuite(cases);
@@ -40,7 +40,7 @@ static struct ct_testsuite fakesuite_function()
 {
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", nullptr), ct_maketest_named("bar", nullptr)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-                             *const expected_tests = faketests;
+                             *expected_tests = faketests;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite(faketests);
@@ -62,7 +62,7 @@ static struct ct_testsuite fakesuite_function()
 - (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
 {
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
-    const struct ct_testcase *const cases = nullptr;
+    const struct ct_testcase *cases = nullptr;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
@@ -80,8 +80,8 @@ static struct ct_testsuite fakesuite_function()
 {
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", nullptr), ct_maketest_named("bar", nullptr)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-                             *const expected_tests = faketests;
-    ct_setupteardown_function *const expected_setup = makesuite_fakesetup;
+                             *expected_tests = faketests;
+    ct_setupteardown_function *expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
@@ -97,8 +97,8 @@ static struct ct_testsuite fakesuite_function()
 {
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", nullptr), ct_maketest_named("bar", nullptr)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-                             *const expected_tests = faketests;
-    ct_setupteardown_function *const expected_setup = makesuite_fakesetup;
+                             *expected_tests = faketests;
+    ct_setupteardown_function *expected_setup = makesuite_fakesetup;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite_setup(faketests, expected_setup);
@@ -113,7 +113,7 @@ static struct ct_testsuite fakesuite_function()
 - (void)test_ctmakesuitesetup_CreatesTestSuite_IfNullArguments
 {
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
-    const struct ct_testcase *const cases = nullptr;
+    const struct ct_testcase *cases = nullptr;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
@@ -131,9 +131,9 @@ static struct ct_testsuite fakesuite_function()
 {
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", nullptr), ct_maketest_named("bar", nullptr)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-                             *const expected_tests = faketests;
-    ct_setupteardown_function *const expected_setup = makesuite_fakesetup,
-                                *const expected_teardown = makesuite_faketeardown;
+                             *expected_tests = faketests;
+    ct_setupteardown_function *expected_setup = makesuite_fakesetup,
+                                *expected_teardown = makesuite_faketeardown;
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     const struct ct_testsuite testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
@@ -148,7 +148,7 @@ static struct ct_testsuite fakesuite_function()
 - (void)test_ctmakesuitesetupteardown_CreatesTestSuite_IfNullArguments
 {
     NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
-    const struct ct_testcase *const cases = nullptr;
+    const struct ct_testcase *cases = nullptr;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
@@ -166,10 +166,10 @@ static struct ct_testsuite fakesuite_function()
 {
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", nullptr), ct_maketest_named("bar", nullptr)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
-                             *const expected_tests = faketests;
+                             *expected_tests = faketests;
     size_t expected_count = 10;
-    ct_setupteardown_function *const expected_setup = makesuite_fakesetup,
-                                *const expected_teardown = makesuite_faketeardown;
+    ct_setupteardown_function *expected_setup = makesuite_fakesetup,
+                                *expected_teardown = makesuite_faketeardown;
     
     const struct ct_testsuite testsuite = ct_makesuite_setup_teardown_named("fake suite", expected_count, faketests, expected_setup, expected_teardown);
     
