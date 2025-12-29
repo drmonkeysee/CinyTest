@@ -16,7 +16,7 @@ struct bt_node {
     struct bt_node *left, *right;
     int value;
 };
-static constexpr struct bt_node *EmptyTree = nullptr;
+constexpr struct bt_node *EmptyTree = nullptr;
 
 static struct bt_node *create_node(int value)
 {

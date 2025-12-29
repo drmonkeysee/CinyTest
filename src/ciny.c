@@ -71,7 +71,7 @@ enum text_highlight {
     HIGHLIGHT_SKIPPED,
 };
 
-static constexpr char FilterTargetDelimiter = ':';
+constexpr char FilterTargetDelimiter = ':';
 enum filtertarget {
     FILTER_ANY,
     FILTER_SUITE,
@@ -85,7 +85,7 @@ struct testfilter {
 };
 typedef struct testfilter filterlist;
 
-static constexpr size_t EnvCopyCount = 2;
+constexpr size_t EnvCopyCount = 2;
 enum verbositylevel {
     VERBOSITY_MINIMAL,
     VERBOSITY_LIST,
@@ -101,7 +101,7 @@ static struct {
     bool help, version, colorized;
 } RunContext;
 
-static constexpr size_t CompValueStrSize = 75;
+constexpr size_t CompValueStrSize = 75;
 enum assert_type {
     ASSERT_UNKNOWN,
     ASSERT_SUCCESS,
@@ -120,7 +120,7 @@ static struct assertion {
 } AssertState;
 static jmp_buf AssertSignal;
 
-static constexpr size_t InvalidSuite = 0;
+constexpr size_t InvalidSuite = 0;
 enum suitebreak {
     SUITEBREAK_END,
     SUITEBREAK_OPEN,
@@ -135,8 +135,8 @@ static struct runsummary {
     uint64_t total_time;
 } RunTotals;
 
-static constexpr size_t DateStrSize = 30;
-static constexpr double MsPerSec = 1000.0;
+constexpr size_t DateStrSize = 30;
+constexpr double MsPerSec = 1000.0;
 struct casereport {
     const struct ct_testcase *testcase;
     uint64_t time;

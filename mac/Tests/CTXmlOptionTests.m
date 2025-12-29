@@ -27,7 +27,7 @@
 
 @end
 
-static constexpr size_t ArgsSize = 3;
+constexpr size_t ArgsSize = 3;
 static void *TestClass;
 static char *ProgramArgs[ArgsSize];
 

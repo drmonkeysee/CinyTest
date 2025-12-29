@@ -34,8 +34,8 @@
 static void *TestClass;
 
 static int *FakeContextA, *FakeContextB;
-static constexpr int FakeContextAValue = 8;
-static constexpr int FakeContextBValue = -5;
+constexpr int FakeContextAValue = 8;
+constexpr int FakeContextBValue = -5;
 
 static void record_testcontext_occurrenceA(void *context,
                                            CTRunTests *testObject)
