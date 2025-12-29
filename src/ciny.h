@@ -587,8 +587,7 @@ inline struct ct_comparable_value ct_makevalue_floatingpoint(int,
  to be converted.
  @return A comparable value structure for the complex number value.
  */
-inline struct ct_comparable_value ct_makevalue_complex(int,
-                                                       ct_lcomplex value)
+inline struct ct_comparable_value ct_makevalue_complex(int, ct_lcomplex value)
 {
     return (struct ct_comparable_value){
         .complex_value = value,
@@ -674,7 +673,8 @@ static_assert(_Generic(&ct_makevalue_factory(v), \
  ignored.
  @param format_args Format arguments for the format string.
  */
-[[noreturn]] void ct_internal_ignore(const char *restrict, ...);
+[[noreturn]]
+void ct_internal_ignore(const char *restrict, ...);
 
 /**
  Assert failure unconditionally with contextual details and message.
@@ -685,8 +685,9 @@ static_assert(_Generic(&ct_makevalue_factory(v), \
  assertion fails.
  @param format_args Format arguments for the format string.
  */
-[[noreturn]] void ct_internal_assertfail(const char *restrict, int,
-                                         const char *restrict, ...);
+[[noreturn]]
+void ct_internal_assertfail(const char *restrict, int, const char *restrict,
+                            ...);
 
 /**
  Assert whether the expression is true, with contextual details and message.
