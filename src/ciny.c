@@ -508,7 +508,8 @@ static struct testfilter *filterlist_apply(filterlist *self,
         case FILTER_ALL: {
             // target ALL filters come in case, suite pairs; consume
             // both filters here
-            auto case_filter = self, suite_filter = self = self->next;
+            auto case_filter = self;
+            auto suite_filter = self = self->next;
             bool allmatch =
                 testfilter_match(suite_filter, suite_name)
                 && testfilter_match(case_filter, case_name);
@@ -530,7 +531,8 @@ static void filterlist_print(const filterlist *self, enum filtertarget match,
         if (self->apply != match) continue;
 
         if (self->apply == FILTER_ALL) {
-            auto fcase = self, fsuite = self = self->next;
+            auto fcase = self;
+            auto fsuite = self = self->next;
             testfilter_print(fsuite, style);
             print_highlighted(style, "%c", FilterTargetDelimiter);
             testfilter_print_noprefix(fcase, style);
