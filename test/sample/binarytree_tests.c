@@ -476,8 +476,7 @@ size_t binarytree_tests(int argc, char *argv[argc+1])
 
         ct_maketest(btprint_test),
     };
-    struct ct_testsuite suite = ct_makesuite_setup_teardown(tests, setup,
-                                                            teardown);
+    auto suite = ct_makesuite_setup_teardown(tests, setup, teardown);
 
     size_t results = ct_runsuite_withargs(&suite, argc, argv);
 

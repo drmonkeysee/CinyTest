@@ -228,7 +228,7 @@ static void print_usage()
 
 static void print_version()
 {
-    struct ct_version v = ct_getversion();
+    auto v = ct_getversion();
     printout("CinyTest %u.%u.%u", v.major, v.minor, v.patch);
 #ifdef __VERSION__
     printout(" (" __VERSION__ ")");
@@ -508,9 +508,7 @@ static struct testfilter *filterlist_apply(filterlist *self,
         case FILTER_ALL: {
             // target ALL filters come in case, suite pairs; consume
             // both filters here
-            struct testfilter
-                *case_filter = self,
-                *suite_filter = self = self->next;
+            auto case_filter = self, suite_filter = self = self->next;
             bool allmatch =
                 testfilter_match(suite_filter, suite_name)
                 && testfilter_match(case_filter, case_name);
@@ -532,8 +530,7 @@ static void filterlist_print(const filterlist *self, enum filtertarget match,
         if (self->apply != match) continue;
 
         if (self->apply == FILTER_ALL) {
-            const struct testfilter *fcase = self,
-                                    *fsuite = self = self->next;
+            auto fcase = self, fsuite = self = self->next;
             testfilter_print(fsuite, style);
             print_highlighted(style, "%c", FilterTargetDelimiter);
             testfilter_print_noprefix(fcase, style);
@@ -550,7 +547,7 @@ static void filterlist_print(const filterlist *self, enum filtertarget match,
 static void filterlist_free(filterlist *self)
 {
     while (self) {
-        struct testfilter *head = self;
+        auto head = self;
         self = head->next;
         free(head);
     }
@@ -561,7 +558,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
 {
     static constexpr char expr_delimiter = ',';
 
-    struct testfilter filter = testfilter_make();
+    auto filter = testfilter_make();
 
     filter.start = cursor;
     for (char c = *cursor; c && c != expr_delimiter; c = *++cursor) {
@@ -786,7 +783,7 @@ static void runcontext_printfilters()
 
 static void runcontext_print()
 {
-    struct ct_version v = ct_getversion();
+    auto v = ct_getversion();
     print_title("CinyTest v%u.%u.%u", v.major, v.minor, v.patch);
     printout("Colorized: %s\n", argflag_tostring(RunContext.colorized));
     printout("Suppress Output: %s\n",
@@ -1448,14 +1445,13 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
                                  struct suitereport *report)
 {
     assertstate_reset();
-    const struct ct_testcase *current_case = self->tests + case_index;
-    struct casereport *case_report = suitereport_get_case(report, case_index);
+    auto current_case = self->tests + case_index;
+    auto case_report = suitereport_get_case(report, case_index);
     casereport_init(case_report, current_case);
 
     if (RunContext.include) {
-        struct testfilter *match = filterlist_apply(
-            RunContext.include, self->name, current_case->name
-        );
+        auto match = filterlist_apply(RunContext.include, self->name,
+                                      current_case->name);
         if (match) {
             AssertState.matched = match;
         } else {
@@ -1475,9 +1471,8 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
     }
 
     if (RunContext.exclude) {
-        struct testfilter *match = filterlist_apply(
-            RunContext.exclude, self->name, current_case->name
-        );
+        auto match = filterlist_apply(RunContext.exclude, self->name,
+                                      current_case->name);
         if (match) {
             AssertState.matched = match;
             --summary->test_count;
@@ -1504,7 +1499,7 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
 static void testsuite_run(const struct ct_testsuite *self,
                           struct suitereport *report)
 {
-    struct runsummary summary = runsummary_make();
+    auto summary = runsummary_make();
     suitereport_init(report, self);
 
     if (self && self->tests && self->count) {
@@ -1551,7 +1546,7 @@ size_t ct_runcount_withargs(size_t count,
 
         if (count && suites) {
             const char *name = argc > 0 ? argv[0] : nullptr;
-            struct runreport *report = runreport_new(name, count);
+            auto report = runreport_new(name, count);
             for (size_t i = 0; i < count; ++i) {
                 testsuite_run(suites + i, runreport_getsuite(report, i));
             }

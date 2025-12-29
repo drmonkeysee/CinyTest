@@ -121,7 +121,7 @@ static void long_failure(void *context)
 - (void)test_EmptyXmlDoc_IfEmptyTests
 {
     const struct ct_testcase cases[] = {};
-    struct ct_testsuite suite = ct_makesuite(cases);
+    auto suite = ct_makesuite(cases);
     size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(0, result);
@@ -133,7 +133,7 @@ static void long_failure(void *context)
 - (void)test_SuccessfulTest
 {
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -153,7 +153,7 @@ static void long_failure(void *context)
 - (void)test_FailedTest
 {
     const struct ct_testcase cases[] = {ct_maketest(simple_failure)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -174,7 +174,7 @@ static void long_failure(void *context)
 - (void)test_EncodedFailedTest
 {
     const struct ct_testcase cases[] = {ct_maketest(encoded_failure)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -197,7 +197,7 @@ static void long_failure(void *context)
 - (void)test_IgnoredTest
 {
     const struct ct_testcase cases[] = {ct_maketest(simple_ignore)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -218,7 +218,7 @@ static void long_failure(void *context)
 - (void)test_EncodedIgnoredTest
 {
     const struct ct_testcase cases[] = {ct_maketest(encoded_ignore)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -240,7 +240,7 @@ static void long_failure(void *context)
 {
     ProgramArgs[2] = "--ct-include=*foo*";
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -262,7 +262,7 @@ static void long_failure(void *context)
 {
     ProgramArgs[2] = "--ct-exclude=:simple_success";
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -333,7 +333,7 @@ static void long_failure(void *context)
 - (void)test_IgnoredTest_VeryLongMessage
 {
     const struct ct_testcase cases[] = {ct_maketest(long_ignore)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -355,7 +355,7 @@ static void long_failure(void *context)
 - (void)test_FailedTest_VeryLongMessage
 {
     const struct ct_testcase cases[] = {ct_maketest(long_failure)};
-    struct ct_testsuite suite =
+    auto suite =
         ct_makesuite_setup_teardown_named("suite1",
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
@@ -377,7 +377,7 @@ static void long_failure(void *context)
 {
     setenv("CINYTEST_XML", "env.xml", 1);
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
-    struct ct_testsuite suite = ct_makesuite(cases);
+    auto suite = ct_makesuite(cases);
 
     size_t result = ct_runsuite(&suite);
 

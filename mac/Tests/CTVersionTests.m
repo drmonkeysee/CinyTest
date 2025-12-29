@@ -27,7 +27,7 @@
 
 - (void)test_ctversionhex_Matches_Current_Version
 {
-    struct ct_version v = ct_getversion();
+    auto v = ct_getversion();
     
     uint32_t vhex = ct_versionhex(&v);
     

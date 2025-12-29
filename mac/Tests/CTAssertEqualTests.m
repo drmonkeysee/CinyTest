@@ -268,7 +268,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -282,7 +282,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SCHAR;
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -296,7 +296,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -310,7 +310,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SHORT;
     self.actualType = TAT_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -324,7 +324,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -338,7 +338,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SCHAR;
     self.actualType = TAT_SHORT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -352,7 +352,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LONG_LONG;
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -366,7 +366,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SMAX;
     self.actualType = TAT_SMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -380,7 +380,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LONG_LONG;
     self.actualType = TAT_LONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -394,7 +394,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SMAX;
     self.actualType = TAT_SMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -408,7 +408,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -422,7 +422,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SHORT;
     self.actualType = TAT_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -436,7 +436,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_SMAX;
     self.actualType = TAT_SMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -452,7 +452,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -466,7 +466,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_BOOL;
     self.actualType = TAT_ULONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -480,7 +480,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -494,7 +494,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UCHAR;
     self.actualType = TAT_ULONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -508,7 +508,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_ULONG_LONG;
     self.actualType = TAT_ULONG_LONG;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -522,7 +522,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UMAX;
     self.actualType = TAT_UMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -536,7 +536,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -550,7 +550,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_USHORT;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -564,7 +564,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UMAX;
     self.actualType = TAT_UMAX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -580,7 +580,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -594,7 +594,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -608,7 +608,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -622,7 +622,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -636,7 +636,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -650,7 +650,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -664,7 +664,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -678,7 +678,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -692,7 +692,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -706,7 +706,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FLOAT;
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -720,7 +720,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LDOUBLE;
     self.actualType = TAT_LDOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -736,7 +736,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -750,7 +750,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -764,7 +764,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -778,7 +778,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -792,7 +792,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -806,7 +806,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -820,7 +820,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -834,7 +834,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -848,7 +848,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -862,7 +862,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -876,7 +876,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_COMPLEX;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -890,7 +890,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -904,7 +904,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -918,7 +918,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_FCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -932,7 +932,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_LCOMPLEX;
     self.actualType = TAT_LCOMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -948,7 +948,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -962,7 +962,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -976,7 +976,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -990,7 +990,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_DOUBLE;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1004,7 +1004,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1018,7 +1018,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_DOUBLE;
     self.actualType = TAT_COMPLEX;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1035,7 +1035,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1050,7 +1050,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_INT;
     self.actualType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1065,7 +1065,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_UINT;
     self.actualType = TAT_FLOAT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1077,7 +1077,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_FiresAssertion_WithCustomMessage
 {
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withmessage)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1087,7 +1087,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_FiresAssertion_WithCustomFormatMessage
 {
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withformatmessage)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1099,7 +1099,7 @@ static void equality_test_withtypevariants(void *context)
 - (void)test_ctassertequal_ComparesEqual_WithTypeVariants
 {
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withtypevariants)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1115,7 +1115,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_CHAR;
     self.actualType = TAT_CHAR;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1129,7 +1129,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_CHAR;
     self.actualType = TAT_INT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 
@@ -1145,7 +1145,7 @@ static void equality_test_withtypevariants(void *context)
     self.expectedType = TAT_CHAR;
     self.actualType = TAT_UINT;
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
 
     size_t run_result = ct_runsuite(&suite);
 

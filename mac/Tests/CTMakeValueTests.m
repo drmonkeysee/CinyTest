@@ -34,14 +34,14 @@
 #define assert_valuetype_variant(T, v, a, acc) \
             do { \
                 T foo = v; \
-                struct ct_comparable_value foo_value = ct_makevalue(foo); \
+                auto foo_value = ct_makevalue(foo); \
                 XCTAssertEqual(a, foo_value.type); \
                 XCTAssertEqual(v, acc(foo_value)); \
             } while (false)
 
 #define assert_invalidvaluetype(v) \
             do { \
-                struct ct_comparable_value foo_value = ct_makevalue(v); \
+                auto foo_value = ct_makevalue(v); \
                 XCTAssertEqual(CT_ANNOTATE_INVALID, foo_value.type); \
             } while (false)
 

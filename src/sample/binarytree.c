@@ -28,9 +28,7 @@ static struct bt_node *create_node(int value)
 
 static struct bt_node **find_childlink(struct bt_node *self, int value)
 {
-    struct bt_node **child_link = self->value > value
-                                    ? &self->left
-                                    : &self->right;
+    auto child_link = self->value > value ? &self->left : &self->right;
 
     if (!*child_link || (*child_link)->value == value) return child_link;
 
@@ -39,7 +37,7 @@ static struct bt_node **find_childlink(struct bt_node *self, int value)
 
 static struct bt_node *minimum_child(struct bt_node *self)
 {
-    struct bt_node *minimum_child = self;
+    auto minimum_child = self;
     while (minimum_child->left) {
         minimum_child = minimum_child->left;
     }
@@ -48,13 +46,13 @@ static struct bt_node *minimum_child(struct bt_node *self)
 
 static void remove_node(struct bt_node *self, int value)
 {
-    struct bt_node **node_link = find_childlink(self, value),
-                    *node = *node_link;
+    auto node_link = find_childlink(self, value);
+    auto node = *node_link;
 
     if (!node) return;
 
     if (node->left && node->right) {
-        struct bt_node *successor = minimum_child(node->right);
+        auto successor = minimum_child(node->right);
         node->value = successor->value;
         bt_remove(&node->right, successor->value);
     } else if (node->left) {
@@ -120,9 +118,8 @@ static struct bt_node *rebalance_node(struct bt_node *node_list[],
 {
     if (start_index > end_index) return EmptyTree;
 
-    ptrdiff_t middle_index = start_index
-                                + ((end_index - start_index) / 2);
-    struct bt_node *node = node_list[middle_index];
+    ptrdiff_t middle_index = start_index + ((end_index - start_index) / 2);
+    auto node = node_list[middle_index];
 
     node->left = rebalance_node(node_list, start_index, middle_index - 1);
     node->right = rebalance_node(node_list, middle_index + 1, end_index);
@@ -141,7 +138,7 @@ binarytree *bt_new()
 
 binarytree *bt_new_withvalues(size_t n, ...)
 {
-    struct bt_node *new_tree = bt_new();
+    auto new_tree = bt_new();
 
     va_list args;
     va_start(args, n);
@@ -197,7 +194,7 @@ bool bt_contains(binarytree *self, int value)
 
     if (self->value == value) return true;
 
-    struct bt_node **child_link = find_childlink(self, value);
+    auto child_link = find_childlink(self, value);
     return *child_link != EmptyTree;
 }
 

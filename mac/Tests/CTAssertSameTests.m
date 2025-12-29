@@ -88,7 +88,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = nullptr;
     self.actualPointer = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -101,7 +101,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = nullptr;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -114,7 +114,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = &testValue;
     self.actualPointer = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -127,7 +127,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = &testValue;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -140,7 +140,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = &expectedTestValue;
     self.actualPointer = &actualTestValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -153,7 +153,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = values;
     self.actualPointer = values + 1;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -166,7 +166,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = aliasedPointer;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -179,7 +179,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     self.expectedPointer = &testValue;
     self.actualPointer = aliasedPointer;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -189,7 +189,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 - (void)test_ctassertsame_ComparesSame_IfPointersToPointers
 {
     const struct ct_testcase tests[] = {ct_maketest(identity_test_pointerstopointers)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -199,7 +199,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 - (void)test_ctassertsame_ComparesNotSame_IfPointerAndPointerToPointer
 {
     const struct ct_testcase tests[] = {ct_maketest(identity_test_pointer_andpointertopointer)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -209,7 +209,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 - (void)test_ctassertsame_FiresAssertion_WithMessage
 {
     const struct ct_testcase tests[] = {ct_maketest(identity_test_withmessage)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     
@@ -219,7 +219,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
 - (void)test_ctassertsame_FiresAssertion_WithFormattedMessage
 {
     const struct ct_testcase tests[] = {ct_maketest(identity_test_withformattedmessage)};
-    struct ct_testsuite suite = ct_makesuite(tests);
+    auto suite = ct_makesuite(tests);
     
     size_t run_result = ct_runsuite(&suite);
     

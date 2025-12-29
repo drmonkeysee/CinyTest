@@ -107,7 +107,7 @@ static void test_case(void *context)
 - (void)assertSuite:(CTOutputComparison)compare value:(NSString *)expected forOption:(NSString *)optionFlag withArgs:(NSArray *)args
 {
     const struct ct_testcase cases[] = {ct_maketest(self.testFunc)};
-    struct ct_testsuite suite = ct_makesuite(cases);
+    auto suite = ct_makesuite(cases);
     
     NSPipe *output = [NSPipe pipe];
     NSFileHandle *readOutput = output.fileHandleForReading;
