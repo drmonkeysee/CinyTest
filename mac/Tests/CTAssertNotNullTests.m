@@ -23,9 +23,8 @@ static void variable_test(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertnotnull(
-        testObject.testVariable, "i see the %p value", testObject.testVariable
-    );
+    ct_assertnotnull(testObject.testVariable, "i see the %p value",
+                     testObject.testVariable);
     
     testObject.sawPostAssertCode = YES;
 }
@@ -37,10 +36,8 @@ static void expression_test(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertnotnull(
-        generate_pointer(testObject.useRealPointer),
-        "oh no i got a fake pointer!!"
-    );
+    ct_assertnotnull(generate_pointer(testObject.useRealPointer),
+                     "oh no i got a fake pointer!!");
     
     testObject.sawPostAssertCode = YES;
 }

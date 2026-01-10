@@ -23,11 +23,8 @@ static void variable_test(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertfalse(
-        testObject.testVariable,
-        "i did expect %d value right???",
-        testObject.testVariable
-    );
+    ct_assertfalse(testObject.testVariable, "i did expect %d value right???",
+                   testObject.testVariable);
     
     testObject.sawPostAssertCode = YES;
 }
@@ -39,10 +36,8 @@ static void expression_test(void *context)
     
     testObject.invokedTest = YES;
     
-    ct_assertfalse(
-        testObject.gtExpressionLhs > testObject.gtExpressionRhs,
-        "oh no my lhs is too big!!"
-    );
+    ct_assertfalse(testObject.gtExpressionLhs > testObject.gtExpressionRhs,
+                   "oh no my lhs is too big!!");
     
     testObject.sawPostAssertCode = YES;
 }

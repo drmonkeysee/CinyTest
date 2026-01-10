@@ -702,9 +702,9 @@ static void runcontext_init(int argc, char *argv[argc+1])
     if (!include_filter_option) {
         if ((include_filter_option = getenv("CINYTEST_INCLUDE"))) {
             // copy env value to prevent invalidated pointers
-            include_filter_option = runcontext_capturevar(
-                include_filter_option, RunContext.env_copies
-            );
+            include_filter_option =
+                runcontext_capturevar(include_filter_option,
+                                      RunContext.env_copies);
         }
     }
     RunContext.include = parse_filters(include_filter_option);
@@ -712,9 +712,9 @@ static void runcontext_init(int argc, char *argv[argc+1])
     if (!exclude_filter_option) {
         if ((exclude_filter_option = getenv("CINYTEST_EXCLUDE"))) {
             // copy env value to prevent invalidated pointers
-            exclude_filter_option = runcontext_capturevar(
-                exclude_filter_option, RunContext.env_copies + 1
-            );
+            exclude_filter_option =
+                runcontext_capturevar(exclude_filter_option,
+                                      RunContext.env_copies + 1);
         }
     }
     RunContext.exclude = parse_filters(exclude_filter_option);
@@ -1053,8 +1053,7 @@ comparable_value_valuedescription(const struct ct_comparable_value *value,
         write_count = snprintf(buffer, size, "%"PRIdMAX, value->integer_value);
         break;
     case CT_ANNOTATE_UINTEGER:
-        write_count = snprintf(buffer, size, "%"PRIuMAX,
-                               value->uinteger_value);
+        write_count = snprintf(buffer, size, "%"PRIuMAX, value->uinteger_value);
         break;
     case CT_ANNOTATE_FLOATINGPOINT:
         write_count = snprintf(buffer, size, "%.*Lg", DECIMAL_DIG,
@@ -1131,7 +1130,7 @@ static void suitereport_add_cases(struct suitereport *self, size_t count)
 {
     if (!self) return;
 
-    self->cases = malloc(sizeof(struct casereport) * count);
+    self->cases = calloc(count, sizeof(struct casereport));
 }
 
 static void suitereport_set_date(struct suitereport *self,
@@ -1360,10 +1359,8 @@ static void testcase_run(const struct ct_testcase *self,
                          struct runledger *ledger)
 {
     if (!self->test) {
-        printerr(
-            "WARNING: test case '%s' skipped, null function pointer found!\n",
-            self->name
-        );
+        printerr("WARNING: test case '%s' skipped, null function pointer found!\n",
+                 self->name);
         return;
     }
 
@@ -1645,8 +1642,7 @@ void ct_internal_assertequal(struct ct_comparable_value expected,
                                    comparable_value_typedescription(&expected),
                                    comparable_value_typedescription(&actual));
         failed_assert = true;
-    } else if (!comparable_value_equalvalues(&expected, &actual,
-                                             expected.type)) {
+    } else if (!comparable_value_equalvalues(&expected, &actual, expected.type)) {
         char
             valuestr_expected[CompValueStrSize],
             valuestr_actual[CompValueStrSize];
@@ -1681,8 +1677,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value expected,
                                    comparable_value_typedescription(&expected),
                                    comparable_value_typedescription(&actual));
         failed_assert = true;
-    } else if (comparable_value_equalvalues(&expected, &actual,
-                                            expected.type)) {
+    } else if (comparable_value_equalvalues(&expected, &actual, expected.type)) {
         char valuestr_expected[CompValueStrSize];
         comparable_value_valuedescription(&expected, sizeof valuestr_expected,
                                           valuestr_expected);

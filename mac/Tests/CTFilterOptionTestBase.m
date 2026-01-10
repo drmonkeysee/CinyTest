@@ -98,9 +98,9 @@ static struct ct_testsuite make_suite(const char *name,
         ct_maketest(test_测试漢),
     };
     
-    return ct_makesuite_setup_teardown_named(
-        name, sizeof tests / sizeof tests[0], tests, setup, nullptr
-    );
+    return ct_makesuite_setup_teardown_named(name,
+                                             sizeof tests / sizeof tests[0],
+                                             tests, setup, nullptr);
 }
 
 @implementation CTFilterOptionTestBase

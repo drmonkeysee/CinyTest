@@ -49,8 +49,7 @@ inline struct ct_version ct_getversion()
  */
 inline uint32_t ct_versionhex(const struct ct_version *version)
 {
-    return (uint32_t)(version->major << 16 | version->minor << 8
-                      | version->patch);
+    return (uint32_t)(version->major << 16 | version->minor << 8 | version->patch);
 }
 
 /**
@@ -571,8 +570,7 @@ inline struct ct_comparable_value ct_makevalue_uinteger(int, uintmax_t value)
  to be converted.
  @return A comparable value structure for the floating point value.
  */
-inline struct ct_comparable_value ct_makevalue_floatingpoint(int,
-                                                             long double value)
+inline struct ct_comparable_value ct_makevalue_floatingpoint(int, long double value)
 {
     return (struct ct_comparable_value){
         .floatingpoint_value = value,
