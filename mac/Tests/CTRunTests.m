@@ -34,8 +34,8 @@
 static void *TestClass;
 
 static int *FakeContextA, *FakeContextB;
-constexpr int FakeContextAValue = 8;
-constexpr int FakeContextBValue = -5;
+constexpr auto FakeContextAValue = 8;
+constexpr auto FakeContextBValue = -5;
 
 static void record_testcontext_occurrenceA(void *context,
                                            CTRunTests *testObject)
@@ -178,7 +178,7 @@ static void test_teardownB(void **context)
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsizeof-pointer-div"
-    size_t run_result = ct_run(suites);
+    auto run_result = ct_run(suites);
 #pragma clang diagnostic pop
     
     XCTAssertEqual(0u, run_result);
@@ -192,8 +192,8 @@ static void test_teardownB(void **context)
     const struct ct_testsuite suites[] = {ct_makesuite(cases), ct_makesuite(cases)};
 #pragma clang diagnostic pop
 
-    size_t run_result = ct_run(suites);
-    
+    auto run_result = ct_run(suites);
+
     XCTAssertEqual(0u, run_result);
 }
 
@@ -212,8 +212,8 @@ static void test_teardownB(void **context)
     };
     const struct ct_testsuite suites[] = {ct_makesuite(casesA), ct_makesuite(casesB)};
     
-    size_t run_result = ct_run(suites);
-    
+    auto run_result = ct_run(suites);
+
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
@@ -242,8 +242,8 @@ static void test_teardownB(void **context)
     };
     const struct ct_testsuite suites[] = {ct_makesuite_setup_teardown(casesA, test_setupA, test_teardownA), ct_makesuite(casesB)};
     
-    size_t run_result = ct_run(suites);
-    
+    auto run_result = ct_run(suites);
+
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
@@ -274,8 +274,8 @@ static void test_teardownB(void **context)
         ct_makesuite_setup_teardown(casesB, test_setupB, test_teardownB)
     };
     
-    size_t run_result = ct_run(suites);
-    
+    auto run_result = ct_run(suites);
+
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
@@ -302,8 +302,8 @@ static void test_teardownB(void **context)
     };
     const struct ct_testsuite suites[] = {ct_makesuite(casesA), ct_makesuite(casesB)};
     
-    size_t run_result = ct_run(suites);
-    
+    auto run_result = ct_run(suites);
+
     XCTAssertEqual(7u, run_result);
     XCTAssertEqual(0u, self.passingTestInvocationsA);
     XCTAssertEqual(4u, self.failingTestInvocationsA);
@@ -332,8 +332,8 @@ static void test_teardownB(void **context)
     };
     char *args[] = {"foo", "bar"};
     
-    size_t run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
-    
+    auto run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
+
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
@@ -364,8 +364,8 @@ static void test_teardownB(void **context)
     };
     char *args[] = {"foo", nullptr, "bar", ""};
     
-    size_t run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
-    
+    auto run_result = ct_run_withargs(suites, sizeof args / sizeof args[0], args);
+
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
@@ -396,8 +396,8 @@ static void test_teardownB(void **context)
     };
     char *args[] = {"foo", "bar"};
     
-    size_t run_result = ct_runcount_withargs(sizeof suites / sizeof suites[0], suites, sizeof args / sizeof args[0], args);
-    
+    auto run_result = ct_runcount_withargs(sizeof suites / sizeof suites[0], suites, sizeof args / sizeof args[0], args);
+
     XCTAssertEqual(2u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);
@@ -428,8 +428,8 @@ static void test_teardownB(void **context)
     };
     char *args[] = {"foo", nullptr, "bar", ""};
     
-    size_t run_result = ct_runcount_withargs(1, suites, sizeof args / sizeof args[0], args);
-    
+    auto run_result = ct_runcount_withargs(1, suites, sizeof args / sizeof args[0], args);
+
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(2u, self.passingTestInvocationsA);
     XCTAssertEqual(1u, self.failingTestInvocationsA);

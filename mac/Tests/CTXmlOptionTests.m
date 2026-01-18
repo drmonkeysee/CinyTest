@@ -111,7 +111,7 @@ static void long_failure(void *context)
 
 - (void)test_NoXmlData_IfNoTests
 {
-    size_t result = ct_runsuite_withargs(nullptr, ArgsSize, ProgramArgs);
+    auto result = ct_runsuite_withargs(nullptr, ArgsSize, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -122,7 +122,7 @@ static void long_failure(void *context)
 {
     const struct ct_testcase cases[] = {};
     auto suite = ct_makesuite(cases);
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -138,7 +138,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -158,7 +158,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -179,7 +179,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -202,7 +202,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -223,7 +223,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -245,7 +245,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -267,7 +267,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -305,7 +305,7 @@ static void long_failure(void *context)
                                           cases2, nullptr, nullptr),
     };
 
-    size_t result = ct_run_withargs(suites, ArgsSize, ProgramArgs);
+    auto result = ct_run_withargs(suites, ArgsSize, ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"tests.xml", self.xmlName);
@@ -338,7 +338,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -360,7 +360,7 @@ static void long_failure(void *context)
                                           sizeof cases / sizeof cases[0],
                                           cases, nullptr, nullptr);
 
-    size_t result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
+    auto result = ct_runsuite_withargs(&suite, ArgsSize - 1, ProgramArgs);
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
@@ -379,7 +379,7 @@ static void long_failure(void *context)
     const struct ct_testcase cases[] = {ct_maketest(simple_success)};
     auto suite = ct_makesuite(cases);
 
-    size_t result = ct_runsuite(&suite);
+    auto result = ct_runsuite(&suite);
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"env.xml", self.xmlName);
@@ -399,7 +399,7 @@ static void long_failure(void *context)
 
     NSString *xmlText = [self xmlTextFrom:xmlData];
     for (NSString *str in expected) {
-        NSRange found = [xmlText rangeOfString:str];
+        auto found = [xmlText rangeOfString:str];
         XCTAssertNotEqual(NSNotFound, found.location,
                           @"Expected string \"%@\" not found in\n%@", str,
                           xmlText);

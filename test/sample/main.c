@@ -12,7 +12,7 @@ size_t binarytree_tests(int, char *[]);
 
 int main(int argc, char *argv[argc+1])
 {
-    size_t results = binarytree_tests(argc, argv);
+    auto results = binarytree_tests(argc, argv);
 
     return results != 0;
 }

@@ -33,9 +33,9 @@ static void identity_test_withmessage(void *context)
     
     testObject.invokedTest = YES;
     
-    int i = 20;
-    double d = 4.5;
-    
+    auto i = 20;
+    auto d = 4.5;
+
     ct_assertsame(&i, &d, "these pointers are not equal!");
     
     testObject.sawPostAssertCode = YES;
@@ -61,8 +61,10 @@ static void identity_test_pointerstopointers(void *context)
     
     testObject.invokedTest = YES;
     
-    int value = 10, *pvalue = &value, **ppvalue = &pvalue;
-    
+    auto value = 10;
+    auto pvalue = &value;
+    auto ppvalue = &pvalue;
+
     ct_assertsame(&pvalue, ppvalue);
     
     testObject.sawPostAssertCode = YES;
@@ -74,8 +76,10 @@ static void identity_test_pointer_andpointertopointer(void *context)
     
     testObject.invokedTest = YES;
     
-    int value = 10, *pvalue = &value, **ppvalue = &pvalue;
-    
+    auto value = 10;
+    auto pvalue = &value;
+    auto ppvalue = &pvalue;
+
     ct_assertsame(pvalue, ppvalue);
     
     testObject.sawPostAssertCode = YES;
@@ -90,59 +94,60 @@ static void identity_test_pointer_andpointertopointer(void *context)
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesNotSame_IfExpectedIsNull
 {
-    int testValue = 10;
+    auto testValue = 10;
     self.expectedPointer = nullptr;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesNotSame_IfActualIsNull
 {
-    int testValue = 10;
+    auto testValue = 10;
     self.expectedPointer = &testValue;
     self.actualPointer = nullptr;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesSame_IfBothPointToSameObject
 {
-    int testValue = 10;
+    auto testValue = 10;
     self.expectedPointer = &testValue;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesNotSame_IfPointingAtDifferentObjects
 {
-    int expectedTestValue = 10, actualTestValue = 10;
+    auto expectedTestValue = 10;
+    auto actualTestValue = 10;
     self.expectedPointer = &expectedTestValue;
     self.actualPointer = &actualTestValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -155,33 +160,35 @@ static void identity_test_pointer_andpointertopointer(void *context)
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesSame_IfExpectedIsAliasedVersionOfActual
 {
-    int testValue = 10, *aliasedPointer = &testValue;
+    auto testValue = 10;
+    auto aliasedPointer = &testValue;
     self.expectedPointer = aliasedPointer;
     self.actualPointer = &testValue;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctassertsame_ComparesSame_IfActualIsAliasedVersionOfExpected
 {
-    int testValue = 10, *aliasedPointer = &testValue;
+    auto testValue = 10;
+    auto aliasedPointer = &testValue;
     self.expectedPointer = &testValue;
     self.actualPointer = aliasedPointer;
     const struct ct_testcase tests[] = {ct_maketest(identity_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -191,7 +198,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     const struct ct_testcase tests[] = {ct_maketest(identity_test_pointerstopointers)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -201,7 +208,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     const struct ct_testcase tests[] = {ct_maketest(identity_test_pointer_andpointertopointer)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -211,7 +218,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     const struct ct_testcase tests[] = {ct_maketest(identity_test_withmessage)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -221,7 +228,7 @@ static void identity_test_pointer_andpointertopointer(void *context)
     const struct ct_testcase tests[] = {ct_maketest(identity_test_withformattedmessage)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }

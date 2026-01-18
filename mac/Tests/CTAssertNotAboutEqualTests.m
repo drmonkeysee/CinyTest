@@ -66,7 +66,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -82,7 +82,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -98,7 +98,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -114,7 +114,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -130,7 +130,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -146,7 +146,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -162,7 +162,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -178,7 +178,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -194,7 +194,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -210,7 +210,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -226,7 +226,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -242,14 +242,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinFloat
 {
-    int exponent = ilogbf(FLT_MIN);
+    auto exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN;
     af_values[ARG_ACTUAL] = FLT_MIN + ldexpf(0.05f, exponent);
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -259,14 +259,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinFloat
 {
-    int exponent = ilogbf(FLT_MIN);
+    auto exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN + ldexpf(0.05f, exponent);
     af_values[ARG_ACTUAL] = FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -276,14 +276,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMaxFloat
 {
-    int exponent = ilogbf(FLT_MAX);
+    auto exponent = ilogbf(FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = FLT_MAX;
     af_values[ARG_ACTUAL] = FLT_MAX - ldexpf(0.05f, exponent);
@@ -294,14 +294,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMaxFloat
 {
-    int exponent = ilogbf(FLT_MAX);
+    auto exponent = ilogbf(FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = FLT_MAX - ldexpf(0.05f, exponent);
     af_values[ARG_ACTUAL] = FLT_MAX;
@@ -312,14 +312,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinDouble
 {
-    int exponent = ilogb(DBL_MIN);
+    auto exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN;
     ad_values[ARG_ACTUAL] = DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -329,14 +329,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinDouble
 {
-    int exponent = ilogb(DBL_MIN);
+    auto exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_ACTUAL] = DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -346,14 +346,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMaxDouble
 {
-    int exponent = ilogb(DBL_MAX);
+    auto exponent = ilogb(DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = DBL_MAX;
     ad_values[ARG_ACTUAL] = DBL_MAX - ldexp(0.05, exponent);
@@ -364,14 +364,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMaxDouble
 {
-    int exponent = ilogb(DBL_MAX);
+    auto exponent = ilogb(DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = DBL_MAX - ldexp(0.05, exponent);
     ad_values[ARG_ACTUAL] = DBL_MAX;
@@ -382,14 +382,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMinLongDouble
 {
-    int exponent = ilogbl(LDBL_MIN);
+    auto exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN;
     ald_values[ARG_ACTUAL] = LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -399,14 +399,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMinLongDouble
 {
-    int exponent = ilogbl(LDBL_MIN);
+    auto exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_ACTUAL] = LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -416,14 +416,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedMaxLongDouble
 {
-    int exponent = ilogbl(LDBL_MAX);
+    auto exponent = ilogbl(LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = LDBL_MAX;
     ald_values[ARG_ACTUAL] = LDBL_MAX - ldexpl(0.05l, exponent);
@@ -434,14 +434,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualMaxLongDouble
 {
-    int exponent = ilogbl(LDBL_MAX);
+    auto exponent = ilogbl(LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = LDBL_MAX - ldexpl(0.05l, exponent);
     ald_values[ARG_ACTUAL] = LDBL_MAX;
@@ -452,14 +452,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinFloat
 {
-    int exponent = ilogbf(-FLT_MIN);
+    auto exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN;
     af_values[ARG_ACTUAL] = -FLT_MIN - ldexpf(0.05f, exponent);
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -469,14 +469,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinFloat
 {
-    int exponent = ilogbf(-FLT_MIN);
+    auto exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN - ldexpf(0.05f, exponent);
     af_values[ARG_ACTUAL] = -FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(0.1f, exponent);
@@ -486,14 +486,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMaxFloat
 {
-    int exponent = ilogbf(-FLT_MAX);
+    auto exponent = ilogbf(-FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = -FLT_MAX;
     af_values[ARG_ACTUAL] = -FLT_MAX + ldexpf(0.05f, exponent);
@@ -504,14 +504,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMaxFloat
 {
-    int exponent = ilogbf(-FLT_MAX);
+    auto exponent = ilogbf(-FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = -FLT_MAX + ldexpf(0.05f, exponent);
     af_values[ARG_ACTUAL] = -FLT_MAX;
@@ -522,14 +522,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinDouble
 {
-    int exponent = ilogb(-DBL_MIN);
+    auto exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN;
     ad_values[ARG_ACTUAL] = -DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -539,14 +539,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinDouble
 {
-    int exponent = ilogb(-DBL_MIN);
+    auto exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN + ldexp(0.05, exponent);
     ad_values[ARG_ACTUAL] = -DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(0.1, exponent);
@@ -556,14 +556,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMaxDouble
 {
-    int exponent = ilogb(-DBL_MAX);
+    auto exponent = ilogb(-DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = -DBL_MAX;
     ad_values[ARG_ACTUAL] = -DBL_MAX + ldexp(0.05, exponent);
@@ -574,14 +574,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMaxDouble
 {
-    int exponent = ilogb(-DBL_MAX);
+    auto exponent = ilogb(-DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = -DBL_MAX + ldexp(0.05, exponent);
     ad_values[ARG_ACTUAL] = -DBL_MAX;
@@ -592,14 +592,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMinLongDouble
 {
-    int exponent = ilogbl(-LDBL_MIN);
+    auto exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN;
     ald_values[ARG_ACTUAL] = -LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -609,14 +609,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMinLongDouble
 {
-    int exponent = ilogbl(-LDBL_MIN);
+    auto exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN + ldexpl(0.05l, exponent);
     ald_values[ARG_ACTUAL] = -LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(0.1l, exponent);
@@ -626,14 +626,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithExpectedNegativeMaxLongDouble
 {
-    int exponent = ilogbl(-LDBL_MAX);
+    auto exponent = ilogbl(-LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = -LDBL_MAX;
     ald_values[ARG_ACTUAL] = -LDBL_MAX + ldexpl(0.05l, exponent);
@@ -644,14 +644,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesEqual_WithActualNegativeMaxLongDouble
 {
-    int exponent = ilogbl(-LDBL_MAX);
+    auto exponent = ilogbl(-LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = -LDBL_MAX + ldexpl(0.05l, exponent);
     ald_values[ARG_ACTUAL] = -LDBL_MAX;
@@ -662,7 +662,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -678,7 +678,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -696,7 +696,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -712,7 +712,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -728,7 +728,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -744,7 +744,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -760,7 +760,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -776,7 +776,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -792,7 +792,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -808,7 +808,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -824,14 +824,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinFloat
 {
-    int exponent = ilogbf(FLT_MIN);
+    auto exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN;
     af_values[ARG_ACTUAL] = FLT_MIN + ldexpf(5.7f, exponent);
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -841,14 +841,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinFloat
 {
-    int exponent = ilogbf(FLT_MIN);
+    auto exponent = ilogbf(FLT_MIN);
     af_values[ARG_EXPECTED] = FLT_MIN + ldexpf(5.7f, exponent);
     af_values[ARG_ACTUAL] = FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -858,14 +858,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMaxFloat
 {
-    int exponent = ilogbf(FLT_MAX);
+    auto exponent = ilogbf(FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = FLT_MAX;
     af_values[ARG_ACTUAL] = FLT_MAX - ldexpf(5.7f, exponent);
@@ -876,14 +876,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMaxFloat
 {
-    int exponent = ilogbf(FLT_MAX);
+    auto exponent = ilogbf(FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = FLT_MAX - ldexpf(5.7f, exponent);
     af_values[ARG_ACTUAL] = FLT_MAX;
@@ -894,14 +894,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinDouble
 {
-    int exponent = ilogb(DBL_MIN);
+    auto exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN;
     ad_values[ARG_ACTUAL] = DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -911,14 +911,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinDouble
 {
-    int exponent = ilogb(DBL_MIN);
+    auto exponent = ilogb(DBL_MIN);
     ad_values[ARG_EXPECTED] = DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_ACTUAL] = DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -928,14 +928,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMaxDouble
 {
-    int exponent = ilogb(DBL_MAX);
+    auto exponent = ilogb(DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = DBL_MAX;
     ad_values[ARG_ACTUAL] = DBL_MAX - ldexp(5.7, exponent);
@@ -946,14 +946,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMaxDouble
 {
-    int exponent = ilogb(DBL_MAX);
+    auto exponent = ilogb(DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = DBL_MAX - ldexp(5.7, exponent);
     ad_values[ARG_ACTUAL] = DBL_MAX;
@@ -964,14 +964,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMinLongDouble
 {
-    int exponent = ilogbl(LDBL_MIN);
+    auto exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN;
     ald_values[ARG_ACTUAL] = LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -981,14 +981,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMinLongDouble
 {
-    int exponent = ilogbl(LDBL_MIN);
+    auto exponent = ilogbl(LDBL_MIN);
     ald_values[ARG_EXPECTED] = LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_ACTUAL] = LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -998,14 +998,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedMaxLongDouble
 {
-    int exponent = ilogbl(LDBL_MAX);
+    auto exponent = ilogbl(LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = LDBL_MAX;
     ald_values[ARG_ACTUAL] = LDBL_MAX - ldexpl(5.7l, exponent);
@@ -1016,14 +1016,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualMaxLongDouble
 {
-    int exponent = ilogbl(LDBL_MAX);
+    auto exponent = ilogbl(LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = LDBL_MAX - ldexpl(5.7l, exponent);
     ald_values[ARG_ACTUAL] = LDBL_MAX;
@@ -1034,14 +1034,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithOverflow
 {
-    int exponent = ilogbl(LDBL_MAX);
+    auto exponent = ilogbl(LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = LDBL_MAX;
     ald_values[ARG_ACTUAL] = ldexpl(-5.7l, exponent);
@@ -1052,7 +1052,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1068,7 +1068,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1084,7 +1084,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1100,7 +1100,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1116,7 +1116,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1132,14 +1132,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinFloat
 {
-    int exponent = ilogbf(-FLT_MIN);
+    auto exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN;
     af_values[ARG_ACTUAL] = -FLT_MIN - ldexpf(5.7f, exponent);
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -1149,14 +1149,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinFloat
 {
-    int exponent = ilogbf(-FLT_MIN);
+    auto exponent = ilogbf(-FLT_MIN);
     af_values[ARG_EXPECTED] = -FLT_MIN - ldexpf(5.7f, exponent);
     af_values[ARG_ACTUAL] = -FLT_MIN;
     af_values[ARG_PRECISION] = ldexpf(1.4f, exponent);
@@ -1166,14 +1166,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMaxFloat
 {
-    int exponent = ilogbf(-FLT_MAX);
+    auto exponent = ilogbf(-FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = -FLT_MAX;
     af_values[ARG_ACTUAL] = -FLT_MAX + ldexpf(5.7f, exponent);
@@ -1184,14 +1184,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMaxFloat
 {
-    int exponent = ilogbf(-FLT_MAX);
+    auto exponent = ilogbf(-FLT_MAX);
     exponent -= exponent / 10;
     af_values[ARG_EXPECTED] = -FLT_MAX + ldexpf(5.7f, exponent);
     af_values[ARG_ACTUAL] = -FLT_MAX;
@@ -1202,14 +1202,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinDouble
 {
-    int exponent = ilogb(-DBL_MIN);
+    auto exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN;
     ad_values[ARG_ACTUAL] = -DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -1219,14 +1219,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinDouble
 {
-    int exponent = ilogb(-DBL_MIN);
+    auto exponent = ilogb(-DBL_MIN);
     ad_values[ARG_EXPECTED] = -DBL_MIN + ldexp(5.7, exponent);
     ad_values[ARG_ACTUAL] = -DBL_MIN;
     ad_values[ARG_PRECISION] = ldexp(1.4, exponent);
@@ -1236,14 +1236,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMaxDouble
 {
-    int exponent = ilogb(-DBL_MAX);
+    auto exponent = ilogb(-DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = -DBL_MAX;
     ad_values[ARG_ACTUAL] = -DBL_MAX + ldexp(5.7, exponent);
@@ -1254,14 +1254,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMaxDouble
 {
-    int exponent = ilogb(-DBL_MAX);
+    auto exponent = ilogb(-DBL_MAX);
     exponent -= exponent / 20;
     ad_values[ARG_EXPECTED] = -DBL_MAX + ldexp(5.7, exponent);
     ad_values[ARG_ACTUAL] = -DBL_MAX;
@@ -1272,14 +1272,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMinLongDouble
 {
-    int exponent = ilogbl(-LDBL_MIN);
+    auto exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN;
     ald_values[ARG_ACTUAL] = -LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -1289,14 +1289,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMinLongDouble
 {
-    int exponent = ilogbl(-LDBL_MIN);
+    auto exponent = ilogbl(-LDBL_MIN);
     ald_values[ARG_EXPECTED] = -LDBL_MIN + ldexpl(5.7l, exponent);
     ald_values[ARG_ACTUAL] = -LDBL_MIN;
     ald_values[ARG_PRECISION] = ldexpl(1.4l, exponent);
@@ -1306,14 +1306,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithExpectedNegativeMaxLongDouble
 {
-    int exponent = ilogbl(-LDBL_MAX);
+    auto exponent = ilogbl(-LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = -LDBL_MAX;
     ald_values[ARG_ACTUAL] = -LDBL_MAX + ldexpl(5.7l, exponent);
@@ -1324,14 +1324,14 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
 
 - (void)test_ctnotaboutequal_ComparesNotEqual_WithActualNegativeMaxLongDouble
 {
-    int exponent = ilogbl(-LDBL_MAX);
+    auto exponent = ilogbl(-LDBL_MAX);
     exponent -= exponent / 400;
     ald_values[ARG_EXPECTED] = -LDBL_MAX + ldexpl(5.7l, exponent);
     ald_values[ARG_ACTUAL] = -LDBL_MAX;
@@ -1342,7 +1342,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1358,7 +1358,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1374,7 +1374,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1390,7 +1390,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1406,7 +1406,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1422,7 +1422,7 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -1434,8 +1434,8 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test_withmessage)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
-    
+    auto run_result = ct_runsuite(&suite);
+
     failed_assertion_expected(run_result);
 }
 
@@ -1444,8 +1444,8 @@ static void notabout_equality_test_withformatmessage(void *context)
     const struct ct_testcase tests[] = {ct_maketest(notabout_equality_test_withformatmessage)};
     auto suite = ct_makesuite(tests);
     
-    size_t run_result = ct_runsuite(&suite);
-    
+    auto run_result = ct_runsuite(&suite);
+
     failed_assertion_expected(run_result);
 }
 

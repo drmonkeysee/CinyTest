@@ -73,7 +73,7 @@ static void print_tree(const struct bt_node *self, int indent, char label)
 {
     if (!self) return;
 
-    for (int indent_count = indent; indent_count > 0; --indent_count) {
+    for (auto indent_count = indent; indent_count > 0; --indent_count) {
         fputs("\t", stdout);
     }
     printf("%c(%d)\n", label, self->value);
@@ -84,7 +84,8 @@ static void print_tree(const struct bt_node *self, int indent, char label)
 static bool balanced_tree(const struct bt_node *self, size_t *depth)
 {
     size_t ldepth = 0, rdepth = 0;
-    bool lbalanced = true, rbalanced = true;
+    auto lbalanced = true;
+    auto rbalanced = true;
 
     if (self->left) {
         lbalanced = balanced_tree(self->left, &ldepth);
@@ -94,7 +95,7 @@ static bool balanced_tree(const struct bt_node *self, size_t *depth)
     }
 
     *depth = (ldepth > rdepth ? ldepth : rdepth) + 1;
-    ptrdiff_t depth_diff = (ptrdiff_t)(ldepth - rdepth);
+    auto depth_diff = (ptrdiff_t)(ldepth - rdepth);
     return lbalanced && rbalanced && depth_diff >= -1 && depth_diff <= 1;
 }
 
@@ -210,11 +211,10 @@ void bt_rebalance(binarytree **self)
 {
     if (!*self) return;
 
-    size_t size = bt_size(*self);
+    auto size = bt_size(*self);
     struct bt_node *sorted_nodes[size];
 
-    ptrdiff_t start = 0, end = (ptrdiff_t)(size - 1);
-    ptrdiff_t current_index = start;
+    ptrdiff_t start = 0, end = (ptrdiff_t)(size - 1), current_index = start;
     inline_tree(*self, sorted_nodes, &current_index);
 
     *self = rebalance_node(sorted_nodes, start, end);

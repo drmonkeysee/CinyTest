@@ -136,7 +136,7 @@ static struct runsummary {
 } RunTotals;
 
 constexpr size_t DateStrSize = 30;
-constexpr double MsPerSec = 1000.0;
+constexpr auto MsPerSec = 1000.0;
 struct casereport {
     const struct ct_testcase *testcase;
     uint64_t time;
@@ -264,7 +264,7 @@ static void print_testresult(enum text_highlight style,
                              const char *result_label, const char *name)
 {
     if (RunContext.verbosity == VERBOSITY_MINIMAL) {
-        static bool first_call = true;
+        static auto first_call = true;
         if (first_call) {
             first_call = false;
         } else {
@@ -330,7 +330,7 @@ static void print_linemessage(const char *message)
 
 static bool pretty_truncate(size_t size, char buffer[size])
 {
-    ptrdiff_t truncation_idx = (ptrdiff_t)(size - 1 - strlen(Ellipsis));
+    auto truncation_idx = (ptrdiff_t)(size - 1 - strlen(Ellipsis));
 
     bool can_fit_ellipsis = truncation_idx >= 0;
     if (can_fit_ellipsis) {
@@ -363,7 +363,7 @@ static enum verbositylevel argverbose(const char *value)
 {
     if (!value) return VERBOSITY_DEFAULT;
 
-    int arg = atoi(value);
+    auto arg = atoi(value);
     return arg < VERBOSITY_MINIMAL
             ? VERBOSITY_MINIMAL
             : (arg > VERBOSITY_FULL
@@ -563,7 +563,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
     auto filter = testfilter_make();
 
     filter.start = cursor;
-    for (char c = *cursor; c && c != expr_delimiter; c = *++cursor) {
+    for (auto c = *cursor; c && c != expr_delimiter; c = *++cursor) {
         if (c == FilterTargetDelimiter && filter.apply == FILTER_ANY) {
             // first target delimiter seen so this is a (possibly empty)
             // suite filter
@@ -642,7 +642,7 @@ static void runcontext_init(int argc, char *argv[argc+1])
         *xml_option = nullptr;
 
     if (argc > 0) {
-        for (int i = 0; i < argc; ++i) {
+        for (auto i = 0; i < argc; ++i) {
             const char *arg = argv[i];
             if (!arg) {
                 continue;
@@ -836,7 +836,7 @@ static void runsummary_print(const struct runsummary *self)
 {
     printout("Ran %zu tests (%.3f seconds): ", self->test_count,
              (double)self->total_time / MsPerSec);
-    bool printed_subtotal = false;
+    auto printed_subtotal = false;
     if (self->ledger.passed > 0 || RunContext.verbosity == VERBOSITY_FULL) {
         print_highlighted(HIGHLIGHT_SUCCESS, "%zu passed",
                           self->ledger.passed);
@@ -950,8 +950,8 @@ static void assertstate_setdescription(const char *restrict format, ...)
 
     va_list format_args;
     va_start(format_args, format);
-    int write_count = vsnprintf(AssertState.description, description_size,
-                                format, format_args);
+    auto write_count = vsnprintf(AssertState.description, description_size,
+                                 format, format_args);
     va_end(format_args);
 
     if (write_count < 0) {
@@ -973,8 +973,8 @@ static void assertstate_setvmessage(const char *restrict format,
 {
     static constexpr size_t message_size = sizeof AssertState.message;
 
-    int write_count = vsnprintf(AssertState.message, message_size, format,
-                                format_args);
+    auto write_count = vsnprintf(AssertState.message, message_size, format,
+                                 format_args);
 
     if (write_count < 0) {
         printerr("WARNING: assert message write failure!\n");
@@ -1060,7 +1060,7 @@ comparable_value_valuedescription(const struct ct_comparable_value *value,
                                value->floatingpoint_value);
         break;
     case CT_ANNOTATE_COMPLEX: {
-        long double imagin_value = cimagl(value->complex_value);
+        auto imagin_value = cimagl(value->complex_value);
         char sign = '+';
         if (imagin_value < 0.0) {
             sign = '-';
@@ -1180,9 +1180,9 @@ static void casereport_skipped_match(struct casereport *self,
 
     self->assert_state.type = ASSERT_SKIPPED;
     size_t msgsize = sizeof self->assert_state.message;
-    int count = snprintf(self->assert_state.message, msgsize,
-                         "skipped by exclude filter (%.*s)",
-                         (int)(match->end - match->start), match->start);
+    auto count = snprintf(self->assert_state.message, msgsize,
+                          "skipped by exclude filter (%.*s)",
+                          (int)(match->end - match->start), match->start);
     if (count < 0) {
         printerr("WARNING: XML assert message write failure!\n");
     } else if ((size_t)count >= msgsize) {
@@ -1215,7 +1215,7 @@ static void write_xml_attribute_escaped(const char *string)
     char buff[1024];
     size_t buffer_size = sizeof buff;
     size_t i = 0;
-    for (char c = *string; c; c = *++string) {
+    for (auto c = *string; c; c = *++string) {
         switch (c) {
         case '\t':
         case '\n':
@@ -1226,7 +1226,7 @@ static void write_xml_attribute_escaped(const char *string)
             if (buffer_size - i < max_escape) {
                 i = xml_flush(i, buff);
             }
-            int escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
+            auto escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
             if (escape_size > 0) {
                 // Advance i by escape string length (NUL not included)
                 i += (size_t)escape_size;
@@ -1376,9 +1376,9 @@ static void testsuite_printheader(const struct ct_testsuite *self,
                                   time_t start_time)
 {
     char formatted_datetime[DateStrSize];
-    size_t format_length = strftime(formatted_datetime,
-                                    sizeof formatted_datetime, "%FT%T%z",
-                                    localtime(&start_time));
+    auto format_length = strftime(formatted_datetime,
+                                  sizeof formatted_datetime, "%FT%T%z",
+                                  localtime(&start_time));
     const char *date_msg;
     if (format_length) {
         date_msg = formatted_datetime;
@@ -1490,7 +1490,7 @@ static void testsuite_handlecase(const struct ct_testsuite *self,
     }
 
     suitebreak_open(sb, self, report);
-    uint64_t start_time = ct_get_currentmsecs();
+    auto start_time = ct_get_currentmsecs();
     testsuite_runcase(self, current_case, &summary->ledger);
     casereport_set_result(case_report, start_time);
 }
@@ -1502,8 +1502,8 @@ static void testsuite_run(const struct ct_testsuite *self,
     suitereport_init(report, self);
 
     if (self && self->tests && self->count) {
-        uint64_t start_time = ct_get_currentmsecs();
-        enum suitebreak sb = suitebreak_make();
+        auto start_time = ct_get_currentmsecs();
+        auto sb = suitebreak_make();
         summary.test_count = self->count;
         suitereport_add_cases(report, self->count);
 
@@ -1634,7 +1634,7 @@ void ct_internal_assertequal(struct ct_comparable_value expected,
                              const char *restrict file, int line,
                              const char *restrict format, ...)
 {
-    bool failed_assert = false;
+    auto failed_assert = false;
     if (!comparable_value_equaltypes(&expected, &actual)) {
         assertstate_setdescription("(%s) is not the same type as (%s):"
                                    " expected (%s type), actual (%s type)",
@@ -1669,7 +1669,7 @@ void ct_internal_assertnotequal(struct ct_comparable_value expected,
                                 const char *restrict file, int line,
                                 const char *restrict format, ...)
 {
-    bool failed_assert = false;
+    auto failed_assert = false;
     if (!comparable_value_equaltypes(&expected, &actual)) {
         assertstate_setdescription("(%s) is not the same type as (%s):"
                                    " expected (%s type), actual (%s type)",
@@ -1700,7 +1700,7 @@ void ct_internal_assertaboutequal(long double expected,
                                   const char *restrict file, int line,
                                   const char *restrict format, ...)
 {
-    long double diff = fabsl(expected - actual);
+    auto diff = fabsl(expected - actual);
     if (isgreater(diff, fabsl(precision)) || isnan(diff) || isnan(precision)) {
         assertstate_setdescription("(%s) differs from (%s) by greater than"
                                    " %s(%.*Lg): expected (%.*Lg),"
@@ -1720,7 +1720,7 @@ void ct_internal_assertnotaboutequal(long double expected,
                                      const char *restrict file, int line,
                                      const char *restrict format, ...)
 {
-    long double diff = fabsl(expected - actual);
+    auto diff = fabsl(expected - actual);
     if (islessequal(diff, fabsl(precision))) {
         assertstate_setdescription("(%s) differs from (%s) by less than"
                                    " or equal to %s(%.*Lg): expected (%.*Lg),"
@@ -1779,8 +1779,8 @@ void ct_internal_assertequalstrn(const char *expected,
             valuestr_expected[CompValueStrSize],
             valuestr_actual[CompValueStrSize];
 
-        int write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
-                                   "%s", expected);
+        auto write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
+                                    "%s", expected);
         if (write_count < 0) {
             printerr("WARNING: equalstrn (expected) assert msg"
                      " format failure!\n");
@@ -1818,8 +1818,8 @@ void ct_internal_assertnotequalstrn(const char *expected,
     if (assert_fails) {
         char valuestr_expected[CompValueStrSize];
 
-        int write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
-                                   "%s", expected);
+        auto write_count = snprintf(valuestr_expected, sizeof valuestr_expected,
+                                    "%s", expected);
         if (write_count < 0) {
             printerr("WARNING: notequalstrn assert msg format failure!\n");
         } else if ((size_t)write_count >= sizeof valuestr_expected) {

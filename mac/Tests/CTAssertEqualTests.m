@@ -236,7 +236,8 @@ static void equality_test_withformatmessage(void *context)
 
     testObject.invokedTest = YES;
 
-    int e = -9, i = 5;
+    auto e = -9;
+    auto i = 5;
 
     ct_assertequal(e, i, "Turns out %d is not equal to %d", e, i);
 
@@ -250,7 +251,7 @@ static void equality_test_withtypevariants(void *context)
     testObject.invokedTest = YES;
 
     const int ci = 10;
-    int i = 10;
+    auto i = 10;
 
     ct_assertequal(ci, i, "const ints and ints should be equal");
 
@@ -270,7 +271,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -284,7 +285,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -298,7 +299,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -312,7 +313,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -326,7 +327,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -340,7 +341,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -354,7 +355,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -368,7 +369,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -382,7 +383,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -396,7 +397,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -410,7 +411,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -424,7 +425,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -438,7 +439,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -454,7 +455,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -468,7 +469,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -482,7 +483,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -496,7 +497,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -510,7 +511,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -524,7 +525,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -538,7 +539,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -552,7 +553,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -566,7 +567,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -582,7 +583,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -596,7 +597,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -610,7 +611,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -624,7 +625,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -638,7 +639,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -652,7 +653,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -666,7 +667,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -680,7 +681,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -694,7 +695,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -708,7 +709,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -722,7 +723,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -738,7 +739,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -752,7 +753,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -766,7 +767,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -780,7 +781,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -794,7 +795,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -808,7 +809,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -822,7 +823,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -836,7 +837,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -850,7 +851,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -864,7 +865,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -878,7 +879,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -892,7 +893,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -906,7 +907,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -920,7 +921,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -934,7 +935,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -950,7 +951,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -964,7 +965,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -978,7 +979,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -992,7 +993,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1006,7 +1007,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1020,7 +1021,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1037,7 +1038,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1052,7 +1053,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1067,7 +1068,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1079,7 +1080,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withmessage)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1089,7 +1090,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withformatmessage)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     failed_assertion_expected(run_result);
 }
@@ -1101,7 +1102,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test_withtypevariants)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -1117,7 +1118,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     successful_assertion_expected(run_result);
 }
@@ -1131,7 +1132,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     XCTAssertEqual(0u, run_result, "Test unexpectedly failed - possibly compiled with unsigned char option?");
     XCTAssertTrue(self.invokedTest);
@@ -1147,7 +1148,7 @@ static void equality_test_withtypevariants(void *context)
     const struct ct_testcase tests[] = {ct_maketest(equality_test)};
     auto suite = ct_makesuite(tests);
 
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
 
     XCTAssertEqual(1u, run_result, "Test unexpectedly passed - possibly compiled with unsigned char option?");
     XCTAssertTrue(self.invokedTest);

@@ -20,7 +20,7 @@
 {
     struct ct_version v = {5, 21, 205};
     
-    uint32_t vhex = ct_versionhex(&v);
+    auto vhex = ct_versionhex(&v);
     
     XCTAssertEqual(0x000515cdu, vhex);
 }
@@ -29,10 +29,9 @@
 {
     auto v = ct_getversion();
     
-    uint32_t vhex = ct_versionhex(&v);
-    
-    uint32_t expected = (uint32_t)(0 | v.major << 16 | v.minor << 8
-                                         | v.patch);
+    auto vhex = ct_versionhex(&v);
+
+    auto expected = (uint32_t)(0 | v.major << 16 | v.minor << 8 | v.patch);
     XCTAssertEqual(expected, vhex);
 }
 
@@ -41,7 +40,7 @@
     struct ct_version smaller = {2, 1, 1};
     struct ct_version bigger = {3, 1, 1};
     
-    uint32_t shex = ct_versionhex(&smaller), bhex = ct_versionhex(&bigger);
+    auto shex = ct_versionhex(&smaller), bhex = ct_versionhex(&bigger);
 
     XCTAssertLessThan(shex, bhex);
 }
@@ -51,7 +50,7 @@
     struct ct_version smaller = {2, 9, 1};
     struct ct_version bigger = {2, 12, 1};
     
-    uint32_t shex = ct_versionhex(&smaller), bhex = ct_versionhex(&bigger);
+    auto shex = ct_versionhex(&smaller), bhex = ct_versionhex(&bigger);
 
     XCTAssertLessThan(shex, bhex);
 }
@@ -61,7 +60,7 @@
     struct ct_version smaller = {2, 5, 23};
     struct ct_version bigger = {2, 5, 154};
     
-    uint32_t shex = ct_versionhex(&smaller), bhex = ct_versionhex(&bigger);
+    auto shex = ct_versionhex(&smaller), bhex = ct_versionhex(&bigger);
     
     XCTAssertLessThan(shex, bhex);
 }

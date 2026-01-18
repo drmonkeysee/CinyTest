@@ -92,7 +92,7 @@ static void test_case(void *context)
 {
     for (NSString *value in inputs) {
         NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
-        uint32_t insertIndex = arc4random_uniform((uint32_t)args.count);
+        auto insertIndex = arc4random_uniform((uint32_t)args.count);
         NSString *argValue = [NSString stringWithFormat:@"%@=%@", optionArgument, value];
         [args insertObject:argValue atIndex:insertIndex];
         [self assertSuite:compare value:expected forOption:value withArgs:args];
@@ -111,12 +111,12 @@ static void test_case(void *context)
     
     NSPipe *output = [NSPipe pipe];
     NSFileHandle *readOutput = output.fileHandleForReading;
-    int old_stdout = dup(fileno(stdout));
+    auto old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
-    int argc = (int)args.count;
+    auto argc = (int)args.count;
     char *argv[argc + 1];
-    for (int i = 0; i < argc; ++i) {
+    for (auto i = 0; i < argc; ++i) {
         // Cast away const to match signature (we promise not to mutate them)
         argv[i] = (char *)[args[(NSUInteger)i] UTF8String];
     }
@@ -130,8 +130,8 @@ static void test_case(void *context)
     close(old_stdout);
     
     NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSRange found = [result rangeOfString:expected];
-    
+    auto found = [result rangeOfString:expected];
+
     XCTAssertNotNil(result, @"Unexpected nil output string for option flag value \"%@\"", optionFlag);
     if (compare == CTOutputContains) {
         XCTAssertNotEqual(NSNotFound, found.location, @"Expected string \"%@\" not found for option flag value \"%@\"", expected, optionFlag);

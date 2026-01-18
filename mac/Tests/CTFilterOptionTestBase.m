@@ -22,7 +22,7 @@ static RUN_TEST_FLAGS Suite1Flags, Suite2Flags;
 
 static void set_test_flag(const void *ctx, RUN_TEST_FLAGS flag)
 {
-    RUN_TEST_FLAGS *testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2
+    auto testvar = (RUN_TEST_FLAGS)ctx == RUN_SUITE2
                                 ? &Suite2Flags :
                                 &Suite1Flags;
     *testvar |= flag;
@@ -131,9 +131,9 @@ static struct ct_testsuite make_suite(const char *name,
 {
     Suite1Flags = Suite2Flags = RUN_TEST_NONE;
     
-    int argc = (int)filters.count;
+    auto argc = (int)filters.count;
     char *argv[argc + 1];
-    for (int i = 0; i < argc; ++i) {
+    for (auto i = 0; i < argc; ++i) {
         // Cast away const to match signature (we promise not to mutate them)
         argv[i] = (char *)[filters[(NSUInteger)i] UTF8String];
     }

@@ -49,7 +49,7 @@ FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
 
-    int new_stream = dup(fileno(stream));
+    auto new_stream = dup(fileno(stream));
     freopen("/dev/null", "w", stream);
     return fdopen(new_stream, "w");
 }

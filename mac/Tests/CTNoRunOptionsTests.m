@@ -32,7 +32,7 @@ static void test_case(void *context)
     auto suite = ct_makesuite(cases);
     char *args[] = {"--ct-version"};
     
-    size_t result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
+    auto result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(0u, result);
     XCTAssertFalse(self.invokedTest);
@@ -44,7 +44,7 @@ static void test_case(void *context)
     auto suite = ct_makesuite(cases);
     char *args[] = {"--ct-help"};
     
-    size_t result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
+    auto result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
     
     XCTAssertEqual(0u, result);
     XCTAssertFalse(self.invokedTest);

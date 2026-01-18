@@ -54,7 +54,7 @@ void ct_startcolor(FILE *stream, size_t color_index)
 
     fflush(stream);
 
-    HANDLE output = streamhandle(stream);
+    auto output = streamhandle(stream);
     CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(output, &info);
     ConsoleOldAttributes = info.wAttributes;
@@ -77,7 +77,7 @@ FILE *ct_replacestream(FILE *stream)
 {
     fflush(stream);
 
-    int new_stream = _dup(_fileno(stream));
+    auto new_stream = _dup(_fileno(stream));
     freopen("NUL", "w", stream);
     return _fdopen(new_stream, "w");
 }

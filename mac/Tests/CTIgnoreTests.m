@@ -73,7 +73,7 @@ static void ignore_test_formatmessage(void *context)
     const struct ct_testcase cases[] = {ct_maketest(ignore_test_nomessage)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -83,7 +83,7 @@ static void ignore_test_formatmessage(void *context)
     const struct ct_testcase cases[] = {ct_maketest(ignore_test_message)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -93,7 +93,7 @@ static void ignore_test_formatmessage(void *context)
     const struct ct_testcase cases[] = {ct_maketest(ignore_test_formatmessage)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }

@@ -74,7 +74,7 @@ static void literal_false_test(void *context)
     const struct ct_testcase cases[] = {ct_maketest(variable_test)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -85,7 +85,7 @@ static void literal_false_test(void *context)
     const struct ct_testcase cases[] = {ct_maketest(variable_test)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -97,7 +97,7 @@ static void literal_false_test(void *context)
     const struct ct_testcase cases[] = {ct_maketest(expression_test)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -109,7 +109,7 @@ static void literal_false_test(void *context)
     const struct ct_testcase cases[] = {ct_maketest(expression_test)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
@@ -119,7 +119,7 @@ static void literal_false_test(void *context)
     const struct ct_testcase cases[] = {ct_maketest(literal_true_test)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     failed_assertion_expected(run_result);
 }
@@ -129,7 +129,7 @@ static void literal_false_test(void *context)
     const struct ct_testcase cases[] = {ct_maketest(literal_false_test)};
     auto suite = ct_makesuite(cases);
     
-    size_t run_result = ct_runsuite(&suite);
+    auto run_result = ct_runsuite(&suite);
     
     successful_assertion_expected(run_result);
 }
