@@ -930,7 +930,7 @@ static void assertstate_handle(const char *restrict test_name,
     switch (AssertState.type) {
     case ASSERT_SUCCESS:
     case ASSERT_SKIPPED:
-        // NOTE: nothing to handle!
+        // Nothing to handle!
         break;
     case ASSERT_FAILURE:
         assertstate_handlefailure(test_name, ledger);
@@ -1207,7 +1207,7 @@ static size_t xml_flush(size_t terminator, char buffer[])
 
 static void write_xml_attribute_escaped(const char *string)
 {
-    // NOTE: escape size = &#NNN; + NUL byte for any ASCII character
+    // Escape size = &#NNN; + NUL byte for any ASCII character
     static constexpr size_t max_escape = 7;
 
     if (!string) return;
@@ -1228,7 +1228,7 @@ static void write_xml_attribute_escaped(const char *string)
             }
             int escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
             if (escape_size > 0) {
-                // NOTE: advance i by escape string length (NUL not included)
+                // Advance i by escape string length (NUL not included)
                 i += (size_t)escape_size;
             }
             break;
@@ -1386,7 +1386,7 @@ static void testsuite_printheader(const struct ct_testsuite *self,
     } else {
         date_msg = "Invalid Date (formatted output may "
                     "have exceeded buffer size)";
-        // NOTE: leave report date blank if format error
+        // Leave report date blank if format error
     }
     printout("Test suite '%s' started at %s\n", self->name, date_msg);
 }

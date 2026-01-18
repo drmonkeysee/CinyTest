@@ -31,7 +31,7 @@ constexpr size_t ArgsSize = 3;
 static void *TestClass;
 static char *ProgramArgs[ArgsSize];
 
-// NOTE: mock fopen to capture xml output (i'm surprised this works)
+// Mock fopen to capture xml output (i'm surprised this works)
 FILE *fopen(const char *restrict filename, const char *restrict mode)
 {
     CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
