@@ -18,7 +18,7 @@
 
 static void fail_test_nomessage(void *context)
 {
-    CTAssertFailTests *testObject = (__bridge CTAssertFailTests *)(TestClass);
+    auto testObject = (__bridge CTAssertFailTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -32,7 +32,7 @@ static void fail_test_nomessage(void *context)
 
 static void fail_test_message(void *context)
 {
-    CTAssertFailTests *testObject = (__bridge CTAssertFailTests *)(TestClass);
+    auto testObject = (__bridge CTAssertFailTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -46,7 +46,7 @@ static void fail_test_message(void *context)
 
 static void fail_test_formatmessage(void *context)
 {
-    CTAssertFailTests *testObject = (__bridge CTAssertFailTests *)(TestClass);
+    auto testObject = (__bridge CTAssertFailTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

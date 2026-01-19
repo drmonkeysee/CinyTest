@@ -41,8 +41,8 @@ static struct ct_testsuite fakesuite_function()
     const struct ct_testcase faketests[] = {ct_maketest_named("foo", nullptr), ct_maketest_named("bar", nullptr)},
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              *expected_tests = faketests;
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
-    
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+
     auto testsuite = ct_makesuite(faketests);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
@@ -61,7 +61,7 @@ static struct ct_testsuite fakesuite_function()
 
 - (void)test_ctmakesuite_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     const struct ct_testcase *cases = nullptr;
     
 #pragma clang diagnostic push
@@ -82,8 +82,8 @@ static struct ct_testsuite fakesuite_function()
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              *expected_tests = faketests;
     ct_setupteardown_function *expected_setup = makesuite_fakesetup;
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
-    
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+
     auto testsuite = ct_makesuite_setup(faketests, expected_setup);
     
     XCTAssertEqualObjects(expectedName, [NSString stringWithUTF8String:testsuite.name]);
@@ -99,7 +99,7 @@ static struct ct_testsuite fakesuite_function()
     // XCTest doesn't like comparing an array to a pointer so get the address of the array
                              *expected_tests = faketests;
     ct_setupteardown_function *expected_setup = makesuite_fakesetup;
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     auto testsuite = ct_makesuite_setup(faketests, expected_setup);
     
@@ -112,7 +112,7 @@ static struct ct_testsuite fakesuite_function()
 
 - (void)test_ctmakesuitesetup_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     const struct ct_testcase *cases = nullptr;
     
 #pragma clang diagnostic push
@@ -134,7 +134,7 @@ static struct ct_testsuite fakesuite_function()
                              *expected_tests = faketests;
     ct_setupteardown_function *expected_setup = makesuite_fakesetup,
                                 *expected_teardown = makesuite_faketeardown;
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     
     auto testsuite = ct_makesuite_setup_teardown(faketests, expected_setup, expected_teardown);
     
@@ -147,7 +147,7 @@ static struct ct_testsuite fakesuite_function()
 
 - (void)test_ctmakesuitesetupteardown_CreatesTestSuite_IfNullArguments
 {
-    NSString *expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
+    auto expectedName = [self stringOfExpectedSuiteNameWithSelector:_cmd];
     const struct ct_testcase *cases = nullptr;
     
 #pragma clang diagnostic push

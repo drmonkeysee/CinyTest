@@ -18,9 +18,8 @@
 
 static void variable_test(void *context)
 {
-    CTAssertNullTests *testObject =
-        (__bridge CTAssertNullTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertNullTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertnull(testObject.testVariable, "i see the %p value",
@@ -31,8 +30,7 @@ static void variable_test(void *context)
 
 static void expression_test(void *context)
 {
-    CTAssertNullTests *testObject =
-        (__bridge CTAssertNullTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNullTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -44,8 +42,8 @@ static void expression_test(void *context)
 
 static void literal_null_test(void *context)
 {
-    CTAssertNullTests *testObject = (__bridge CTAssertNullTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertNullTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertnull(nullptr);
@@ -55,8 +53,8 @@ static void literal_null_test(void *context)
 
 static void literal_notnull_test(void *context)
 {
-    CTAssertNullTests *testObject = (__bridge CTAssertNullTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertNullTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertnull((void *)0xffff);

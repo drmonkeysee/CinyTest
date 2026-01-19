@@ -40,14 +40,14 @@ static void record_testcontext_occurrence(void *context,
 
 static void passing_test(void *context)
 {
-    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    auto testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.passingTestInvocations;
     record_testcontext_occurrence(context, testObject);
 }
 
 static void failing_test(void *context)
 {
-    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    auto testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.failingTestInvocations;
     record_testcontext_occurrence(context, testObject);
     
@@ -56,7 +56,7 @@ static void failing_test(void *context)
 
 static void ignored_test(void *context)
 {
-    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    auto testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.ignoredTestInvocations;
     record_testcontext_occurrence(context, testObject);
     
@@ -65,7 +65,7 @@ static void ignored_test(void *context)
 
 static void test_setup(void **context)
 {
-    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    auto testObject = (__bridge CTRunSuiteTests *)(TestClass);
     ++testObject.setupInvocations;
     
     FakeContext = malloc(sizeof *FakeContext);
@@ -75,7 +75,7 @@ static void test_setup(void **context)
 
 static void test_teardown(void **context)
 {
-    CTRunSuiteTests *testObject = (__bridge CTRunSuiteTests *)(TestClass);
+    auto testObject = (__bridge CTRunSuiteTests *)(TestClass);
     
     if (*context && *((int *)*context) == FakeContextValue) {
         ++testObject.teardownSawContext;
@@ -413,7 +413,7 @@ static void test_teardown(void **context)
     char *args[] = {"foo", "bar"};
     
     auto run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
-    
+
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);
@@ -427,7 +427,7 @@ static void test_teardown(void **context)
     char *args[] = {"foo", nullptr, "bar", ""};
     
     auto run_result = ct_runsuite_withargs(&suite, sizeof args / sizeof args[0], args);
-    
+
     XCTAssertEqual(1u, run_result);
     XCTAssertEqual(3u, self.setupInvocations);
     XCTAssertEqual(3, self.testSawContext);

@@ -21,8 +21,7 @@
 
 static void inequality_test(void *context)
 {
-    CTAssertNotEqualTests *testObject =
-        (__bridge CTAssertNotEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
 
     testObject.invokedTest = YES;
 
@@ -221,7 +220,7 @@ static void inequality_test(void *context)
 
 static void inequality_test_withmessage(void *context)
 {
-    CTAssertNotEqualTests *testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
 
     testObject.invokedTest = YES;
 
@@ -232,7 +231,7 @@ static void inequality_test_withmessage(void *context)
 
 static void inequality_test_withformatmessage(void *context)
 {
-    CTAssertNotEqualTests *testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
 
     testObject.invokedTest = YES;
 
@@ -246,7 +245,7 @@ static void inequality_test_withformatmessage(void *context)
 
 static void inequality_test_withtypevariants(void *context)
 {
-    CTAssertNotEqualTests *testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotEqualTests *)(TestClass);
 
     testObject.invokedTest = YES;
 

@@ -44,13 +44,13 @@ static void test_case(void *context)
 
 - (void)assertEnvDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"n", @"F"];
+    auto disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"n", @"F"];
     [self assertEnvInputs:disableValues compare:compare value:expected];
 }
 
 - (void)assertEnvEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"1"];
+    auto randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"1"];
     [self assertEnvInputs:randomValues compare:compare value:expected];
 }
 
@@ -64,19 +64,19 @@ static void test_case(void *context)
 
 - (void)assertArbitraryArgs:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *args = @[@"my-program", @"--foo=1", @"-v", @"", @"--ct-somethingelse=NO"];
+    auto args = @[@"my-program", @"--foo=1", @"-v", @"", @"--ct-somethingelse=NO"];
     [self assertSuite:compare value:expected forOption:nil withArgs:args];
 }
 
 - (void)assertArg:(NSString *)optionArgument ifDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"N", @"f"];
+    auto disableValues = @[@"NO", @"no", @"FALSE", @"false", @"0", @"N", @"f"];
     [self assertArg:optionArgument inputs:disableValues compare:compare value:expected];
 }
 
 - (void)assertArg:(NSString *)optionArgument ifEnabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"%@", @"1"];
+    auto randomValues = @[@"YES", @"true", @"blarg", @"", @"''", @"\"\"", @"%@", @"1"];
     [self assertArg:optionArgument inputs:randomValues compare:compare value:expected];
     // verify form "--optionArgument" with no value specified
     [self assertSuite:compare value:expected forOption:optionArgument withArgs:@[optionArgument]];
@@ -84,16 +84,16 @@ static void test_case(void *context)
 
 - (void)assertDuplicateArg:(NSString *)optionArgument isDisabled:(CTOutputComparison)compare value:(NSString *)expected
 {
-    NSArray *args = @[[optionArgument stringByAppendingString:@"=YES"], [optionArgument stringByAppendingString:@"=NO"]];
+    auto args = @[[optionArgument stringByAppendingString:@"=YES"], [optionArgument stringByAppendingString:@"=NO"]];
     [self assertSuite:compare value:expected forOption:@"NO" withArgs:args];
 }
 
 - (void)assertArg:(NSString *)optionArgument inputs:(NSArray *)inputs compare:(CTOutputComparison)compare value:(NSString *)expected
 {
     for (NSString *value in inputs) {
-        NSMutableArray *args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
+        auto args = [NSMutableArray arrayWithObjects:@"my-program", @"--foo=1", @"-v", @"--ct-somethingelse=NO", nil];
         auto insertIndex = arc4random_uniform((uint32_t)args.count);
-        NSString *argValue = [NSString stringWithFormat:@"%@=%@", optionArgument, value];
+        auto argValue = [NSString stringWithFormat:@"%@=%@", optionArgument, value];
         [args insertObject:argValue atIndex:insertIndex];
         [self assertSuite:compare value:expected forOption:value withArgs:args];
     }
@@ -109,8 +109,8 @@ static void test_case(void *context)
     const struct ct_testcase cases[] = {ct_maketest(self.testFunc)};
     auto suite = ct_makesuite(cases);
     
-    NSPipe *output = [NSPipe pipe];
-    NSFileHandle *readOutput = output.fileHandleForReading;
+    auto output = [NSPipe pipe];
+    auto readOutput = output.fileHandleForReading;
     auto old_stdout = dup(fileno(stdout));
     dup2(output.fileHandleForWriting.fileDescriptor, fileno(stdout));
     
@@ -125,11 +125,11 @@ static void test_case(void *context)
     ct_runsuite_withargs(&suite, argc, argv);
     
     fflush(stdout);
-    NSData *data = readOutput.availableData;
+    auto data = readOutput.availableData;
     dup2(old_stdout, fileno(stdout));
     close(old_stdout);
     
-    NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    auto result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     auto found = [result rangeOfString:expected];
 
     XCTAssertNotNil(result, @"Unexpected nil output string for option flag value \"%@\"", optionFlag);

@@ -18,8 +18,8 @@
 
 static void test_equality_stringn(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertequalstrn(testObject.expectedString, testObject.actualString, testObject.compareCount);
@@ -29,8 +29,8 @@ static void test_equality_stringn(void *context)
 
 static void test_equality_stringn_withmessage(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertequalstrn("foobar", "barfoo", sizeof "foobar", "not equal strings >:(");
@@ -40,8 +40,8 @@ static void test_equality_stringn_withmessage(void *context)
 
 static void test_equality_stringn_withformatmessage(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     const char *expected = "foobar", *actual = "barfoo";
@@ -53,8 +53,8 @@ static void test_equality_stringn_withformatmessage(void *context)
 
 static void test_equality_string_expectedempty(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertequalstr("", testObject.actualString);
@@ -64,8 +64,8 @@ static void test_equality_string_expectedempty(void *context)
 
 static void test_equality_string_expectedonechar(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertequalstr("b", testObject.actualString);
@@ -75,8 +75,8 @@ static void test_equality_string_expectedonechar(void *context)
 
 static void test_equality_string_expected(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertequalstr("foobar", testObject.actualString);
@@ -86,8 +86,8 @@ static void test_equality_string_expected(void *context)
 
 static void test_equality_string_withmessage(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     ct_assertequalstr("foobar", "barfoo", "not equal strings :(");
@@ -97,8 +97,8 @@ static void test_equality_string_withmessage(void *context)
 
 static void test_equality_string_withformatmessage(void *context)
 {
-    CTAssertEqualStrTests *testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
-    
+    auto testObject = (__bridge CTAssertEqualStrTests *)(TestClass);
+
     testObject.invokedTest = YES;
     
     const char *actual = "barfoo";
@@ -244,9 +244,9 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesEqual_WithVeryLongString
 {
-    NSString *longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
+    auto longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
     self.expectedString = (char *)[longString UTF8String];
-    NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
+    auto copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
     self.compareCount = longString.length + 1;
     const struct ct_testcase tests[] = {ct_maketest(test_equality_stringn)} ;
@@ -428,9 +428,9 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtStart
 {
-    NSString *longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
+    auto longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
     self.expectedString = (char *)[longString UTF8String];
-    NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
+    auto copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
     ++self.actualString[0];
     self.compareCount = longString.length + 1;
@@ -444,9 +444,9 @@ static void test_equality_string_withformatmessage(void *context)
 
 - (void)test_ctassertequalstrn_ComparesNotEqual_WhenVeryLongStringDiffersAtEnd
 {
-    NSString *longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
+    auto longString = [[NSBundle bundleForClass:self.class] localizedStringForKey:@"LongString" value:@"PlaceholderString" table:@"Tests"];
     self.expectedString = (char *)[longString UTF8String];
-    NSString *copiedString = [NSString stringWithUTF8String:self.expectedString];
+    auto copiedString = [NSString stringWithUTF8String:self.expectedString];
     self.actualString = (char *)[copiedString UTF8String];
     ++self.actualString[longString.length];
     self.compareCount = longString.length + 1;

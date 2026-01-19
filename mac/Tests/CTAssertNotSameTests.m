@@ -18,7 +18,7 @@
 
 static void identity_test(void *context)
 {
-    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -29,7 +29,7 @@ static void identity_test(void *context)
 
 static void identity_test_withmessage(void *context)
 {
-    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -42,12 +42,12 @@ static void identity_test_withmessage(void *context)
 
 static void identity_test_withformattedmessage(void *context)
 {
-    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
     const char *s = "foobar";
-    char *c = (char *)s;
+    auto c = (char *)s;
     
     ct_assertnotsame(s, c, "\"%s\" is the same as '%c'", s, *c);
     
@@ -56,7 +56,7 @@ static void identity_test_withformattedmessage(void *context)
 
 static void identity_test_pointerstopointers(void *context)
 {
-    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -71,7 +71,7 @@ static void identity_test_pointerstopointers(void *context)
 
 static void identity_test_pointer_andpointertopointer(void *context)
 {
-    CTAssertNotSameTests *testObject = (__bridge CTAssertNotSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

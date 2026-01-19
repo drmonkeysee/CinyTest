@@ -44,7 +44,7 @@ static void expression_test(void *context)
 
 static void literal_true_test(void *context)
 {
-    CTAssertTrueTests *testObject = (__bridge CTAssertTrueTests *)(TestClass);
+    auto testObject = (__bridge CTAssertTrueTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -55,7 +55,7 @@ static void literal_true_test(void *context)
 
 static void literal_false_test(void *context)
 {
-    CTAssertTrueTests *testObject = (__bridge CTAssertTrueTests *)(TestClass);
+    auto testObject = (__bridge CTAssertTrueTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

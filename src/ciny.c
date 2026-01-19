@@ -607,11 +607,9 @@ static const char *parse_filterexpr(const char *restrict cursor,
 
 static filterlist *parse_filters(const char *filter_option)
 {
-    filterlist *fl = filterlist_new();
+    auto fl = filterlist_new();
 
-    for (const char *cursor = filter_option;
-         cursor;
-         cursor = parse_filterexpr(cursor, &fl));
+    for (auto cursor = filter_option; cursor; cursor = parse_filterexpr(cursor, &fl));
 
     return fl;
 }

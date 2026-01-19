@@ -18,7 +18,7 @@
 
 static void identity_test(void *context)
 {
-    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -29,7 +29,7 @@ static void identity_test(void *context)
 
 static void identity_test_withmessage(void *context)
 {
-    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -43,7 +43,7 @@ static void identity_test_withmessage(void *context)
 
 static void identity_test_withformattedmessage(void *context)
 {
-    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -57,7 +57,7 @@ static void identity_test_withformattedmessage(void *context)
 
 static void identity_test_pointerstopointers(void *context)
 {
-    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -72,7 +72,7 @@ static void identity_test_pointerstopointers(void *context)
 
 static void identity_test_pointer_andpointertopointer(void *context)
 {
-    CTAssertSameTests *testObject = (__bridge CTAssertSameTests *)(TestClass);
+    auto testObject = (__bridge CTAssertSameTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

@@ -20,7 +20,7 @@
 
 static void notabout_equality_test(void *context)
 {
-    CTAssertNotAboutEqualTests *testObject = (__bridge CTAssertNotAboutEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotAboutEqualTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -31,7 +31,7 @@ static void notabout_equality_test(void *context)
 
 static void notabout_equality_test_withmessage(void *context)
 {
-    CTAssertNotAboutEqualTests *testObject = (__bridge CTAssertNotAboutEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotAboutEqualTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -42,7 +42,7 @@ static void notabout_equality_test_withmessage(void *context)
 
 static void notabout_equality_test_withformatmessage(void *context)
 {
-    CTAssertNotAboutEqualTests *testObject = (__bridge CTAssertNotAboutEqualTests *)(TestClass);
+    auto testObject = (__bridge CTAssertNotAboutEqualTests *)(TestClass);
     
     testObject.invokedTest = YES;
     

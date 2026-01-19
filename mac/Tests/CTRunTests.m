@@ -59,21 +59,21 @@ static void record_testcontext_occurrenceB(void *context,
 
 static void passing_testA(void *context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.passingTestInvocationsA;
     record_testcontext_occurrenceA(context, testObject);
 }
 
 static void passing_testB(void *context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.passingTestInvocationsB;
     record_testcontext_occurrenceB(context, testObject);
 }
 
 static void failing_testA(void *context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.failingTestInvocationsA;
     record_testcontext_occurrenceA(context, testObject);
     
@@ -82,7 +82,7 @@ static void failing_testA(void *context)
 
 static void failing_testB(void *context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.failingTestInvocationsB;
     record_testcontext_occurrenceB(context, testObject);
     
@@ -91,7 +91,7 @@ static void failing_testB(void *context)
 
 static void ignored_testA(void *context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.ignoredTestInvocationsA;
     record_testcontext_occurrenceA(context, testObject);
     
@@ -100,7 +100,7 @@ static void ignored_testA(void *context)
 
 static void ignored_testB(void *context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.ignoredTestInvocationsB;
     record_testcontext_occurrenceB(context, testObject);
     
@@ -109,7 +109,7 @@ static void ignored_testB(void *context)
 
 static void test_setupA(void **context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.setupInvocationsA;
     
     FakeContextA = malloc(sizeof *FakeContextA);
@@ -119,7 +119,7 @@ static void test_setupA(void **context)
 
 static void test_setupB(void **context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     ++testObject.setupInvocationsB;
     
     FakeContextB = malloc(sizeof *FakeContextB);
@@ -129,7 +129,7 @@ static void test_setupB(void **context)
 
 static void test_teardownA(void **context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     
     if (*context && *((int *)*context) == FakeContextAValue) {
         ++testObject.teardownSawContextA;
@@ -140,7 +140,7 @@ static void test_teardownA(void **context)
 
 static void test_teardownB(void **context)
 {
-    CTRunTests *testObject = (__bridge CTRunTests *)(TestClass);
+    auto testObject = (__bridge CTRunTests *)(TestClass);
     
     if (*context && *((int *)*context) == FakeContextBValue) {
         ++testObject.teardownSawContextB;

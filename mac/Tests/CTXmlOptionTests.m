@@ -34,7 +34,7 @@ static char *ProgramArgs[ArgsSize];
 // mock fopen to capture xml output (i'm surprised this works)
 FILE *fopen(const char *restrict filename, const char *restrict mode)
 {
-    CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
+    auto testObject = (__bridge CTXmlOptionTests *)(TestClass);
     testObject.xmlName = [NSString stringWithUTF8String:filename];
     return fdopen(testObject.xmlSink.fileHandleForWriting.fileDescriptor,
                   mode);
@@ -67,7 +67,7 @@ static void encoded_ignore(void *context)
 
 static void long_ignore(void *context)
 {
-    CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
+    auto testObject = (__bridge CTXmlOptionTests *)(TestClass);
     const char *long_string =
         [testObject.class getResourceStringFor:@"LongString"].UTF8String;
     ct_ignore("%s", long_string);
@@ -75,7 +75,7 @@ static void long_ignore(void *context)
 
 static void long_failure(void *context)
 {
-    CTXmlOptionTests *testObject = (__bridge CTXmlOptionTests *)(TestClass);
+    auto testObject = (__bridge CTXmlOptionTests *)(TestClass);
     const char *long_string =
         [testObject.class getResourceStringFor:@"LongString"].UTF8String;
     ct_assertfail("%s", long_string);
@@ -142,7 +142,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_success\"",
@@ -162,7 +162,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_failure\"",
@@ -183,7 +183,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"encoded_failure\"",
@@ -206,7 +206,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_ignore\"",
@@ -227,7 +227,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"encoded_ignore\"",
@@ -249,7 +249,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_success\"",
@@ -271,7 +271,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"simple_success\"",
@@ -309,7 +309,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"tests.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"multi-tests\" tests=\"7\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"4\" failures=\"1\" skipped=\"1\"",
         @"<testsuite name=\"suite2\" id=\"1\" tests=\"3\" failures=\"0\" skipped=\"2\"",
@@ -342,7 +342,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"1\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"long_ignore\"",
@@ -364,7 +364,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(1, result);
     XCTAssertEqualObjects(@"test.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"xmltests\" tests=\"1\" failures=\"1\"",
         @"<testsuite name=\"suite1\" id=\"0\" tests=\"1\" failures=\"1\" skipped=\"0\"",
         @"<testcase classname=\"xmltests.suite1\" name=\"long_failure\"",
@@ -383,7 +383,7 @@ static void long_failure(void *context)
 
     XCTAssertEqual(0, result);
     XCTAssertEqualObjects(@"env.xml", self.xmlName);
-    NSArray *expected = @[
+    auto expected = @[
         @"<testsuites name=\"(all tests)\" tests=\"1\" failures=\"0\"",
         @"<testsuite name=\"-[CTXmlOptionTests test_UseEnvVar]\" id=\"0\" tests=\"1\" failures=\"0\" skipped=\"0\"",
         @"<testcase classname=\"(all tests).-[CTXmlOptionTests test_UseEnvVar]\" name=\"simple_success\"",
@@ -393,11 +393,11 @@ static void long_failure(void *context)
 
 - (void)assertValidXmlContaining:(NSArray *)expected
 {
-    NSData *xmlData = [self getXmlData];
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
+    auto xmlData = [self getXmlData];
+    auto parser = [[NSXMLParser alloc] initWithData:xmlData];
     XCTAssertTrue([parser parse]);
 
-    NSString *xmlText = [self xmlTextFrom:xmlData];
+    auto xmlText = [self xmlTextFrom:xmlData];
     for (NSString *str in expected) {
         auto found = [xmlText rangeOfString:str];
         XCTAssertNotEqual(NSNotFound, found.location,
@@ -408,7 +408,7 @@ static void long_failure(void *context)
 
 - (NSData *)getXmlData
 {
-    NSFileHandle *output = self.xmlSink.fileHandleForReading;
+    auto output = self.xmlSink.fileHandleForReading;
     return output.availableData;
 }
 

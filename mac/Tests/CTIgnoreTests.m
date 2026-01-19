@@ -26,7 +26,7 @@
 
 static void ignore_test_nomessage(void *context)
 {
-    CTIgnoreTests *testObject = (__bridge CTIgnoreTests *)(TestClass);
+    auto testObject = (__bridge CTIgnoreTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -40,7 +40,7 @@ static void ignore_test_nomessage(void *context)
 
 static void ignore_test_message(void *context)
 {
-    CTIgnoreTests *testObject = (__bridge CTIgnoreTests *)(TestClass);
+    auto testObject = (__bridge CTIgnoreTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
@@ -54,7 +54,7 @@ static void ignore_test_message(void *context)
 
 static void ignore_test_formatmessage(void *context)
 {
-    CTIgnoreTests *testObject = (__bridge CTIgnoreTests *)(TestClass);
+    auto testObject = (__bridge CTIgnoreTests *)(TestClass);
     
     testObject.invokedTest = YES;
     
