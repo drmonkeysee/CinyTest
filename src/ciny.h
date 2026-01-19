@@ -39,7 +39,7 @@ struct ct_version {
  */
 inline struct ct_version ct_getversion()
 {
-    return (struct ct_version){10, 0, 3};
+    return (struct ct_version){10, 0, 4};
 }
 /**
  Convert a semantic verson to hexadecimal form for easy numeric comparisons.
