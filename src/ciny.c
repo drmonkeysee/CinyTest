@@ -420,7 +420,7 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
                 return true;
             }
         } else if (wc_fmarker) {
-            // wildcard match failed; reset to beginning of wildcard pattern
+            // Wildcard match failed; reset to beginning of wildcard pattern
             // and advance name marker one character to retry match.
             fcursor = wc_fmarker;
             ncursor = ++wc_nmarker;
@@ -570,7 +570,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
             filter.end = cursor;
             filter.apply = FILTER_SUITE;
         } else if (filter.apply == FILTER_SUITE) {
-            // suite filter followed by something other than end-of-expression,
+            // Suite filter followed by something other than end-of-expression,
             // so next filter is a case filter if current filter is empty
             // or this is a pair of all filters.
             enum filtertarget next_target = FILTER_CASE;
@@ -594,8 +594,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
         filterlist_push(fl, filter);
     }
 
-    // finish the expression either by consuming the
-    // delimiter or clearing the cursor.
+    // finish the expression either by consuming the delimiter or clearing the cursor
     if (*cursor == expr_delimiter) {
         ++cursor;
     } else {
