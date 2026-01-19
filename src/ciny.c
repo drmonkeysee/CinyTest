@@ -420,7 +420,7 @@ static bool testfilter_match(const struct testfilter *self, const char *name)
                 return true;
             }
         } else if (wc_fmarker) {
-            // Wildcard match failed; reset to beginning of wildcard pattern
+            // wildcard match failed; reset to beginning of wildcard pattern
             // and advance name marker one character to retry match.
             fcursor = wc_fmarker;
             ncursor = ++wc_nmarker;
@@ -570,7 +570,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
             filter.end = cursor;
             filter.apply = FILTER_SUITE;
         } else if (filter.apply == FILTER_SUITE) {
-            // Suite filter followed by something other than end-of-expression,
+            // suite filter followed by something other than end-of-expression,
             // so next filter is a case filter if current filter is empty
             // or this is a pair of all filters.
             enum filtertarget next_target = FILTER_CASE;
@@ -594,7 +594,7 @@ static const char *parse_filterexpr(const char *restrict cursor,
         filterlist_push(fl, filter);
     }
 
-    // Finish the expression either by consuming the
+    // finish the expression either by consuming the
     // delimiter or clearing the cursor.
     if (*cursor == expr_delimiter) {
         ++cursor;
@@ -1207,7 +1207,7 @@ static size_t xml_flush(size_t terminator, char buffer[])
 
 static void write_xml_attribute_escaped(const char *string)
 {
-    // Escape size = &#NNN; + NUL byte for any ASCII character
+    // escape size = &#NNN; + NUL byte for any ASCII character
     static constexpr size_t max_escape = 7;
 
     if (!string) return;
@@ -1228,7 +1228,7 @@ static void write_xml_attribute_escaped(const char *string)
             }
             auto escape_size = snprintf(buff + i, max_escape, "&#%d;", c);
             if (escape_size > 0) {
-                // Advance i by escape string length (NUL not included)
+                // advance i by escape string length (NUL not included)
                 i += (size_t)escape_size;
             }
             break;
@@ -1386,7 +1386,7 @@ static void testsuite_printheader(const struct ct_testsuite *self,
     } else {
         date_msg = "Invalid Date (formatted output may "
                     "have exceeded buffer size)";
-        // Leave report date blank if format error
+        // leave report date blank if format error
     }
     printout("Test suite '%s' started at %s\n", self->name, date_msg);
 }

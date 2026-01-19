@@ -117,7 +117,7 @@ static void test_case(void *context)
     auto argc = (int)args.count;
     char *argv[argc + 1];
     for (auto i = 0; i < argc; ++i) {
-        // Cast away const to match signature (we promise not to mutate them)
+        // cast away const to match signature (we promise not to mutate them)
         argv[i] = (char *)[args[(NSUInteger)i] UTF8String];
     }
     argv[argc] = nullptr;

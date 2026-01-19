@@ -134,7 +134,7 @@ static struct ct_testsuite make_suite(const char *name,
     auto argc = (int)filters.count;
     char *argv[argc + 1];
     for (auto i = 0; i < argc; ++i) {
-        // Cast away const to match signature (we promise not to mutate them)
+        // cast away const to match signature (we promise not to mutate them)
         argv[i] = (char *)[filters[(NSUInteger)i] UTF8String];
     }
     argv[argc] = nullptr;
